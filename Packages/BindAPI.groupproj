@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C435B62C-B3C4-40C8-BA0F-4B4B27AD189E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="plBindAPI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Demo\BindApiSimpleDemo.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Test\BindAPITest.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="plBindAPI">
+        <MSBuild Projects="plBindAPI.dproj"/>
+    </Target>
+    <Target Name="plBindAPI:Clean">
+        <MSBuild Projects="plBindAPI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="plBindAPI:Make">
+        <MSBuild Projects="plBindAPI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo">
+        <MSBuild Projects="..\Demo\BindApiSimpleDemo.dproj"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo:Clean">
+        <MSBuild Projects="..\Demo\BindApiSimpleDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo:Make">
+        <MSBuild Projects="..\Demo\BindApiSimpleDemo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BindAPITest">
+        <MSBuild Projects="..\Test\BindAPITest.dproj"/>
+    </Target>
+    <Target Name="BindAPITest:Clean">
+        <MSBuild Projects="..\Test\BindAPITest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BindAPITest:Make">
+        <MSBuild Projects="..\Test\BindAPITest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="plBindAPI;BindApiSimpleDemo;BindAPITest"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="plBindAPI:Clean;BindApiSimpleDemo:Clean;BindAPITest:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="plBindAPI:Make;BindApiSimpleDemo:Make;BindAPITest:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
