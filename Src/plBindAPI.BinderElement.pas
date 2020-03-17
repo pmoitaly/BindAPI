@@ -11,7 +11,6 @@ type
 
   TplRTTIMemberBind = class
   private
-    function FieldExists(AClassType: TRttiType; AFieldName: string): Boolean;
     function FirstLeaf(var pathLeafs: string): string;
     procedure SetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField; AValue: TValue); overload;
@@ -21,20 +20,17 @@ type
       AField: TRTTIField): TValue; overload;
     function GetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField): TValue; overload;
-  protected
+  private
     FCalculatedValue: TplBridgeFunction;
     FElement: TObject;
     FElementPath: string;
     FEnabled: Boolean;
     FValue: TValue;
     function AreEqual(Left, Right: TValue): Boolean;
-    function FindLastObject: TValue;
-    function FindLastPathItem: string;
-    function GetValue: TValue; virtual;
+    function GetPathValue(ARoot: TObject; var APath: string): TValue;
+    function GetRecordPathValue(ARoot: TObject; var APath: string): TValue;
+    function GetValue: TValue;
     function InternalCastTo(const AType: TTypeKind; AValue: TValue): TValue;
-    function NextObjectFromField(AnObject: TObject; AClass: TClass; AField: TRttiField): TValue;
-    function NextObjectFromProperty(AnObject: TObject; AProperty: TRttiProperty): TValue;
-    function PropertyExists(AClassType: TRttiType; APropertyNAme: string): Boolean;
     procedure SetValue(Value: TValue); virtual;
     procedure SetPathValue(ARoot: TObject; var APath: string; AValue: TValue);
     procedure SetRecordPathValue(ARoot: TObject; var APath: string; AValue: TValue);
@@ -64,6 +60,54 @@ uses
   System.TypInfo, System.Hash, System.SysUtils, System.StrUtils, System.Math;
 
   {TplRTTIMemberBind}
+
+function TplRTTIMemberBind.AreEqual(Left, Right: TValue): Boolean;
+var
+  pLeft, pRight: Pointer;
+begin
+  If Left.IsOrdinal then
+    Result := Left.AsOrdinal = Right.AsOrdinal
+  else if Left.TypeInfo = System.TypeInfo(Single) then
+    Result := SameValue(Left.AsType<Single>(), Right.AsType<Single>())
+  else if Left.TypeInfo = System.TypeInfo(Double) then
+    Result := SameValue(Left.AsType<Double>(), Right.AsType<Double>())
+  else if Left.Kind in [tkChar, tkString, tkWChar, tkLString, tkWString, tkUString] then
+    Result := Left.AsString = Right.AsString
+  else if Left.IsClass and Right.IsClass then
+    Result := Left.AsClass = Right.AsClass
+  else if Left.IsObject then
+    Result := Left.AsObject = Right.AsObject
+  else if (Left.Kind = tkPointer) or (Left.TypeInfo = Right.TypeInfo) then
+    begin
+      pLeft := nil;
+      pRight := nil;
+      Left.ExtractRawDataNoCopy(pLeft);
+      Right.ExtractRawDataNoCopy(pRight);
+    Result := pLeft = pRight;
+    end
+  else if Left.TypeInfo = System.TypeInfo(Variant) then
+    Result := Left.AsVariant = Right.AsVariant
+  else if Left.TypeInfo = System.TypeInfo(TGUID) then
+    Result := IsEqualGuid( Left.AsType<TGUID>, Right.AsType<TGUID> )
+  else
+    Result := False;
+end;
+
+constructor TplRTTIMemberBind.Create(AObject: TObject;
+  const APropertyPath: string; AFunction: TplBridgeFunction);
+begin
+  // Basic test. We should provide more test to verifiy if property exists, etc.
+  if not Assigned(AObject) then
+    raise Exception.Create('AObject not assgined');
+  if APropertyPath = '' then
+    raise Exception.Create('PropertyPath not set');
+
+  FEnabled := True;
+  FCalculatedValue := AFunction;
+  FElementPath := APropertyPath;
+  FElement := AObject;
+  FValue := GetValue;
+end;
 
 function TplRTTIMemberBind.FirstLeaf(var pathLeafs: string): string;
 var
@@ -97,6 +141,77 @@ begin
     Result := AField.GetValue(PByte(Sender) + Smallint(MyPointer));
 end;
 
+function TplRTTIMemberBind.GetPathValue(ARoot: TObject; var APath: string): TValue;
+var
+  currentRoot: TObject;
+  myContext: TRttiContext;
+  myField: TRttiField;
+  myProp: TRttiProperty;
+  myPath: string;
+  leafName: string;
+begin
+  currentRoot := ARoot;
+  myProp := nil;
+  myField := nil;
+  myPath := APath;
+  while myPath <> '' do
+    begin
+      leafName := FirstLeaf(myPath);
+      // 1) localizza la prima foglia, sia prop o field
+
+      myField :=  myContext.GetType(currentRoot.ClassType).GetField(leafName);
+      if not Assigned(myField) then
+        begin
+          myProp := myContext.GetType(ARoot.ClassType).GetProperty(leafName);
+        end;
+
+      // 2) esamina se il nodo è un oggetto o un record
+        // Caso A: abbiamo a che fare con un oggetto
+      if Assigned(myField) then
+        begin
+          myProp := nil;
+          if myField.FieldType.IsRecord then
+            begin
+              if myPath <> '' then
+                begin
+                  // trasferisce il controllo alla procedura apposita
+                  myPath := leafName + '.' + IfThen(myPath <> '', '.' + myPath, '');
+                  Result := GetRecordPathValue(currentRoot, myPath);
+                  Exit;
+                end;
+            end
+          else if myField.FieldType.isInstance then
+            currentRoot := myField.GetValue(currentRoot).AsObject;
+        end
+      else if Assigned(myProp) then
+        begin
+          if myProp.PropertyType.IsRecord then
+            begin
+              if myPath <> '' then
+                begin
+                  // trasferisce il controllo alla procedura apposita
+                  myPath := leafName + IfThen(myPath <> '', '.' + myPath, '');
+                  Result := GetRecordPathValue(currentRoot, myPath);
+                  Exit;
+                end;
+            end
+          else if myProp.PropertyType.isInstance then
+            currentRoot := myProp.GetValue(currentRoot).AsObject;
+        end
+      else
+        if myPath <> '' then
+          raise Exception.Create(FElementPath + ' is not a path to property or field.');
+      leafName := FirstLeaf(myPath);
+    end;
+  // 3) con l'ultimo nodo e la proprietà da impostare, si esegue l'operazione appropriata
+    if Assigned(myField) then
+      Result := myField.GetValue(currentRoot)
+    else if Assigned(myProp) then
+      Result := myProp.GetValue(currentRoot)
+    else
+      raise Exception.Create(FElementPath + ' is not a path to property or field.');
+end;
+
 function TplRTTIMemberBind.GetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField): TValue;
 begin
@@ -104,114 +219,64 @@ begin
 end;
 
 
-function TplRTTIMemberBind.AreEqual(Left, Right: TValue): Boolean;
+function TplRTTIMemberBind.GetRecordPathValue(ARoot: TObject;
+  var APath: string): TValue;
 var
-  pLeft, pRight: Pointer;
+  myContext: TRttiContext;
+  myField: TRttiField;
+  myFieldRoot: TRttiField;
+  myRecField: TRttiField;
+  myProp: TRttiProperty;
+  myPropRoot: TRttiProperty;
+  myPath: string;
+  leafName: string;
 begin
-  If Left.IsOrdinal then
-    Result := Left.AsOrdinal = Right.AsOrdinal
-  else if Left.TypeInfo = System.TypeInfo(Single) then
-    Result := SameValue(Left.AsType<Single>(), Right.AsType<Single>())
-  else if Left.TypeInfo = System.TypeInfo(Double) then
-    Result := SameValue(Left.AsType<Double>(), Right.AsType<Double>())
-  else if Left.Kind in [tkChar, tkString, tkWChar, tkLString, tkWString, tkUString] then
-    Result := Left.AsString = Right.AsString
-  else if Left.IsClass and Right.IsClass then
-    Result := Left.AsClass = Right.AsClass
-  else if Left.IsObject then
-    Result := Left.AsObject = Right.AsObject
-  else if (Left.Kind = tkPointer) or (Left.TypeInfo = Right.TypeInfo) then
+  myPropRoot := nil;
+  myProp := nil;
+
+  myPath := APath;
+  leafName := FirstLeaf(myPath);
+  // 1) localizza il record, sia prop o field
+  myField :=  myContext.GetType(ARoot.ClassType).GetField(leafName);
+  myFieldRoot := myField;
+  if not Assigned(myField) then
     begin
-      pLeft := 0;
-      pRight := 0;
-      Left.ExtractRawDataNoCopy(pLeft);
-      Right.ExtractRawDataNoCopy(pRight);
-    Result := pLeft = pRight;
-    end
-  else if Left.TypeInfo = System.TypeInfo(Variant) then
-    Result := Left.AsVariant = Right.AsVariant
-  else if Left.TypeInfo = System.TypeInfo(TGUID) then
-    Result := IsEqualGuid( Left.AsType<TGUID>, Right.AsType<TGUID> )
-  else
-    Result := False;
-end;
-
-constructor TplRTTIMemberBind.Create(AObject: TObject;
-  const APropertyPath: string; AFunction: TplBridgeFunction);
-begin
-  // Basic test. We should provide more test to verifiy if property exists, etc.
-  if not Assigned(AObject) then
-    raise Exception.Create('AObject not assgined');
-  if APropertyPath = '' then
-    raise Exception.Create('PropertyPath not set');
-
-  FEnabled := True;
-  FCalculatedValue := AFunction;
-  FElementPath := APropertyPath;
-  FElement := AObject;
-  FValue := GetValue;
-end;
-
-function TplRTTIMemberBind.FieldExists(AClassType: TRttiType;
-  AFieldName: string): Boolean;
-var
-  rField: TRttiField;
-begin
-  rField := AClassType.GetField(AFieldName);
-  Result := Assigned(rField);
-end;
-
-function TplRTTIMemberBind.FindLastObject: TValue;
-var
-  paths: TArray<string>;
-  i: Integer;
-
-  baseClass: TClass;
-  baseObject: TValue;
-  rContext: TRttiContext;
-  rClassType: TRttiType;
-  rField: TRttiField;
-  rProperty: TRttiProperty;
-  recordType: TRttiRecordType;
-begin
-  baseObject := FElement;
-  paths := FElementPath.Split(['.']);
-  rContext := TRttiContext.Create;
-  for i := 0 to Length(paths) -2 do
-    begin
-      if baseObject.IsObject then
-        begin
-          baseClass := baseObject.AsObject.ClassType;
-          rClassType := rContext.GetType(baseClass);
-          if PropertyExists(rClassType, paths[I]) then
-            begin
-              rProperty := rClassType.GetProperty(paths[I]);
-              baseObject := NextObjectFromProperty(TObject(baseObject.AsObject), rProperty);
-            end
-          else if FieldExists(rClassType, paths[I]) then
-            begin
-              rField := rClassType.GetField(paths[I]);
-              NextObjectFromField(TObject(baseObject.AsObject), baseClass, rField);
-            end
-          else
-            raise Exception.Create(FElementPath + ' is not a property nor field path');
-         end
-      else if baseObject.Kind = tkRecord then
-        begin
-          recordType := rContext.GetType(baseObject.TypeInfo).AsRecord;
-          baseObject := recordType.GetField(paths[I]);
-        end;
+      myProp := myContext.GetType(ARoot.ClassType).GetProperty(leafName);
+      myPropRoot := myProp;
     end;
-  rContext.Free;
-  Result := baseObject;
+  // scorre le prop interne. La prima volta potrebbe passare da myProp, poi
+  // solo da myField
+  while myPath.Contains('.') do
+    begin
+    leafName := FirstLeaf(myPath);
+    if Assigned(myField) then
+      myField := myField.FieldType.GetField(leafName)
+    else
+      myField := myProp.PropertyType.GetField(leafName);
+    end;
+  if Assigned(myField) then
+    myRecField := myField.FieldType.GetField(myPath)
+  else
+    myRecField := myProp.PropertyType.GetField(myPath);
+
+  try
+  if Assigned(myFieldRoot) then
+    Result := GetRecordFieldValue(ARoot, myFieldRoot, myRecField)
+  else
+    Result := GetRecordFieldValue(ARoot, myPropRoot, myRecField);
+  except
+    on e: Exception do
+      raise Exception.Create('Error on setting ' + APath + ': ' + e.Message);
+  end;
 end;
 
-function TplRTTIMemberBind.FindLastPathItem: string;
+function TplRTTIMemberBind.GetValue: TValue;
 var
-  paths: TArray<string>;
+  path: string;
 begin
-  paths := FElementPath.Split(['.']);
-  Result := paths[Length(paths) -1];
+  path := FElementPath;
+  Result := GetPathValue(FElement, path);
+//was  Result := TRTTI.GetPathValue(FElement, FPropertyPath);
 end;
 
 function TplRTTIMemberBind.InternalCastTo(const AType: TTypeKind;
@@ -250,45 +315,6 @@ begin
     (Self.PropertyPath = AStructure.PropertyPath);
 end;
 
-function TplRTTIMemberBind.NextObjectFromField(AnObject: TObject;
-  AClass: TClass; AField: TRttiField): TValue;
-var
-  rFieldType: TTypeKind;
-begin
-  rFieldType := AField.FieldType.TypeKind;
-  if rFieldType = tkClass then
-    Result := TObject(AField.GetValue(AnObject).AsObject);
-end;
-
-function TplRTTIMemberBind.NextObjectFromProperty(AnObject: TObject;
-  AProperty: TRttiProperty): TValue;
-var
-  propertyInfo: PPropInfo;
-begin
-  case AProperty.propertyType.typeKind of
-    tkClass:
-      begin
-        propertyInfo := (AProperty as TRttiInstanceProperty).PropInfo;
-        Result := GetObjectProp(AnObject, propertyInfo);
-      end;
-    tkRecord:
-      begin
-        Result := AProperty.GetValue(AnObject);
-      end
-  else
-    raise Exception.Create(AProperty.Name + ' is not a record nor an object.');
-  end;
-end;
-
-function TplRTTIMemberBind.PropertyExists(AClassType: TRttiType;
-  APropertyName: string): Boolean;
-var
-  rProperty: TRttiProperty;
-begin
-  rProperty := AClassType.GetProperty(APropertyNAme);
-  Result := Assigned(rProperty);
-end;
-
 function TplRTTIMemberBind.ValueChanged: boolean;
 var
   newValue: TValue;
@@ -307,49 +333,7 @@ begin
     Result := False;
 end;
 
-{TplPropertyBind}
-
-function TplRTTIMemberBind.GetValue: TValue;
-var
-  lastElement: TValue; //TObject;
-  lastPathItem: string;
-  rContext: TRttiContext;
-  rField: TRttiField;
-  rProperty: TRttiProperty;
-  rType: TRttiType;
-  pRec: Pointer;
-  recordType: TRttiRecordType;
-begin
-  rContext := TRttiContext.Create;
-  lastPathItem := FindLastPathItem;
-  lastElement := FindLastObject;
-  if lastElement.IsObject then
-    begin
-      rType := rContext.GetType(lastElement.AsObject.ClassType);
-      if PropertyExists(rType, lastPathItem) then
-        begin
-          rProperty := rType.GetProperty(lastPathItem);
-          Result := rProperty.GetValue(lastElement.AsObject);
-        end
-      else
-        begin
-          rField := rType.GetField(lastPathItem);
-          Assert(Assigned(rField), FElementPath + ' is not a property nor a field.');
-          Result := rField.GetValue(lastElement.AsObject);
-        end;
-    end
-  else if lastElement.Kind = tkRecord then
-    begin
-      recordType := rContext.GetType(lastElement.TypeInfo) as TRttiRecordType;
-      pRec := lastElement.GetReferenceToRawData;
-      lastElement.ExtractRawDataNoCopy(pRec);
-      rField := recordType.GetField(lastPathItem);
-      Result := rField.GetValue(pRec);
-    end;
-  rContext.Free
-//  Result := TRTTI.GetPathValue(FElement, FPropertyPath);
-end;
-
+{TplRTTIMemberBind}
 
 {Set record value when a is a field of a property}
 procedure TplRTTIMemberBind.SetPathValue(ARoot: TObject; var APath: string;
@@ -369,7 +353,7 @@ begin
   else
     FValue := AValue;
   currentRoot := ARoot;
-
+  myField := nil;
   myProp := nil;
   myPath := APath;
   while myPath <> '' do
@@ -472,6 +456,8 @@ var
   leafName: string;
 begin
   myPropRoot := nil;
+  myProp := nil;
+
   myPath := APath;
   leafName := FirstLeaf(myPath);
   // 1) localizza il record, sia prop o field
@@ -511,59 +497,11 @@ end;
 
 procedure TplRTTIMemberBind.SetValue(Value: TValue);
 var
-  lastElement: TValue; //TObject;
-  lastPathItem: string;
   path: string;
-  rContext: TRttiContext;
-  rField: TRttiField;
-  rProperty: TRttiProperty;
-  rType: TRttiType;
-  pRec: Pointer;
-  recordType: TRttiRecordType;
 begin
   path := FElementPath;
   SetPathValue(FElement, path, Value);
-  Exit;
-  if FEnabled then
-    begin
-      FValue := Value;
-      if Assigned(FCalculatedValue) then
-        FValue := FCalculatedValue(Value, FValue);
-      lastElement := FindLastObject;
-      lastPathItem := FindLastPathItem;
-      rContext := TRttiContext.Create;
-      if lastElement.Kind = tkRecord then
-        begin
-          recordType := rContext.GetType(lastElement.TypeInfo).AsRecord;
-          pRec := lastElement.GetReferenceToRawData;
-          lastElement.ExtractRawDataNoCopy(pRec);
-          rField := recordType.GetField(lastPathItem);
-          if (rField.FieldType.TypeKind <> FValue.Kind) then
-            FValue := InternalCastTo(rField.FieldType.TypeKind, FValue);
-          rField.SetValue(pRec, FValue);
-        end
-      else if lastElement.IsObject then
-        begin
-          rType := rContext.GetType(lastElement.AsObject.ClassType);
-          if PropertyExists(rType, lastPathItem) then
-            begin
-              rProperty := rType.GetProperty(FindLastPathItem);
-              if (rProperty.PropertyType.TypeKind <> FValue.Kind) then
-                FValue := InternalCastTo(rProperty.propertyType.TypeKind, FValue);
-              rProperty.SetValue(lastElement.AsObject, FValue);
-            end
-          else
-            begin
-              rField := rType.GetField(lastPathItem);
-              Assert(Assigned(rField), FElementPath + ' is not a property nor a field.');
-              if (rField.FieldType.TypeKind <> FValue.Kind) then
-                FValue := InternalCastTo(rField.FieldType.TypeKind, FValue);
-              rField.SetValue(lastElement.AsObject, FValue);
-            end;
-        end;
-    end;
-    rContext.Free;
-//  TRTTI.SetPathValue(FElement, FElementPath, FValue);
+//was:  QuickLib.RTTI.TRTTI.SetPathValue(FElement, FElementPath, FValue);
 end;
 
 
