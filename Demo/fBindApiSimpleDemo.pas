@@ -13,7 +13,7 @@ type
   [BindFormFieldFrom(False, 'edtTarget2.Text', 'LowerText')]
   [BindFormFieldFrom(False, 'edtTarget2a.Text', 'UpperText')]
   [BindFormFieldTo(False, 'edtSource2.Text', 'CurrentText')]
-  [BindFormFieldFrom(True, 'edtSame.Text', 'TestObject.IntProp')]
+  [BindFormFieldFrom('edtSame.Text', 'TestObject.IntProp')]
   [BindFormFieldFrom(True, 'edtDouble.Text', 'DoubleValue')]
   [BindFormFieldTo(False, 'speValue.Value', 'TestObject.IntProp')]
   [BindFormFieldTo(False, 'speValue.Value', 'NewValue')]
@@ -26,7 +26,7 @@ type
     edtTarget2a: TEdit;
     btnTest: TButton;
     edtSame: TEdit;
-    [BindFormFieldTo(True, 'Value', 'TestObject.IntProp')]
+    [BindFormFieldTo('Value', 'TestObject.IntProp')]
     speValue: TSpinEdit;
     edtDouble: TEdit;
     procedure FormCreate(Sender: TObject);
@@ -43,14 +43,14 @@ type
     procedure SetValue(const Value: Integer);
   published
     { Public declarations }
-    [BindPropertyTo(True, 'CurrentText')]
+    [BindPropertyTo('CurrentText')]
     property SourceText: string read GetSourceText write SetSourceText;
-    [BindPropertyFrom(True, 'LowerText')]
+    [BindPropertyFrom('LowerText')]
     property LowerText: string read GetLowerText write SetLowerText;
-    [BindPropertyFrom(True, 'UpperText')]
+    [BindPropertyFrom('UpperText')]
     property UpperText: string read GetUpperText write SetUpperText;
     [BindPropertyTo(True, 'NewValue')]
-    [BindPropertyTo(True, 'DoubleValue', 'DoubleOf')]
+    [BindPropertyTo('DoubleValue', 'DoubleOf')]
     property Value: Integer read GetValue write SetValue;
   end;
 
