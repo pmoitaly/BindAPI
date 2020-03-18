@@ -109,5 +109,5 @@ Future releases will include:
 - Hopefully, a tool to create bound classes skeltons from attributes
 
 ## Warning
-
+BindAPI has been tested onli with Delphi 10.3.3.
 BindAPI is currently under development. Although it is quite mature, test it very carefully before any use in production environment.  
