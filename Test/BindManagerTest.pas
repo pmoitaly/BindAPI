@@ -30,6 +30,9 @@ type
     [Test(True)]
     [TestCase('Test On Record Field', '2, Pippo, 3.6')]
     procedure TestBindRecordField(const AnInt: Integer; const AStr: string; const ADbl: Double);
+    [Test(True)]
+    [TestCase('Test On Object Field', '3, Pippo, 12')]
+    procedure TestBindObjectField(const AnInt: Integer; const AStr: string; const ADbl: Double);
     // Test event binding
     [Test(True)]
     [TestCase('Test On Event', '2, Pippo, 3.6')]
@@ -42,18 +45,21 @@ implementation
 procedure TPlBindManagerTest.Setup;
 begin
   binder := TPlBinder.Create;
+  passiveClass := TTestClassA.Create;
 end;
 
 procedure TPlBindManagerTest.TearDown;
 begin
   binder.Free;
+  // Free classes
+  activeClass.Free;
+  passiveClass.Free;
 end;
 
 procedure TPlBindManagerTest.TestBindEvent(const AnInt: Integer;
   const AStr: string; const ADbl: Double);
 begin
   activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-  passiveClass := TTestClassA.Create;
   // Binding
   binder.Bind(passiveClass, 'EventFiredTarget', activeClass, 'EventFired');
   binder.BindMethod(activeClass.btnTest, 'OnClick', passiveClass, 'TestEventBind');
@@ -61,15 +67,34 @@ begin
   activeClass.btnTest.Click;
   binder.UpdateValues;
   Assert.IsTrue(activeClass.EventFired, 'Event not fired');
-  // Free classes
-  activeClass.Free;
-  passiveClass.Free;
+end;
+
+procedure TPlBindManagerTest.TestBindObjectField(const AnInt: Integer;
+  const AStr: string; const ADbl: Double);
+begin
+  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
+
+  // binding
+  { TODO 4 -oPMo -cRefactoring :
+    Although BindAPI allows this operation, if not carefully managed it causes pointer errors when freeing the instances.
+    Consider to automatically map on fields. }
+//  binder.Bind(activeClass, 'ObjPropOut', passiveClass, 'ObjTarget');
+  binder.Bind(activeClass, 'ObjPropOut.Age', passiveClass, 'ObjTarget.Age');
+  binder.Bind(activeClass, 'ObjPropOut.Name', passiveClass, 'ObjTarget.Name');
+  binder.Bind(passiveClass, 'ObjTarget.Age', activeClass, 'ObjPropIn.Age');
+  // Test
+  with activeClass do
+    begin
+      Assert.AreEqual(AStr + ' (Obj)', passiveClass.ObjTarget.Name, 'ObjTarget Name property error');
+      Assert.AreEqual('', ObjPropIn.Name, 'Object Name property error');
+      Assert.AreEqual(AnInt + 11, ObjPropIn.Age, 'Object Age property error');
+    end;
 end;
 
 procedure TPlBindManagerTest.TestBindProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
 begin
   activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-  passiveClass := TTestClassA.Create;
+
   // binding
   binder.Bind(activeClass, 'DblPropOut', passiveClass, 'DblTarget');
   binder.Bind(activeClass, 'IntPropOut', passiveClass, 'intTarget');
@@ -86,25 +111,23 @@ begin
   // Test
   with activeClass do
     begin
-      Assert.AreEqual(RecPropIn.Name, RecPropOut.Name, 'Record Name property error');
-      Assert.AreEqual(RecPropIn.Age, RecPropOut.Age, 'Record Age property error');
-      Assert.AreEqual(DblPropIn, DblPropOut, 'Double property error');
-      Assert.AreEqual(IntPropIn, IntPropOut, 'Integer property error');
-      Assert.AreEqual(DblPropIn2, Double(DblPropOut * 2.0), 'Double property function error');
-      Assert.AreEqual(IntPropIn2, IntPropOut * 2, 'Integer 2 property function error');
-      Assert.AreEqual(IntPropIn3, IntPropOut * 3, 'Integer 3 property function error');
-      Assert.AreEqual(StrPropIn, StrPropOut + ' (No Rec)', 'String property error');
+      Assert.AreEqual(AStr + ' (Rec)', RecPropIn.Name, 'Record Name property error');
+      Assert.AreEqual(AnInt + 1, RecPropIn.Age, 'Record Age property error');
+      Assert.AreEqual(DblPropOut, DblPropIn, 'Double property error');
+      Assert.AreEqual(AnInt, IntPropIn, 'Integer property error');
+      Assert.AreEqual(Double(ADbl * 2.0), DblPropIn2, 'Double property function error');
+      Assert.AreEqual(AnInt * 2, IntPropIn2, 'Integer 2 property function error');
+      Assert.AreEqual(AnInt * 3, IntPropIn3, 'Integer 3 property function error');
+      Assert.AreEqual(AStr + ' (No Rec)', StrPropIn, 'String property error');
     end;
-  // Free classes
-  activeClass.Free;
-  passiveClass.Free;
+
 end;
 
 procedure TPlBindManagerTest.TestBindRecordField(const AnInt: Integer;
   const AStr: string; const ADbl: Double);
 begin
   activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-  passiveClass := TTestClassA.Create;
+
   // binding
   binder.Bind(activeClass, 'RecPropOut', passiveClass, 'RecTarget');
 //  binder.Bind(passiveClass, 'RecTarget.Name', activeClass, 'RecPropIn.Name');
@@ -115,9 +138,6 @@ begin
       Assert.AreEqual('', RecPropIn.Name, 'Record Name property error');
       Assert.AreEqual(AnInt + 1, RecPropIn.Age, 'Record Age property error');
     end;
-  // Free classes
-  activeClass.Free;
-  passiveClass.Free;
 end;
 
 initialization

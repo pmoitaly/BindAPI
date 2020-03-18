@@ -13,6 +13,14 @@ type
     Age: Integer;
   end;
 
+  TInternalClass = class
+  private
+    FName: string;
+    FAge: Integer;
+  public
+    property Name: string read FName write FName;
+    property Age: Integer read FAge write FAge;
+  end;
   {Active class: set values to ClassB and read results}
 
   {Passive class}
@@ -25,12 +33,16 @@ type
     FintTarget: Integer;
     FEventFiredTarget: Boolean;
     FintTarget3: Integer;
+    FobjTarget: TInternalClass;
   public
+    constructor Create;
+    destructor Destroy; override;
     property DblTarget: Double read FdblTarget write FdblTarget;
     property EventFiredTarget: Boolean read FEventFiredTarget;
     property IntTarget: Integer read FintTarget write FintTarget;
     property IntTarget3: Integer read FintTarget3 write FintTarget3;
     property RecTarget: TTestRecord read FrecTarget write FrecTarget;
+    property ObjTarget: TInternalClass read FobjTarget write FobjTarget;
     property StrTarget: string read FstrTarget write FstrTarget;
     function DoubleOf(const NewValue, OldValue: TValue): TValue;
     function ToName(const NewValue, OldValue: TValue): TValue;
@@ -56,6 +68,8 @@ type
     FunboundProp: string;
     FEventFired: Boolean;
     FintPropIn3: Integer;
+    FobjPropOut: TInternalClass;
+    FobjPropIn: TInternalClass;
   public
     constructor Create(AnInt: Integer; AStr: string; ADbl: Double);
     destructor Destroy; override;
@@ -66,6 +80,7 @@ type
                 [BindPropertyTo(True, 'intTarget3', 'TripleOf')]
     property IntPropOut: Integer read FintPropOut write FintPropOut;
                 [BindPropertyTo(True, 'RecTarget')]
+    property ObjPropOut: TInternalClass read FobjPropOut write FobjPropOut;
     property RecPropOut: TTestRecord read FrecPropOut write FrecPropOut;
                 [BindPropertyTo(True, 'StrTarget')]
     property StrPropOut: string read FstrPropOut write FstrPropOut;
@@ -81,6 +96,7 @@ type
                 [BindPropertyFrom(True, 'IntTarget3')]
     property IntPropIn3: Integer read FintPropIn3 write FintPropIn3;
                 [BindPropertyFrom(True, 'RecTarget')]
+    property ObjPropIn: TInternalClass read FobjPropIn write FobjPropIn;
     property RecPropIn: TTestRecord read FrecPropIn write FrecPropIn;
                 [BindPropertyFrom(True, 'StrTarget')]
     property StrPropIn: string read FstrPropIn write FstrPropIn;
@@ -96,6 +112,18 @@ type
 implementation
 
 { TTestClassA }
+
+constructor TTestClassA.Create;
+begin
+  inherited;
+  ObjTarget := TInternalClass.Create;
+end;
+
+destructor TTestClassA.Destroy;
+begin
+  ObjTarget.Free;
+  inherited;
+end;
 
 function TTestClassA.DoubleOf(const NewValue, OldValue: TValue): TValue;
 begin
@@ -129,16 +157,22 @@ end;
 
 constructor TTestClassB.Create(AnInt: Integer; AStr: string; ADbl: Double);
 begin
-    FdblPropOut := ADbl;
-    FintPropOut := AnInt;
-    FrecPropOut.Name := AStr + ' (Rec)';
-    FrecPropOut.Age := AnInt + 1;
-    FstrPropOut := AStr;
-    btnTest := TButton.Create(nil);
+  FdblPropOut := ADbl;
+  FintPropOut := AnInt;
+  FrecPropOut.Name := AStr + ' (Rec)';
+  FrecPropOut.Age := AnInt + 1;
+  FstrPropOut := AStr;
+  btnTest := TButton.Create(nil);
+  FobjPropOut := TInternalClass.Create;
+  FobjPropIn := TInternalClass.Create;
+  FobjPropOut.Name := AStr + ' (Obj)';
+  FobjPropOut.Age := AnInt + 11;
 end;
 
 destructor TTestClassB.Destroy;
 begin
+  FobjPropOut.Free;
+  FobjPropIn.Free;
   btnTest.Free;
   inherited;
 end;

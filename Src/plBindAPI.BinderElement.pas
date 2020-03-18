@@ -144,11 +144,12 @@ end;
 function TplRTTIMemberBind.GetPathValue(ARoot: TObject; var APath: string): TValue;
 var
   currentRoot: TObject;
+  leafName: string;
   myContext: TRttiContext;
   myField: TRttiField;
-  myProp: TRttiProperty;
   myPath: string;
-  leafName: string;
+  myProp: TRttiProperty;
+  propertyInfo: PPropInfo;
 begin
   currentRoot := ARoot;
   myProp := nil;
@@ -161,53 +162,65 @@ begin
 
       myField :=  myContext.GetType(currentRoot.ClassType).GetField(leafName);
       if not Assigned(myField) then
-        begin
-          myProp := myContext.GetType(ARoot.ClassType).GetProperty(leafName);
-        end;
+          myProp := myContext.GetType(currentRoot.ClassType).GetProperty(leafName);
 
-      // 2) esamina se il nodo è un oggetto o un record
+      // 2) esamina se il nodo è un oggetto o un record, o se non si deve fare
+      // nulla perché abbiamo raggiunto la fine del path e abbiamo quindi
+      // estratto lo RTTImembr finale
+      if myPath <> '' then
+        begin
         // Caso A: abbiamo a che fare con un oggetto
-      if Assigned(myField) then
-        begin
-          myProp := nil;
-          if myField.FieldType.IsRecord then
-            begin
-              if myPath <> '' then
-                begin
-                  // trasferisce il controllo alla procedura apposita
-                  myPath := leafName + '.' + IfThen(myPath <> '', '.' + myPath, '');
-                  Result := GetRecordPathValue(currentRoot, myPath);
-                  Exit;
-                end;
-            end
-          else if myField.FieldType.isInstance then
-            currentRoot := myField.GetValue(currentRoot).AsObject;
-        end
-      else if Assigned(myProp) then
-        begin
-          if myProp.PropertyType.IsRecord then
-            begin
-              if myPath <> '' then
-                begin
-                  // trasferisce il controllo alla procedura apposita
-                  myPath := leafName + IfThen(myPath <> '', '.' + myPath, '');
-                  Result := GetRecordPathValue(currentRoot, myPath);
-                  Exit;
-                end;
-            end
-          else if myProp.PropertyType.isInstance then
-            currentRoot := myProp.GetValue(currentRoot).AsObject;
-        end
-      else
-        if myPath <> '' then
+        if Assigned(myField) then
+          begin
+            myProp := nil;
+            if myField.FieldType.IsRecord then
+              begin
+                // trasferisce il controllo alla procedura apposita
+                myPath := leafName + '.' + IfThen(myPath <> '', '.' + myPath, '');
+                Result := GetRecordPathValue(currentRoot, myPath);
+                Exit;
+              end
+            else if myField.FieldType.isInstance  then
+              currentRoot := myField.GetValue(currentRoot).AsObject;
+          end
+        else if Assigned(myProp) then
+          begin
+            if myProp.PropertyType.IsRecord then
+              begin
+                // trasferisce il controllo alla procedura apposita
+                myPath := leafName + IfThen(myPath <> '', '.' + myPath, '');
+                Result := GetRecordPathValue(currentRoot, myPath);
+                Exit;
+              end
+            else if (myProp.PropertyType.isInstance) then
+              currentRoot := myProp.GetValue(currentRoot).AsObject;
+          end
+        else
           raise Exception.Create(FElementPath + ' is not a path to property or field.');
-      leafName := FirstLeaf(myPath);
+//        leafName := FirstLeaf(myPath);
+        end;
     end;
+
   // 3) con l'ultimo nodo e la proprietà da impostare, si esegue l'operazione appropriata
     if Assigned(myField) then
-      Result := myField.GetValue(currentRoot)
+      case myField.FieldType.TypeKind of
+        tkClass: Result := myField.GetValue(currentRoot).AsObject
+      else
+        Result := myField.GetValue(currentRoot);
+      end
     else if Assigned(myProp) then
-      Result := myProp.GetValue(currentRoot)
+      case myProp.PropertyType.TypeKind of
+        tkClass:
+
+        begin
+
+          propertyInfo := (myProp as TRttiInstanceProperty).PropInfo;
+
+          Result := GetObjectProp(currentRoot, propertyInfo);
+        end
+      else
+        Result := myProp.GetValue(currentRoot);
+      end
     else
       raise Exception.Create(FElementPath + ' is not a path to property or field.');
 end;
@@ -314,25 +327,6 @@ begin
   Result := (Self.Element = AStructure.Element) and
     (Self.PropertyPath = AStructure.PropertyPath);
 end;
-
-function TplRTTIMemberBind.ValueChanged: boolean;
-var
-  newValue: TValue;
-begin
-  if FEnabled and Assigned(FElement) then
-    try
-      newValue := GetValue;
-      Result := not AreEqual(newValue, FValue); //not newValue.Equals(FValue);
-      if Result then
-        FValue := GetValue;
-    except
-      Result := False;
-      FEnabled := False;
-    end
-  else
-    Result := False;
-end;
-
 {TplRTTIMemberBind}
 
 {Set record value when a is a field of a property}
@@ -340,11 +334,12 @@ procedure TplRTTIMemberBind.SetPathValue(ARoot: TObject; var APath: string;
   AValue: TValue);
 var
   currentRoot: TObject;
+  leafName: string;
   myContext: TRttiContext;
   myField: TRttiField;
-  myProp: TRttiProperty;
   myPath: string;
-  leafName: string;
+  myProp: TRttiProperty;
+  propertyInfo: PPropInfo;
 begin
   if not FEnabled then
     Exit;
@@ -360,67 +355,75 @@ begin
     begin
       leafName := FirstLeaf(myPath);
       // 1) localizza la prima foglia, sia prop o field
-
       myField :=  myContext.GetType(currentRoot.ClassType).GetField(leafName);
       if not Assigned(myField) then
         begin
-          myProp := myContext.GetType(ARoot.ClassType).GetProperty(leafName);
+          myProp := myContext.GetType(currentRoot.ClassType).GetProperty(leafName);
         end;
-
-      // 2) esamina se il nodo è un oggetto o un record
-        // Caso A: abbiamo a che fare con un oggetto
-      if Assigned(myField) then
+      if myPath <> '' then
         begin
-          myProp := nil;
-          if myField.FieldType.IsRecord then
+          // 2) esamina se il nodo è un oggetto o un record
+            // Caso A: abbiamo a che fare con un oggetto
+          if Assigned(myField) then
             begin
-              if myPath <> '' then
+              myProp := nil;
+              if myField.FieldType.IsRecord then
                 begin
                   // trasferisce il controllo alla procedura apposita
                   myPath := leafName + '.' + IfThen(myPath <> '', '.' + myPath, '');
                   SetRecordPathValue(currentRoot, myPath, FValue);
                   Exit;
-                end;
+                end
+              else if myField.FieldType.isInstance then
+                currentRoot := myField.GetValue(currentRoot).AsObject
+              else if myPath = '' then
+                Break;
             end
-          else if myField.FieldType.isInstance then
-            currentRoot := myField.GetValue(currentRoot).AsObject;
-        end
-      else if Assigned(myProp) then
-        begin
-          if myProp.PropertyType.IsRecord then
+          else if Assigned(myProp) then
             begin
-              if myPath <> '' then
+              if myProp.PropertyType.IsRecord then
                 begin
                   // trasferisce il controllo alla procedura apposita
                   myPath := leafName + IfThen(myPath <> '', '.' + myPath, '');
                   SetRecordPathValue(currentRoot, myPath, FValue);
                   Exit;
-                end;
+                end
+              else if myProp.PropertyType.isInstance then
+                currentRoot := myProp.GetValue(currentRoot).AsObject
+              else if myPath = '' then
+                Break;
             end
-          else if myProp.PropertyType.isInstance then
-            currentRoot := myProp.GetValue(currentRoot).AsObject;
-        end
-      else
-        if myPath <> '' then
-          raise Exception.Create(FElementPath + ' is not a path to property or field.');
-      leafName := FirstLeaf(myPath);
+          else
+              raise Exception.Create(FElementPath + ' is not a path to property or field.');
+        end;
     end;
   // 3) con l'ultimo nodo e la proprietà da impostare, si esegue l'operazione appropriata
     if Assigned(myField) then
       begin
         if (myField.FieldType.TypeKind <> FValue.Kind) then
           FValue := InternalCastTo(myField.FieldType.TypeKind, FValue);
-        myField.SetValue(currentRoot, FValue);
+        case myField.FieldType.TypeKind of
+          tkClass: myField.SetValue(currentRoot, TObject(FValue.AsObject))
+        else
+          myField.SetValue(currentRoot, FValue);
+        end;
       end
     else if Assigned(myProp) then
       begin
         if (myProp.PropertyType.TypeKind <> FValue.Kind) then
           FValue := InternalCastTo(myProp.propertyType.TypeKind, FValue);
-        myProp.SetValue(currentRoot, FValue);
+         case myProp.PropertyType.TypeKind of
+           tkClass:
+            begin
+             propertyInfo := (myProp as TRttiInstanceProperty).PropInfo;
+             SetObjectProp(currentRoot, propertyInfo, FValue.AsObject);
+           end
+         else
+           myProp.SetValue(currentRoot, FValue);
+         end;
       end
     else
       raise Exception.Create(FElementPath + ' is not a path to property or field.');
-
 end;
 
 procedure TplRTTIMemberBind.SetRecordFieldValue(Sender: TObject;
@@ -504,6 +507,24 @@ begin
 //was:  QuickLib.RTTI.TRTTI.SetPathValue(FElement, FElementPath, FValue);
 end;
 
+
+function TplRTTIMemberBind.ValueChanged: boolean;
+var
+  newValue: TValue;
+begin
+  if FEnabled and Assigned(FElement) then
+    try
+      newValue := GetValue;
+      Result := not AreEqual(newValue, FValue); //not newValue.Equals(FValue);
+      if Result then
+        FValue := GetValue;
+    except
+      Result := False;
+      FEnabled := False;
+    end
+  else
+    Result := False;
+end;
 
 { TplFieldBind }
 
