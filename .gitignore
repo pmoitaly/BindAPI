@@ -57,3 +57,5 @@ plBindAPI.AutoBinder.pas
 /Demo/__recovery
 /Test/Win32
 /Test/__recovery
+
+Analysis/BindAPI.eap

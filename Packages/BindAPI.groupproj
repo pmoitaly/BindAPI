@@ -12,9 +12,6 @@
         <Projects Include="..\Test\BindAPITest.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="S:\AdjustLineBreak.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -50,23 +47,14 @@
     <Target Name="BindAPITest:Make">
         <MSBuild Projects="..\Test\BindAPITest.dproj" Targets="Make"/>
     </Target>
-    <Target Name="AdjustLineBreak">
-        <MSBuild Projects="S:\AdjustLineBreak.dproj"/>
-    </Target>
-    <Target Name="AdjustLineBreak:Clean">
-        <MSBuild Projects="S:\AdjustLineBreak.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="AdjustLineBreak:Make">
-        <MSBuild Projects="S:\AdjustLineBreak.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="plBindAPI;BindApiSimpleDemo;BindAPITest;AdjustLineBreak"/>
+        <CallTarget Targets="plBindAPI;BindApiSimpleDemo;BindAPITest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="plBindAPI:Clean;BindApiSimpleDemo:Clean;BindAPITest:Clean;AdjustLineBreak:Clean"/>
+        <CallTarget Targets="plBindAPI:Clean;BindApiSimpleDemo:Clean;BindAPITest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="plBindAPI:Make;BindApiSimpleDemo:Make;BindAPITest:Make;AdjustLineBreak:Make"/>
+        <CallTarget Targets="plBindAPI:Make;BindApiSimpleDemo:Make;BindAPITest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
