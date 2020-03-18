@@ -32,7 +32,11 @@ type
     procedure TestBindRecordField(const AnInt: Integer; const AStr: string; const ADbl: Double);
     [Test(True)]
     [TestCase('Test On Object Field', '3, Pippo, 12')]
-    procedure TestBindObjectField(const AnInt: Integer; const AStr: string; const ADbl: Double);
+    procedure TestBindFieldProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
+    // Test property as objects
+    [Test(True)]
+    [TestCase('Test On Object Property', '3, Pippo, 12')]
+    procedure TestBindObjectProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
     // Test event binding
     [Test(True)]
     [TestCase('Test On Event', '2, Pippo, 3.6')]
@@ -69,7 +73,7 @@ begin
   Assert.IsTrue(activeClass.EventFired, 'Event not fired');
 end;
 
-procedure TPlBindManagerTest.TestBindObjectField(const AnInt: Integer;
+procedure TPlBindManagerTest.TestBindFieldProperty(const AnInt: Integer;
   const AStr: string; const ADbl: Double);
 begin
   activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
@@ -77,7 +81,29 @@ begin
   // binding
   { TODO 4 -oPMo -cRefactoring :
     Although BindAPI allows this operation, if not carefully managed it causes pointer errors when freeing the instances.
-    Consider to automatically map on fields. }
+    Consider to automatically bind on each fields. }
+//  binder.Bind(activeClass, 'FObjPropOut', passiveClass, 'FObjTarget');
+  binder.Bind(activeClass, 'FObjPropOut.Age', passiveClass, 'FObjTarget.Age');
+  binder.Bind(activeClass, 'FObjPropOut.Name', passiveClass, 'FObjTarget.Name');
+  binder.Bind(passiveClass, 'FObjTarget.Age', activeClass, 'FObjPropIn.Age');
+  // Test
+  with activeClass do
+    begin
+      Assert.AreEqual(AStr + ' (Obj)', passiveClass.ObjTarget.Name, 'ObjTarget Name field error');
+      Assert.AreEqual('', ObjPropIn.Name, 'Object Name field error');
+      Assert.AreEqual(AnInt + 11, ObjPropIn.Age, 'Object Age field error');
+    end;
+end;
+
+procedure TPlBindManagerTest.TestBindObjectProperty(const AnInt: Integer;
+  const AStr: string; const ADbl: Double);
+begin
+  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
+
+  // binding
+  { TODO 4 -oPMo -cRefactoring :
+    Although BindAPI allows this operation, if not carefully managed it causes pointer errors when freeing the instances.
+    Consider to automatically bind on fields. }
 //  binder.Bind(activeClass, 'ObjPropOut', passiveClass, 'ObjTarget');
   binder.Bind(activeClass, 'ObjPropOut.Age', passiveClass, 'ObjTarget.Age');
   binder.Bind(activeClass, 'ObjPropOut.Name', passiveClass, 'ObjTarget.Name');
