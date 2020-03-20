@@ -34,14 +34,14 @@ uses
 
 type
   [ClassBind(True, 'TTestController')]
-  [BindFormFieldFrom(False, 'edtTarget2.Text', 'LowerText')]
-  [BindFormFieldFrom(False, 'edtTarget2a.Text', 'UpperText')]
-  [BindFormFieldTo(False, 'edtSource2.Text', 'CurrentText')]
-  [BindFormFieldFrom('edtSame.Text', 'TestObject.IntProp')]
-  [BindFormFieldFrom(True, 'edtDouble.Text', 'DoubleValue')]
-  [BindFormFieldTo(False, 'speValue.Value', 'TestObject.IntProp')]
-  [BindFormFieldTo(False, 'speValue.Value', 'NewValue')]
-  [BindFormFieldTo(False, 'speValue.Value', 'DoubleValue', 'DoubleOf')]
+  [BindFieldFrom(False, 'edtTarget2.Text', 'LowerText')]
+  [BindFieldFrom(False, 'edtTarget2a.Text', 'UpperText')]
+  [BindFieldTo(False, 'edtSource2.Text', 'CurrentText')]
+  [BindFieldFrom('edtSame.Text', 'TestObject.IntProp')]
+  [BindFieldFrom(True, 'edtDouble.Text', 'DoubleValue')]
+  [BindFieldTo(False, 'speValue.Value', 'TestObject.IntProp')]
+  [BindFieldTo(False, 'speValue.Value', 'NewValue')]
+  [BindFieldTo(False, 'speValue.Value', 'DoubleValue', 'DoubleOf')]
   [EventBind(True, 'btnTest.OnClick', 'TestEventBind')]
   TfrmBindApiSimpleDemo = class(TForm)
     lblCounter2: TLabel;
@@ -50,7 +50,7 @@ type
     edtTarget2a: TEdit;
     btnTest: TButton;
     edtSame: TEdit;
-    [BindFormFieldTo('Value', 'TestObject.IntProp')]
+    [BindFieldTo('Value', 'TestObject.IntProp')]
     speValue: TSpinEdit;
     edtDouble: TEdit;
     procedure FormCreate(Sender: TObject);

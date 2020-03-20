@@ -63,7 +63,7 @@ type
   EventBindAttribute =  class(MethodBindAttribute);
 
   {Attribute to force binding on properties of GUI public/published elements}
-  FormFieldBindAttribute = class(CustomBindAttribute)
+  FieldBindAttribute = class(CustomBindAttribute)
   private
     FFunctionName: string;
     FSourcePath: string;
@@ -78,9 +78,9 @@ type
     property TargetPath: string read FTargetPath;
   end;
 
-  BindFormFieldAttribute = class(FormFieldBindAttribute);
-  BindFormFieldFromAttribute = class(FormFieldBindAttribute);
-  BindFormFieldToAttribute = class(FormFieldBindAttribute);
+  BindFieldAttribute = class(FieldBindAttribute);
+  BindFieldFromAttribute = class(FieldBindAttribute);
+  BindFieldToAttribute = class(FieldBindAttribute);
 
   {Ancestor class for fields and properties bind data}
   AutoBindingAttribute = class(CustomBindAttribute)
@@ -173,7 +173,7 @@ end;
 { FormFieldBindAttribute }
 
 {Example: [BindFormField(True, 'myComponent.Property', 'MyTargetProperty')]}
-constructor FormFieldBindAttribute.Create(const Enabled: Boolean; const ASourcePath,
+constructor FieldBindAttribute.Create(const Enabled: Boolean; const ASourcePath,
   ATargetPath: string; const AFunctionName: string = ''; const ATargetClassName: string = '');
 begin
   FIsEnabled := Enabled;
@@ -183,7 +183,7 @@ begin
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
-constructor FormFieldBindAttribute.Create(const ASourcePath, ATargetPath,
+constructor FieldBindAttribute.Create(const ASourcePath, ATargetPath,
   AFunctionName, ATargetClassName: string);
 begin
   FIsEnabled := True;

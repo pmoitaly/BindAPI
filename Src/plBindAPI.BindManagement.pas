@@ -63,6 +63,7 @@ var
   rType: TRttiType;
   rAttr: TCustomAttribute;
   target: TObject;
+  targetName: string;
 begin
   Result := TplBoundObjects.Create();
 
@@ -73,7 +74,11 @@ begin
   for rAttr in rType.GetAttributes() do
     if rAttr is ClassBindAttribute and ClassBindAttribute(rAttr).IsEnabled then
       begin
-        target := TplClassManager.GetInstance(ClassBindAttribute(rAttr).TargetClassName);
+        targetName := ClassBindAttribute(rAttr).TargetClassName;
+        if (targetName = 'Self') or (targetName = ASource.ClassName) then
+          target := ASource
+        else
+          target := TplClassManager.GetInstance(ClassBindAttribute(rAttr).TargetClassName);
         if Assigned(target) then
           FBinder.BindObject(ASource, target);
         SetLength(Result, Length(Result) + 1);
