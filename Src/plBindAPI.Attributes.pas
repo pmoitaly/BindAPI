@@ -29,7 +29,7 @@ interface
 
 type
 
-  {Ancestor class o switch on and off bind instructions}
+  {Ancestor class of all attributes, with switch on and off bind instructions}
   CustomBindAttribute = class(TCustomAttribute)
   protected
     FIsEnabled: Boolean;
@@ -56,7 +56,6 @@ type
     constructor Create(const Enabled: Boolean; const AMethodName, ANewMethodName, ATargetClassName: string); overload;
     property SourceMethodName: string read FSourceMethodName;
     property NewMethodName: string read FNewMethodName;
-    property TargetClassName: string read FTargetClassName;
   end;
 
   {Attribute to bind an event}
@@ -83,7 +82,7 @@ type
   BindFieldToAttribute = class(FieldBindAttribute);
 
   {Ancestor class for fields and properties bind data}
-  AutoBindingAttribute = class(CustomBindAttribute)
+  PropertiesBindAttribute = class(CustomBindAttribute)
   private
     {Name of the validator function}
     FFunctionName: string;
@@ -99,7 +98,7 @@ type
     property TargetName: string read FTargetName;
   end;
 
-  PropertiesBindAttribute = class(AutoBindingAttribute);
+//  PropertiesBindAttribute = class(AutoBindingAttribute);
 
   BindPropertyAttribute = class(PropertiesBindAttribute);
   BindPropertyFromAttribute = class(PropertiesBindAttribute);
@@ -107,7 +106,7 @@ type
 
 implementation
 
-{ AutoBindAttribute }
+{ ClassBindAttribute }
 
 {Syntax: [ClassBind(True, 'MyBindTargetClass')]}
 constructor ClassBindAttribute.Create(const Enabled: Boolean;
@@ -123,29 +122,30 @@ begin
   FIsEnabled := True;
 end;
 
+{ FieldBindAttribute }
 
-{ AutoBindingAttribute }
-
-{Example: [BindPropertyAttribute, (True, 'PropertyOfBindedClass', 'BindedClass')]}
-{Example: [BindFieldFromAttribute, (True, 'FieldOfBindedClass')]}
-constructor AutoBindingAttribute.Create(const Enabled: Boolean;
-  const ATargetName: string; const AFunctionName: string = '';
-  const ATargetClassName: string = '');
+{Example: [BindFormField(True, 'myComponent.Property', 'MyTargetProperty')]}
+constructor FieldBindAttribute.Create(const Enabled: Boolean; const ASourcePath,
+  ATargetPath: string; const AFunctionName: string = ''; const ATargetClassName: string = '');
 begin
   FIsEnabled := Enabled;
   FFunctionName := AFunctionName;
-  FTargetName := ATargetName;
+  FSourcePath := ASourcePath;
+  FTargetPath := ATargetPath;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
-constructor AutoBindingAttribute.Create(const ATargetName, AFunctionName,
-  ATargetClassName: string);
+constructor FieldBindAttribute.Create(const ASourcePath, ATargetPath,
+  AFunctionName, ATargetClassName: string);
 begin
   FIsEnabled := True;
   FFunctionName := AFunctionName;
-  FTargetName := ATargetName;
+  FSourcePath := ASourcePath;
+  FTargetPath := ATargetPath;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
+
 end;
+
 
 { MethodBindAttribute }
 
@@ -170,30 +170,29 @@ begin
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
-{ FormFieldBindAttribute }
 
-{Example: [BindFormField(True, 'myComponent.Property', 'MyTargetProperty')]}
-constructor FieldBindAttribute.Create(const Enabled: Boolean; const ASourcePath,
-  ATargetPath: string; const AFunctionName: string = ''; const ATargetClassName: string = '');
+{ PropertiesBindAttribute }
+
+{Example: [BindPropertyAttribute, (True, 'PropertyOfBindedClass', 'BindedClass')]}
+{Example: [BindFieldFromAttribute, (True, 'FieldOfBindedClass')]}
+constructor PropertiesBindAttribute.Create(const Enabled: Boolean;
+  const ATargetName: string; const AFunctionName: string = '';
+  const ATargetClassName: string = '');
 begin
   FIsEnabled := Enabled;
   FFunctionName := AFunctionName;
-  FSourcePath := ASourcePath;
-  FTargetPath := ATargetPath;
+  FTargetName := ATargetName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
-constructor FieldBindAttribute.Create(const ASourcePath, ATargetPath,
-  AFunctionName, ATargetClassName: string);
+constructor PropertiesBindAttribute.Create(const ATargetName, AFunctionName,
+  ATargetClassName: string);
 begin
   FIsEnabled := True;
   FFunctionName := AFunctionName;
-  FSourcePath := ASourcePath;
-  FTargetPath := ATargetPath;
+  FTargetName := ATargetName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
-
 end;
-
 
 
 end.
