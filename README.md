@@ -101,13 +101,15 @@ You can also bind two elements manually. See demo and test apps for other exampl
 
 ## To be continued...
 Future releases will include:
+- Support for collections and array
+- Best support for records
 - A bit of documentation (as soon as possible, of course)
-- More test cases
+- More and more test cases
 - FreePascal support (as 3.2 version will be released)
-- No warning on Win64 version
+- Android support
 - Better management of interval in thread, maybe introducing a timer 
 - Hopefully, a tool to create bound classes skeltons from attributes
 
 ## Warning
-BindAPI has been tested onli with Delphi 10.3.3.
-BindAPI is currently under development. Although it is quite mature, test it very carefully before any use in production environment.  
+BindAPI has been tested only with Delphi 10.3.3.
+BindAPI is currently under active development. Although it is quite mature, it requires more tests before any use in real production environments. It is released as preview.

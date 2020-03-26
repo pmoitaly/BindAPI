@@ -103,8 +103,9 @@ type
                 [BindPropertyTo(True, 'intTarget')]
                 [BindPropertyTo(True, 'intTarget3', 'TripleOf')]
     property IntPropOut: Integer read FintPropOut write FintPropOut;
-                [BindPropertyTo(True, 'RecTarget')]
+                [BindPropertyTo(True, 'ObjTarget')]
     property ObjPropOut: TInternalClass read FobjPropOut write FobjPropOut;
+                [BindPropertyTo(True, 'RecTarget')]
     property RecPropOut: TTestRecord read FrecPropOut write FrecPropOut;
                 [BindPropertyTo(True, 'StrTarget')]
     property StrPropOut: string read FstrPropOut write FstrPropOut;
