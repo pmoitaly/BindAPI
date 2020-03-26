@@ -61,6 +61,14 @@ type
     property DoubleValue: integer read FDoubleValue write FDoubleValue;
     property TestObject: TFieldObject read FTestObject write FTestObject;
   end;
+
+  TTestSecond = class(TInterfacedObject)
+  private
+    FStrBidirectional: string;
+  public
+    property StrBidirectional: string read FStrBidirectional write FStrBidirectional;
+  end;
+
 implementation
 
 uses
@@ -101,5 +109,6 @@ end;
 
 initialization
   TplClassManager.RegisterClass(TTestController, true);
+  TplClassManager.RegisterClass(TTestSecond, true);
 
 end.

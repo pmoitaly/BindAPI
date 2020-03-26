@@ -62,6 +62,7 @@ var
   rContext: TRttiContext;
   rType: TRttiType;
   rAttr: TCustomAttribute;
+  classBinder: ClassBindAttribute;
   target: TObject;
   targetName: string;
 begin
@@ -74,15 +75,18 @@ begin
   for rAttr in rType.GetAttributes() do
     if rAttr is ClassBindAttribute and ClassBindAttribute(rAttr).IsEnabled then
       begin
-        targetName := ClassBindAttribute(rAttr).TargetClassName;
+        classBinder := ClassBindAttribute(rAttr);
+        targetName := classBinder.TargetClassName;
         if (targetName = 'Self') or (targetName = ASource.ClassName) then
           target := ASource
         else
-          target := TplClassManager.GetInstance(ClassBindAttribute(rAttr).TargetClassName);
+          target := TplClassManager.GetInstance(classBinder.TargetClassName);
         if Assigned(target) then
-          FBinder.BindObject(ASource, target);
-        SetLength(Result, Length(Result) + 1);
-        Result[High(Result)] := target;
+          begin
+            FBinder.BindObject(ASource, target);
+            SetLength(Result, Length(Result) + 1);
+            Result[High(Result)] := target;
+          end;
       end;
   rContext.Free;
 end;

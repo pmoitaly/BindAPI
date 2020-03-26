@@ -132,6 +132,12 @@ type
     property UnboundProp: string read FunboundProp write FUnboundProp;
   end;
 
+  TTestClassC = class
+  private
+    FStrBidirectional: string;
+  public
+    property StrBidirectional: string read FStrBidirectional write FStrBidirectional;
+  end;
 
 implementation
 

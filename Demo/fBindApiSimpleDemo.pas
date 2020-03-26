@@ -33,7 +33,8 @@ uses
   plBindAPI.ClassFactory;
 
 type
-  [ClassBind(True, 'TTestController')]
+  [ClassBind(True, 'TTestController', True)]
+  [ClassBind(True, 'TTestSecond')]
   [BindFieldFrom(False, 'edtTarget2.Text', 'LowerText')]
   [BindFieldFrom(False, 'edtTarget2a.Text', 'UpperText')]
   [BindFieldTo(False, 'edtSource2.Text', 'CurrentText')]
@@ -53,6 +54,10 @@ type
     [BindFieldTo('Value', 'TestObject.IntProp')]
     speValue: TSpinEdit;
     edtDouble: TEdit;
+    [BindField('Text', 'StrBidirectional', '', 'TTestSecond')]
+    edtBidirectional: TEdit;
+    [BindField('Text', 'StrBidirectional', '', 'TTestSecond')]
+    edtBidirectional2: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private

@@ -41,9 +41,14 @@ type
 
   {A Class attribute describing the target class of bind action}
   ClassBindAttribute = class(CustomBindAttribute)
+  private
+    FIsDefault: Boolean;
   public
-    constructor Create(ATargetClassName: string); overload;
-    constructor Create(const Enabled: Boolean; ATargetClassName: string); overload;
+    constructor Create(ATargetClassName: string;
+      IsDefaultClass: Boolean = False); overload;
+    constructor Create(const Enabled: Boolean; ATargetClassName: string;
+      IsDefaultClass: Boolean = False); overload;
+    property IsDefault: Boolean Read FIsDefault;
   end;
 
   {Ancestor class for class attributes binding methods and events}
@@ -110,14 +115,17 @@ implementation
 
 {Syntax: [ClassBind(True, 'MyBindTargetClass')]}
 constructor ClassBindAttribute.Create(const Enabled: Boolean;
-  ATargetClassName: string);
+  ATargetClassName: string; IsDefaultClass: Boolean = False);
 begin
+  FIsDefault := IsDefaultClass;
   FTargetClassName := ATargetClassName;
   FIsEnabled := Enabled;
 end;
 
-constructor ClassBindAttribute.Create(ATargetClassName: string);
+constructor ClassBindAttribute.Create(ATargetClassName: string;
+  IsDefaultClass: Boolean = False);
 begin
+  FIsDefault := IsDefaultClass;
   FTargetClassName := ATargetClassName;
   FIsEnabled := True;
 end;
@@ -193,6 +201,5 @@ begin
   FTargetName := ATargetName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
-
 
 end.

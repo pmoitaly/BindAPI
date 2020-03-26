@@ -78,4 +78,18 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     TabOrder = 6
     Text = 'edtDouble'
   end
+  object edtBidirectional: TEdit
+    Left = 24
+    Top = 264
+    Width = 121
+    Height = 21
+    TabOrder = 7
+  end
+  object edtBidirectional2: TEdit
+    Left = 208
+    Top = 264
+    Width = 121
+    Height = 21
+    TabOrder = 8
+  end
 end
