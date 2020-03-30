@@ -65,10 +65,17 @@ type
     [Test(True)]
     [TestCase('Test On Event', '2, Pippo, 3.6')]
     procedure TestBindEvent(const AnInt: Integer; const AStr: string; const ADbl: Double);
+    // General Test
+    [Test(True)]
+    [TestCase('Test On Start and Stop', '2, Pippo, 3.6')]
+    procedure TestUpdateValues(const AnInt: Integer; const AStr: string; const ADbl: Double);
 
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 procedure TPlBindManagerTest.Setup;
 begin
@@ -188,6 +195,35 @@ begin
       Assert.AreEqual('', RecPropIn.Name, 'Record Name property error');
       Assert.AreEqual(AnInt + 1, RecPropIn.Age, 'Record Age property error');
     end;
+end;
+
+procedure TPlBindManagerTest.TestUpdateValues(const AnInt: Integer;
+  const AStr: string; const ADbl: Double);
+begin
+  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
+
+  // binding
+  binder.Bind(activeClass, 'IntPropOut', passiveClass, 'intTarget');
+  // 1.st Test
+  Assert.AreEqual(AnInt, passiveClass.intTarget, 'Integer map error');
+  activeClass.IntPropOut := AnInt * 2;
+  binder.UpdateValues;
+  Assert.AreEqual(AnInt * 2, passiveClass.intTarget, 'Integer bind error');
+  Exit;
+
+  binder.Start(100);
+//  if activeClass.IntPropOut < 5 then
+//    Exit;
+  Sleep(5000);
+  if passiveClass.intTarget > 2 then
+    Exit;
+  with activeClass do
+    Assert.AreEqual(4, passiveClass.intTarget, 'Integer bind error');
+  binder.Stop;
+//  activeClass.IntPropOut := 6;
+//  Sleep(150);
+//  with activeClass do
+//    Assert.AreEqual(4, passiveClass.intTarget, 'Integer bind error');
 end;
 
 initialization
