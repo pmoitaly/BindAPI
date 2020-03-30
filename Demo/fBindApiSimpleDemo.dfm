@@ -22,25 +22,44 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     Height = 13
     Caption = '0'
   end
+  object bvlInput: TBevel
+    Left = 8
+    Top = 8
+    Width = 204
+    Height = 291
+  end
+  object bvlOutput: TBevel
+    Left = 224
+    Top = 8
+    Width = 210
+    Height = 233
+  end
+  object lblInt: TLabel
+    Left = 368
+    Top = 160
+    Width = 24
+    Height = 13
+    Caption = 'lblInt'
+  end
   object edtSource2: TEdit
     Left = 16
     Top = 24
-    Width = 200
+    Width = 185
     Height = 21
     TabOrder = 0
     Text = 'Test'
   end
   object edtTarget2: TEdit
-    Left = 218
+    Left = 232
     Top = 24
-    Width = 200
+    Width = 186
     Height = 21
     TabOrder = 1
   end
   object edtTarget2a: TEdit
-    Left = 218
+    Left = 232
     Top = 56
-    Width = 200
+    Width = 186
     Height = 21
     TabOrder = 2
   end
@@ -53,7 +72,7 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     TabOrder = 3
   end
   object edtSame: TEdit
-    Left = 218
+    Left = 232
     Top = 160
     Width = 121
     Height = 21
@@ -71,7 +90,7 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     Value = 0
   end
   object edtDouble: TEdit
-    Left = 218
+    Left = 232
     Top = 200
     Width = 121
     Height = 21
@@ -86,7 +105,7 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     TabOrder = 7
   end
   object edtBidirectional2: TEdit
-    Left = 208
+    Left = 232
     Top = 264
     Width = 121
     Height = 21

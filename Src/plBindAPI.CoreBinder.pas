@@ -254,7 +254,8 @@ begin
       Sleep(FInterval);
       for item in FBindPropertyList.Keys do
         begin
-          if item.ValueChanged and (FEnabled) then
+          if item.ValueChanged then
+          IF (FEnabled) then
           TThread.Synchronize(nil,
             procedure
             begin

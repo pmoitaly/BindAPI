@@ -30,7 +30,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Samples.Spin,
   plBindAPI.Attributes, plBindAPI.CoreBinder, plBindAPI.AutoBinder,
-  plBindAPI.ClassFactory;
+  plBindAPI.ClassFactory, Vcl.ExtCtrls;
 
 type
   [ClassBind(True, 'TTestController', True)]
@@ -58,6 +58,10 @@ type
     edtBidirectional: TEdit;
     [BindField('Text', 'StrBidirectional', '', 'TTestSecond')]
     edtBidirectional2: TEdit;
+    bvlInput: TBevel;
+    bvlOutput: TBevel;
+    [BindFieldFrom(True, 'Caption', 'NewValue')]
+    lblInt: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private

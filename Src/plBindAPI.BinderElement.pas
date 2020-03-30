@@ -541,7 +541,7 @@ begin
       newValue := GetValue;
       Result := not AreEqual(newValue, FValue); //not newValue.Equals(FValue);
       if Result then
-        FValue := GetValue;
+        FValue := newValue;
     except
       Result := False;
       FEnabled := False;
