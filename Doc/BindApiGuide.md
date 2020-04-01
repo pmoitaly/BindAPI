@@ -1,4 +1,4 @@
-#BindAPI quick guide
+# BindAPI quick guide
 
 BindAPI is an open source library for Delphi that allows you to link the properties and fields of any class using attributes. Its simplicity and its versatility make it the ideal tool to create prototypes, demos, POCs and small applications by applying the separation of logic and presentation from the first steps.
 
