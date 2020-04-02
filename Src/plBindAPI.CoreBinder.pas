@@ -153,6 +153,7 @@ end;
 
 constructor TPlBinder.Create;
 begin
+  inherited;
   FThreadTerminated := True;
   FEnabled := False;
   FInterval := 100;
