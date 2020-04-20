@@ -38,27 +38,29 @@ type
 
   TPlBinder = class(TInterfacedObject)
   private
-    FBindPropertyList: TPlBindPropertyList;
     FComparer: TPlParKeyComparer;
     FEnabled: Boolean;
-    FInternalThread: TThread;
-    FThreadTerminated: boolean;
     FInterval: integer;
+    FPriority: TThreadPriority;
     procedure AddNewItem(AKey, AValue: TplPropertyBind);
     function ComponentFromPath(ASource: TComponent; var APropertyPath: string): TComponent;
     procedure FreeValues;
     procedure InternalAdd(Source, Target: TplPropertyBind);
-    procedure MonitorValues;
     procedure UpgradeExistingItem(AKey, AValue: TplPropertyBind);
-    procedure UpdateListValues(aList: TPlBindPropertiesList; newValue: TValue);
     procedure SetFEnabled(const Value: Boolean);
-    procedure CloseAndFreeThread;
   protected
+    FInternalThread: TThread;
+    FThreadTerminated: boolean;
+    FBindPropertyList: TPlBindPropertyList;
+    procedure CloseAndFreeThread; virtual;
+    procedure MonitorValues; virtual;
+    procedure UpdateListValues(aList: TPlBindPropertiesList; newValue: TValue);
   public
     constructor Create; overload;
     destructor Destroy; override;
     property Enabled: Boolean read FEnabled write SetFEnabled;
     property Interval: integer read FInterval write FInterval;
+    property Priority: TThreadPriority read FPriority write FPriority;
     procedure Bind(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: TplBridgeFunction = nil);
     procedure BindMethod(ASource: TObject; const AMethodPath: string; ATarget: TObject; const ANewMethodName: string; AFunction: TplBridgeFunction = nil);
     function Count: integer;
@@ -73,8 +75,8 @@ type
 implementation
 
 uses
+  Winapi.Windows,
   System.TypInfo, System.Hash, System.SysUtils, System.Math;
-//  , Delphi.Mocks.Helpers;
 
 { TPlBinder }
 
@@ -97,7 +99,6 @@ begin
   Target := TplPropertyBind.Create(ATarget, APropertyTarget, AFunction);
   InternalAdd(Source, Target);
 end;
-
 
 procedure TPlBinder.BindMethod(ASource: TObject; const AMethodPath: string;
   ATarget: TObject; const ANewMethodName: string; AFunction: TplBridgeFunction);
@@ -128,7 +129,6 @@ begin
   rContext.Free;
 end;
 
-
 procedure TPlBinder.CloseAndFreeThread;
 var
   i: Integer;
@@ -142,6 +142,7 @@ begin
     Sleep(FInterval);
   end;
 //  FInternalThread.Free;
+  Exit;
   if Assigned(FInternalThread) and not FThreadTerminated then
     try
       FInternalThread.FreeOnTerminate := False;
@@ -157,6 +158,7 @@ begin
   FThreadTerminated := True;
   FEnabled := False;
   FInterval := 100;
+  FPriority := tpIdle;
   FComparer := TPlParKeyComparer.Create;
   FBindPropertyList := TPlBindPropertyList.Create([doOwnsKeys, doOwnsValues], FComparer);
 end;
@@ -243,6 +245,42 @@ end;
 
 procedure TPlBinder.MonitorValues;
 begin
+  FThreadTerminated := False;
+  FInternalThread := TThread.CreateAnonymousThread(
+    procedure
+    var
+      item: TplPropertyBind;
+      FTickEvent: THandle;
+    begin
+      FTickEvent := CreateEvent(nil, True, False, nil);
+      while Enabled do
+        begin
+          if WaitForSingleObject(FTickEvent, Interval) = WAIT_TIMEOUT then
+            begin
+              for item in FBindPropertyList.Keys do
+                begin
+                  if item.ValueChanged and (Enabled) and not FThreadTerminated then
+                  TThread.Synchronize(nil,
+                    procedure
+                    begin
+                      UpdateListValues(FBindPropertyList[item], item.Value);
+                    end);
+                end;
+            end;
+        end;
+      SetEvent(FTickEvent);
+      CloseHandle(FTickEvent);
+      FThreadTerminated := True;
+    end
+    );
+  FInternalThread.Priority := FPriority;
+  FInternalThread.FreeOnTerminate := True;
+  FInternalThread.Start();
+end;
+
+(*
+procedure TPlBinder.MonitorValues;
+begin
   FEnabled := True;
   FThreadTerminated := False;
   FInternalThread := TThread.CreateAnonymousThread(
@@ -267,11 +305,11 @@ begin
     FThreadTerminated := True;
     end
   );
-//  FInternalThread.Priority := tpLowest;
+  FInternalThread.Priority := FLevel;
   FInternalThread.FreeOnTerminate := True;
   FInternalThread.Start();
 end;
-
+*)
 function TplBinder.NormalizePath(ASource: TObject; var SourcePath: string): TObject;
 begin
   if Assigned(ASource) and (ASource is TComponent) then
