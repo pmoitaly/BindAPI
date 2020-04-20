@@ -165,7 +165,9 @@ begin
     { Search for the custom attribute and do some custom processing }
     for rAttr in rField.GetAttributes() do
       if (rAttr is FieldBindAttribute) and (rField.Visibility in [mvPublic, mvPublished]) then
-        BindField(ASource, aTarget, FieldBindAttribute(rAttr), rField.Name);
+        BindField(ASource, aTarget, FieldBindAttribute(rAttr), rField.Name)
+      else if rAttr is MethodBindAttribute then
+        BindMethod( rField.GetValue(ASource).AsObject, aTarget, MethodBindAttribute(rAttr));
 end;
 
 procedure TplAutoBinder.BindField(ASource, aTarget: TObject;
@@ -206,10 +208,7 @@ procedure TplAutoBinder.BindMethod(ASource, aTarget: TObject;
   AnAttribute: MethodBindAttribute);
 begin
   if CanBind(AnAttribute, aTarget) then
-    begin
-      FBinder.BindMethod(ASource, AnAttribute.SourceMethodName, aTarget, AnAttribute.NewMethodName);
-      Exit;
-    end;
+    FBinder.BindMethod(ASource, AnAttribute.SourceMethodName, aTarget, AnAttribute.NewMethodName);
 end;
 
 procedure TplAutoBinder.BindMethods(ASource, aTarget: TObject; AList: TarMethods);
@@ -242,7 +241,9 @@ begin
     { Search for the custom attribute and do some custom processing }
     for rAttr in rProperty.GetAttributes() do
       if rAttr is PropertiesBindAttribute then
-        BindProperty(ASource, aTarget, rProperty.Name, PropertiesBindAttribute(rAttr));
+        BindProperty(ASource, aTarget, rProperty.Name, PropertiesBindAttribute(rAttr))
+      else if rAttr is MethodBindAttribute then
+        BindMethod(rProperty.GetValue(ASource).AsObject, aTarget, MethodBindAttribute(rAttr));
 end;
 
 procedure TplAutoBinder.BindProperty(ASource, aTarget: TObject;
