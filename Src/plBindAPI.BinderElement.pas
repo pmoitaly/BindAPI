@@ -91,6 +91,8 @@ var
 begin
   If Left.IsOrdinal then
     Result := Left.AsOrdinal = Right.AsOrdinal
+  else if Left.TypeInfo.Kind = tkSet then
+    Result := SameText(Left.ToString(), Right.ToString())
   else if Left.TypeInfo = System.TypeInfo(Single) then
     Result := SameValue(Left.AsType<Single>(), Right.AsType<Single>())
   else if Left.TypeInfo = System.TypeInfo(Double) then
