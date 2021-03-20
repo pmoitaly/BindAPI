@@ -93,7 +93,7 @@ You can also bind two elements manually. See demo and test apps for other exampl
 
 ## Features
 - No need to rewrite existing libraries, just add attributes in your form, classes and so on.
-- Can bind any field, property and methods of a class supported by RTTI... well field, property and methods I really used. 
+- Can bind any field, property and methods of a class supported by RTTI... at present, field, property and methods I'm really use. 
 - Support of property path.
 - Can use a function to convert a value.
 - Compatible with MVC, MVP, MVVM - just select your source and target classes to implement your architecture.
@@ -101,8 +101,8 @@ You can also bind two elements manually. See demo and test apps for other exampl
 
 ## To be continued...
 Future releases will include:
-- Support for collections and array
-- Best support for records
+- DONE: Support for collections and array
+- Better support for records
 - A bit of documentation (as soon as possible, of course)
 - More and more test cases
 - FreePascal support (as 3.2 version will be released)
