@@ -103,6 +103,12 @@ begin
     Result := Left.AsClass = Right.AsClass
   else if Left.IsObject then
     Result := Left.AsObject = Right.AsObject
+  else if Left.IsArray then
+      begin
+        Result := Left.GetArrayLength = Right.GetArrayLength;
+        for i := 0 to Left.GetArrayLength - 1 do
+          Result := Result and AreEqual(Left.GetArrayElement(i), Right.GetArrayElement(i));
+      end
   else if (Left.Kind = tkPointer) or (Left.TypeInfo = Right.TypeInfo) then
     begin
       pLeft := nil;
@@ -315,7 +321,6 @@ var
 begin
   path := FElementPath;
   Result := GetPathValue(FElement, path);
-//was  Result := TRTTI.GetPathValue(FElement, FPropertyPath);
 end;
 
 function TplRTTIMemberBind.InternalCastTo(const AType: TTypeKind;
