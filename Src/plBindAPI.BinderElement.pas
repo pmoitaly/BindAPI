@@ -27,8 +27,13 @@ unit plBindAPI.BinderElement;
 interface
 
 uses
+  {$IFDEF FPC}
+  Rtti, Generics.Collections,
+  Generics.Defaults, Classes,
+  {$ELSE}
   System.Rtti, System.Generics.Collections,
   System.Generics.Defaults, System.Classes,
+  {$ENDIF}
   plBindAPI.Types;
 
 type
@@ -87,6 +92,7 @@ uses
 
 function TplRTTIMemberBind.AreEqual(Left, Right: TValue): Boolean;
 var
+  i: Integer;
   pLeft, pRight: Pointer;
 begin
   If Left.IsOrdinal then
