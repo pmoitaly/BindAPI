@@ -27,38 +27,46 @@ unit plBindAPI.AutoBinder;
 interface
 
 uses
-  System.Classes, System.Rtti, System.Generics.Collections,
-  plBindAPI.Types, plBindAPI.Attributes, plBindAPI.CoreBinder;
+  Classes, Rtti, Generics.Collections,
+  plBindAPI.Types, plBindApi.BinderElement, plBindAPI.Attributes,
+  plBindAPI.CoreBinder;
 
 type
   TarAttributes = TArray<TCustomAttribute>;
   TarFields = TArray<TRttiField>;
   TarMethods = TArray<TRttiMethod>;
   TarProperties = TArray<TRttiProperty>;
-  TListObjects = TList<TObject>;
+  TPlListObjects = TList<TObject>;
 
-  TplAutoBinder = class(TInterfacedObject, IplAutoBinder)
+  TPlAutoBindOptions = (abRecursive); // To be continued...
+  TPlAutoBindOptionSet = Set of TplAutoBindOptions;
+
+  TPlAutoBinder = class(TInterfacedObject, IplAutoBinder)
   private
+    /// <link>aggregation</link>
+    FAliasName: string; {Thread unsafe}
     FBinder: TPlBinder;
     FIsDefault: Boolean; {Thread unsafe}
-    FLastBound: TListObjects;
-    procedure BindAll(ASource, aTarget: TObject);
-    function BindClass(ASource, aTarget: TObject): Boolean;
-    procedure BindClassAttributes(ASource, aTarget: TObject);
-    procedure BindField(ASource, aTarget: TObject; AnAttribute: FieldBindAttribute; AFieldNAme: string = '');
-    procedure BindFields(ASource, aTarget: TObject; AList: TarFields);
-    procedure BindMethod(ASource, aTarget: TObject; AnAttribute: MethodBindAttribute);
-    procedure BindMethods(ASource, aTarget: TObject; AList: TarMethods);
-    procedure BindProperty(ASource, aTarget: TObject;  const SourceProperty: string; AnAttribute: PropertiesBindAttribute);
-    procedure BindProperties(ASource, aTarget: TObject; AList: TarProperties);
+    FLastBound: TPlListObjects;
+    procedure BindAll(ASource, aTarget: TObject; const AnAlias: string);
+    function BindClass(ASource, ATarget: TObject; const AnAlias: string): Boolean;
+    procedure BindClassAttributes(ASource, aTarget: TObject; const AnAlias: string);
+    procedure BindField(ASource, ATarget: TObject; AnAttribute: CustomBindFieldAttribute; AFieldNAme: string = '');
+    procedure BindFields(ASource, ATarget: TObject; AList: TarFields);
+    procedure BindMethod(ASource, ATarget: TObject; AnAttribute: MethodBindAttribute);
+    procedure BindMethods(ASource, ATarget: TObject; AList: TarMethods);
+    procedure BindProperty(ASource, ATarget: TObject;  const SourceProperty: string; AnAttribute: CustomBindPropertyAttribute);
+    procedure BindProperties(ASource, ATarget: TObject; AList: TarProperties);
     function CanBind(AnAttribute: CustomBindAttribute; ATarget: TObject): boolean;
     function GetEnabled: Boolean;
     function GetInterval: integer;
     function FindCalculatingFuncion(AnOwner: TObject; const AFunctionName: string): TplBridgeFunction;
+    function IsBindFrom(AnAttribute: CustomBindFieldAttribute): Boolean;
     procedure SetEnabled(const Value: Boolean);
     procedure SetInterval(const Value: integer);
     procedure UnbindMethod(ASource: TObject; AnAttribute: MethodBindAttribute);
     procedure UnbindMethods; overload;
+    function IsBindTo(AnAttribute: CustomBindFieldAttribute): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -66,97 +74,99 @@ type
     property Enabled: Boolean read GetEnabled write SetEnabled;
     property Interval: integer read GetInterval write SetInterval;
     procedure Bind(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: TplBridgeFunction = nil);
-    procedure BindObject(ASource, aTarget: TObject);
+    function BindInfo: TPlBindList;
+    procedure BindObject(ASource, ATarget: TObject; const AnAlias: string);
     function Count: integer;
+    function DebugInfo: TplBindDebugInfo;
     procedure Start(const SleepInterval: Integer);
     procedure Stop;
     procedure UnbindMethods(ASource: TObject); overload;
     procedure UnbindSource(ASource: TObject);
-    procedure UnbindTarget(ATarget: TObject);
+    procedure UnbindTarget(ATarget: TObject); overload;
+    procedure UnbindTarget(ATarget, ASource: TObject); overload;
     procedure UpdateValues;
   end;
 
 implementation
 
 uses
-  TypInfo, System.StrUtils;
+  System.TypInfo, System.StrUtils,
+  PlBindAPI.RTTIUtils;
 
 { TplAutoBinder }
 
-procedure TplAutoBinder.Bind(ASource: TObject; const APropertySource: string;
+procedure TPlAutoBinder.Bind(ASource: TObject; const APropertySource: string;
   ATarget: TObject; const APropertyTarget: string;
   AFunction: TplBridgeFunction);
 begin
   FBinder.Bind(ASource, APropertySource, ATarget, APropertyTarget, AFunction);
 end;
 
-procedure TplAutoBinder.BindAll(ASource, aTarget: TObject);
+procedure TPlAutoBinder.BindAll(ASource, aTarget: TObject; const AnAlias: string);
 var
-  rContext: TRttiContext;
   rFields: TarFields;
   rMethods: TarMethods;
   rProperties: TarProperties;
   rType: TRttiType;
 begin
-  rContext := TRttiContext.Create;
-  rType := rContext.GetType(ASource.ClassType);
+  rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
   rFields := rType.GetFields;
   rMethods := rType.GetMethods;
   rProperties := rType.GetProperties;
   BindProperties(ASource, aTarget, rProperties);
   BindFields(ASource, aTarget, rFields);
   BindMethods(ASource, aTarget, rMethods);
-  rContext.Free;
 end;
 
-function TplAutoBinder.BindClass(ASource, aTarget: TObject): boolean;
+function TPlAutoBinder.BindClass(ASource, ATarget: TObject; const AnAlias: string): boolean;
 var
-  classBinder: ClassBindAttribute;
-  rContext: TRttiContext;
+  classBinderAttr: ClassBindAttribute;
   rType: TRttiType;
   rAttr: TCustomAttribute;
   rAttributes: TarAttributes;
 begin
   Result := False;
   if not Assigned(aTarget) then
-    aTarget := Self;
-  rContext := TRttiContext.Create;
-  rType := rContext.GetType(ASource.ClassType);
+    Exit; // was: aTarget := Self; but this makes a little sense to me.
+  {Get class' attributes}
+  rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
   rAttributes := rType.GetAttributes;
+  FIsDefault := False;
+  FAliasName := '';
   for rAttr in rAttributes do
     if rAttr is ClassBindAttribute then
       begin
-        classBinder := ClassBindAttribute(rAttr);
-        if (classBinder.IsEnabled) and
-          (classBinder.TargetClassName = aTarget.ClassName) then
+        classBinderAttr := ClassBindAttribute(rAttr);
+        if (classBinderAttr.IsEnabled) and
+           (classBinderAttr.TargetClassName = aTarget.ClassName) then
           begin
+           // not thread safe
            FLastBound.Add(ASource);
+
            FIsDefault := ClassBindAttribute(rAttr).IsDefault;
+           FAliasName := ClassBindAttribute(rAttr).TargetClassAlias;
            Result := True;
            Break;
           end;
       end;
-  rContext.Free;
 end;
 
-procedure TplAutoBinder.BindClassAttributes(ASource, aTarget: TObject);
+procedure TPlAutoBinder.BindClassAttributes(ASource, aTarget: TObject; const AnAlias: string);
 var
-  rContext: TRttiContext;
   rType: TRttiType;
   rAttr: TCustomAttribute;
   rAttributes: TarAttributes;
 begin
-  rContext := TRttiContext.Create;
-  rType := rContext.GetType(ASource.ClassType);
+  rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
   rAttributes := rType.GetAttributes;
   for rAttr in rAttributes do
-    if rAttr is FieldBindAttribute then
-      BindField(ASource, aTarget, FieldBindAttribute(rAttr))
+    if rAttr is CustomBindFieldAttribute then
+      BindField(ASource, aTarget, CustomBindFieldAttribute(rAttr))
     else if rAttr is MethodBindAttribute then
       BindMethod(ASource, aTarget, MethodBindAttribute(rAttr));
 end;
 
-procedure TplAutoBinder.BindFields(ASource, aTarget: TObject; AList: TarFields);
+procedure TPlAutoBinder.BindFields(ASource, aTarget: TObject; AList: TarFields);
 var
   rField: TRttiField;
   rAttr: TCustomAttribute;
@@ -164,14 +174,19 @@ begin
   for rField in AList do
     { Search for the custom attribute and do some custom processing }
     for rAttr in rField.GetAttributes() do
-      if (rAttr is FieldBindAttribute) and (rField.Visibility in [mvPublic, mvPublished]) then
-        BindField(ASource, aTarget, FieldBindAttribute(rAttr), rField.Name)
+      if (rAttr is CustomBindFieldAttribute) and (rField.Visibility in [mvPublic, mvPublished]) then
+        BindField(ASource, aTarget, CustomBindFieldAttribute(rAttr), rField.Name)
       else if rAttr is MethodBindAttribute then
         BindMethod( rField.GetValue(ASource).AsObject, aTarget, MethodBindAttribute(rAttr));
 end;
 
-procedure TplAutoBinder.BindField(ASource, aTarget: TObject;
-  AnAttribute: FieldBindAttribute; AFieldName: string = '');
+function TPlAutoBinder.BindInfo: TPlBindList;
+begin
+  Result := FBinder.BindInfo;
+end;
+
+procedure TPlAutoBinder.BindField(ASource, ATarget: TObject;
+  AnAttribute: CustomBindFieldAttribute; AFieldName: string = '');
 var
   calculateValue: TplBridgeFunction;
   separator: string;
@@ -180,7 +195,7 @@ var
   TargetObject: TObject;
   TargetPath: string;
 begin
-  if CanBind(AnAttribute, aTarget) then
+  if CanBind(AnAttribute, ATarget) then
     begin
       if AnAttribute.FunctionName <> '' then
         calculateValue := FindCalculatingFuncion(aTarget, AnAttribute.FunctionName)
@@ -195,23 +210,21 @@ begin
       SourceObject := FBinder.NormalizePath(ASource, SourcePath);
       TargetObject := FBinder.NormalizePath(aTarget, TargetPath);
 
-      if (AnAttribute is BindFieldAttribute)
-      or (AnAttribute is BindFieldFromAttribute) then
+      if IsBindFrom(AnAttribute) then
         Bind(TargetObject, TargetPath, SourceObject, SourcePath, calculateValue);
-      if (AnAttribute is BindFieldAttribute)
-      or (AnAttribute is BindFieldToAttribute) then
+      if IsBindTo(AnAttribute) then
         Bind(SourceObject, SourcePath, TargetObject, TargetPath, calculateValue);
     end;
 end;
 
-procedure TplAutoBinder.BindMethod(ASource, aTarget: TObject;
+procedure TPlAutoBinder.BindMethod(ASource, aTarget: TObject;
   AnAttribute: MethodBindAttribute);
 begin
   if CanBind(AnAttribute, aTarget) then
     FBinder.BindMethod(ASource, AnAttribute.SourceMethodName, aTarget, AnAttribute.NewMethodName);
 end;
 
-procedure TplAutoBinder.BindMethods(ASource, aTarget: TObject; AList: TarMethods);
+procedure TPlAutoBinder.BindMethods(ASource, aTarget: TObject; AList: TarMethods);
 var
   rMethod: TRttiMethod;
   rAttr: TCustomAttribute;
@@ -223,16 +236,16 @@ begin
         BindMethod(ASource, aTarget, MethodBindAttribute(rAttr));
 end;
 
-procedure TplAutoBinder.BindObject(ASource, aTarget: TObject);
+procedure TPlAutoBinder.BindObject(ASource, ATarget: TObject; const AnAlias: string);
 begin
-  if BindClass(ASource, aTarget) then
+  if BindClass(ASource, ATarget, AnAlias) then
     begin
-      BindClassAttributes(ASource, aTarget);
-      BindAll(ASource, aTarget);
+      BindClassAttributes(ASource, ATarget, AnAlias);
+      BindAll(ASource, ATarget, AnAlias);
     end;
 end;
 
-procedure TplAutoBinder.BindProperties(ASource, aTarget: TObject; AList: TarProperties);
+procedure TPlAutoBinder.BindProperties(ASource, aTarget: TObject; AList: TarProperties);
 var
   rProperty: TRttiProperty;
   rAttr: TCustomAttribute;
@@ -240,14 +253,14 @@ begin
   for rProperty in AList do
     { Search for the custom attribute and do some custom processing }
     for rAttr in rProperty.GetAttributes() do
-      if rAttr is PropertiesBindAttribute then
-        BindProperty(ASource, aTarget, rProperty.Name, PropertiesBindAttribute(rAttr))
+      if rAttr is CustomBindPropertyAttribute then
+        BindProperty(ASource, aTarget, rProperty.Name, CustomBindPropertyAttribute(rAttr))
       else if rAttr is MethodBindAttribute then
         BindMethod(rProperty.GetValue(ASource).AsObject, aTarget, MethodBindAttribute(rAttr));
 end;
 
-procedure TplAutoBinder.BindProperty(ASource, aTarget: TObject;
-   const SourceProperty: string; AnAttribute: PropertiesBindAttribute);
+procedure TPlAutoBinder.BindProperty(ASource, aTarget: TObject;
+   const SourceProperty: string; AnAttribute: CustomBindPropertyAttribute);
 var
   SourceObject: TObject;
   SourcePath: string;
@@ -277,21 +290,31 @@ begin
   end
 end;
 
-function TplAutoBinder.CanBind(AnAttribute: CustomBindAttribute; ATarget: TObject): boolean;
+function TPlAutoBinder.CanBind(AnAttribute: CustomBindAttribute; ATarget: TObject): boolean;
 begin
+  {An attribute can be bound when is enabled...}
   Result := AnAttribute.IsEnabled and
-    (((AnAttribute.TargetClassName = '') and FIsDefault)or
-     (AnAttribute.TargetClassName = ATarget.ClassName));
+    {or its Target class is the default class...}
+    (((AnAttribute.TargetClassName = '') and FIsDefault) or
+      {or its Target class is the processed class}
+      (AnAttribute.TargetClassName = ATarget.ClassName) or
+      {or the Alias name it reference to is the current Alias name}
+     ((FAliasName <> '') and (AnAttribute.TargetClassName = FAliasName)));
 end;
 
-constructor TplAutoBinder.Create;
+constructor TPlAutoBinder.Create;
 begin
   inherited;
   FBinder := TPlBinder.Create;
-  FLastBound := TListObjects.Create;
+  FLastBound := TPlListObjects.Create;
 end;
 
-destructor TplAutoBinder.Destroy;
+function TPlAutoBinder.DebugInfo: TplBindDebugInfo;
+begin
+  Result := FBinder.DebugInfo;
+end;
+
+destructor TPlAutoBinder.Destroy;
 begin
   UnbindMethods;
   FLastBound.Free;
@@ -299,10 +322,9 @@ begin
   inherited;
 end;
 
-function TplAutoBinder.FindCalculatingFuncion(AnOwner: TObject;
+function TPlAutoBinder.FindCalculatingFuncion(AnOwner: TObject;
   const AFunctionName: string): TplBridgeFunction;
 var
-  rContext: TRttiContext;
   rType: TRttiType;
   rMethod: TRTTIMethod;
   methodPath: string;
@@ -310,55 +332,72 @@ var
   targetObject: TObject;
 begin
   methodPath := AFunctionName;
-  rContext := TRttiContext.Create;
   TargetObject := FBinder.NormalizePath(AnOwner, methodPath);
   { Extract type information for ASource's type }
-  rType := rContext.GetType(targetObject.ClassType);
+  rType := TplRTTIUtils.Context.GetType(targetObject.ClassType);
   rMethod := rType.GetMethod(methodPath);
   if Assigned(rMethod) then
     begin
       recMethod.Code := rMethod.CodeAddress;
-      recMethod.Data := pointer(targetObject); //(Self);
+      recMethod.Data := Pointer(targetObject); //(Self);
     end;
   Result := TplBridgeFunction(recMethod);
 end;
 
-function TplAutoBinder.Count: integer;
+function TPlAutoBinder.Count: integer;
 begin
   Result := FBinder.Count;
 end;
 
-function TplAutoBinder.GetEnabled: Boolean;
+function TPlAutoBinder.GetEnabled: Boolean;
 begin
   Result := FBinder.Enabled;
 end;
 
-function TplAutoBinder.GetInterval: integer;
+function TPlAutoBinder.GetInterval: integer;
 begin
   Result := FBinder.Interval;
 end;
 
-procedure TplAutoBinder.SetEnabled(const Value: Boolean);
+function TPlAutoBinder.IsBindFrom(AnAttribute: CustomBindFieldAttribute):
+    Boolean;
+begin
+  Result := (AnAttribute is BindFieldAttribute)
+    or (AnAttribute is BindFieldFromAttribute)
+    or (AnAttribute is BindMemberAttribute)
+    or (AnAttribute is BindMemberFromAttribute);
+end;
+
+function TPlAutoBinder.IsBindTo(AnAttribute: CustomBindFieldAttribute):
+    Boolean;
+begin
+  Result := (AnAttribute is BindFieldAttribute)
+    or (AnAttribute is BindFieldToAttribute)
+    or (AnAttribute is BindMemberAttribute)
+    or (AnAttribute is BindMemberToAttribute);
+end;
+
+procedure TPlAutoBinder.SetEnabled(const Value: Boolean);
 begin
   FBinder.Enabled := Value;
 end;
 
-procedure TplAutoBinder.SetInterval(const Value: integer);
+procedure TPlAutoBinder.SetInterval(const Value: integer);
 begin
   FBinder.Interval := Value;
 end;
 
-procedure TplAutoBinder.Start(const SleepInterval: Integer);
+procedure TPlAutoBinder.Start(const SleepInterval: Integer);
 begin
   FBinder.Start(SleepInterval);
 end;
 
-procedure TplAutoBinder.Stop;
+procedure TPlAutoBinder.Stop;
 begin
   FBinder.Stop;
 end;
 
-procedure TplAutoBinder.UnbindMethod(ASource: TObject; AnAttribute: MethodBindAttribute);
+procedure TPlAutoBinder.UnbindMethod(ASource: TObject; AnAttribute: MethodBindAttribute);
 var
   propertyPath: string;
   targetObject: TObject;
@@ -376,24 +415,21 @@ begin
     end;
 end;
 
-procedure TplAutoBinder.UnbindMethods(ASource: TObject);
+procedure TPlAutoBinder.UnbindMethods(ASource: TObject);
 var
-  rContext: TRttiContext;
   rType: TRttiType;
   rAttr: TCustomAttribute;
   rAttributes: TarAttributes;
 begin
-  rContext := TRttiContext.Create;
-  rType := rContext.GetType(ASource.ClassType);
+  rType := TPlRTTIUtils.Context.GetType(ASource.ClassType);
   rAttributes := rType.GetAttributes;
   for rAttr in rAttributes do
     if rAttr is MethodBindAttribute then
       UnbindMethod(ASource, MethodBindAttribute(rAttr));
   FLastBound.Remove(ASource);
-  rContext.Free;
 end;
 
-procedure TplAutoBinder.UnbindMethods;
+procedure TPlAutoBinder.UnbindMethods;
 var
   target: TObject;
 begin
@@ -405,17 +441,22 @@ begin
     end;
 end;
 
-procedure TplAutoBinder.UnbindSource(ASource: TObject);
+procedure TPlAutoBinder.UnbindSource(ASource: TObject);
 begin
-  FBinder.DetachAsSource(ASource);
+  FBinder.UnbindSource(ASource); //FBinder.DetachAsSource(ASource);
 end;
 
-procedure TplAutoBinder.UnbindTarget(ATarget: TObject);
+procedure TPlAutoBinder.UnbindTarget(ATarget, ASource: TObject);
 begin
-  FBinder.DetachAsTarget(ATarget);
+  FBinder.UnbindTarget(ATarget, ASource);
 end;
 
-procedure TplAutoBinder.UpdateValues;
+procedure TPlAutoBinder.UnbindTarget(ATarget: TObject);
+begin
+  FBinder.UnbindTarget(ATarget); //FBinder.DetachAsTarget(ATarget);
+end;
+
+procedure TPlAutoBinder.UpdateValues;
 begin
   FBinder.UpdateValues;
 end;
