@@ -27,19 +27,47 @@ unit plBindAPI.Types;
 interface
 
 uses
-  System.Rtti;
-
+  {$IFDEF FPC}
+  Classes, SysUtils, Generics.Collections, Rtti;
+  {$ELSE}
+  System.Generics.Collections,
+  System.Classes, System.SysUtils, System.Rtti;
+  {$ENDIF}
 type
 
+{$REGION 'Enuberables'}
+  TPlBindDirection = (bdLeftToRight, bdRightToLeft, bdLeftToRightToLeft, bdRightToLeftToRight);
+  TPlBindOptions = (boSingleton, boDeferred);
+  TPlBindOptionsSet = set of TPlBindOptions;
+{$ENDREGION}
+
+{$REGION 'CommonTypes'}
+  TPlBoundObjects = TArray<TObject>;
+  TPlCreateParams = array of TValue;
+  TPlBindDebugInfo = record
+    Active: boolean;
+    Interval: integer;
+    Count: integer;
+  end;
+
+
+
+{$ENDREGION}
+
+{$REGION 'Exceptions'}
+  EPlBindApiException = Exception;
+{$ENDREGION}
 
 {$REGION 'Methods'}
-  TplBridgeFunction = function(const NewValue, OldValue: TValue): TValue of object;
+  TPlBridgeFunction = function(const NewValue, OldValue: TValue): TValue of object;
+  TPlCallbackProcedure = TNotifyEvent;
 {$ENDREGION}
+
 {$REGION 'Interfaces'}
-  IplAutoBinder = interface
+  IPlAutoBinder = interface
     ['{64BF1986-35A2-48D4-9558-2EBDB345EFEB}']
     procedure Bind(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: TplBridgeFunction = nil);
-    procedure BindObject(ASource, aTarget: TObject);
+    procedure BindObject(ASource, aTarget: TObject; const AnAlias: string);
     function Count: integer;
     procedure Start(const SleepInterval: Integer);
     procedure Stop;
