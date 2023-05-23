@@ -27,28 +27,62 @@ unit plBindAPI.Attributes;
 
 interface
 
-type
+{*
+  GLOSSARY
+  Source: The class in which the attribute is defined.
+  Target: The remote class involved in the bond.
 
+  Note that "source" and "target" are always related to the attribute,
+  not to the flow of information.
+
+*}
+
+uses
+  System.Variants;
+
+type
   {Ancestor class of all attributes, with switch on and off bind instructions}
   CustomBindAttribute = class(TCustomAttribute)
   protected
+    {An attribute will be processed only when IsEnabled is true.}
     FIsEnabled: Boolean;
+    {Target class name is the name of the class where we search for the
+     field/property/method to be bound to an attribute owner
+     (or source) elmement}
     FTargetClassName: string;
+    {Target class alias is an alias of the class where we search for the
+     field/property/method to be bound to an attribute owner
+     (or source) elmement. Use it, for instance, in inheritable classes
+     to ensure that you can place correct attributes in superclasses.}
+    FTargetClassAlias: string;
   public
     property IsEnabled: Boolean read FIsEnabled;
     property TargetClassName: string read FTargetClassName;
+    property TargetClassAlias: string read FTargetClassAlias;
   end;
 
   {A Class attribute describing the target class of bind action}
   ClassBindAttribute = class(CustomBindAttribute)
-  private
+  protected
     FIsDefault: Boolean;
   public
-    constructor Create(ATargetClassName: string;
-      IsDefaultClass: Boolean = False); overload;
-    constructor Create(const Enabled: Boolean; ATargetClassName: string;
-      IsDefaultClass: Boolean = False); overload;
+    constructor Create(const ATargetClassName: string;
+      const IsDefaultClass: Boolean = False); overload;
+    constructor Create(const ATargetClassName, ATargetClassAlias: string;
+      const IsDefaultClass: Boolean = False); overload;
+    constructor Create(const Enabled: Boolean; const ATargetClassName: string;
+      const IsDefaultClass: Boolean = False); overload;
+    constructor Create(const Enabled: Boolean; const ATargetClassName, ATargetClassAlias: string;
+      const IsDefaultClass: Boolean = False); overload;
     property IsDefault: Boolean Read FIsDefault;
+  end;
+
+  DefaultClassBindAttribute = class(ClassBindAttribute)
+  public
+    constructor Create(const ATargetClassName: string); overload;
+    constructor Create(const ATargetClassName, ATargetClassAlias: string); overload;
+    constructor Create(const Enabled: Boolean; const ATargetClassName: string); overload;
+    constructor Create(const Enabled: Boolean; const ATargetClassName, ATargetClassAlias: string); overload;
   end;
 
   {Ancestor class for class attributes binding methods and events}
@@ -67,7 +101,7 @@ type
   EventBindAttribute =  class(MethodBindAttribute);
 
   {Attribute to force binding on properties of GUI public/published elements}
-  FieldBindAttribute = class(CustomBindAttribute)
+  CustomBindFieldAttribute = class(CustomBindAttribute)
   private
     FFunctionName: string;
     FSourcePath: string;
@@ -82,58 +116,180 @@ type
     property TargetPath: string read FTargetPath;
   end;
 
-  BindFieldAttribute = class(FieldBindAttribute);
-  BindFieldFromAttribute = class(FieldBindAttribute);
-  BindFieldToAttribute = class(FieldBindAttribute);
+  BindFieldAttribute = class(CustomBindFieldAttribute);
+  BindFieldFromAttribute = class(CustomBindFieldAttribute);
+  BindFieldToAttribute = class(CustomBindFieldAttribute);
+
+  {Attribute to force binding on properties of object's public/published elements
+   from outside the class definition}
+  BindMemberAttribute = class(CustomBindFieldAttribute);
+  BindMemberFromAttribute = class(CustomBindFieldAttribute);
+  BindMemberToAttribute = class(CustomBindFieldAttribute);
 
   {Ancestor class for fields and properties bind data}
-  PropertiesBindAttribute = class(CustomBindAttribute)
+  CustomBindPropertyAttribute = class(CustomBindAttribute)
   private
-    {Name of the validator function}
+    { Name of the template function }
     FFunctionName: string;
-    {Name of field or property in target class}
+    { Name of field or property in target class }
     FTargetName: string;
   public
     constructor Create(const ATargetName: string;
-      const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
     constructor Create(const Enabled: Boolean; const ATargetName: string;
-      const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
     property FunctionName: string read FFunctionName;
     property TargetClassName: string read FTargetClassName;
     property TargetName: string read FTargetName;
   end;
 
+{$REGION 'In progress'}
+  CustomBindIndexedFieldAttribute = class(CustomBindFieldAttribute)
+  private
+    { True if the source is indexed }
+    FSourceIsIndexed: Boolean;
+    { True if the target is indexed }
+    FTargetIsIndexed: Boolean;
+    { Value of source index }
+    FSourceIndex: Variant;
+    { Value of target index }
+    FTargetIndex: Variant;
+  public
+    {Use these signatures when only the target is indexed}
+    constructor Create(const ATargetName: string; const ATargetIndex: Variant;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    constructor Create(const Enabled: Boolean; const ATargetName: string;
+      const ATargetIndex: Variant; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when both source and target are indexed}
+    constructor Create(const ASourceIndex: Variant; const ATargetName: string;
+      const ATargetIndex: Variant; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
+      const ATargetName: string; const ATargetIndex: Variant;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when only the source is indexed}
+    constructor Create(const ASourceIndex: Variant;
+      const ATargetName: string; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
+      const ATargetName: string; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    property SourceIsIndexed: Boolean read FSourceIsIndexed;
+    property TargetIsIndexed: Boolean read FTargetIsIndexed;
+    property SourceIndex: Variant read FSourceIndex;
+    property TargetIndex: Variant read FTargetIndex;
+end;
+
+  BindIndexedFieldAttribute = class(CustomBindIndexedFieldAttribute);
+  BindIndexedFieldFromAttribute = class(CustomBindIndexedFieldAttribute);
+  BindIndexedFieldToAttribute = class(CustomBindIndexedFieldAttribute);
+{$ENDREGION}
+
+  { Atrribute class for properties }
 //  PropertiesBindAttribute = class(AutoBindingAttribute);
 
-  BindPropertyAttribute = class(PropertiesBindAttribute);
-  BindPropertyFromAttribute = class(PropertiesBindAttribute);
-  BindPropertyToAttribute = class(PropertiesBindAttribute);
+  BindPropertyAttribute = class(CustomBindPropertyAttribute);
+  BindPropertyFromAttribute = class(CustomBindPropertyAttribute);
+  BindPropertyToAttribute = class(CustomBindPropertyAttribute);
+
+  { Attribute class for indexed properties }
+  CustomBindIndexedPropertyAttribute = class(CustomBindPropertyAttribute)
+  private
+    { True if the source is indexed }
+    FSourceIsIndexed: Boolean;
+    { True if the target is indexed }
+    FTargetIsIndexed: Boolean;
+    { Value of source index }
+    FSourceIndex: Variant;
+    { Value of target index }
+    FTargetIndex: Variant;
+  public
+    {Use these signatures when only the target is indexed}
+    constructor Create(const ATargetName: string; const ATargetIndex: Variant;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    constructor Create(const Enabled: Boolean; const ATargetName: string;
+      const ATargetIndex: Variant; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when both source and target are indexed}
+    constructor Create(const ASourceIndex: Variant; const ATargetName: string;
+      const ATargetIndex: Variant; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
+      const ATargetName: string; const ATargetIndex: Variant;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when only the source is indexed}
+    constructor Create(const ASourceIndex: Variant;
+      const ATargetName: string; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
+      const ATargetName: string; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    property SourceIsIndexed: Boolean read FSourceIsIndexed;
+    property TargetIsIndexed: Boolean read FTargetIsIndexed;
+    property SourceIndex: Variant read FSourceIndex;
+    property TargetIndex: Variant read FTargetIndex;
+  end;
+
+  BindIndexedPropertyAttribute = class(CustomBindIndexedPropertyAttribute);
+  BindIndexedPropertyFromAttribute = class(CustomBindIndexedPropertyAttribute);
+  BindIndexedPropertyToAttribute = class(CustomBindIndexedPropertyAttribute);
 
 implementation
 
-{ ClassBindAttribute }
+uses
+  System.SysUtils;
+{$REGION 'ClassBindAttribute'}
 
 {Syntax: [ClassBind(True, 'MyBindTargetClass')]}
 constructor ClassBindAttribute.Create(const Enabled: Boolean;
-  ATargetClassName: string; IsDefaultClass: Boolean = False);
+  const ATargetClassName: string; const IsDefaultClass: Boolean);
 begin
   FIsDefault := IsDefaultClass;
   FTargetClassName := ATargetClassName;
+  FTargetClassAlias := '';
   FIsEnabled := Enabled;
 end;
 
-constructor ClassBindAttribute.Create(ATargetClassName: string;
-  IsDefaultClass: Boolean = False);
+constructor ClassBindAttribute.Create(const ATargetClassName: string;
+ const IsDefaultClass: Boolean = False);
 begin
   FIsDefault := IsDefaultClass;
   FTargetClassName := ATargetClassName;
+  FTargetClassAlias := '';
   FIsEnabled := True;
 end;
 
-{ FieldBindAttribute }
+constructor ClassBindAttribute.Create(const ATargetClassName,
+  ATargetClassAlias: string; const IsDefaultClass: Boolean);
+begin
+  FIsDefault := IsDefaultClass;
+  FTargetClassName := ATargetClassName;
+  FTargetClassAlias := ATargetClassAlias;
+  FIsEnabled := True;
+end;
+
+constructor ClassBindAttribute.Create(const Enabled: Boolean;
+  const ATargetClassName, ATargetClassAlias: string;
+  const IsDefaultClass: Boolean);
+begin
+  FIsDefault := IsDefaultClass;
+  FTargetClassName := ATargetClassName;
+  FTargetClassAlias := ATargetClassAlias;
+  FIsEnabled := Enabled;
+end;
+
+{$ENDREGION}
+{$REGION 'FieldBindAttribute'}
 
 {Example: [BindFormField(True, 'myComponent.Property', 'MyTargetProperty')]}
-constructor FieldBindAttribute.Create(const Enabled: Boolean; const ASourcePath,
+constructor CustomBindFieldAttribute.Create(const Enabled: Boolean; const ASourcePath,
   ATargetPath: string; const AFunctionName: string = ''; const ATargetClassName: string = '');
 begin
   FIsEnabled := Enabled;
@@ -143,7 +299,7 @@ begin
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
-constructor FieldBindAttribute.Create(const ASourcePath, ATargetPath,
+constructor CustomBindFieldAttribute.Create(const ASourcePath, ATargetPath,
   AFunctionName, ATargetClassName: string);
 begin
   FIsEnabled := True;
@@ -153,9 +309,9 @@ begin
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 
 end;
+{$ENDREGION}
 
-
-{ MethodBindAttribute }
+{$REGION 'MethodBindAttribute'}
 
 {Example: [MethodBind(True, 'myPublicMethod', 'NewMethod')]}
 {Example: [EventBind(True, 'Button1.OnClick', 'NewEventHandler'))]}
@@ -177,13 +333,13 @@ begin
   FNewMethodName := ANewMethodName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
+{$ENDREGION}
 
-
-{ PropertiesBindAttribute }
+{$REGION 'CustomBindPropertyAttribute'}
 
 {Example: [BindPropertyAttribute, (True, 'PropertyOfBindedClass', 'BindedClass')]}
 {Example: [BindFieldFromAttribute, (True, 'FieldOfBindedClass')]}
-constructor PropertiesBindAttribute.Create(const Enabled: Boolean;
+constructor CustomBindPropertyAttribute.Create(const Enabled: Boolean;
   const ATargetName: string; const AFunctionName: string = '';
   const ATargetClassName: string = '');
 begin
@@ -193,13 +349,160 @@ begin
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
-constructor PropertiesBindAttribute.Create(const ATargetName, AFunctionName,
+constructor CustomBindPropertyAttribute.Create(const ATargetName, AFunctionName,
   ATargetClassName: string);
 begin
   FIsEnabled := True;
   FFunctionName := AFunctionName;
   FTargetName := ATargetName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
+end;
+{$ENDREGION}
+
+{$REGION 'CustomBindIndexedPropertyAttribute'}
+
+constructor CustomBindIndexedPropertyAttribute.Create(const ASourceIndex
+  : Variant; const ATargetName: string; const ATargetIndex: Variant;
+  const AFunctionName, ATargetClassName: string);
+begin
+  Create(True, ASourceIndex, ATargetName, ATargetIndex, AFunctionName,
+    ATargetClassName);
+end;
+
+constructor CustomBindIndexedPropertyAttribute.Create(const Enabled: Boolean;
+  const ATargetName: string; const ATargetIndex: Variant;
+  const AFunctionName, ATargetClassName: string);
+begin
+  if VarIsNull(ATargetIndex) then
+    raise Exception.Create('ATargetIndex is null');
+  FTargetIsIndexed := True;
+  FSourceIsIndexed := False;
+  FTargetIndex := ATargetIndex;
+  inherited Create(Enabled, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedPropertyAttribute.Create(const ATargetName: string;
+  const ATargetIndex: Variant; const AFunctionName, ATargetClassName: string);
+begin
+  Create(True, ATargetName, ATargetIndex, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedPropertyAttribute.Create(const Enabled: Boolean;
+  const ASourceIndex: Variant; const ATargetName, AFunctionName,
+  ATargetClassName: string);
+begin
+  if VarIsNull(ASourceIndex) then
+    raise Exception.Create('ASourceIndex is null');
+  FTargetIsIndexed := False;
+  FSourceIsIndexed := True;
+  FSourceIndex := ASourceIndex;
+  inherited Create(Enabled, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedPropertyAttribute.Create(const ASourceIndex
+  : Variant; const ATargetName, AFunctionName, ATargetClassName: string);
+begin
+  Create(True, ASourceIndex, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedPropertyAttribute.Create(const Enabled: Boolean;
+  const ASourceIndex: Variant; const ATargetName: string;
+  const ATargetIndex: Variant; const AFunctionName, ATargetClassName: string);
+begin
+  if VarIsNull(ASourceIndex) and VarIsNull(ATargetIndex) then
+    raise Exception.Create('Indexes are null');
+  FTargetIsIndexed := not VarIsNull(ATargetIndex);
+  FSourceIsIndexed := not VarIsNull(ASourceIndex);
+  FSourceIndex := ASourceIndex;
+  FTargetIndex := ATargetIndex;
+  inherited Create(Enabled, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+{$ENDREGION}
+{$REGION 'CustomBindIndexedFieldAttribute'}
+
+constructor CustomBindIndexedFieldAttribute.Create(const ASourceIndex
+  : Variant; const ATargetName: string; const ATargetIndex: Variant;
+  const AFunctionName, ATargetClassName: string);
+begin
+  Create(True, ASourceIndex, ATargetName, ATargetIndex, AFunctionName,
+    ATargetClassName);
+end;
+
+constructor CustomBindIndexedFieldAttribute.Create(const Enabled: Boolean;
+  const ATargetName: string; const ATargetIndex: Variant;
+  const AFunctionName, ATargetClassName: string);
+begin
+  if VarIsNull(ATargetIndex) then
+    raise Exception.Create('ATargetIndex is null');
+  FTargetIsIndexed := True;
+  FSourceIsIndexed := False;
+  FTargetIndex := ATargetIndex;
+  inherited Create(Enabled, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedFieldAttribute.Create(const ATargetName: string;
+  const ATargetIndex: Variant; const AFunctionName, ATargetClassName: string);
+begin
+  Create(True, ATargetName, ATargetIndex, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedFieldAttribute.Create(const Enabled: Boolean;
+  const ASourceIndex: Variant; const ATargetName, AFunctionName,
+  ATargetClassName: string);
+begin
+  if VarIsNull(ASourceIndex) then
+    raise Exception.Create('ASourceIndex is null');
+  FTargetIsIndexed := False;
+  FSourceIsIndexed := True;
+  FSourceIndex := ASourceIndex;
+  inherited Create(Enabled, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedFieldAttribute.Create(const ASourceIndex
+  : Variant; const ATargetName, AFunctionName, ATargetClassName: string);
+begin
+  Create(True, ASourceIndex, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+constructor CustomBindIndexedFieldAttribute.Create(const Enabled: Boolean;
+  const ASourceIndex: Variant; const ATargetName: string;
+  const ATargetIndex: Variant; const AFunctionName, ATargetClassName: string);
+begin
+  if VarIsNull(ASourceIndex) and VarIsNull(ATargetIndex) then
+    raise Exception.Create('Indexes are null');
+  FTargetIsIndexed := not VarIsNull(ATargetIndex);
+  FSourceIsIndexed := not VarIsNull(ASourceIndex);
+  FSourceIndex := ASourceIndex;
+  FTargetIndex := ATargetIndex;
+  inherited Create(Enabled, ATargetName, AFunctionName, ATargetClassName);
+end;
+
+{$ENDREGION}
+
+{ DefaultClassBindAttribute }
+
+constructor DefaultClassBindAttribute.Create(const ATargetClassName,
+  ATargetClassAlias: string);
+begin
+
+end;
+
+constructor DefaultClassBindAttribute.Create(const ATargetClassName: string);
+begin
+  inherited Create(ATargetClassName, True);
+end;
+
+constructor DefaultClassBindAttribute.Create(const Enabled: Boolean;
+  const ATargetClassName, ATargetClassAlias: string);
+begin
+  inherited Create(Enabled, ATargetClassName, ATargetClassAlias, True);
+end;
+
+constructor DefaultClassBindAttribute.Create(const Enabled: Boolean;
+  const ATargetClassName: string);
+begin
+  inherited Create(Enabled, ATargetClassName, True);
 end;
 
 end.
