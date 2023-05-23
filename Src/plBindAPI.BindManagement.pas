@@ -27,88 +27,130 @@ unit plBindAPI.BindManagement;
 interface
 
 uses
-  System.Classes, plBindAPI.AutoBinder, plBindAPI.ClassFactory;
+  System.Classes,
+  plBindAPI.Attributes, plBindAPI.AutoBinder, plBindAPI.ClassFactory,
+  plBindApi.Types;
 
 type
-  TplBoundObjects = TArray<TObject>;
 
-  TplBindManager = class(TInterfacedObject)
+  TPlBindManager = class(TInterfacedObject)
   private
-    class var FBinder: TplAutoBinder;
-    { Private declarations }
+    class var FBinder: TPlAutoBinder;
+    class function ExtractTarget(ASource: TObject; AnAttribute:
+        ClassBindAttribute): TObject;
+    class procedure AddDeferredElement(ASource: TObject; AnAttribute:
+        ClassBindAttribute);
   protected
     class constructor Create;
     class destructor Destroy;
   public
     { Public declarations }
-    class property Binder: TplAutoBinder read FBinder;
-    class function Bind(ASource: TObject): TplBoundObjects;
+    class function AddBind(ASource: TObject; AnAttribute: ClassBindAttribute): boolean;
+    class function AddDeferredBind(ASource: TObject): boolean; static;
+    class procedure Bind(ASource: TObject);
+    class function DebugInfo: TPlBindDebugInfo;
     class procedure Unbind(ASource: TObject);
+    class property Binder: TPlAutoBinder read FBinder;
   end;
-
-  TModelBinder = class(TplBindManager);
-  TVMBinder = class(TplBindManager);
 
 implementation
 
 uses
   System.Rtti, System.StrUtils, System.TypInfo,
-  plBindAPI.Attributes;
+  plBindAPI.DeferredBinding, plBindAPI.RTTIUtils;
 
-{ TplBindManager }
+{$REGION 'TPlBindManager'}
 
-class function TplBindManager.Bind(ASource: TObject): TplBoundObjects;
-var
-  rContext: TRttiContext;
-  rType: TRttiType;
-  rAttr: TCustomAttribute;
-  classBinder: ClassBindAttribute;
-  target: TObject;
-  targetName: string;
-begin
-  Result := TplBoundObjects.Create();
-
-  rContext := TRttiContext.Create;
-  { Extract type information for ASource's type }
-  rType := rContext.GetType(ASource.ClassType);
-  { Search for the custom attribute and do some custom processing }
-  for rAttr in rType.GetAttributes() do
-    if rAttr is ClassBindAttribute and ClassBindAttribute(rAttr).IsEnabled then
-      begin
-        classBinder := ClassBindAttribute(rAttr);
-        targetName := classBinder.TargetClassName;
-        if (targetName = 'Self') or (targetName = ASource.ClassName) then
-          target := ASource
-        else
-          target := TplClassManager.GetInstance(classBinder.TargetClassName);
-        if Assigned(target) then
-          begin
-            FBinder.BindObject(ASource, target);
-            SetLength(Result, Length(Result) + 1);
-            Result[High(Result)] := target;
-          end;
-      end;
-  rContext.Free;
-end;
-
-class constructor TplBindManager.Create;
+class constructor TPlBindManager.Create;
 begin
   inherited;
   FBinder := TplAutoBinder.Create;
   FBinder.Start(200);
 end;
 
-class destructor TplBindManager.Destroy;
+class destructor TPlBindManager.Destroy;
 begin
   FBinder.Free;
   inherited;
 end;
 
-class procedure TplBindManager.Unbind(ASource: TObject);
+class function TPlBindManager.AddBind(ASource: TObject; AnAttribute: ClassBindAttribute): boolean;
+var
+  target: TObject;
+begin
+  target := ExtractTarget(ASource, AnAttribute);
+  if Assigned(target) then
+    FBinder.BindObject(ASource, target, AnAttribute.TargetClassAlias)
+  else
+    AddDeferredElement(ASource, AnAttribute);
+  Result := Assigned(target);
+end;
+
+class function TPlBindManager.AddDeferredBind(ASource: TObject): boolean;
+var
+  rType: TRttiType;
+  rAttr: TCustomAttribute;
+begin
+  Result := True;
+
+  { Extract type information for ASource's type }
+  rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
+  { Search for the custom attribute and do some custom processing }
+  for rAttr in rType.GetAttributes() do
+    if rAttr is ClassBindAttribute and ClassBindAttribute(rAttr).IsEnabled then
+      AddDeferredElement(ASource, ClassBindAttribute(rAttr));
+end;
+
+class procedure TPlBindManager.AddDeferredElement(ASource: TObject;
+    AnAttribute: ClassBindAttribute);
+var
+  deferredElement: TplDeferredElement;
+begin
+  deferredElement.Attribute := AnAttribute;
+  deferredElement.Source := ASource;
+  TPlDeferredBinding.Add(deferredElement);
+end;
+
+class procedure TPlBindManager.Bind(ASource: TObject);
+var
+  rType: TRttiType;
+  rAttr: TCustomAttribute;
+begin
+
+  { Extract type information for ASource's type }
+  rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
+  { Search for enabled BindAPI attributes and process them }
+  for rAttr in rType.GetAttributes() do
+    if rAttr is ClassBindAttribute and ClassBindAttribute(rAttr).IsEnabled then
+      AddBind(ASource, ClassBindAttribute(rAttr));
+end;
+
+class function TPlBindManager.DebugInfo: TplBindDebugInfo;
+begin
+  Result := FBinder.DebugInfo;
+end;
+
+class function TPlBindManager.ExtractTarget(ASource: TObject; AnAttribute:
+    ClassBindAttribute): TObject;
+var
+  targetName: string;
+  target: TObject;
+begin
+  targetName := AnAttribute.TargetClassName;
+  if (targetName = 'Self') or (targetName = ASource.ClassName) then
+    target := ASource
+  else
+    target := TplClassManager.GetInstance(AnAttribute.TargetClassName);
+  Result := target;
+end;
+
+class procedure TPlBindManager.Unbind(ASource: TObject);
 begin
   FBinder.UnbindTarget(ASource);
   FBinder.UnbindSource(ASource);
   FBinder.UnbindMethods(ASource);
 end;
+
+{$ENDREGION}
 
 end.
