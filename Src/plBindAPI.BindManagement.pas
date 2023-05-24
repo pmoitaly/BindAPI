@@ -27,7 +27,7 @@ unit plBindAPI.BindManagement;
 interface
 
 uses
-  System.Classes,
+  Classes,
   plBindAPI.Attributes, plBindAPI.AutoBinder, plBindAPI.ClassFactory,
   plBindApi.Types;
 
@@ -56,7 +56,7 @@ type
 implementation
 
 uses
-  System.Rtti, System.StrUtils, System.TypInfo,
+  Rtti, StrUtils, TypInfo,
   plBindAPI.DeferredBinding, plBindAPI.RTTIUtils;
 
 {$REGION 'TPlBindManager'}
@@ -65,7 +65,7 @@ class constructor TPlBindManager.Create;
 begin
   inherited;
   FBinder := TplAutoBinder.Create;
-  FBinder.Start(200);
+  FBinder.Start(10);
 end;
 
 class destructor TPlBindManager.Destroy;
@@ -80,7 +80,7 @@ var
 begin
   target := ExtractTarget(ASource, AnAttribute);
   if Assigned(target) then
-    FBinder.BindObject(ASource, target, AnAttribute.TargetClassAlias)
+    FBinder.BindObject(ASource, target, AnAttribute)
   else
     AddDeferredElement(ASource, AnAttribute);
   Result := Assigned(target);
