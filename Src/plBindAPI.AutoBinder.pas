@@ -118,7 +118,7 @@ begin
   inherited;
 end;
 
-{ TplAutoBinder }
+{$REGION 'TplAutoBinder'}
 
 procedure TPlAutoBinder.Bind(ASource: TObject; const APropertySource: string;
   ATarget: TObject; const APropertyTarget: string;
@@ -131,9 +131,9 @@ function TPlAutoBinder.BindClass(ASource, ATarget: TObject; AnAttribute:
         ClassBindAttribute): boolean;
 var
   classBinderAttr: ClassBindAttribute;
-  rType: TRttiType;
   rAttr: TCustomAttribute;
   rAttributes: TarAttributes;
+  rType: TRttiType;
 begin
   Result := False;
   if not Assigned(aTarget) then
@@ -160,9 +160,9 @@ end;
 procedure TPlAutoBinder.BindClassAttributes(ASource, aTarget: TObject;
     AMemberAttribute: ClassBindAttribute);
 var
-  rType: TRttiType;
   rAttr: TCustomAttribute;
   rAttributes: TarAttributes;
+  rType: TRttiType;
 begin
   rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
   rAttributes := rType.GetAttributes;
@@ -177,37 +177,37 @@ procedure TPlAutoBinder.BindField(ASource, ATarget: TObject; AMemberAttribute:
     CustomBindMemberAttribute; AClassAttribute: ClassBindAttribute; AFieldName:
     string = '');
 var
-  calculateValue: TplBridgeFunction;
+  bridgeFunction: TplBridgeFunction;
   separator: string;
-  SourceObject: TObject;
-  SourcePath: string;
-  TargetObject: TObject;
-  TargetPath: string;
+  sourceObject: TObject;
+  sourcePath: string;
+  targetObject: TObject;
+  targetPath: string;
 begin
   if CanBind(AClassAttribute, AMemberAttribute, ATarget) then
     begin
-      calculateValue := FindCalculatingFuncion(aTarget, AMemberAttribute.FunctionName);
+      bridgeFunction := FindCalculatingFuncion(aTarget, AMemberAttribute.FunctionName);
 
-      SourcePath := AMemberAttribute.SourcePath;
-      separator := IfThen(SourcePath <> '', '.', '');
+      sourcePath := AMemberAttribute.sourcePath;
+      separator := IfThen(sourcePath <> '', '.', '');
       if AFieldName <> '' then
-        SourcePath := AFieldName + separator + SourcePath;
-      TargetPath := AMemberAttribute.TargetPath;
-      SourceObject := FBinder.NormalizePath(ASource, SourcePath);
-      TargetObject := FBinder.NormalizePath(aTarget, TargetPath);
+        sourcePath := AFieldName + separator + sourcePath;
+      targetPath := AMemberAttribute.targetPath;
+      sourceObject := FBinder.NormalizePath(ASource, sourcePath);
+      targetObject := FBinder.NormalizePath(aTarget, targetPath);
 
       if IsBindFrom(AMemberAttribute) then
-        Bind(TargetObject, TargetPath, SourceObject, SourcePath, calculateValue);
+        Bind(targetObject, targetPath, sourceObject, sourcePath, bridgeFunction);
       if IsBindTo(AMemberAttribute) then
-        Bind(SourceObject, SourcePath, TargetObject, TargetPath, calculateValue);
+        Bind(sourceObject, sourcePath, targetObject, targetPath, bridgeFunction);
     end;
 end;
 
 procedure TPlAutoBinder.BindFields(ASource, aTarget: TObject; AClassAttribute:
     ClassBindAttribute; AList: TarFields);
 var
-  rField: TRttiField;
   rAttr: TCustomAttribute;
+  rField: TRttiField;
 begin
   for rField in AList do
     { Search for the custom attribute and do some custom processing }
@@ -250,8 +250,8 @@ end;
 procedure TPlAutoBinder.BindMethods(ASource, aTarget: TObject; AClassAttribute:
     ClassBindAttribute; AList: TarMethods);
 var
-  rMethod: TRttiMethod;
   rAttr: TCustomAttribute;
+  rMethod: TRttiMethod;
 begin
   for rMethod in AList do
     { Search for the custom attribute and do some custom processing }
@@ -273,8 +273,8 @@ end;
 procedure TPlAutoBinder.BindProperties(ASource, aTarget: TObject;
   AClassAttribute: ClassBindAttribute; AList: TarProperties);
 var
-  rProperty: TRttiProperty;
   rAttr: TCustomAttribute;
+  rProperty: TRttiProperty;
 begin
   for rProperty in AList do
     { Search for the custom attribute and do some custom processing }
@@ -291,28 +291,27 @@ procedure TPlAutoBinder.BindProperty(ASource, aTarget: TObject;
    const SourceProperty: string; AMemberAttribute: CustomBindMemberAttribute;
    AClassAttribute: ClassBindAttribute);
 var
-  SourceObject: TObject;
-  SourcePath: string;
-  TargetObject: TObject;
-  TargetPath: string;
-
-  calculateValue: TplBridgeFunction;
+  bridgeFunction: TplBridgeFunction;
+  sourceObject: TObject;
+  sourcePath: string;
+  targetObject: TObject;
+  targetPath: string;
 begin
   if CanBind(AClassAttribute, AMemberAttribute, aTarget) then
     begin
-      calculateValue := FindCalculatingFuncion(aTarget, AMemberAttribute.FunctionName);
+      bridgeFunction := FindCalculatingFuncion(aTarget, AMemberAttribute.FunctionName);
 
-      SourcePath := SourceProperty;
-      TargetPath := AMemberAttribute.TargetPath;
-      SourceObject := FBinder.NormalizePath(ASource, SourcePath);
-      TargetObject := FBinder.NormalizePath(aTarget, TargetPath);
+      sourcePath := SourceProperty;
+      targetPath := AMemberAttribute.targetPath;
+      sourceObject := FBinder.NormalizePath(ASource, sourcePath);
+      targetObject := FBinder.NormalizePath(aTarget, targetPath);
 
       if (AMemberAttribute is BindPropertyAttribute)
       or (AMemberAttribute is BindPropertyFromAttribute) then
-        Bind(TargetObject, TargetPath, SourceObject, SourcePath, calculateValue);
+        Bind(targetObject, targetPath, sourceObject, sourcePath, bridgeFunction);
       if (AMemberAttribute is BindPropertyAttribute)
       or (AMemberAttribute is BindPropertyToAttribute) then
-        Bind(SourceObject, SourcePath, TargetObject, TargetPath, calculateValue);
+        Bind(sourceObject, sourcePath, targetObject, targetPath, bridgeFunction);
   end;
 end;
 
@@ -341,10 +340,10 @@ end;
 function TPlAutoBinder.FindCalculatingFuncion(AnOwner: TObject;
   const AFunctionName: string): TplBridgeFunction;
 var
-  rType: TRttiType;
-  rMethod: TRTTIMethod;
   methodPath: string;
   recMethod: TMethod;
+  rMethod: TRTTIMethod;
+  rType: TRttiType;
   targetObject: TObject;
 begin
   Result := nil;
@@ -415,8 +414,8 @@ procedure TPlAutoBinder.UnbindMethod(ASource: TObject; AMethodAttribute:
     MethodBindAttribute);
 var
   propertyPath: string;
-  targetObject: TObject;
   recMethod: TMethod ;
+  targetObject: TObject;
 begin
       propertyPath := AMethodAttribute.SourceMethodName;
       targetObject := FBinder.NormalizePath(ASource, propertyPath);
@@ -440,9 +439,9 @@ end;
 
 procedure TPlAutoBinder.UnbindMethods(ASource: TObject);
 var
-  rType: TRttiType;
   rAttr: TCustomAttribute;
   rAttributes: TarAttributes;
+  rType: TRttiType;
 begin
   rType := TPlRTTIUtils.Context.GetType(ASource.ClassType);
   rAttributes := rType.GetAttributes;
@@ -471,5 +470,7 @@ procedure TPlAutoBinder.UpdateValues;
 begin
   FBinder.UpdateValues;
 end;
+
+{$ENDREGION}
 
 end.
