@@ -46,19 +46,19 @@ type
   protected
     {An attribute will be processed only when IsEnabled is true.}
     FIsEnabled: Boolean;
-    {Target class name is the name of the class where we search for the
-     field/property/method to be bound to an attribute owner
-     (or source) elmement}
-    FTargetClassName: string;
     {Target class alias is an alias of the class where we search for the
      field/property/method to be bound to an attribute owner
      (or source) elmement. Use it, for instance, in inheritable classes
      to ensure that you can place correct attributes in superclasses.}
     FTargetClassAlias: string;
+    {Target class name is the name of the class where we search for the
+     field/property/method to be bound to an attribute owner
+     (or source) elmement}
+    FTargetClassName: string;
   public
     property IsEnabled: Boolean read FIsEnabled;
-    property TargetClassName: string read FTargetClassName;
     property TargetClassAlias: string read FTargetClassAlias;
+    property TargetClassName: string read FTargetClassName;
   end;
 
   {A Class attribute describing the target class of bind action}
@@ -79,43 +79,45 @@ type
 
   DefaultClassBindAttribute = class(ClassBindAttribute)
   public
-    constructor Create(const ATargetClassName: string); overload;
-    constructor Create(const ATargetClassName, ATargetClassAlias: string); overload;
     constructor Create(const Enabled: Boolean; const ATargetClassName: string); overload;
     constructor Create(const Enabled: Boolean; const ATargetClassName, ATargetClassAlias: string); overload;
+    constructor Create(const ATargetClassName: string); overload;
+    constructor Create(const ATargetClassName, ATargetClassAlias: string); overload;
   end;
 
   {Ancestor class for class attributes binding methods and events}
   MethodBindAttribute =  class(CustomBindAttribute)
   private
-    FSourceMethodName: string;
     FNewMethodName: string;
+    FSourceMethodName: string;
   public
     constructor Create(const Enabled: Boolean; const AMethodName, ANewMethodName: string); overload;
     constructor Create(const Enabled: Boolean; const AMethodName, ANewMethodName, ATargetClassName: string); overload;
-    property SourceMethodName: string read FSourceMethodName;
     property NewMethodName: string read FNewMethodName;
+    property SourceMethodName: string read FSourceMethodName;
   end;
 
-  {Attribute to bind an event}
-  EventBindAttribute =  class(MethodBindAttribute);
-
   {Attribute to force binding on properties of GUI public/published elements}
-  CustomBindFieldAttribute = class(CustomBindAttribute)
-  private
+  CustomBindMemberAttribute = class(CustomBindAttribute)
+  protected
+    { Name of the brifge function }
     FFunctionName: string;
+    { Name of field or property in source class. Full path }
     FSourcePath: string;
+    { Name of field or property in target class . Full path }
     FTargetPath: string;
   public
-    constructor Create(const ASourcePath, ATargetPath: string;
-      const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;
     constructor Create(const Enabled: Boolean; const ASourcePath, ATargetPath: string;
+      const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;
+    constructor Create(const ASourcePath, ATargetPath: string;
       const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;
     property FunctionName: string read FFunctionName;
     property SourcePath: string read FSourcePath;
     property TargetPath: string read FTargetPath;
   end;
 
+  {Attribute to force binding on properties of GUI public/published elements}
+  CustomBindFieldAttribute = class(CustomBindMemberAttribute);
   BindFieldAttribute = class(CustomBindFieldAttribute);
   BindFieldFromAttribute = class(CustomBindFieldAttribute);
   BindFieldToAttribute = class(CustomBindFieldAttribute);
@@ -127,119 +129,113 @@ type
   BindMemberToAttribute = class(CustomBindFieldAttribute);
 
   {Ancestor class for fields and properties bind data}
-  CustomBindPropertyAttribute = class(CustomBindAttribute)
-  private
-    { Name of the template function }
-    FFunctionName: string;
-    { Name of field or property in target class }
-    FTargetName: string;
+  CustomBindPropertyAttribute = class(CustomBindMemberAttribute)
   public
-    constructor Create(const ATargetName: string;
+    constructor Create(const Enabled: Boolean; const ATargetName: string;
       const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
-    constructor Create(const Enabled: Boolean; const ATargetName: string;
+    constructor Create(const ATargetName: string;
       const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
     property FunctionName: string read FFunctionName;
     property TargetClassName: string read FTargetClassName;
-    property TargetName: string read FTargetName;
+//    property TargetName: string read FTargetName;
   end;
-
-{$REGION 'In progress'}
-  CustomBindIndexedFieldAttribute = class(CustomBindFieldAttribute)
-  private
-    { True if the source is indexed }
-    FSourceIsIndexed: Boolean;
-    { True if the target is indexed }
-    FTargetIsIndexed: Boolean;
-    { Value of source index }
-    FSourceIndex: Variant;
-    { Value of target index }
-    FTargetIndex: Variant;
-  public
-    {Use these signatures when only the target is indexed}
-    constructor Create(const ATargetName: string; const ATargetIndex: Variant;
-      const AFunctionName: string = '';
-      const ATargetClassName: string = ''); overload;
-    constructor Create(const Enabled: Boolean; const ATargetName: string;
-      const ATargetIndex: Variant; const AFunctionName: string = '';
-      const ATargetClassName: string = ''); overload;
-    {Use these signatures when both source and target are indexed}
-    constructor Create(const ASourceIndex: Variant; const ATargetName: string;
-      const ATargetIndex: Variant; const AFunctionName: string = '';
-      const ATargetClassName: string = ''); overload;
-    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
-      const ATargetName: string; const ATargetIndex: Variant;
-      const AFunctionName: string = '';
-      const ATargetClassName: string = ''); overload;
-    {Use these signatures when only the source is indexed}
-    constructor Create(const ASourceIndex: Variant;
-      const ATargetName: string; const AFunctionName: string = '';
-      const ATargetClassName: string = ''); overload;
-    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
-      const ATargetName: string; const AFunctionName: string = '';
-      const ATargetClassName: string = ''); overload;
-    property SourceIsIndexed: Boolean read FSourceIsIndexed;
-    property TargetIsIndexed: Boolean read FTargetIsIndexed;
-    property SourceIndex: Variant read FSourceIndex;
-    property TargetIndex: Variant read FTargetIndex;
-end;
-
-  BindIndexedFieldAttribute = class(CustomBindIndexedFieldAttribute);
-  BindIndexedFieldFromAttribute = class(CustomBindIndexedFieldAttribute);
-  BindIndexedFieldToAttribute = class(CustomBindIndexedFieldAttribute);
-{$ENDREGION}
-
-  { Atrribute class for properties }
-//  PropertiesBindAttribute = class(AutoBindingAttribute);
 
   BindPropertyAttribute = class(CustomBindPropertyAttribute);
   BindPropertyFromAttribute = class(CustomBindPropertyAttribute);
   BindPropertyToAttribute = class(CustomBindPropertyAttribute);
 
-  { Attribute class for indexed properties }
-  CustomBindIndexedPropertyAttribute = class(CustomBindPropertyAttribute)
+
+{$REGION 'In progress'}
+  CustomBindIndexedFieldAttribute = class(CustomBindFieldAttribute)
   private
-    { True if the source is indexed }
-    FSourceIsIndexed: Boolean;
-    { True if the target is indexed }
-    FTargetIsIndexed: Boolean;
     { Value of source index }
     FSourceIndex: Variant;
+    { True if the source is indexed }
+    FSourceIsIndexed: Boolean;
     { Value of target index }
     FTargetIndex: Variant;
+    { True if the target is indexed }
+    FTargetIsIndexed: Boolean;
   public
-    {Use these signatures when only the target is indexed}
-    constructor Create(const ATargetName: string; const ATargetIndex: Variant;
-      const AFunctionName: string = '';
-      const ATargetClassName: string = ''); overload;
     constructor Create(const Enabled: Boolean; const ATargetName: string;
       const ATargetIndex: Variant; const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
-    {Use these signatures when both source and target are indexed}
-    constructor Create(const ASourceIndex: Variant; const ATargetName: string;
-      const ATargetIndex: Variant; const AFunctionName: string = '';
+    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
+      const ATargetName: string; const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
     constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
       const ATargetName: string; const ATargetIndex: Variant;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when only the target is indexed}
+    constructor Create(const ATargetName: string; const ATargetIndex: Variant;
       const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
     {Use these signatures when only the source is indexed}
     constructor Create(const ASourceIndex: Variant;
       const ATargetName: string; const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
+    {Use these signatures when both source and target are indexed}
+    constructor Create(const ASourceIndex: Variant; const ATargetName: string;
+      const ATargetIndex: Variant; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    property SourceIndex: Variant read FSourceIndex;
+    property SourceIsIndexed: Boolean read FSourceIsIndexed;
+    property TargetIndex: Variant read FTargetIndex;
+    property TargetIsIndexed: Boolean read FTargetIsIndexed;
+end;
+
+  BindIndexedFieldAttribute = class(CustomBindIndexedFieldAttribute);
+  BindIndexedFieldFromAttribute = class(CustomBindIndexedFieldAttribute);
+  BindIndexedFieldToAttribute = class(CustomBindIndexedFieldAttribute);
+
+  { Attribute class for indexed properties }
+  CustomBindIndexedPropertyAttribute = class(CustomBindPropertyAttribute)
+  private
+    { Value of source index }
+    FSourceIndex: Variant;
+    { True if the source is indexed }
+    FSourceIsIndexed: Boolean;
+    { Value of target index }
+    FTargetIndex: Variant;
+    { True if the target is indexed }
+    FTargetIsIndexed: Boolean;
+  public
+    constructor Create(const Enabled: Boolean; const ATargetName: string;
+      const ATargetIndex: Variant; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
     constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
       const ATargetName: string; const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
-    property SourceIsIndexed: Boolean read FSourceIsIndexed;
-    property TargetIsIndexed: Boolean read FTargetIsIndexed;
+    constructor Create(const Enabled: Boolean; const ASourceIndex: Variant;
+      const ATargetName: string; const ATargetIndex: Variant;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when only the target is indexed}
+    constructor Create(const ATargetName: string; const ATargetIndex: Variant;
+      const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when only the source is indexed}
+    constructor Create(const ASourceIndex: Variant;
+      const ATargetName: string; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
+    {Use these signatures when both source and target are indexed}
+    constructor Create(const ASourceIndex: Variant; const ATargetName: string;
+      const ATargetIndex: Variant; const AFunctionName: string = '';
+      const ATargetClassName: string = ''); overload;
     property SourceIndex: Variant read FSourceIndex;
+    property SourceIsIndexed: Boolean read FSourceIsIndexed;
     property TargetIndex: Variant read FTargetIndex;
+    property TargetIsIndexed: Boolean read FTargetIsIndexed;
   end;
 
   BindIndexedPropertyAttribute = class(CustomBindIndexedPropertyAttribute);
   BindIndexedPropertyFromAttribute = class(CustomBindIndexedPropertyAttribute);
   BindIndexedPropertyToAttribute = class(CustomBindIndexedPropertyAttribute);
+
+{$ENDREGION}
 
 implementation
 
@@ -289,7 +285,7 @@ end;
 {$REGION 'FieldBindAttribute'}
 
 {Example: [BindFormField(True, 'myComponent.Property', 'MyTargetProperty')]}
-constructor CustomBindFieldAttribute.Create(const Enabled: Boolean; const ASourcePath,
+constructor CustomBindMemberAttribute.Create(const Enabled: Boolean; const ASourcePath,
   ATargetPath: string; const AFunctionName: string = ''; const ATargetClassName: string = '');
 begin
   FIsEnabled := Enabled;
@@ -299,7 +295,7 @@ begin
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
-constructor CustomBindFieldAttribute.Create(const ASourcePath, ATargetPath,
+constructor CustomBindMemberAttribute.Create(const ASourcePath, ATargetPath,
   AFunctionName, ATargetClassName: string);
 begin
   FIsEnabled := True;
@@ -345,7 +341,7 @@ constructor CustomBindPropertyAttribute.Create(const Enabled: Boolean;
 begin
   FIsEnabled := Enabled;
   FFunctionName := AFunctionName;
-  FTargetName := ATargetName;
+  FTargetPath := ATargetName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 
@@ -354,7 +350,7 @@ constructor CustomBindPropertyAttribute.Create(const ATargetName, AFunctionName,
 begin
   FIsEnabled := True;
   FFunctionName := AFunctionName;
-  FTargetName := ATargetName;
+  FTargetPath := ATargetName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
 {$ENDREGION}
@@ -480,7 +476,7 @@ end;
 
 {$ENDREGION}
 
-{ DefaultClassBindAttribute }
+{$REGION 'DefaultClassBindAttribute' }
 
 constructor DefaultClassBindAttribute.Create(const ATargetClassName,
   ATargetClassAlias: string);
@@ -504,5 +500,7 @@ constructor DefaultClassBindAttribute.Create(const Enabled: Boolean;
 begin
   inherited Create(Enabled, ATargetClassName, True);
 end;
+
+{$ENDREGION}
 
 end.
