@@ -27,12 +27,10 @@ unit plBindAPI.Types;
 interface
 
 uses
-  {$IFDEF FPC}
-  Classes, SysUtils, Generics.Collections, Rtti;
-  {$ELSE}
-  System.Generics.Collections,
-  System.Classes, System.SysUtils, System.Rtti;
-  {$ENDIF}
+  Classes, SysUtils, Generics.Collections, Rtti,
+  plBindApi.Attributes;
+
+
 type
 
 {$REGION 'Enuberables'}
@@ -67,7 +65,7 @@ type
   IPlAutoBinder = interface
     ['{64BF1986-35A2-48D4-9558-2EBDB345EFEB}']
     procedure Bind(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: TplBridgeFunction = nil);
-    procedure BindObject(ASource, aTarget: TObject; const AnAlias: string);
+    procedure BindObject(ASource, aTarget: TObject; AnAttribute: ClassBindAttribute);
     function Count: integer;
     procedure Start(const SleepInterval: Integer);
     procedure Stop;
