@@ -86,7 +86,7 @@ type
   end;
 
   {Ancestor class for class attributes binding methods and events}
-  MethodBindAttribute =  class(CustomBindAttribute)
+  BindMethodAttribute =  class(CustomBindAttribute)
   private
     FNewMethodName: string;
     FSourceMethodName: string;
@@ -96,6 +96,8 @@ type
     property NewMethodName: string read FNewMethodName;
     property SourceMethodName: string read FSourceMethodName;
   end;
+
+  MethodBindAttribute = class(BindMethodAttribute); // deprecated;
 
   {Attribute to force binding on properties of GUI public/published elements}
   CustomBindMemberAttribute = class(CustomBindAttribute)
@@ -116,17 +118,18 @@ type
     property TargetPath: string read FTargetPath;
   end;
 
+  {Attribute to force binding on properties of object's public/published elements
+   from outside the class definition}
+  BindMemberAttribute = class(CustomBindMemberAttribute);
+  BindMemberFromAttribute = class(CustomBindMemberAttribute);
+  BindMemberToAttribute = class(CustomBindMemberAttribute);
+
   {Attribute to force binding on properties of GUI public/published elements}
   CustomBindFieldAttribute = class(CustomBindMemberAttribute);
   BindFieldAttribute = class(CustomBindFieldAttribute);
   BindFieldFromAttribute = class(CustomBindFieldAttribute);
   BindFieldToAttribute = class(CustomBindFieldAttribute);
 
-  {Attribute to force binding on properties of object's public/published elements
-   from outside the class definition}
-  BindMemberAttribute = class(CustomBindFieldAttribute);
-  BindMemberFromAttribute = class(CustomBindFieldAttribute);
-  BindMemberToAttribute = class(CustomBindFieldAttribute);
 
   {Ancestor class for fields and properties bind data}
   CustomBindPropertyAttribute = class(CustomBindMemberAttribute)
@@ -137,9 +140,7 @@ type
     constructor Create(const ATargetName: string;
       const AFunctionName: string = '';
       const ATargetClassName: string = ''); overload;
-    property FunctionName: string read FFunctionName;
-    property TargetClassName: string read FTargetClassName;
-//    property TargetName: string read FTargetName;
+//    property TargetName: string read FTargetName; // removed: use TargetPath
   end;
 
   BindPropertyAttribute = class(CustomBindPropertyAttribute);
@@ -311,7 +312,7 @@ end;
 
 {Example: [MethodBind(True, 'myPublicMethod', 'NewMethod')]}
 {Example: [EventBind(True, 'Button1.OnClick', 'NewEventHandler'))]}
-constructor MethodBindAttribute.Create(const Enabled: Boolean;
+constructor BindMethodAttribute.Create(const Enabled: Boolean;
   const AMethodName, ANewMethodName: string);
 begin
   FIsEnabled := Enabled;
@@ -321,7 +322,7 @@ begin
 end;
 
 {Example: [MethodBind(True, 'myPublicMethod', 'NewMethod', 'NameOfClassExposingNewMethod')]}
-constructor MethodBindAttribute.Create(const Enabled: Boolean;
+constructor BindMethodAttribute.Create(const Enabled: Boolean;
   const AMethodName, ANewMethodName, ATargetClassName: string);
 begin
   FIsEnabled := Enabled;
