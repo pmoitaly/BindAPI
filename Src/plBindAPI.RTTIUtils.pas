@@ -40,6 +40,11 @@ type
   TPlRTTIUtils = class
   private
     class var FContext: TRttiContext;
+    class function CastToEnumeration(AValue: TValue): TValue;
+    class function CastToFloat(AValue: TValue): TValue;
+    class function CastToInt64(AValue: TValue): TValue;
+    class function CastToInteger(AValue: TValue): TValue;
+    class function CastToString(AValue: TValue): TValue;
     class function FirstNode(var pathNodes: string): string;
     class function GetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField): TValue; overload;
@@ -154,6 +159,61 @@ end;
 class constructor TPlRTTIUtils.Create;
 begin
   FContext := TRttiContext.Create;
+end;
+
+class function TPlRTTIUtils.CastToEnumeration(AValue: TValue): TValue;
+begin
+  Result := AValue;
+  case AValue.Kind of
+    tkInteger:
+      Result := AValue.AsOrdinal;
+  end;
+end;
+
+class function TPlRTTIUtils.CastToFloat(AValue: TValue): TValue;
+begin
+  Result := AValue;
+  case AValue.Kind of
+    tkString, tkLString, tkWString, tkWChar, tkUString:
+      Result := StrToFloat(AValue.AsString);
+  end;
+end;
+
+class function TPlRTTIUtils.CastToInt64(AValue: TValue): TValue;
+begin
+  Result := AValue;
+  case AValue.Kind of
+    tkString, tkLString, tkWString, tkWChar, tkUString:
+      Result := StrToInt64(AValue.AsString);
+    tkFloat:
+      Result := Trunc(AValue.AsType<Double>);
+  end;
+end;
+
+class function TPlRTTIUtils.CastToInteger(AValue: TValue): TValue;
+begin
+  Result := AValue;
+  case AValue.Kind of
+    tkString, tkLString, tkWString, tkWChar, tkUString:
+      Result := StrToInt(AValue.AsString);
+    tkFloat:
+      Result := Trunc(AValue.AsType<Double>);
+  end;
+end;
+
+class function TPlRTTIUtils.CastToString(AValue: TValue): TValue;
+begin
+  Result := AValue;
+  case AValue.Kind of
+    tkString, tkLString, tkWString, tkWChar, tkUString:
+      Result := AValue.AsString;
+    tkFloat:
+      Result := FloatToStr(AValue.AsType<Double>);
+    tkInteger:
+      Result := IntToStr(AValue.AsInteger);
+    tkInt64:
+      Result := IntToStr(AValue.AsInt64);
+  end;
 end;
 
 class function TPlRTTIUtils.EnumerationToOrdinal(const AType: TRTTIType;
@@ -337,40 +397,15 @@ begin
   Result := AValue;
   case AType of
     tkInteger:
-      case AValue.Kind of
-        tkString, tkLString, tkWString, tkWChar, tkUString:
-          Result := StrToInt(AValue.AsString);
-        tkFloat:
-          Result := Trunc(AValue.AsType<Double>);
-      end;
+      Result := CastToInteger(AValue);
     tkInt64:
-      case AValue.Kind of
-        tkString, tkLString, tkWString, tkWChar, tkUString:
-          Result := StrToInt64(AValue.AsString);
-        tkFloat:
-          Result := Trunc(AValue.AsType<Double>);
-      end;
+      Result := CastToInt64(AValue);
     tkFloat:
-      case AValue.Kind of
-        tkString, tkLString, tkWString, tkWChar, tkUString:
-          Result := StrToFloat(AValue.AsString);
-      end;
+      Result := CastToFloat(AValue);
     tkString, tkLString, tkWString, tkWChar, tkUString:
-      case AValue.Kind of
-        tkString, tkLString, tkWString, tkWChar, tkUString:
-          Result := AValue.AsString;
-        tkFloat:
-          Result := FloatToStr(AValue.AsType<Double>);
-        tkInteger:
-          Result := IntToStr(AValue.AsInteger);
-        tkInt64:
-          Result := IntToStr(AValue.AsInt64);
-      end;
+      Result := CastToString(AValue);
     tkEnumeration:
-      case AValue.Kind of
-        tkInteger:
-          Result := AValue.AsOrdinal;
-      end;
+      Result := CastToEnumeration(AValue);
   end;
 end;
 
