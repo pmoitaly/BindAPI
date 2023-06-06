@@ -36,21 +36,24 @@ type
   TPlBindManager = class(TInterfacedObject)
   private
     class var FBinder: TPlAutoBinder;
-    class function ExtractTarget(ASource: TObject; AnAttribute:
+    class function ExtractTarget(ASource: TObject; AClassAttribute:
         ClassBindAttribute): TObject;
-    class procedure AddDeferredElement(ASource: TObject; AnAttribute:
+    class procedure AddDeferredElement(ASource: TObject; AClassAttribute:
         ClassBindAttribute);
+    class function GetInterval: Integer; static;
+    class procedure SetInterval(const Value: Integer); static;
   protected
     class constructor Create;
     class destructor Destroy;
   public
     { Public declarations }
-    class function AddBind(ASource: TObject; AnAttribute: ClassBindAttribute): boolean;
+    class function AddBind(ASource: TObject; AClassAttribute: ClassBindAttribute): boolean;
     class function AddDeferredBind(ASource: TObject): boolean; static;
     class procedure Bind(ASource: TObject);
     class function DebugInfo: TPlBindDebugInfo;
     class procedure Unbind(ASource: TObject);
     class property Binder: TPlAutoBinder read FBinder;
+    class property Interval: Integer read GetInterval write SetInterval;
   end;
 
 implementation
@@ -74,15 +77,15 @@ begin
   inherited;
 end;
 
-class function TPlBindManager.AddBind(ASource: TObject; AnAttribute: ClassBindAttribute): boolean;
+class function TPlBindManager.AddBind(ASource: TObject; AClassAttribute: ClassBindAttribute): boolean;
 var
   target: TObject;
 begin
-  target := ExtractTarget(ASource, AnAttribute);
+  target := ExtractTarget(ASource, AClassAttribute);
   if Assigned(target) then
-    FBinder.BindObject(ASource, target, AnAttribute)
+    FBinder.BindObject(ASource, target, AClassAttribute)
   else
-    AddDeferredElement(ASource, AnAttribute);
+    AddDeferredElement(ASource, AClassAttribute);
   Result := Assigned(target);
 end;
 
@@ -102,11 +105,11 @@ begin
 end;
 
 class procedure TPlBindManager.AddDeferredElement(ASource: TObject;
-    AnAttribute: ClassBindAttribute);
+    AClassAttribute: ClassBindAttribute);
 var
   deferredElement: TplDeferredElement;
 begin
-  deferredElement.Attribute := AnAttribute;
+  deferredElement.Attribute := AClassAttribute;
   deferredElement.Source := ASource;
   TPlDeferredBinding.Add(deferredElement);
 end;
@@ -130,18 +133,28 @@ begin
   Result := FBinder.DebugInfo;
 end;
 
-class function TPlBindManager.ExtractTarget(ASource: TObject; AnAttribute:
+class function TPlBindManager.ExtractTarget(ASource: TObject; AClassAttribute:
     ClassBindAttribute): TObject;
 var
   targetName: string;
   target: TObject;
 begin
-  targetName := AnAttribute.TargetClassName;
+  targetName := AClassAttribute.TargetClassName;
   if (targetName = 'Self') or (targetName = ASource.ClassName) then
     target := ASource
   else
-    target := TplClassManager.GetInstance(AnAttribute.TargetClassName);
+    target := TplClassManager.GetInstance(AClassAttribute.TargetClassName);
   Result := target;
+end;
+
+class function TPlBindManager.GetInterval: Integer;
+begin
+  Result := FBinder.Interval;
+end;
+
+class procedure TPlBindManager.SetInterval(const Value: Integer);
+begin
+  FBinder.Interval := Value;
 end;
 
 class procedure TPlBindManager.Unbind(ASource: TObject);
