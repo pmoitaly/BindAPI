@@ -99,8 +99,8 @@ type
 implementation
 
 uses
-  Winapi.Windows,
-  System.TypInfo, System.Hash, System.SysUtils, System.Math, System.StrUtils,
+  Windows,
+  TypInfo, Hash, SysUtils, Math, StrUtils,
   plBindAPI.RTTIUtils;
 
 { TPlBinder }
@@ -214,8 +214,7 @@ begin
   FEnabled := False;
   FInternalThread.Terminate;
   FInternalThread.WaitFor;
-  // if Assigned(FInternalThread) then
-  FInternalThread.Free; // restore if FreeOnTerminate becomes False
+  FInternalThread.Free;
 end;
 
 function TPlBinder.ComponentFromPath(ASource: TComponent;
@@ -324,7 +323,7 @@ begin
       FTickEvent := CreateEvent(nil, True, False, nil);
       while Enabled and not TThread.CheckTerminated do
         begin
-          if WaitForSingleObject(FTickEvent, Interval) = WAIT_TIMEOUT then
+          if (interval < 1) or (WaitForSingleObject(FTickEvent, interval) = WAIT_TIMEOUT) then
             begin
               for item in FBindPropertyList.Keys do
                 begin
