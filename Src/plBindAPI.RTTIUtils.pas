@@ -1,38 +1,33 @@
 unit plBindAPI.RTTIUtils;
-{ ***************************************************************************** }
-{ BindAPI }
-{ Copyright (C) 2020 Paolo Morandotti }
-{ Unit plBindAPI.RTTIQuery }
-{ ***************************************************************************** }
-{ }
-{ Permission is hereby granted, free of charge, to any person obtaining }
+{ **************************************************************************** }
+{ BindAPI                                                                      }
+{ Copyright (C) 2020 Paolo Morandotti                                          }
+{ Unit plBindAPI.RTTIQuery                                                     }
+{ **************************************************************************** }
+{                                                                              }
+{ Permission is hereby granted, free of charge, to any person obtaining        }
 { a copy of this software and associated documentation files (the "Software"), }
-{ to deal in the Software without restriction, including without limitation }
-{ the rights to use, copy, modify, merge, publish, distribute, sublicense, }
-{ and/or sell copies of the Software, and to permit persons to whom the }
-{ Software is furnished to do so, subject to the following conditions: }
-{ }
-{ The above copyright notice and this permission notice shall be included in }
-{ all copies or substantial portions of the Software. }
-{ }
-{ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS }
-{ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, }
-{ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE }
-{ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER }
-{ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING }
+{ to deal in the Software without restriction, including without limitation    }
+{ the rights to use, copy, modify, merge, publish, distribute, sublicense,     }
+{ and/or sell copies of the Software, and to permit persons to whom the        }
+{ Software is furnished to do so, subject to the following conditions:         }
+{                                                                              }
+{ The above copyright notice and this permission notice shall be included in   }
+{ all copies or substantial portions of the Software.                          }
+{                                                                              }
+{ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS      }
+{ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  }
+{ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  }
+{ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER       }
+{ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      }
 { FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
-{ IN THE SOFTWARE. }
-{ ***************************************************************************** }
+{ IN THE SOFTWARE.                                                             }
+{ **************************************************************************** }
 
 interface
 
 uses
-{$IFDEF FPC}
   Rtti, Generics.Collections, Generics.Defaults, Classes, StrUtils,
-{$ELSE}
-  System.Rtti, System.Classes, System.StrUtils,
-  System.Generics.Defaults, System.Generics.Collections,
-{$ENDIF}
   plBindAPI.Types;
 
 type
@@ -45,50 +40,65 @@ type
     class function CastToInt64(AValue: TValue): TValue;
     class function CastToInteger(AValue: TValue): TValue;
     class function CastToString(AValue: TValue): TValue;
+    class procedure ExtractNode(ARoot: TObject; out AField: TRTTIField;
+      out AProp: TRttiProperty; const ANodeName: string);
     class function FirstNode(var pathNodes: string): string;
     class function GetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField): TValue; overload;
     class function GetRecordFieldValue(Sender: TObject; AOwner: TRttiProperty;
       AField: TRTTIField): TValue; overload;
+    class function NextNode(const ANodeName: string; var ARoot: TObject;
+      var AField: TRTTIField; var AProp: TRttiProperty; var APath: string)
+      : TValue; inline;
+    class function ExtractNodeType(AField: TRTTIField; AProp: TRttiProperty)
+      : TRttiType; inline;
+    class function ReadMemberValue(ARoot: TObject; AField: TRTTIField;
+      AProp: TRttiProperty): TValue; inline;
     class procedure SetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField; AValue: TValue); overload;
     class procedure SetRecordFieldValue(Sender: TObject; AOwner: TRttiProperty;
       AField: TRTTIField; AValue: TValue); overload;
+    class procedure WriteFieldValue(ANode: TObject; AField: TRTTIField; AValue:
+        TValue);
+    class procedure WriteMemberValue(ANode: TObject; AField: TRTTIField; AProp:
+        TRttiProperty; const APath: string; AValue: TValue); inline;
+    class procedure WritePropertyValue(ANode: TObject; AProp: TRttiProperty;
+        AValue: TValue);
   public
     class constructor Create;
-    class property Context: TRttiContext read FContext;
     class function AreEqual(Left, Right: TValue): Boolean;
     class function ComponentFromPath(ASource: TComponent;
       var APropertyPath: string): TComponent; static;
-    class function EnumerationToOrdinal(const AType: TRTTIType;
+    class function EnumerationToOrdinal(const AType: TRttiType;
       AValue: TValue): TValue;
     class function GetPathValue(ARoot: TObject; var APath: string): TValue;
     class function GetRecordPathValue(ARoot: TObject;
       var APath: string): TValue;
-    class function InternalCastTo(const AType: TTypeKind; AValue: TValue)
+    class function InternalCastTo(const AType: TRttiType; AValue: TValue)
       : TValue; overload;
-    class function InternalCastTo(const AType: TRTTIType; AValue: TValue)
+    class function InternalCastTo(const AType: TTypeKind; AValue: TValue)
       : TValue; overload;
     class function InvokeEx(const AMethodName: string; AClass: TClass;
       Instance: TValue; const Args: array of TValue): TValue; static;
-    class function MethodIsImplemented(const AClass: TClass; MethodName: string)
-      : Boolean; overload;
     class function MethodIsImplemented(ATypeInfo: Pointer; MethodName: string)
       : Boolean; overload;
-    class function OrdinalToEnumeration(const AType: TRTTIType;
-      AValue: TValue): TValue;
-    class function PropertyExists(const AClass: TClass; APropertyName: string)
+    class function MethodIsImplemented(const AClass: TClass; MethodName: string)
       : Boolean; overload;
+    class function OrdinalToEnumeration(const AType: TRttiType;
+      AValue: TValue): TValue;
     class function PropertyExists(ATypeInfo: Pointer; APropertyName: string)
       : Boolean; overload;
-    class function SameSignature(const rParams: TArray<TRttiParameter>; const Args:
-        array of TValue): Boolean; static;
+    class function PropertyExists(const AClass: TClass; APropertyName: string)
+      : Boolean; overload;
+    class function SameSignature(const rParams: TArray<TRttiParameter>;
+      const Args: array of TValue): Boolean; static;
     class function SetMethod(ARoot: TObject; const ARootMethodPath: string;
       ATarget: TObject; const ATargetMethodName: string = ''): Boolean; inline;
     class procedure SetPathValue(ARoot: TObject; const APath: string;
       AValue: TValue); inline;
     class procedure SetRecordPathValue(ARoot: TObject; const APath: string;
       AValue: TValue);
+    class property Context: TRttiContext read FContext;
   end;
 
 implementation
@@ -96,7 +106,12 @@ implementation
 uses
   System.TypInfo, System.Hash, System.SysUtils, System.Math;
 
-{ TPlRTTIUtils }
+class constructor TPlRTTIUtils.Create;
+begin
+  FContext := TRttiContext.Create;
+end;
+
+{TPlRTTIUtils}
 
 class function TPlRTTIUtils.AreEqual(Left, Right: TValue): Boolean;
 var
@@ -117,48 +132,17 @@ begin
   else if Left.IsObject then
     Result := Left.AsObject = Right.AsObject
   else if (Left.Kind = tkPointer) or (Left.TypeInfo = Right.TypeInfo) then
-  begin
-    pLeft := nil;
-    pRight := nil;
-    Left.ExtractRawDataNoCopy(pLeft);
-    Right.ExtractRawDataNoCopy(pRight);
-    Result := pLeft = pRight;
-  end
+    begin
+      pLeft := nil;
+      pRight := nil;
+      Left.ExtractRawDataNoCopy(pLeft);
+      Right.ExtractRawDataNoCopy(pRight);
+      Result := pLeft = pRight;
+    end
   else if Left.TypeInfo = System.TypeInfo(Variant) then
     Result := Left.AsVariant = Right.AsVariant
   else if Left.TypeInfo = System.TypeInfo(TGUID) then
     Result := IsEqualGuid(Left.AsType<TGUID>, Right.AsType<TGUID>)
-end;
-
-class function TPlRTTIUtils.ComponentFromPath(ASource: TComponent;
-  var APropertyPath: string): TComponent;
-var
-  componentName: string;
-  dotIndex: Integer;
-  nextComponent: TComponent;
-  sourceComponent: TComponent;
-begin
-  sourceComponent := TComponent(ASource);
-  dotIndex := Pos('.', APropertyPath);
-  while dotIndex > 0 do
-  begin
-    componentName := Copy(APropertyPath, 1, dotIndex - 1);
-    Delete(APropertyPath, 1, dotIndex);
-    nextComponent := sourceComponent.FindComponent(componentName);
-    if Assigned(nextComponent) then
-    begin
-      dotIndex := Pos('.', APropertyPath);
-      sourceComponent := nextComponent;
-    end
-    else
-      dotIndex := 0;
-  end;
-  Result := sourceComponent;
-end;
-
-class constructor TPlRTTIUtils.Create;
-begin
-  FContext := TRttiContext.Create;
 end;
 
 class function TPlRTTIUtils.CastToEnumeration(AValue: TValue): TValue;
@@ -216,10 +200,51 @@ begin
   end;
 end;
 
-class function TPlRTTIUtils.EnumerationToOrdinal(const AType: TRTTIType;
+class function TPlRTTIUtils.ComponentFromPath(ASource: TComponent;
+  var APropertyPath: string): TComponent;
+var
+  componentName: string;
+  dotIndex: Integer;
+  nextComponent: TComponent;
+  sourceComponent: TComponent;
+begin
+  sourceComponent := TComponent(ASource);
+  dotIndex := Pos('.', APropertyPath);
+  while dotIndex > 0 do
+    begin
+      componentName := Copy(APropertyPath, 1, dotIndex - 1);
+      Delete(APropertyPath, 1, dotIndex);
+      nextComponent := sourceComponent.FindComponent(componentName);
+      if Assigned(nextComponent) then
+        begin
+          dotIndex := Pos('.', APropertyPath);
+          sourceComponent := nextComponent;
+        end
+      else
+        dotIndex := 0;
+    end;
+  Result := sourceComponent;
+end;
+
+class function TPlRTTIUtils.EnumerationToOrdinal(const AType: TRttiType;
   AValue: TValue): TValue;
 begin
-  Result := AValue.AsOrdinal; (* Bug#12 - Could be useless *)
+  Result := AValue.AsOrdinal; (*Bug#12 - Could be useless*)
+end;
+
+class procedure TPlRTTIUtils.ExtractNode(ARoot: TObject; out AField: TRTTIField;
+  out AProp: TRttiProperty; const ANodeName: string);
+begin
+  AProp := nil;
+  AField := FContext.GetType(ARoot.ClassType).GetField(ANodeName);
+  if not Assigned(AField) then
+    begin
+      AProp := FContext.GetType(ARoot.ClassType).GetProperty(ANodeName);
+      if not Assigned(AProp) then
+        raise Exception.Create('Can''t find ' + ARoot.ClassName + '.' +
+          ANodeName);
+    end;
+
 end;
 
 class function TPlRTTIUtils.FirstNode(var pathNodes: string): string;
@@ -229,17 +254,17 @@ var
   nodes: TArray<string>;
 begin
   if pathNodes <> '' then
-  begin
-    nodes := pathNodes.Split(['.']);
-    Result := nodes[0];
-    dot := '';
-    pathNodes := '';
-    for i := 1 to High(nodes) do
     begin
-      pathNodes := pathNodes + dot + nodes[i];
-      dot := '.';
-    end;
-  end
+      nodes := pathNodes.Split(['.']);
+      Result := nodes[0];
+      dot := '';
+      pathNodes := '';
+      for i := 1 to High(nodes) do
+        begin
+          pathNodes := pathNodes + dot + nodes[i];
+          dot := '.';
+        end;
+    end
   else
     Result := '';
 end;
@@ -247,82 +272,42 @@ end;
 class function TPlRTTIUtils.GetPathValue(ARoot: TObject;
   var APath: string): TValue;
 var
-  currentRoot: TObject;
+  currentNode: TObject;
   myField: TRTTIField;
   myPath: string;
   myProp: TRttiProperty;
   nodeName: string;
-  propertyInfo: PPropInfo;
+  NodeType: TRttiType;
 begin
-  myPath := APath;
-  if myPath = '' then
-  begin
-    Result := ARoot;
-    Exit;
-  end;
-  currentRoot := ARoot;
-  myProp := nil;
-  myField := nil;
-  while myPath <> '' do
-  begin
-    nodeName := FirstNode(myPath);
-    { 1. locate the first Node, both prop or field }
-    myField := FContext.GetType(currentRoot.ClassType).GetField(nodeName);
-    if not Assigned(myField) then
-      myProp := FContext.GetType(currentRoot.ClassType).GetProperty(nodeName);
-
-    { 2. if there are no more Nodes... }
-    if myPath <> '' then
+  if APath = '' then
     begin
-      { ... we manage the next Node in the tree }
-      if Assigned(myField) then
-      begin
-        myProp := nil;
-        if myField.FieldType.IsRecord then
-        begin
-          myPath := nodeName + IfThen(myPath <> '', '.' + myPath, '');
-          Result := GetRecordPathValue(currentRoot, myPath);
-          Exit;
-        end
-        else if myField.FieldType.isInstance then
-          currentRoot := myField.GetValue(currentRoot).AsObject;
-      end
-      else if Assigned(myProp) then
-      begin
-        if myProp.PropertyType.IsRecord then
-        begin
-          myPath := nodeName + IfThen(myPath <> '', '.' + myPath, '');
-          Result := GetRecordPathValue(currentRoot, myPath);
-          Exit;
-        end
-        else if (myProp.PropertyType.isInstance) then
-          currentRoot := myProp.GetValue(currentRoot).AsObject;
-      end
-      else
-        raise Exception.Create(APath + ' is not a path to property or field.');
+      Result := ARoot;
+      Exit;
     end;
-  end;
-
-  // 3) con l'ultimo nodo e la proprietà da impostare, si esegue l'operazione appropriata
-  if Assigned(myField) then
-    case myField.FieldType.TypeKind of
-      tkClass:
-        Result := myField.GetValue(currentRoot).AsObject
-    else
-      Result := myField.GetValue(currentRoot);
-    end
-  else if Assigned(myProp) then
-    case myProp.PropertyType.TypeKind of
-      tkClass:
+  myPath := APath;
+  currentNode := ARoot;
+  while myPath <> '' do
+    begin
+      nodeName := FirstNode(myPath);
+      {1. locate the first node of the path, both prop or field}
+      ExtractNode(currentNode, myField, myProp, nodeName);
+      nodeType := ExtractNodeType(myField, myProp);
+      {2a. if there are more nodes...}
+      if myPath <> '' then
         begin
-          propertyInfo := (myProp as TRttiInstanceProperty).PropInfo;
-          Result := GetObjectProp(currentRoot, propertyInfo);
-        end
-    else
-      Result := myProp.GetValue(currentRoot);
-    end
-  else
-    raise Exception.Create(APath + ' is not a path to property or field.');
+          if NodeType.IsRecord then
+            begin
+              myPath := nodeName + IfThen(myPath <> '', '.' + myPath, '');
+              Result := GetRecordPathValue(currentNode, myPath);
+              Exit;
+            end
+          else
+            {2b. if there are more Nodes manages them}
+            NextNode(nodeName, currentNode, myField, myProp, myPath);
+        end;
+    end;
+  {3. Eventually read the member value}
+  Result := ReadMemberValue(currentNode, myField, myProp);
 end;
 
 class function TPlRTTIUtils.GetRecordFieldValue(Sender: TObject;
@@ -331,7 +316,7 @@ begin
   Result := AField.GetValue(PByte(Sender) + AOwner.Offset);
 end;
 
-{ Get record value when a is a field of a property }
+{Get record value when a is a field of a property}
 class function TPlRTTIUtils.GetRecordFieldValue(Sender: TObject;
   AOwner: TRttiProperty; AField: TRTTIField): TValue;
 var
@@ -357,24 +342,24 @@ begin
 
   myPath := APath;
   nodeName := FirstNode(myPath);
-  { Find the record, both prop or field }
+  {Find the record, both prop or field}
   myField := FContext.GetType(ARoot.ClassType).GetField(nodeName);
   myFieldRoot := myField;
   if not Assigned(myField) then
-  begin
-    myProp := FContext.GetType(ARoot.ClassType).GetProperty(nodeName);
-    myPropRoot := myProp;
-  end;
-  { Loop on props tree }
-  { TODO 1 -oPMo -cRefactoring : Manage properties of advanced records }
+    begin
+      myProp := FContext.GetType(ARoot.ClassType).GetProperty(nodeName);
+      myPropRoot := myProp;
+    end;
+  {Loop on props tree}
+  {TODO 1 -oPMo -cRefactoring : Manage properties of advanced records}
   while myPath.Contains('.') do
-  begin
-    nodeName := FirstNode(myPath);
-    if Assigned(myField) then
-      myField := myField.FieldType.GetField(nodeName)
-    else
-      myField := myProp.PropertyType.GetField(nodeName);
-  end;
+    begin
+      nodeName := FirstNode(myPath);
+      if Assigned(myField) then
+        myField := myField.FieldType.GetField(nodeName)
+      else
+        myField := myProp.PropertyType.GetField(nodeName);
+    end;
   if Assigned(myField) then
     myRecField := myField.FieldType.GetField(myPath)
   else
@@ -389,6 +374,18 @@ begin
     on e: Exception do
       raise Exception.Create('Error on setting ' + APath + ': ' + e.Message);
   end;
+end;
+
+class function TPlRTTIUtils.InternalCastTo(const AType: TRttiType;
+  AValue: TValue): TValue;
+begin
+  (*Bug#12: Inserted to differentiate the cast for tkEnumeration type*)
+  if (AType.TypeKind = tkEnumeration) and (AValue.IsOrdinal) then
+    Result := OrdinalToEnumeration(AType, AValue)
+  else if (AType.TypeKind = tkInteger) and (AValue.Kind = tkEnumeration) then
+    Result := EnumerationToOrdinal(AType, AValue)
+  else
+    Result := InternalCastTo(AType.TypeKind, AValue);
 end;
 
 class function TPlRTTIUtils.InternalCastTo(const AType: TTypeKind;
@@ -409,30 +406,17 @@ begin
   end;
 end;
 
-{ from https://stackoverflow.com/questions/10083448/trttimethod-invoke-function-doesnt-work-in-overloaded-methods }
+{from https://stackoverflow.com/questions/10083448/trttimethod-invoke-function-doesnt-work-in-overloaded-methods}
 {
   r := RttiMethodInvokeEx('Create', AClass, '', ['hello from constructor string']);
   r := RttiMethodInvokeEx('Create', AClass, '', []);
   RttiMethodInvokeEx('Add', AClass, AnObject , ['this is a string']);
 }
-class function TPlRTTIUtils.InternalCastTo(const AType: TRTTIType;
-  AValue: TValue): TValue;
-begin
-  (* Bug#12: Inserted to differentiate the cast for tkEnumeration type *)
-  if (AType.TypeKind = tkEnumeration) and (AValue.IsOrdinal) then
-    Result := OrdinalToEnumeration(AType, AValue)
-  else if (AType.TypeKind = tkInteger) and (AValue.Kind = tkEnumeration) then
-    Result := EnumerationToOrdinal(AType, AValue)
-  else
-    Result := InternalCastTo(AType.TypeKind, AValue);
-end;
-
 class function TPlRTTIUtils.InvokeEx(const AMethodName: string; AClass: TClass;
   Instance: TValue; const Args: array of TValue): TValue;
 var
   methodFound: Boolean;
   rMethod: TRttiMethod;
-//  rIndex: Integer;
   rParams: TArray<TRttiParameter>;
   rType: TRttiInstanceType;
 begin
@@ -444,26 +428,12 @@ begin
     Instance := rType.MetaclassType;
   for rMethod in rType.GetMethods do
     if SameText(rMethod.Name, AMethodName) then
-    begin
-      rParams := rMethod.GetParameters;
-      (* TODO: extracted code - remove after test
-        if Length(Args) = Length(rParams) then
-        begin
-        methodFound := True;
-        for rIndex := 0 to Length(rParams) - 1 do
-        if not((rParams[rIndex].ParamType.Handle = Args[rIndex].TypeInfo)
-        or (Args[rIndex].IsObject and Args[rIndex].AsObject.InheritsFrom
-        (rParams[rIndex].ParamType.AsInstance.MetaclassType))) then
-        begin
-        methodFound := False;
-        Break;
-        end;
-        end;
-      *)
-      methodFound := SameSignature(rParams, Args);
-      if methodFound then
-        Break;
-    end;
+      begin
+        rParams := rMethod.GetParameters;
+        methodFound := SameSignature(rParams, Args);
+        if methodFound then
+          Break;
+      end;
 
   if (rMethod <> nil) and methodFound then
     Result := rMethod.Invoke(Instance, Args)
@@ -476,20 +446,92 @@ class function TPlRTTIUtils.MethodIsImplemented(ATypeInfo: Pointer;
 var
   m: TRttiMethod;
 begin
-  { from https://stackoverflow.com/questions/8305008/how-i-can-determine-if-an-abstract-method-is-implemented }
+  {from https://stackoverflow.com/questions/8305008/how-i-can-determine-if-an-abstract-method-is-implemented}
   Result := False;
   for m in FContext.GetType(ATypeInfo).GetDeclaredMethods do
-  begin
-    Result := CompareText(m.Name, MethodName) = 0;
-    if Result then
-      Break;
-  end;
+    begin
+      Result := CompareText(m.Name, MethodName) = 0;
+      if Result then
+        Break;
+    end;
 end;
 
-class function TPlRTTIUtils.OrdinalToEnumeration(const AType: TRTTIType;
+class function TPlRTTIUtils.MethodIsImplemented(const AClass: TClass;
+  MethodName: string): Boolean;
+var
+  m: TRttiMethod;
+begin
+  {from https://stackoverflow.com/questions/8305008/how-i-can-determine-if-an-abstract-method-is-implemented}
+  Result := False;
+  for m in FContext.GetType(AClass.ClassInfo).GetDeclaredMethods do
+    begin
+      Result := CompareText(m.Name, MethodName) = 0;
+      if Result then
+        Break;
+    end;
+end;
+
+class function TPlRTTIUtils.NextNode(const ANodeName: string;
+  var ARoot: TObject; var AField: TRTTIField; var AProp: TRttiProperty;
+  var APath: string): TValue;
+var
+  memberType: TRttiType;
+begin
+  if Assigned(AField) then
+    begin
+      AProp := nil;
+      memberType := AField.FieldType;
+    end
+  else if Assigned(AProp) then
+    begin
+      AField := nil;
+      memberType := AProp.PropertyType;
+    end
+  else
+    raise Exception.Create(APath + ' is not a path to property or field.');
+
+  Result := TValue.Empty;
+  if memberType.IsRecord then
+    begin
+      APath := ANodeName + IfThen(APath <> '', '.' + APath, '');
+      Result := GetRecordPathValue(ARoot, APath);
+    end;
+  if memberType.isInstance then
+    begin
+      if Assigned(AField) then
+        ARoot := AField.GetValue(ARoot).AsObject
+      else
+        ARoot := AProp.GetValue(ARoot).AsObject;
+    end;
+
+end;
+
+class function TPlRTTIUtils.ExtractNodeType(AField: TRTTIField;
+  AProp: TRttiProperty): TRttiType;
+begin
+  if Assigned(AField) then
+    Result := AField.FieldType
+  else if Assigned(AProp) then
+    Result := AProp.PropertyType
+  else
+    raise Exception.Create('No member available.');
+end;
+
+class function TPlRTTIUtils.OrdinalToEnumeration(const AType: TRttiType;
   AValue: TValue): TValue;
 begin
-  (* Bug#12: To be implemented *)
+  (*Bug#12: To be implemented*)
+end;
+
+class function TPlRTTIUtils.PropertyExists(ATypeInfo: Pointer;
+  APropertyName: string): Boolean;
+var
+  rType: TRttiType;
+begin
+  Result := False;
+  rType := FContext.GetType(ATypeInfo);
+  if rType <> nil then
+    Result := rType.GetProperty(APropertyName) <> nil;
 end;
 
 class function TPlRTTIUtils.PropertyExists(const AClass: TClass;
@@ -498,30 +540,29 @@ begin
   Result := PropertyExists(AClass.ClassInfo, APropertyName);
 end;
 
-class function TPlRTTIUtils.PropertyExists(ATypeInfo: Pointer;
-  APropertyName: string): Boolean;
+class function TPlRTTIUtils.ReadMemberValue(ARoot: TObject; AField: TRTTIField;
+  AProp: TRttiProperty): TValue;
 var
-  rType: TRTTIType;
+  propertyInfo: PPropInfo;
 begin
-  Result := False;
-  rType := FContext.GetType(ATypeInfo);
-  if rType <> nil then
-    Result := rType.GetProperty(APropertyName) <> nil;
-end;
-
-class function TPlRTTIUtils.MethodIsImplemented(const AClass: TClass;
-  MethodName: string): Boolean;
-var
-  m: TRttiMethod;
-begin
-  { from https://stackoverflow.com/questions/8305008/how-i-can-determine-if-an-abstract-method-is-implemented }
-  Result := False;
-  for m in FContext.GetType(AClass.ClassInfo).GetDeclaredMethods do
-  begin
-    Result := CompareText(m.Name, MethodName) = 0;
-    if Result then
-      Break;
-  end;
+  Result := TValue.Empty;
+  if Assigned(AField) then
+    case AField.FieldType.TypeKind of
+      tkClass:
+        Result := AField.GetValue(ARoot).AsObject
+    else
+      Result := AField.GetValue(ARoot);
+    end
+  else if Assigned(AProp) then
+    case AProp.PropertyType.TypeKind of
+      tkClass:
+        begin
+          propertyInfo := (AProp as TRttiInstanceProperty).PropInfo;
+          Result := GetObjectProp(ARoot, propertyInfo);
+        end
+    else
+      Result := AProp.GetValue(ARoot);
+    end;
 end;
 
 class function TPlRTTIUtils.SameSignature(const rParams: TArray<TRttiParameter>;
@@ -531,24 +572,24 @@ var
 begin
   Result := False;
   if Length(Args) = Length(rParams) then
-  begin
-    Result := True;
-    for rIndex := 0 to Length(rParams) - 1 do
-      if not((rParams[rIndex].ParamType.Handle = Args[rIndex].TypeInfo) or
-        (Args[rIndex].IsObject and Args[rIndex].AsObject.InheritsFrom(rParams
-        [rIndex].ParamType.AsInstance.MetaclassType))) then
-      begin
-        Result := False;
-        Break;
-      end;
-  end;
+    begin
+      Result := True;
+      for rIndex := 0 to Length(rParams) - 1 do
+        if not((rParams[rIndex].ParamType.Handle = Args[rIndex].TypeInfo) or
+          (Args[rIndex].IsObject and Args[rIndex].AsObject.InheritsFrom(rParams
+          [rIndex].ParamType.AsInstance.MetaclassType))) then
+          begin
+            Result := False;
+            Break;
+          end;
+    end;
 end;
 
 class function TPlRTTIUtils.SetMethod(ARoot: TObject;
   const ARootMethodPath: string; ATarget: TObject;
   const ATargetMethodName: string): Boolean;
 var
-  rType: TRTTIType;
+  rType: TRttiType;
   rMethod: TRttiMethod;
   methodPath: string;
   sourceObject: TObject;
@@ -560,107 +601,60 @@ begin
     sourceObject := ComponentFromPath(TComponent(ARoot), methodPath)
   else
     sourceObject := ARoot;
-  { Extract type information for ASource's type }
+  {Extract type information for ASource's type}
   rType := FContext.GetType(ATarget.ClassType);
   rMethod := rType.GetMethod(ATargetMethodName);
   if Assigned(rMethod) then
-  begin
-    recMethod.Code := rMethod.CodeAddress;
-    recMethod.Data := Pointer(ATarget); // (Self);
-    SetMethodProp(sourceObject, methodPath, recMethod);
-    Result := True;
-  end;
+    begin
+      recMethod.Code := rMethod.CodeAddress;
+      recMethod.Data := Pointer(ATarget); // (Self);
+      SetMethodProp(sourceObject, methodPath, recMethod);
+      Result := True;
+    end;
 
 end;
 
 class procedure TPlRTTIUtils.SetPathValue(ARoot: TObject; const APath: string;
   AValue: TValue);
 var
-  currentRoot: TObject;
+  currentNode: TObject;
   myField: TRTTIField;
   myPath: string;
   myProp: TRttiProperty;
   nodeName: string;
+  nodeType: TRttiType;
   propertyInfo: PPropInfo;
 begin
-  currentRoot := ARoot;
+  currentNode := ARoot;
   myField := nil;
   myProp := nil;
   myPath := APath;
   while myPath <> '' do
-  begin
-    nodeName := FirstNode(myPath);
-    { First node, both prop or field }
-    myField := FContext.GetType(currentRoot.ClassType).GetField(nodeName);
-    if not Assigned(myField) then
     begin
-      myProp := FContext.GetType(currentRoot.ClassType).GetProperty(nodeName);
-    end;
+      nodeName := FirstNode(myPath);
+      {First node, both prop or field}
+      ExtractNode(currentNode, myField, myProp, nodeName);
 
-    if myPath <> '' then
-    begin
-      { the child node is a field }
-      if Assigned(myField) then
-      begin
-        myProp := nil;
-        if myField.FieldType.IsRecord then
+      nodeType := ExtractNodeType(myField, myProp);
+      {2a. if there are more nodes...}
+      if myPath <> '' then
         begin
-          myPath := nodeName + '.' + IfThen(myPath <> '', '.' + myPath, '');
-          SetRecordPathValue(currentRoot, myPath, AValue);
-          Exit;
-        end
-        else if myField.FieldType.isInstance then
-          currentRoot := myField.GetValue(currentRoot).AsObject;
-      end
-      else if Assigned(myProp) then
-      begin
-        if myProp.PropertyType.IsRecord then
-        begin
-          { Set the record value using a procedure and exit }
-          myPath := nodeName + IfThen(myPath <> '', '.' + myPath, '');
-          SetRecordPathValue(currentRoot, myPath, AValue);
-          Exit;
-        end
-        else if myProp.PropertyType.isInstance then
-          currentRoot := myProp.GetValue(currentRoot).AsObject;
-      end
-      else
-        raise Exception.Create(APath + ' is not a path to property or field.');
-      if myPath = '' then
-        Break;
+          if NodeType.IsRecord then
+            begin
+              myPath := nodeName + IfThen(myPath <> '', '.' + myPath, '');
+              SetRecordPathValue(currentNode, myPath, AValue);
+              Exit;
+            end
+          else
+            {2b. if there are more Nodes manages them}
+            NextNode(nodeName, currentNode, myField, myProp, myPath);
+        end;
     end;
-  end;
-  { eventually, we set the value of the last node, if any }
-  if Assigned(myField) then
-  begin
-    if (myField.FieldType.TypeKind <> AValue.Kind) then
-      AValue := InternalCastTo(myField.FieldType.TypeKind, AValue);
-    case myField.FieldType.TypeKind of
-      tkClass:
-        myField.SetValue(currentRoot, TObject(AValue.AsObject))
-    else
-      myField.SetValue(currentRoot, AValue);
-    end;
-  end
-  else if Assigned(myProp) then
-  begin
-    if (myProp.PropertyType.TypeKind <> AValue.Kind) then
-      AValue := InternalCastTo(myProp.PropertyType.TypeKind, AValue);
-    case myProp.PropertyType.TypeKind of
-      tkClass:
-        begin
-          propertyInfo := (myProp as TRttiInstanceProperty).PropInfo;
-          SetObjectProp(currentRoot, propertyInfo, AValue.AsObject);
-        end
-    else
-      myProp.SetValue(currentRoot, AValue);
-    end;
-  end
-  else
-    raise Exception.Create(APath + ' is not a path to property or field.');
+  {eventually, we set the value of the last node, if any}
+  WriteMemberValue(currentNode, myField, myProp, APath, AValue);
 end;
 
-{ Set record value when a is a field of a field }
+{Set record value when a is a field of a field}
 class procedure TPlRTTIUtils.SetRecordFieldValue(Sender: TObject;
   AOwner, AField: TRTTIField; AValue: TValue);
 begin
@@ -680,10 +674,10 @@ begin
   AField.SetValue(PByte(Sender) + Smallint(lPointer), AValue);
 end;
 
-{ Set record value when a is a field of a property
+{Set record value when a is a field of a property
   Remember a record should not contain classes as member, nor record as prop.
   So the first Node could be a simple property or a field,
-  and the following Nodes should be fields only }
+  and the following Nodes should be fields only}
 class procedure TPlRTTIUtils.SetRecordPathValue(ARoot: TObject;
   const APath: string; AValue: TValue);
 var
@@ -704,19 +698,19 @@ begin
   myField := FContext.GetType(ARoot.ClassType).GetField(nodeName);
   myFieldRoot := myField;
   if not Assigned(myField) then
-  begin
-    myProp := FContext.GetType(ARoot.ClassType).GetProperty(nodeName);
-    myPropRoot := myProp;
-  end;
-  { First Node, both prop or field }
+    begin
+      myProp := FContext.GetType(ARoot.ClassType).GetProperty(nodeName);
+      myPropRoot := myProp;
+    end;
+  {First Node, both prop or field}
   while myPath.Contains('.') do
-  begin
-    nodeName := FirstNode(myPath);
-    if Assigned(myField) then
-      myField := myField.FieldType.GetField(nodeName)
-    else
-      myField := myProp.PropertyType.GetField(nodeName);
-  end;
+    begin
+      nodeName := FirstNode(myPath);
+      if Assigned(myField) then
+        myField := myField.FieldType.GetField(nodeName)
+      else
+        myField := myProp.PropertyType.GetField(nodeName);
+    end;
   if Assigned(myField) then
     myRecField := myField.FieldType.GetField(myPath)
   else
@@ -732,6 +726,50 @@ begin
       raise Exception.Create('Error on setting ' + APath + ': ' + e.Message);
   end;
 
+end;
+
+class procedure TPlRTTIUtils.WriteFieldValue(ANode: TObject; AField:
+    TRTTIField; AValue: TValue);
+begin
+  if (AField.FieldType.TypeKind <> AValue.Kind) then
+    AValue := InternalCastTo(AField.FieldType.TypeKind, AValue);
+  case AField.FieldType.TypeKind of
+    tkClass:
+      AField.SetValue(ANode, TObject(AValue.AsObject))
+  else
+    AField.SetValue(ANode, AValue);
+  end;
+end;
+
+class procedure TPlRTTIUtils.WriteMemberValue(ANode: TObject; AField:
+    TRTTIField; AProp: TRttiProperty; const APath: string; AValue: TValue);
+var
+  propertyInfo: PPropInfo;
+begin
+  if Assigned(AField) then
+    WriteFieldValue(ANode, AField, AValue)
+  else if Assigned(AProp) then
+    WritePropertyValue(ANode, AProp, AValue)
+  else
+    raise Exception.Create(APath + ' is not a path to property or field.');
+end;
+
+class procedure TPlRTTIUtils.WritePropertyValue(ANode: TObject; AProp:
+    TRttiProperty; AValue: TValue);
+var
+  propertyInfo: PPropInfo;
+begin
+  if (AProp.PropertyType.TypeKind <> AValue.Kind) then
+    AValue := InternalCastTo(AProp.PropertyType.TypeKind, AValue);
+  case AProp.PropertyType.TypeKind of
+    tkClass:
+      begin
+        propertyInfo := (AProp as TRttiInstanceProperty).PropInfo;
+        SetObjectProp(ANode, propertyInfo, AValue.AsObject);
+      end
+  else
+    AProp.SetValue(ANode, AValue);
+  end;
 end;
 
 end.
