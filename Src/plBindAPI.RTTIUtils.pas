@@ -119,30 +119,29 @@ var
 begin
   Result := False;
   if Left.IsOrdinal then
-    Result := Left.AsOrdinal = Right.AsOrdinal
-  else if Left.TypeInfo = System.TypeInfo(Single) then
-    Result := SameValue(Left.AsType<Single>(), Right.AsType<Single>())
-  else if Left.TypeInfo = System.TypeInfo(Double) then
-    Result := SameValue(Left.AsType<Double>(), Right.AsType<Double>())
-  else if Left.Kind in [tkChar, tkString, tkWChar, tkLString, tkWString,
-    tkUString] then
-    Result := Left.AsString = Right.AsString
-  else if Left.IsClass and Right.IsClass then
-    Result := Left.AsClass = Right.AsClass
-  else if Left.IsObject then
-    Result := Left.AsObject = Right.AsObject
-  else if (Left.Kind = tkPointer) or (Left.TypeInfo = Right.TypeInfo) then
+    Exit(Left.AsOrdinal = Right.AsOrdinal);
+  if Left.TypeInfo = System.TypeInfo(Single) then
+    Exit(SameValue(Left.AsType<Single>(), Right.AsType<Single>()));
+  if Left.TypeInfo = System.TypeInfo(Double) then
+    Exit(SameValue(Left.AsType<Double>(), Right.AsType<Double>()));
+  if Left.Kind in [tkChar, tkString, tkWChar, tkLString, tkWString, tkUString] then
+    Exit(Left.AsString = Right.AsString);
+  if Left.IsClass and Right.IsClass then
+    Exit(Left.AsClass = Right.AsClass);
+  if Left.IsObject then
+    Exit(Left.AsObject = Right.AsObject);
+  if (Left.Kind = tkPointer) or (Left.TypeInfo = Right.TypeInfo) then
     begin
       pLeft := nil;
       pRight := nil;
       Left.ExtractRawDataNoCopy(pLeft);
       Right.ExtractRawDataNoCopy(pRight);
-      Result := pLeft = pRight;
-    end
-  else if Left.TypeInfo = System.TypeInfo(Variant) then
-    Result := Left.AsVariant = Right.AsVariant
-  else if Left.TypeInfo = System.TypeInfo(TGUID) then
-    Result := IsEqualGuid(Left.AsType<TGUID>, Right.AsType<TGUID>)
+      Exit(pLeft = pRight);
+    end;
+  if Left.TypeInfo = System.TypeInfo(Variant) then
+    Exit(Left.AsVariant = Right.AsVariant);
+  if Left.TypeInfo = System.TypeInfo(TGUID) then
+    Exit(IsEqualGuid(Left.AsType<TGUID>, Right.AsType<TGUID>));
 end;
 
 class function TPlRTTIUtils.CastToEnumeration(AValue: TValue): TValue;
