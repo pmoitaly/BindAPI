@@ -37,6 +37,7 @@ interface
 
 *}
 
+{$INCLUDE BindApi.inc}
 uses
   System.Variants;
 
@@ -124,6 +125,7 @@ type
   BindMemberFromAttribute = class(CustomBindMemberAttribute);
   BindMemberToAttribute = class(CustomBindMemberAttribute);
 
+{$IFDEF BACKWARD_SUPPORT}
   {Attribute to force binding on properties of GUI public/published elements}
   CustomBindFieldAttribute = class(CustomBindMemberAttribute);
   BindFieldAttribute = class(CustomBindFieldAttribute);
@@ -146,10 +148,10 @@ type
   BindPropertyAttribute = class(CustomBindPropertyAttribute);
   BindPropertyFromAttribute = class(CustomBindPropertyAttribute);
   BindPropertyToAttribute = class(CustomBindPropertyAttribute);
-
+{$ENDIF}
 
 {$REGION 'In progress'}
-  CustomBindIndexedFieldAttribute = class(CustomBindFieldAttribute)
+  CustomBindIndexedFieldAttribute = class(CustomBindMemberAttribute)
   private
     { Value of source index }
     FSourceIndex: Variant;
@@ -193,7 +195,7 @@ end;
   BindIndexedFieldToAttribute = class(CustomBindIndexedFieldAttribute);
 
   { Attribute class for indexed properties }
-  CustomBindIndexedPropertyAttribute = class(CustomBindPropertyAttribute)
+  CustomBindIndexedPropertyAttribute = class(CustomBindMemberAttribute)
   private
     { Value of source index }
     FSourceIndex: Variant;
@@ -333,7 +335,7 @@ end;
 {$ENDREGION}
 
 {$REGION 'CustomBindPropertyAttribute'}
-
+{$IFDEF BACKWARD_SUPPORT}
 {Example: [BindPropertyAttribute, (True, 'PropertyOfBindedClass', 'BindedClass')]}
 {Example: [BindFieldFromAttribute, (True, 'FieldOfBindedClass')]}
 constructor CustomBindPropertyAttribute.Create(const Enabled: Boolean;
@@ -354,6 +356,7 @@ begin
   FTargetPath := ATargetName;
   FTargetClassName := ATargetClassName;  // if empty, use the class name from ClassBindAttribute
 end;
+{$ENDIF}
 {$ENDREGION}
 
 {$REGION 'CustomBindIndexedPropertyAttribute'}
