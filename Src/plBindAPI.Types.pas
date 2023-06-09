@@ -34,6 +34,8 @@ uses
 type
 
 {$REGION 'Enuberables'}
+  TPlAutoBindOptions = (abRecursive); // To be continued...
+  TPlAutoBindOptionSet = Set of TplAutoBindOptions;
   TPlBindDirection = (bdLeftToRight, bdRightToLeft, bdLeftToRightToLeft, bdRightToLeftToRight);
   TPlBindOptions = (boSingleton, boDeferred);
   TPlBindOptionsSet = set of TPlBindOptions;
@@ -48,6 +50,11 @@ type
     Count: integer;
   end;
 
+  TarAttributes = TArray<TCustomAttribute>;
+  TarFields = TArray<TRttiField>;
+  TarMethods = TArray<TRttiMethod>;
+  TarProperties = TArray<TRttiProperty>;
+  TPlListObjects = TList<TObject>;
 
 
 {$ENDREGION}

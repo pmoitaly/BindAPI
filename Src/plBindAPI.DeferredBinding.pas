@@ -27,11 +27,7 @@ unit plBindAPI.DeferredBinding;
 interface
 
 uses
-  {$IFDEF FPC}
   Classes, Rtti, Generics.Collections,
-  {$ELSE}
-  System.Classes, System.Rtti, System.Generics.Collections,
-  {$ENDIF}
   plBindAPI.Types, plBindAPI.Attributes, plBindAPI.AutoBinder;
 
 type
@@ -55,7 +51,8 @@ implementation
 
 uses
   plBindAPI.RTTIUtils, plBindAPI.BindManagement, plBindAPI.ClassFactory;
-{ TPlDeferredBinding }
+
+{$REGION 'TPlDeferredBinding'}
 
 class function TPlDeferredBinding.Add(
   ADeferredElement: TPlDeferredElement): TPlDeferredElement;
@@ -105,5 +102,7 @@ begin
         DeferredList.Remove(className);
       end;
 end;
+
+{$ENDREGION}
 
 end.

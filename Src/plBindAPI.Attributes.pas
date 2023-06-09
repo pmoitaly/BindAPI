@@ -37,9 +37,13 @@ interface
 
 *}
 
+{$IFDEF FPC}
+{$mode delphi}{$H+}{$M+}
+{$warn 5079 off} { turn warning experimental off }
+{$ENDIF}
 {$INCLUDE BindApi.inc}
 uses
-  System.Variants;
+  Variants;
 
 type
   {Ancestor class of all attributes, with switch on and off bind instructions}
@@ -243,7 +247,7 @@ end;
 implementation
 
 uses
-  System.SysUtils;
+  SysUtils;
 {$REGION 'ClassBindAttribute'}
 
 {Syntax: [ClassBind(True, 'MyBindTargetClass')]}

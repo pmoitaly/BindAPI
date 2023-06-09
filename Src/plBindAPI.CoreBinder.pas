@@ -1,34 +1,34 @@
-{ ***************************************************************************** }
-{ BindAPI }
-{ Copyright (C) 2020 Paolo Morandotti }
-{ Unit plBindAPI.CoreBinder }
-{ ***************************************************************************** }
-{ }
-{ Permission is hereby granted, free of charge, to any person obtaining }
-{ a copy of this software and associated documentation files (the "Software"), }
-{ to deal in the Software without restriction, including without limitation }
-{ the rights to use, copy, modify, merge, publish, distribute, sublicense, }
-{ and/or sell copies of the Software, and to permit persons to whom the }
-{ Software is furnished to do so, subject to the following conditions: }
-{ }
-{ The above copyright notice and this permission notice shall be included in }
-{ all copies or substantial portions of the Software. }
-{ }
-{ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS }
-{ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, }
-{ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE }
-{ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER }
-{ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING }
-{ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
-{ IN THE SOFTWARE. }
-{ ***************************************************************************** }
+{*****************************************************************************}
+{       BindAPI                                                               }
+{       Copyright (C) 2020 Paolo Morandotti                                   }
+{       Unit plBindAPI.CoreBinder                                             }
+{*****************************************************************************}
+{                                                                             }
+{Permission is hereby granted, free of charge, to any person obtaining        }
+{a copy of this software and associated documentation files (the "Software"), }
+{to deal in the Software without restriction, including without limitation    }
+{the rights to use, copy, modify, merge, publish, distribute, sublicense,     }
+{and/or sell copies of the Software, and to permit persons to whom the        }
+{Software is furnished to do so, subject to the following conditions:         }
+{                                                                             }
+{The above copyright notice and this permission notice shall be included in   }
+{all copies or substantial portions of the Software.                          }
+{                                                                             }
+{THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS      }
+{OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  }
+{FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  }
+{AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER       }
+{LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      }
+{FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
+{IN THE SOFTWARE.                                                             }
+{*****************************************************************************}
 unit plBindAPI.CoreBinder;
 
 interface
 
 uses
-  System.Rtti, System.Classes,
-  System.Generics.Defaults, System.Generics.Collections,
+  Rtti, Classes,
+  Generics.Defaults, Generics.Collections,
   plBindAPI.Types, plBindAPI.BinderElement;
 
 type
@@ -39,9 +39,9 @@ type
     FEnabled: Boolean;
     FInterval: integer;
 {$IFDEF MSWINDOWS}
-    {$WARN SYMBOL_PLATFORM OFF}
+{$WARN SYMBOL_PLATFORM OFF}
     FPriority: TThreadPriority;
-    {$WARN SYMBOL_PLATFORM ON}
+{$WARN SYMBOL_PLATFORM ON}
 {$ENDIF}
     procedure AddNewItem(AKey, AValue: TplBindElementData);
     function ComponentFromPath(ASource: TComponent; var APropertyPath: string)
@@ -63,14 +63,14 @@ type
     property Enabled: Boolean read FEnabled write SetFEnabled;
     property Interval: integer read FInterval write FInterval;
 {$IFDEF MSWINDOWS}
-    {$WARN SYMBOL_PLATFORM OFF}
+{$WARN SYMBOL_PLATFORM OFF}
     property Priority: TThreadPriority read FPriority write FPriority;
-    {$WARN SYMBOL_PLATFORM ON}
+{$WARN SYMBOL_PLATFORM ON}
 {$ENDIF}
     procedure Bind(ASource: TObject; const APropertySource: string;
       ATarget: TObject; const APropertyTarget: string;
       AFunction: TplBridgeFunction = nil);
-    (* procedure BindEventHandler(ASource: TObject; const AMethodPath: string; ATarget: TObject; const AHandlerName: string; AFunction: TplBridgeFunction = nil); *)
+    (*procedure BindEventHandler(ASource: TObject; const AMethodPath: string; ATarget: TObject; const AHandlerName: string; AFunction: TplBridgeFunction = nil);*)
     function BindInfo: TPlBindList;
     procedure BindMethod(ASource: TObject; const AMethodPath: string;
       ATarget: TObject; const ANewMethodName: string;
@@ -99,11 +99,10 @@ type
 implementation
 
 uses
-  Windows,
   TypInfo, Hash, SysUtils, Math, StrUtils,
   plBindAPI.RTTIUtils;
 
-{ TPlBinder }
+{TPlBinder}
 
 procedure TPlBinder.AddNewItem(AKey, AValue: TplBindElementData);
 var
@@ -130,7 +129,7 @@ begin
   Result := FBindPropertyList;
 end;
 
-{ CAVEAT: bugged. AV on calling the bound method }
+{CAVEAT: bugged. AV on calling the bound method}
 (*
   procedure TPlBinder.BindEventHandler(ASource: TObject; const AMethodPath: string;
   ATarget: TObject; const AHandlerName: string; AFunction: TplBridgeFunction);
@@ -161,7 +160,7 @@ end;
   end;
   end;
 *)
-{ CAVEAT: works only with _published_ event handlers }
+{CAVEAT: works only with _published_ event handlers}
 procedure TPlBinder.BindMethod(ASource: TObject; const AMethodPath: string;
   ATarget: TObject; const ANewMethodName: string; AFunction: TplBridgeFunction);
 var
@@ -176,7 +175,7 @@ begin
     sourceObject := ComponentFromPath(TComponent(ASource), methodPath)
   else
     sourceObject := ASource;
-  { Extract type information for ASource's type }
+  {Extract type information for ASource's type}
   rType := TplRTTIUtils.Context.GetType(ATarget.ClassType);
   rMethod := rType.GetMethod(ANewMethodName);
   if Assigned(rMethod) then
@@ -272,7 +271,7 @@ end;
 destructor TPlBinder.Destroy;
 begin
   Stop;
-  FreeValues; { Keys are managed by TObjectsDictionary }
+  FreeValues; {Keys are managed by TObjectsDictionary}
   FreeAndNil(FBindPropertyList);
   inherited;
 end;
@@ -294,11 +293,11 @@ end;
 
 procedure TPlBinder.FreeValues;
 var
-  targetList: TPlBindTargetList;   //TList<TplRTTIMemberBind>
-  targetElement: TplBindElementData;   //
+  targetList: TPlBindTargetList; // TList<TplRTTIMemberBind>
+  targetElement: TplBindElementData; //
 begin
-  for targetList in FBindPropertyList.Values  do
-   for targetElement in targetList do
+  for targetList in FBindPropertyList.Values do
+    for targetElement in targetList do
       targetElement.Free;
 end;
 
@@ -318,27 +317,22 @@ begin
     procedure
     var
       item: TplBindElementData;
-      FTickEvent: THandle;
     begin
-      FTickEvent := CreateEvent(nil, True, False, nil);
       while Enabled and not TThread.CheckTerminated do
         begin
-          if (interval < 1) or (WaitForSingleObject(FTickEvent, interval) = WAIT_TIMEOUT) then
+          if (Interval > 0) then
+            TThread.Sleep(Interval);
+          for item in FBindPropertyList.Keys do
             begin
-              for item in FBindPropertyList.Keys do
-                begin
-                  if (Enabled) and not TThread.CheckTerminated and item.ValueChanged
-                  then
-                    TThread.Synchronize(nil,
-                      procedure
-                      begin
-                        UpdateListValues(FBindPropertyList[item], item.Value);
-                      end);
-                end;
+              if (Enabled) and not TThread.CheckTerminated and item.ValueChanged
+              then
+                TThread.Synchronize(nil,
+                  procedure
+                  begin
+                    UpdateListValues(FBindPropertyList[item], item.Value);
+                  end);
             end;
         end;
-      SetEvent(FTickEvent);
-      CloseHandle(FTickEvent);
       FThreadTerminated := True;
       Exit;
     end);
@@ -385,12 +379,12 @@ function TPlBinder.UnbindSource(ASource: TObject): Boolean;
 var
   Key: TplBindElementData;
 begin
-  { Remove a Key causes a memory leak when TPlBindPropertyList is created with
-    Create([doOwnsKeys, doOwnsValues], so we enable/disable it }
+  {Remove a Key causes a memory leak when TPlBindPropertyList is created with
+    Create([doOwnsKeys, doOwnsValues], so we enable/disable it}
   try
-      for Key in FBindPropertyList.Keys do
-        if Key.Element = ASource then
-          Key.Enabled := False;
+    for Key in FBindPropertyList.Keys do
+      if Key.Element = ASource then
+        Key.Enabled := False;
     Result := True;
   except
     Result := False;
@@ -432,7 +426,7 @@ begin
   except
     Result := False;
   end;
-  { TODO: unbind methods }
+  {TODO: unbind methods}
 end;
 
 procedure TPlBinder.UpdateListValues(aList: TPlBindTargetList;
@@ -461,8 +455,8 @@ begin
   if not structureList.Contains(AValue) then
     structureList.Add(AValue)
   else
-    { TODO 1 -oPMo -cRefactoring : Maybe would be better
-      to override existing item? Or to enable it? }
+    {TODO 1 -oPMo -cRefactoring : Maybe would be better
+      to override existing item? Or to enable it?}
     AValue.Free;
   AKey.Free;
 end;

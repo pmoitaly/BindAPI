@@ -32,14 +32,6 @@ uses
   plBindAPI.CoreBinder;
 
 type
-  TarAttributes = TArray<TCustomAttribute>;
-  TarFields = TArray<TRttiField>;
-  TarMethods = TArray<TRttiMethod>;
-  TarProperties = TArray<TRttiProperty>;
-  TPlListObjects = TList<TObject>;
-
-  TPlAutoBindOptions = (abRecursive); // To be continued...
-  TPlAutoBindOptionSet = Set of TplAutoBindOptions;
 
   TPlAutoBinder = class(TInterfacedObject, IplAutoBinder)
   private
@@ -111,7 +103,7 @@ type
 implementation
 
 uses
-  System.TypInfo, System.StrUtils,
+  TypInfo, StrUtils,
   PlBindAPI.RTTIUtils;
 
 {$REGION 'TplAutoBinder'}

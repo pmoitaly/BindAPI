@@ -27,8 +27,7 @@ unit plBindAPI.BinderElement;
 interface
 
 uses
-  System.Rtti, System.Classes, System.Generics.Collections,
-  System.Generics.Defaults,
+  Rtti, Classes, Generics.Collections, Generics.Defaults,
   plBindAPI.Types;
 
 type
@@ -71,7 +70,7 @@ type
 implementation
 
 uses
-  System.TypInfo, System.Hash, System.SysUtils, System.StrUtils, System.Math,
+  TypInfo, Hash, SysUtils, StrUtils, Math,
   plBindAPI.RTTIUtils;
 
 {$REGION 'TPlBindElementData'}
