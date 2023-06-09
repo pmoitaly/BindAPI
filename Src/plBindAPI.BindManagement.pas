@@ -36,10 +36,10 @@ type
   TPlBindManager = class(TInterfacedObject)
   private
     class var FBinder: TPlAutoBinder;
-    class function ExtractTarget(ASource: TObject; AClassAttribute:
-        ClassBindAttribute): TObject;
     class procedure AddDeferredElement(ASource: TObject; AClassAttribute:
         ClassBindAttribute);
+    class function ExtractTarget(ASource: TObject; AClassAttribute:
+        ClassBindAttribute): TObject;
     class function GetInterval: Integer; static;
     class procedure SetInterval(const Value: Integer); static;
   protected

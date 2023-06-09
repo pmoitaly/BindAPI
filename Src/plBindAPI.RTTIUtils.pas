@@ -1,4 +1,3 @@
-unit plBindAPI.RTTIUtils;
 { **************************************************************************** }
 { BindAPI                                                                      }
 { Copyright (C) 2020 Paolo Morandotti                                          }
@@ -23,6 +22,8 @@ unit plBindAPI.RTTIUtils;
 { FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 { IN THE SOFTWARE.                                                             }
 { **************************************************************************** }
+
+unit plBindAPI.RTTIUtils;
 
 interface
 
@@ -80,9 +81,9 @@ type
       : TValue; overload;
     class function InvokeEx(const AMethodName: string; AClass: TClass;
       Instance: TValue; const Args: array of TValue): TValue; static;
-    class function MethodIsImplemented(ATypeInfo: Pointer; MethodName: string)
+    class function MethodIsImplemented(ATypeInfo: Pointer; AMethodName: string)
       : Boolean; overload;
-    class function MethodIsImplemented(const AClass: TClass; MethodName: string)
+    class function MethodIsImplemented(const AClass: TClass; AMethodName: string)
       : Boolean; overload;
     class function OrdinalToEnumeration(const AType: TRttiType;
       AValue: TValue): TValue;
@@ -90,7 +91,7 @@ type
       : Boolean; overload;
     class function PropertyExists(const AClass: TClass; APropertyName: string)
       : Boolean; overload;
-    class function SameSignature(const rParams: TArray<TRttiParameter>;
+    class function SameSignature(const AParams: TArray<TRttiParameter>;
       const Args: array of TValue): Boolean; static;
     class function SetMethod(ARoot: TObject; const ARootMethodPath: string;
       ATarget: TObject; const ATargetMethodName: string = ''): Boolean; inline;
@@ -104,7 +105,7 @@ type
 implementation
 
 uses
-  System.TypInfo, System.Hash, System.SysUtils, System.Math;
+  TypInfo, Hash, SysUtils, Math;
 
 class constructor TPlRTTIUtils.Create;
 begin
@@ -441,7 +442,7 @@ begin
 end;
 
 class function TPlRTTIUtils.MethodIsImplemented(ATypeInfo: Pointer;
-  MethodName: string): Boolean;
+  AMethodName: string): Boolean;
 var
   m: TRttiMethod;
 begin
@@ -449,14 +450,14 @@ begin
   Result := False;
   for m in FContext.GetType(ATypeInfo).GetDeclaredMethods do
     begin
-      Result := CompareText(m.Name, MethodName) = 0;
+      Result := CompareText(m.Name, AMethodName) = 0;
       if Result then
         Break;
     end;
 end;
 
 class function TPlRTTIUtils.MethodIsImplemented(const AClass: TClass;
-  MethodName: string): Boolean;
+  AMethodName: string): Boolean;
 var
   m: TRttiMethod;
 begin
@@ -464,7 +465,7 @@ begin
   Result := False;
   for m in FContext.GetType(AClass.ClassInfo).GetDeclaredMethods do
     begin
-      Result := CompareText(m.Name, MethodName) = 0;
+      Result := CompareText(m.Name, AMethodName) = 0;
       if Result then
         Break;
     end;
@@ -564,18 +565,18 @@ begin
     end;
 end;
 
-class function TPlRTTIUtils.SameSignature(const rParams: TArray<TRttiParameter>;
-  const Args: array of TValue): Boolean;
+class function TPlRTTIUtils.SameSignature(const AParams:
+    TArray<TRttiParameter>; const Args: array of TValue): Boolean;
 var
   rIndex: Integer;
 begin
   Result := False;
-  if Length(Args) = Length(rParams) then
+  if Length(Args) = Length(AParams) then
     begin
       Result := True;
-      for rIndex := 0 to Length(rParams) - 1 do
-        if not((rParams[rIndex].ParamType.Handle = Args[rIndex].TypeInfo) or
-          (Args[rIndex].IsObject and Args[rIndex].AsObject.InheritsFrom(rParams
+      for rIndex := 0 to Length(AParams) - 1 do
+        if not((AParams[rIndex].ParamType.Handle = Args[rIndex].TypeInfo) or
+          (Args[rIndex].IsObject and Args[rIndex].AsObject.InheritsFrom(AParams
           [rIndex].ParamType.AsInstance.MetaclassType))) then
           begin
             Result := False;
@@ -622,7 +623,6 @@ var
   myProp: TRttiProperty;
   nodeName: string;
   nodeType: TRttiType;
-  propertyInfo: PPropInfo;
 begin
   currentNode := ARoot;
   myField := nil;
@@ -742,8 +742,6 @@ end;
 
 class procedure TPlRTTIUtils.WriteMemberValue(ANode: TObject; AField:
     TRTTIField; AProp: TRttiProperty; const APath: string; AValue: TValue);
-var
-  propertyInfo: PPropInfo;
 begin
   if Assigned(AField) then
     WriteFieldValue(ANode, AField, AValue)

@@ -57,7 +57,7 @@ type
   protected
     class constructor Create;
     class destructor Destroy;
-    class procedure AddClassToBindingList(key: string; AClassData: TPlClassData;
+    class procedure AddClassToBindingList(AKey: string; AClassData: TPlClassData;
       AnOptionsSet: TPlBindOptionsSet);
     class procedure AddClassToDeferredList(AClass: TClass); virtual;
   public
@@ -98,12 +98,12 @@ begin
   FInstanceList.Free;
 end;
 
-class procedure TPlClassManager.AddClassToBindingList(key: string;
+class procedure TPlClassManager.AddClassToBindingList(AKey: string;
   AClassData: TplClassData; AnOptionsSet: tplBindOptionsSet);
 begin
-  FClassList.Add(key, AClassData);
+  FClassList.Add(AKey, AClassData);
   if boSingleton in AnOptionsSet then
-    FInstanceList.Add(key, nil);
+    FInstanceList.Add(AKey, nil);
 end;
 
 class procedure TPlClassManager.AddClassToDeferredList(AClass: TClass);
