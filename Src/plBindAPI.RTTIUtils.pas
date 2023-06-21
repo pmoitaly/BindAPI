@@ -53,6 +53,7 @@ type
       : TValue; inline;
     class function ExtractNodeType(AField: TRTTIField; AProp: TRttiProperty)
       : TRttiType; inline;
+    class procedure Log(const AMessage: string);
     class function ReadMemberValue(ARoot: TObject; AField: TRTTIField;
       AProp: TRttiProperty): TValue; inline;
     class procedure SetRecordFieldValue(Sender: TObject;
@@ -105,7 +106,7 @@ type
 implementation
 
 uses
-  TypInfo, Hash, SysUtils, Math;
+  TypInfo, Hash, IOUtils, SysUtils, Math;
 
 class constructor TPlRTTIUtils.Create;
 begin
@@ -244,7 +245,7 @@ begin
       if not Assigned(AProp) then
         begin
           { TODO -oPMo -cFeatures : write this error to a log file }
-          // raise Exception.Create('Can''t find ' + ARoot.ClassName + '.' + ANodeName);
+          Log('Can''t find ' + ARoot.ClassName + '.' + ANodeName);
           Result := False;
         end;
     end;
@@ -284,17 +285,15 @@ var
   NodeType: TRttiType;
 begin
   if APath = '' then
-    begin
-      Result := ARoot;
-      Exit;
-    end;
+      Exit(ARoot);
+
   myPath := APath;
   currentNode := ARoot;
   while myPath <> '' do
     begin
       nodeName := FirstNode(myPath);
       {1. locate the first node of the path, both prop or field}
-      if not ExtractNode(currentNode, myField, myProp, nodeName) then
+      if (not Assigned(currentNode)) or (not ExtractNode(currentNode, myField, myProp, nodeName)) then
         Exit(nil);
 
       nodeType := ExtractNodeType(myField, myProp);
@@ -494,8 +493,11 @@ begin
       memberType := AProp.PropertyType;
     end
   else
-    raise Exception.Create(APath + ' is not a path to property or field.');
-
+    begin
+      Log(APath + ' is not a path to property or field.');
+      ARoot := nil;
+      Exit;
+    end;
   Result := TValue.Empty;
   if memberType.IsRecord then
     begin
@@ -509,7 +511,6 @@ begin
       else
         ARoot := AProp.GetValue(ARoot).AsObject;
     end;
-
 end;
 
 class function TPlRTTIUtils.ExtractNodeType(AField: TRTTIField;
@@ -521,6 +522,21 @@ begin
     Result := AProp.PropertyType
   else
     raise Exception.Create('No member available.');
+end;
+
+class procedure TPlRTTIUtils.Log(const AMessage: string);
+var
+  fileName: string;
+begin
+  // Getting the filename for the logfile (In this case the Filename is 'application-exename.log'
+  fileName := TPath.GetPublicPath + TPath.DirectorySeparatorChar +
+    'morandotti.it' +  TPath.DirectorySeparatorChar + 'BindApi' +
+    TPath.DirectorySeparatorChar +'Errors.log';
+
+  if not DirectoryExists(ExtractFilePath(fileName)) then
+    ForceDirectories(ExtractFilePath(fileName));
+
+  TFile.AppendAllText(fileName, AMessage);
 end;
 
 class function TPlRTTIUtils.OrdinalToEnumeration(const AType: TRttiType;
