@@ -9,21 +9,21 @@ package plBindAPI;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
+{$OPTIMIZATION OFF}
 {$OVERFLOWCHECKS OFF}
 {$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'A library to bind objects using attributes'}
 {$RUNONLY}
@@ -33,12 +33,15 @@ requires
   rtl;
 
 contains
-  plBindAPI.Attributes in '..\Src\plBindAPI.Attributes.pas',
   plBindAPI.AutoBinder in '..\Src\plBindAPI.AutoBinder.pas',
   plBindAPI.BinderElement in '..\Src\plBindAPI.BinderElement.pas',
   plBindAPI.BindManagement in '..\Src\plBindAPI.BindManagement.pas',
   plBindAPI.ClassFactory in '..\Src\plBindAPI.ClassFactory.pas',
   plBindAPI.CoreBinder in '..\Src\plBindAPI.CoreBinder.pas',
-  plBindAPI.Types in '..\Src\plBindAPI.Types.pas';
+  plBindAPI.Types in '..\Src\plBindAPI.Types.pas',
+  plBindAPI.RTTIUtils in '..\Src\plBindAPI.RTTIUtils.pas',
+  plBindApi.ExternalBinder in '..\Src\plBindApi.ExternalBinder.pas',
+  plBindAPI.Attributes in '..\Src\plBindAPI.Attributes.pas',
+  plBindAPI.DeferredBinding in '..\Src\plBindAPI.DeferredBinding.pas';
 
 end.

@@ -2,7 +2,7 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
   Left = 0
   Top = 0
   Caption = 'plBindApi Simple Demo'
-  ClientHeight = 307
+  ClientHeight = 419
   ClientWidth = 442
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -26,13 +26,13 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     Left = 8
     Top = 8
     Width = 204
-    Height = 291
+    Height = 371
   end
   object bvlOutput: TBevel
     Left = 224
     Top = 8
     Width = 210
-    Height = 233
+    Height = 345
   end
   object lblInt: TLabel
     Left = 368
@@ -40,6 +40,20 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     Width = 24
     Height = 13
     Caption = 'lblInt'
+  end
+  object lblIndirectBinding: TLabel
+    Left = 24
+    Top = 56
+    Width = 177
+    Height = 138
+    AutoSize = False
+    Caption = 
+      'The editor above il linked to a property of an external class by' +
+      ' its Text property. '#13#10'The external class use its value to popula' +
+      'te two more properties. '#13#10'Each property is linked to on of the e' +
+      'ditors on the right: if you change the text above, they are upda' +
+      'ted with the text in lowercase and uppercas.'
+    WordWrap = True
   end
   object edtSource2: TEdit
     Left = 16
@@ -80,14 +94,14 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     Text = 'edtSame'
   end
   object speValue: TSpinEdit
-    Left = 16
-    Top = 160
+    Left = 24
+    Top = 200
     Width = 121
     Height = 22
     MaxValue = 0
     MinValue = 0
     TabOrder = 5
-    Value = 0
+    Value = 2
   end
   object edtDouble: TEdit
     Left = 232

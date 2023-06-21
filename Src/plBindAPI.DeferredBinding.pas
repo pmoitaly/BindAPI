@@ -1,7 +1,7 @@
 {*****************************************************************************}
 {       BindAPI                                                               }
 {       Copyright (C) 2020 Paolo Morandotti                                   }
-{       Unit plBindAPI.DeferredBinding                                             }
+{       Unit plBindAPI.DeferredBinding                                        }
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }

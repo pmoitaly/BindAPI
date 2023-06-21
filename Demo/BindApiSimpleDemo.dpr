@@ -2,8 +2,8 @@ program BindApiSimpleDemo;
 
 uses
   Vcl.Forms,
-  fBindApiSimpleDemo in 'fBindApiSimpleDemo.pas' {frmBindApiSimpleDemo},
-  Test.Controller in 'Test.Controller.pas';
+  fBindApiSimpleDemoBase in 'fBindApiSimpleDemoBase.pas' {frmBindApiSimpleDemo},
+  Test.Controller in 'Common\Test.Controller.pas';
 
 {$R *.res}
 

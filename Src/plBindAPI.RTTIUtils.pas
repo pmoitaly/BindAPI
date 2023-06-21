@@ -41,8 +41,8 @@ type
     class function CastToInt64(AValue: TValue): TValue;
     class function CastToInteger(AValue: TValue): TValue;
     class function CastToString(AValue: TValue): TValue;
-    class procedure ExtractNode(ARoot: TObject; out AField: TRTTIField;
-      out AProp: TRttiProperty; const ANodeName: string);
+    class function ExtractNode(ARoot: TObject; out AField: TRTTIField; out AProp:
+        TRttiProperty; const ANodeName: string): Boolean;
     class function FirstNode(var pathNodes: string): string;
     class function GetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField): TValue; overload;
@@ -232,17 +232,21 @@ begin
   Result := AValue.AsOrdinal; (*Bug#12 - Could be useless*)
 end;
 
-class procedure TPlRTTIUtils.ExtractNode(ARoot: TObject; out AField: TRTTIField;
-  out AProp: TRttiProperty; const ANodeName: string);
+class function TPlRTTIUtils.ExtractNode(ARoot: TObject; out AField: TRTTIField;
+    out AProp: TRttiProperty; const ANodeName: string): Boolean;
 begin
+  Result := True;
   AProp := nil;
   AField := FContext.GetType(ARoot.ClassType).GetField(ANodeName);
   if not Assigned(AField) then
     begin
       AProp := FContext.GetType(ARoot.ClassType).GetProperty(ANodeName);
       if not Assigned(AProp) then
-        raise Exception.Create('Can''t find ' + ARoot.ClassName + '.' +
-          ANodeName);
+        begin
+          { TODO -oPMo -cFeatures : write this error to a log file }
+          // raise Exception.Create('Can''t find ' + ARoot.ClassName + '.' + ANodeName);
+          Result := False;
+        end;
     end;
 
 end;
@@ -290,7 +294,9 @@ begin
     begin
       nodeName := FirstNode(myPath);
       {1. locate the first node of the path, both prop or field}
-      ExtractNode(currentNode, myField, myProp, nodeName);
+      if not ExtractNode(currentNode, myField, myProp, nodeName) then
+        Exit(nil);
+
       nodeType := ExtractNodeType(myField, myProp);
       {2a. if there are more nodes...}
       if myPath <> '' then

@@ -24,6 +24,8 @@ begin
   TestInsight.DUnitX.RunRegisteredTests;
   exit;
 {$ENDIF}
+
+  TDUnitX.Options.ExitBehavior := TDUnitXExitBehavior.Pause;
   try
     //Check command line options, will exit if invalid
     TDUnitX.CheckCommandLine;

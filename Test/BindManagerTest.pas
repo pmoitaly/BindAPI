@@ -63,8 +63,11 @@ type
     procedure TestBindObjectProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
     // Test event binding
     [Test(True)]
-    [TestCase('Test On Event', '2, Pippo, 3.6')]
+    [TestCase('Test On Event binding for BindMethod', '2, Pippo, 3.6')]
     procedure TestBindEvent(const AnInt: Integer; const AStr: string; const ADbl: Double);
+    [Test(True)]
+    [TestCase('Test for BindMethod method', '2, Pippo, 3.6')]
+    procedure TestDirectBindEvent(const AnInt: Integer; const AStr: string; const ADbl: Double);
     // General Test
     [Test(True)]
     [TestCase('Test On Start and Stop', '2, Pippo, 3.6')]
@@ -149,6 +152,8 @@ begin
 end;
 
 procedure TPlBindManagerTest.TestBindProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
+var
+  dblValue: Double;
 begin
   activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
 
@@ -166,13 +171,14 @@ begin
   binder.Bind(passiveClass, 'RecTarget', activeClass, 'RecPropIn');
   binder.Bind(passiveClass, 'StrTarget', activeClass, 'StrPropIn');
   // Test
+  dblValue := ADbl + ADbl;
   with activeClass do
     begin
       Assert.AreEqual(AStr + ' (Rec)', RecPropIn.Name, 'Record Name property error');
       Assert.AreEqual(AnInt + 1, RecPropIn.Age, 'Record Age property error');
       Assert.AreEqual(DblPropOut, DblPropIn, 'Double property error');
       Assert.AreEqual(AnInt, IntPropIn, 'Integer property error');
-      Assert.AreEqual(Double(ADbl * 2.0), DblPropIn2, 'Double property function error');
+      Assert.AreEqual(dblValue, DblPropIn2, 'Double property function error');
       Assert.AreEqual(AnInt * 2, IntPropIn2, 'Integer 2 property function error');
       Assert.AreEqual(AnInt * 3, IntPropIn3, 'Integer 3 property function error');
       Assert.AreEqual(AStr + ' (No Rec)', StrPropIn, 'String property error');
@@ -195,6 +201,20 @@ begin
       Assert.AreEqual('', RecPropIn.Name, 'Record Name property error');
       Assert.AreEqual(AnInt + 1, RecPropIn.Age, 'Record Age property error');
     end;
+end;
+
+procedure TPlBindManagerTest.TestDirectBindEvent(const AnInt: Integer;
+  const AStr: string; const ADbl: Double);
+begin
+  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
+  // Binding
+  binder.Bind(passiveClass, 'EventFiredTarget', activeClass, 'EventFired');
+  binder.BindMethod(activeClass, 'OnEvent', passiveClass, 'TestEventBind');
+//  binder.BindEventHandler(activeClass, 'OnEvent', passiveClass, 'TestEventBind');
+  // Test
+  activeClass.OnEvent(nil);
+  binder.UpdateValues;
+  Assert.IsTrue(activeClass.EventFired, 'Event not fired');
 end;
 
 procedure TPlBindManagerTest.TestUpdateValues(const AnInt: Integer;

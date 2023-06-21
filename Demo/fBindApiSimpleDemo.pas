@@ -44,6 +44,7 @@ type
   [BindFieldTo(False, 'speValue.Value', 'NewValue')]
   [BindFieldTo(False, 'speValue.Value', 'DoubleValue', 'DoubleOf')]
   [EventBind(True, 'btnTest.OnClick', 'TestEventBind')]
+  [EventBind(False, 'btnTest.OnClick', 'SetSourceText')]
   TfrmBindApiSimpleDemo = class(TForm)
     lblCounter2: TLabel;
     edtSource2: TEdit;
@@ -62,6 +63,7 @@ type
     bvlOutput: TBevel;
     [BindFieldFrom(True, 'Caption', 'NewValue')]
     lblInt: TLabel;
+    lblIndirectBinding: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
@@ -101,7 +103,9 @@ procedure TfrmBindApiSimpleDemo.FormCreate(Sender: TObject);
 begin
   {Remember: if the bound class is not a singleton, the binder is
    responsible of its destruction}
-  TplBindManager.Bind(Self);
+  // TplBindManager.Binder.Interval := 1;
+  if not (csDesigning in ComponentState) then
+    TplBindManager.Bind(Self);
 end;
 
 procedure TfrmBindApiSimpleDemo.FormDestroy(Sender: TObject);

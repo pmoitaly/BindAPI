@@ -27,8 +27,8 @@ unit BindAPITestClasses;
 interface
 
 uses
-  System.Classes, System.RTTI,
-  VCL.StdCtrls,
+  Classes, RTTI,
+  StdCtrls,
   plBindAPI.Attributes;
 
 type
@@ -75,8 +75,8 @@ type
 
   [ClassBindAttribute(True, 'TTestClassC')]
   TTestClassB = class
-          [EventBind(True, 'OnClick', 'TestEventBind')]
-          [BindPropertyTo(True, 'dblTarget')]
+    [EventBind(True, 'OnClick', 'TestEventBind')]
+    [BindPropertyTo(True, 'dblTarget')]
     btnTest: TButton;
   private
     FdblPropOut: Double;
@@ -94,6 +94,7 @@ type
     FintPropIn3: Integer;
     FobjPropOut: TInternalClass;
     FobjPropIn: TInternalClass;
+    FOnEvent: TNotifyEvent;
   public
     constructor Create(AnInt: Integer; AStr: string; ADbl: Double);
     destructor Destroy; override;
@@ -131,6 +132,8 @@ type
     {unbound}
                 [BindPropertyFrom(False, 'StrTarget')]
     property UnboundProp: string read FunboundProp write FUnboundProp;
+  published
+    property OnEvent: TNotifyEvent read FOnEvent write FOnEvent;
   end;
 
   TTestClassC = class
@@ -194,6 +197,7 @@ begin
   FrecPropOut.Age := AnInt + 1;
   FstrPropOut := AStr;
   btnTest := TButton.Create(nil);
+  btnTest.Name := 'BbtnTest';
   FobjPropOut := TInternalClass.Create;
   FobjPropIn := TInternalClass.Create;
   FobjPropOut.Name := AStr + ' (Obj)';

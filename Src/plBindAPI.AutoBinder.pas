@@ -250,12 +250,12 @@ begin
     for rAttr in rField.GetAttributes() do
       if (rAttr is CustomBindFieldAttribute) and (rField.Visibility in [mvPublic, mvPublished]) then
         BindField(ASource, ATarget, CustomBindFieldAttribute(rAttr), AClassAttribute, rField.Name)
-      else if (rAttr is CustomBindMemberAttribute) and (rField.Visibility in [mvPublic, mvPublished]) then
-        begin
-          {If the field value is an object, it becomes the bind source}
-          bindSource := FindSource(rField, ASource);
-          BindMember(bindSource, ATarget, CustomBindFieldAttribute(rAttr), AClassAttribute, rField.Name)
-        end
+//      else if (rAttr is CustomBindMemberAttribute) and (rField.Visibility in [mvPublic, mvPublished]) then
+//        begin
+//          {If the field value is an object, it becomes the bind source}
+//          bindSource := FindSource(rField, ASource);
+//          BindMember(bindSource, ATarget, CustomBindFieldAttribute(rAttr), AClassAttribute, rField.Name)
+//        end
       else if rAttr is BindMethodAttribute then
         BindMethod( rField.GetValue(ASource).AsObject, ATarget, BindMethodAttribute(rAttr), AClassAttribute);
 end;
