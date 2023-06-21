@@ -43,17 +43,17 @@ type
     class function CastToString(AValue: TValue): TValue;
     class function ExtractNode(ARoot: TObject; out AField: TRTTIField; out AProp:
         TRttiProperty; const ANodeName: string): Boolean;
+    class function ExtractNodeType(AField: TRTTIField; AProp: TRttiProperty)
+      : TRttiType; inline;
     class function FirstNode(var pathNodes: string): string;
     class function GetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField): TValue; overload;
     class function GetRecordFieldValue(Sender: TObject; AOwner: TRttiProperty;
       AField: TRTTIField): TValue; overload;
+    class procedure Log(const AMessage: string);
     class function NextNode(const ANodeName: string; var ARoot: TObject;
       var AField: TRTTIField; var AProp: TRttiProperty; var APath: string)
       : TValue; inline;
-    class function ExtractNodeType(AField: TRTTIField; AProp: TRttiProperty)
-      : TRttiType; inline;
-    class procedure Log(const AMessage: string);
     class function ReadMemberValue(ARoot: TObject; AField: TRTTIField;
       AProp: TRttiProperty): TValue; inline;
     class procedure SetRecordFieldValue(Sender: TObject;
@@ -73,6 +73,8 @@ type
       var APropertyPath: string): TComponent; static;
     class function EnumerationToOrdinal(const AType: TRttiType;
       AValue: TValue): TValue;
+    class function GetPathLastNode(ARoot: TObject; var APath: string; out myField:
+        TRTTIField; out myProp: TRttiProperty): TValue;
     class function GetPathValue(ARoot: TObject; var APath: string): TValue;
     class function GetRecordPathValue(ARoot: TObject;
       var APath: string): TValue;
@@ -82,6 +84,7 @@ type
       : TValue; overload;
     class function InvokeEx(const AMethodName: string; AClass: TClass;
       Instance: TValue; const Args: array of TValue): TValue; static;
+    class function IsValidPath(ARoot: TObject; const APath: string): Boolean;
     class function MethodIsImplemented(ATypeInfo: Pointer; AMethodName: string)
       : Boolean; overload;
     class function MethodIsImplemented(const AClass: TClass; AMethodName: string)
@@ -246,10 +249,22 @@ begin
         begin
           { TODO -oPMo -cFeatures : write this error to a log file }
           Log('Can''t find ' + ARoot.ClassName + '.' + ANodeName);
-          Result := False;
+          raise Exception.Create('Can''t find ' + ARoot.ClassName + '.' +
+          ANodeName);
         end;
     end;
 
+end;
+
+class function TPlRTTIUtils.ExtractNodeType(AField: TRTTIField;
+  AProp: TRttiProperty): TRttiType;
+begin
+  if Assigned(AField) then
+    Result := AField.FieldType
+  else if Assigned(AProp) then
+    Result := AProp.PropertyType
+  else
+    raise Exception.Create('No member available.');
 end;
 
 class function TPlRTTIUtils.FirstNode(var pathNodes: string): string;
@@ -274,23 +289,28 @@ begin
     Result := '';
 end;
 
-class function TPlRTTIUtils.GetPathValue(ARoot: TObject;
-  var APath: string): TValue;
+{returns the instance of the last - 1 object in the path}
+{use this function to                                   }
+{verify if the path is correct                          }
+{ or                                                    }
+{get the last node value                                }
+class function TPlRTTIUtils.GetPathLastNode(ARoot: TObject;
+  var APath: string; out myField: TRTTIField;
+  out myProp: TRttiProperty): TValue;
 var
   currentNode: TObject;
-  myField: TRTTIField;
   myPath: string;
-  myProp: TRttiProperty;
   nodeName: string;
-  NodeType: TRttiType;
+  nodeType: TRttiType;
 begin
+
   if APath = '' then
-      Exit(ARoot);
+    Exit(ARoot);
 
   myPath := APath;
   currentNode := ARoot;
   while myPath <> '' do
-    begin
+    try
       nodeName := FirstNode(myPath);
       {1. locate the first node of the path, both prop or field}
       if (not Assigned(currentNode)) or (not ExtractNode(currentNode, myField, myProp, nodeName)) then
@@ -300,7 +320,7 @@ begin
       {2a. if there are more nodes...}
       if myPath <> '' then
         begin
-          if NodeType.IsRecord then
+          if nodeType.IsRecord then
             begin
               myPath := nodeName + IfThen(myPath <> '', '.' + myPath, '');
               Result := GetRecordPathValue(currentNode, myPath);
@@ -310,9 +330,40 @@ begin
             {2b. if there are more Nodes manages them}
             NextNode(nodeName, currentNode, myField, myProp, myPath);
         end;
+    except
+      Exit(nil);
     end;
   {3. Eventually read the member value}
-  Result := ReadMemberValue(currentNode, myField, myProp);
+  Result := currentNode;
+end;
+
+class function TPlRTTIUtils.GetPathValue(ARoot: TObject;
+  var APath: string): TValue;
+var
+  currentNode: TObject;
+  lastNode: TValue;
+  myField: TRTTIField;
+  myPath: string;
+  myProp: TRttiProperty;
+//  nodeName: string;
+  NodeType: TRttiType;
+begin
+  if APath = '' then
+      Exit(ARoot);
+
+  myPath := APath;
+  currentNode := ARoot;
+  lastNode := GetPathLastNode(currentNode, myPath, myField, myProp);
+  if lastNode.IsObject then
+    begin
+      currentNode := lastNode.AsObject;
+      Result := ReadMemberValue(currentNode, myField, myProp);
+    end
+  else
+    begin
+      Result := GetRecordPathValue(currentNode, myPath);
+      Exit;
+    end;
 end;
 
 class function TPlRTTIUtils.GetRecordFieldValue(Sender: TObject;
@@ -446,6 +497,34 @@ begin
     raise Exception.CreateFmt('method %s not found', [AMethodName]);
 end;
 
+class function TPlRTTIUtils.IsValidPath(ARoot: TObject; const APath: string):
+    Boolean;
+var
+  lastNode: TValue;
+  myField: TRTTIField;
+  myPath: string;
+  myProp: TRttiProperty;
+begin
+  myPath := APath;
+  lastNode := GetPathLastNode(ARoot, myPath, myField, myProp);
+  Result := (not lastNode.IsEmpty) and (Assigned(myField) or Assigned(myProp));
+end;
+
+class procedure TPlRTTIUtils.Log(const AMessage: string);
+var
+  fileName: string;
+begin
+  // Getting the filename for the logfile (In this case the Filename is 'application-exename.log'
+  fileName := TPath.GetPublicPath + TPath.DirectorySeparatorChar +
+    'morandotti.it' +  TPath.DirectorySeparatorChar + 'BindApi' +
+    TPath.DirectorySeparatorChar +'Errors.log';
+
+  if not DirectoryExists(ExtractFilePath(fileName)) then
+    ForceDirectories(ExtractFilePath(fileName));
+
+  TFile.AppendAllText(fileName, AMessage);
+end;
+
 class function TPlRTTIUtils.MethodIsImplemented(ATypeInfo: Pointer;
   AMethodName: string): Boolean;
 var
@@ -495,8 +574,7 @@ begin
   else
     begin
       Log(APath + ' is not a path to property or field.');
-      ARoot := nil;
-      Exit;
+      raise Exception.Create(APath + ' is not a path to property or field.');
     end;
   Result := TValue.Empty;
   if memberType.IsRecord then
@@ -511,32 +589,6 @@ begin
       else
         ARoot := AProp.GetValue(ARoot).AsObject;
     end;
-end;
-
-class function TPlRTTIUtils.ExtractNodeType(AField: TRTTIField;
-  AProp: TRttiProperty): TRttiType;
-begin
-  if Assigned(AField) then
-    Result := AField.FieldType
-  else if Assigned(AProp) then
-    Result := AProp.PropertyType
-  else
-    raise Exception.Create('No member available.');
-end;
-
-class procedure TPlRTTIUtils.Log(const AMessage: string);
-var
-  fileName: string;
-begin
-  // Getting the filename for the logfile (In this case the Filename is 'application-exename.log'
-  fileName := TPath.GetPublicPath + TPath.DirectorySeparatorChar +
-    'morandotti.it' +  TPath.DirectorySeparatorChar + 'BindApi' +
-    TPath.DirectorySeparatorChar +'Errors.log';
-
-  if not DirectoryExists(ExtractFilePath(fileName)) then
-    ForceDirectories(ExtractFilePath(fileName));
-
-  TFile.AppendAllText(fileName, AMessage);
 end;
 
 class function TPlRTTIUtils.OrdinalToEnumeration(const AType: TRttiType;

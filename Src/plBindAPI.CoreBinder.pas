@@ -119,9 +119,12 @@ procedure TPlBinder.Bind(ASource: TObject; const APropertySource: string;
 var
   Source, Target: TplBindElementData;
 begin
-  Source := TplBindElementData.Create(ASource, APropertySource);
-  Target := TplBindElementData.Create(ATarget, APropertyTarget, AFunction);
-  InternalAdd(Source, Target);
+  if TPlRTTIUtils.IsValidPath(ATarget, APropertyTarget) and TPlRTTIUtils.IsValidPath(ASource, APropertySource)then
+    begin
+      Source := TplBindElementData.Create(ASource, APropertySource);
+      Target := TplBindElementData.Create(ATarget, APropertyTarget, AFunction);
+      InternalAdd(Source, Target);
+    end;
 end;
 
 function TPlBinder.BindInfo: TPlBindList;
