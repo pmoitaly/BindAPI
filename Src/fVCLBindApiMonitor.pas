@@ -148,7 +148,7 @@ begin
               Inc(rowIndex);
               sgrBindList.RowCount := sgrBindList.RowCount + 1;
             end;
-          sgrBindList.Cells[4,rowIndex] :=  value.ClassName;
+          sgrBindList.Cells[4,rowIndex] :=  value.Element.ClassName;
           sgrBindList.Cells[5,rowIndex] :=  value.PropertyPath;
           sgrBindList.Cells[6,rowIndex] :=  value.Value.ToString;
           Inc(internalLoopIndex);
