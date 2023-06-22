@@ -153,7 +153,7 @@ class function TPlRTTIUtils.CastToEnumeration(AValue: TValue): TValue;
 begin
   Result := AValue;
   case AValue.Kind of
-    tkInteger:
+    tkInteger, tkInt64:
       Result := AValue.AsOrdinal;
   end;
 end;
@@ -407,7 +407,7 @@ begin
       myPropRoot := myProp;
     end;
   {Loop on props tree}
-  {TODO 1 -oPMo -cRefactoring : Manage properties of advanced records}
+  {TODO 1 -oPMo -cRefactoring : Manage properties of complex/advanced records}
   while myPath.Contains('.') do
     begin
       nodeName := FirstNode(myPath);
@@ -595,6 +595,7 @@ class function TPlRTTIUtils.OrdinalToEnumeration(const AType: TRttiType;
   AValue: TValue): TValue;
 begin
   (*Bug#12: To be implemented*)
+  Result := TValue.FromOrdinal(AType.Handle, AValue.AsInteger);
 end;
 
 class function TPlRTTIUtils.PropertyExists(ATypeInfo: Pointer;
@@ -805,7 +806,7 @@ class procedure TPlRTTIUtils.WriteFieldValue(ANode: TObject; AField:
     TRTTIField; AValue: TValue);
 begin
   if (AField.FieldType.TypeKind <> AValue.Kind) then
-    AValue := InternalCastTo(AField.FieldType.TypeKind, AValue);
+    AValue := InternalCastTo(AField.FieldType, AValue);
   case AField.FieldType.TypeKind of
     tkClass:
       AField.SetValue(ANode, TObject(AValue.AsObject))
@@ -829,10 +830,12 @@ class procedure TPlRTTIUtils.WritePropertyValue(ANode: TObject; AProp:
     TRttiProperty; AValue: TValue);
 var
   propertyInfo: PPropInfo;
+  propTypeKind: TTypeKind;
 begin
-  if (AProp.PropertyType.TypeKind <> AValue.Kind) then
-    AValue := InternalCastTo(AProp.PropertyType.TypeKind, AValue);
-  case AProp.PropertyType.TypeKind of
+  propTypeKind := AProp.PropertyType.TypeKind;
+  if (propTypeKind <> AValue.Kind) then
+    AValue := InternalCastTo(AProp.PropertyType, AValue);
+  case propTypeKind of
     tkClass:
       begin
         propertyInfo := (AProp as TRttiInstanceProperty).PropInfo;
