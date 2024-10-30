@@ -48,15 +48,13 @@ type
     FElement: TObject;
     FElementPath: string;
     FEnabled: Boolean;
-    FParametersType: TPlIndexedPropertyInfo;
+    FParametersType: TPlIndexedPropertyInfo;  // for future use
     FValue: TValue;
     function CurrentValue: TValue;
     procedure SetValue(Value: TValue); virtual;
   public
     constructor Create(AObject: TObject; const APropertyPath: string;
       AFunction: TplBridgeFunction = nil); // overload; deprecated;
-    // constructor Create(AObject: TObject; const APropertyPath: string;
-    //  const AFunction: string = ''); overload;
     function IsEqualTo(AStructure: TPlBindElementData): Boolean;
     function ValueChanged: Boolean;
     property ClassAlias: string read FClassAlias;
@@ -148,7 +146,6 @@ begin
       if Result then
         FValue := newValue;
     except
-      // Result := False;
       on e: Exception do
         begin
           FEnabled := False;
