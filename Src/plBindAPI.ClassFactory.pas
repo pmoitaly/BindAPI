@@ -1,7 +1,7 @@
 {*****************************************************************************}
 {                                                                             }
 {Copyright (C) 2020-2024 Paolo Morandotti                                     }
-{Unit plBindAPI.Attributes                                                    }
+{Unit plBindAPI.ClassFactory
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }
