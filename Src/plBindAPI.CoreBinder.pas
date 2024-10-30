@@ -39,8 +39,8 @@ type
     FInterval: integer;
 {$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
     FPriority: TThreadPriority;
-    FBindErrorList: TStrings;
 {$WARN SYMBOL_PLATFORM ON}{$ENDIF}
+    FBindErrorList: TStrings;
     procedure AddNewItem(AKey, AValue: TplBindElementData);
     function ComponentFromPath(ASource: TComponent; var APropertyPath: string)
       : TComponent;
