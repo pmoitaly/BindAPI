@@ -1,7 +1,7 @@
 {*****************************************************************************}
-{       BindAPI                                                               }
-{       Copyright (C) 2020 Paolo Morandotti                                   }
-{       Unit plBindAPI.Types                                                  }
+{BindAPI                                                                      }
+{Copyright (C) 2020 Paolo Morandotti                                          }
+{Unit plBindAPI.Types                                                         }
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }
@@ -22,28 +22,34 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
+
 unit plBindAPI.Types;
 
 interface
 
 uses
-  Classes, SysUtils, Generics.Collections, Rtti,
-  plBindApi.Attributes;
-
+  Classes, SysUtils, System.TypInfo, Rtti ,Generics.Collections,
+  plBindAPI.Attributes;
 
 type
 
 {$REGION 'Enuberables'}
-  TPlAutoBindOptions = (abRecursive); // To be continued...
-  TPlAutoBindOptionSet = Set of TplAutoBindOptions;
-  TPlBindDirection = (bdLeftToRight, bdRightToLeft, bdLeftToRightToLeft, bdRightToLeftToRight);
-  TPlBindOptions = (boSingleton, boDeferred);
-  TPlBindOptionsSet = set of TPlBindOptions;
+  TPlBindAPIOptions = record
+  public type
+    AutoBindOptions = (Recursive); // To be continued...
+    BindDirection = (LeftToRight, RightToLeft, LeftToRightToLeft,
+      RightToLeftToRight);
+    BindOptions = (Singleton, Deferred);
+  end;
+
+  TPlAutoBindOptionSet = set of TPlBindAPIOptions.AutoBindOptions;
+  TPlBindOptionsSet = set of TPlBindAPIOptions.BindOptions;
 {$ENDREGION}
 
 {$REGION 'CommonTypes'}
   TPlBoundObjects = TArray<TObject>;
   TPlCreateParams = array of TValue;
+
   TPlBindDebugInfo = record
     Active: boolean;
     Interval: integer;
@@ -54,9 +60,14 @@ type
   TarFields = TArray<TRttiField>;
   TarMethods = TArray<TRttiMethod>;
   TarProperties = TArray<TRttiProperty>;
+  TPlBindParametersType = TArray<TTypeKind>;
+  TPlBindParametersTypeInfo = TArray<TTypeInfo>;
+  TPlIndexedPropertyInfo = record
+    paramsTypes: TPlBindParametersType;
+    paramsTypInfo: TPlBindParametersTypeInfo;
+    paramsValues: TPlCreateParams;
+  end;
   TPlListObjects = TList<TObject>;
-
-
 {$ENDREGION}
 
 {$REGION 'Exceptions'}
@@ -64,17 +75,21 @@ type
 {$ENDREGION}
 
 {$REGION 'Methods'}
-  TPlBridgeFunction = function(const NewValue, OldValue: TValue): TValue of object;
+  TPlBridgeFunction = function(const NewValue, OldValue: TValue)
+    : TValue of object;
   TPlCallbackProcedure = TNotifyEvent;
 {$ENDREGION}
 
 {$REGION 'Interfaces'}
   IPlAutoBinder = interface
     ['{64BF1986-35A2-48D4-9558-2EBDB345EFEB}']
-    procedure Bind(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: TplBridgeFunction = nil);
-    procedure BindObject(ASource, aTarget: TObject; AnAttribute: ClassBindAttribute);
+    procedure Bind(ASource: TObject; const APropertySource: string;
+      ATarget: TObject; const APropertyTarget: string;
+      AFunction: TPlBridgeFunction = nil);
+    procedure BindObject(ASource, ATarget: TObject;
+      AnAttribute: BindClassAttribute);
     function Count: integer;
-    procedure Start(const SleepInterval: Integer);
+    procedure Start(const SleepInterval: integer);
     procedure Stop;
     procedure UnbindSource(ASource: TObject);
     procedure UnbindTarget(ATarget: TObject);
