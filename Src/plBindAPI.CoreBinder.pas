@@ -1,7 +1,6 @@
-{*****************************************************************************}
-{       BindAPI                                                               }
-{       Copyright (C) 2020 Paolo Morandotti                                   }
-{       Unit plBindAPI.CoreBinder                                             }
+{                                                                             }
+{Copyright (C) 2020-2024 Paolo Morandotti                                     }
+{Unit plBindAPI.CoreBinder                                                    }
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }
@@ -38,19 +37,20 @@ type
     FComparer: TPlParKeyComparer;
     FEnabled: Boolean;
     FInterval: integer;
-{$IFDEF MSWINDOWS}
-{$WARN SYMBOL_PLATFORM OFF}
+{$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
     FPriority: TThreadPriority;
-{$WARN SYMBOL_PLATFORM ON}
-{$ENDIF}
+    FBindErrorList: TStrings;
+{$WARN SYMBOL_PLATFORM ON}{$ENDIF}
     procedure AddNewItem(AKey, AValue: TplBindElementData);
     function ComponentFromPath(ASource: TComponent; var APropertyPath: string)
       : TComponent;
     procedure FreeValues;
     procedure InternalAdd(Source, Target: TplBindElementData);
+    procedure SetBindErrorList(const Value: TStrings);
     procedure SetFEnabled(const Value: Boolean);
     procedure UpgradeExistingItem(AKey, AValue: TplBindElementData);
   protected
+    {TODO -oPMo -cRefactoring : Move to array/list to manage more than one list (?)}
     FBindPropertyList: TPlBindList;
     FInternalThread: TThread;
     FThreadTerminated: Boolean;
@@ -60,17 +60,18 @@ type
   public
     constructor Create; overload;
     destructor Destroy; override;
+    property BindErrorList: TStrings read FBindErrorList write SetBindErrorList;
     property Enabled: Boolean read FEnabled write SetFEnabled;
     property Interval: integer read FInterval write FInterval;
-{$IFDEF MSWINDOWS}
-{$WARN SYMBOL_PLATFORM OFF}
+{$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
     property Priority: TThreadPriority read FPriority write FPriority;
-{$WARN SYMBOL_PLATFORM ON}
-{$ENDIF}
+{$WARN SYMBOL_PLATFORM ON}{$ENDIF}
     procedure Bind(ASource: TObject; const APropertySource: string;
       ATarget: TObject; const APropertyTarget: string;
-      AFunction: TplBridgeFunction = nil);
-    (*procedure BindEventHandler(ASource: TObject; const AMethodPath: string; ATarget: TObject; const AHandlerName: string; AFunction: TplBridgeFunction = nil);*)
+      AFunction: TplBridgeFunction = nil); //overload;
+    //procedure Bind(ASource: TObject; const APropertySource: string;
+    //ATarget: TObject; const APropertyTarget: string;
+    //AFunction: string = ''); overload;
     function BindInfo: TPlBindList;
     procedure BindMethod(ASource: TObject; const AMethodPath: string;
       ATarget: TObject; const ANewMethodName: string;
@@ -87,7 +88,7 @@ type
     procedure DetachAsTarget(ATarget: TObject; ASource: TObject); overload;
       deprecated;
     function NormalizePath(ASource: TObject; var SourcePath: string): TObject;
-    procedure Start(const SleepInterval: integer);
+    procedure Start(const ASleepInterval: integer);
     procedure Stop;
     function UnbindSource(ASource: TObject): Boolean;
     function UnbindTarget(ATarget: TObject): Boolean; overload;
@@ -102,7 +103,14 @@ uses
   TypInfo, Hash, SysUtils, Math, StrUtils,
   plBindAPI.RTTIUtils;
 
-{TPlBinder}
+resourcestring
+  SOnUpgradingBindIsDisabled = '%s on upgrading %s. Bind is disabled.';
+  SRemovingFromBindPropertyList = '%s : %s removing %s from BindPropertyList.';
+
+const
+  DEFAULT_INTERVAL = 100;
+
+  {TPlBinder}
 
 procedure TPlBinder.AddNewItem(AKey, AValue: TplBindElementData);
 var
@@ -119,7 +127,9 @@ procedure TPlBinder.Bind(ASource: TObject; const APropertySource: string;
 var
   Source, Target: TplBindElementData;
 begin
-  if TPlRTTIUtils.IsValidPath(ATarget, APropertyTarget) and TPlRTTIUtils.IsValidPath(ASource, APropertySource)then
+  {TODO Is a test necessary here?}
+  if TPlRTTIUtils.IsValidPath(ATarget, APropertyTarget) and
+    TPlRTTIUtils.IsValidPath(ASource, APropertySource) then
     begin
       Source := TplBindElementData.Create(ASource, APropertySource);
       Target := TplBindElementData.Create(ATarget, APropertyTarget, AFunction);
@@ -132,37 +142,6 @@ begin
   Result := FBindPropertyList;
 end;
 
-{CAVEAT: bugged. AV on calling the bound method}
-(*
-  procedure TPlBinder.BindEventHandler(ASource: TObject; const AMethodPath: string;
-  ATarget: TObject; const AHandlerName: string; AFunction: TplBridgeFunction);
-  var
-  rField: TRttiField;
-  handlerMethod: TRttiMethod;
-  eventProperty: TRttiProperty;
-  methodPath: string;
-  sourceObject: TObject;
-  value: TValue;
-  begin
-  raise Exception.Create('Uncallable method ;-)');
-  methodPath := AMethodPath;
-  if (ASource is TComponent) then
-  sourceObject := ComponentFromPath(TComponent(ASource), methodPath)
-  else
-  sourceObject := ASource;
-
-  eventProperty := FContext.GetType(sourceObject.ClassType).GetProperty(methodPath);
-  handlerMethod := FContext.GetType(ATarget.ClassType).GetMethod(AHandlerName);
-
-  begin
-  if eventProperty.PropertyType.TypeKind = tkMethod then
-  begin
-  TValue.Make(@handlerMethod, eventProperty.PropertyType.Handle, value);
-  eventProperty.SetValue(sourceObject, value);
-  end;
-  end;
-  end;
-*)
 {CAVEAT: works only with _published_ event handlers}
 procedure TPlBinder.BindMethod(ASource: TObject; const AMethodPath: string;
   ATarget: TObject; const ANewMethodName: string; AFunction: TplBridgeFunction);
@@ -179,7 +158,7 @@ begin
   else
     sourceObject := ASource;
   {Extract type information for ASource's type}
-  rType := TplRTTIUtils.Context.GetType(ATarget.ClassType);
+  rType := TPlRTTIUtils.Context.GetType(ATarget.ClassType);
   rMethod := rType.GetMethod(ANewMethodName);
   if Assigned(rMethod) then
     begin
@@ -193,7 +172,7 @@ end;
 procedure TPlBinder.BindObject(ASource: TObject; const APropertySource: string;
   ATarget: TObject);
 begin
-  TplRTTIUtils.SetPathValue(ASource, APropertySource, ATarget);
+  TPlRTTIUtils.SetPathValue(ASource, APropertySource, ATarget);
 end;
 
 procedure TPlBinder.BindObject(ASource: TObject; const APropertySource: string;
@@ -201,7 +180,7 @@ procedure TPlBinder.BindObject(ASource: TObject; const APropertySource: string;
 var
   targetObject: TValue;
 begin
-  targetObject := TplRTTIUtils.GetPathValue(ATarget, ATargetPath);
+  targetObject := TPlRTTIUtils.GetPathValue(ATarget, ATargetPath);
   BindObject(ASource, APropertySource, targetObject.AsObject);
 end;
 
@@ -255,13 +234,14 @@ begin
   inherited;
   FThreadTerminated := True;
   FEnabled := False;
-  FInterval := 100;
+  FInterval := DEFAULT_INTERVAL;
 {$IFDEF MSWINDOWS}
   FPriority := tpIdle;
 {$ENDIF}
   FComparer := TPlParKeyComparer.Create;
   FBindPropertyList := TPlBindList.Create([doOwnsKeys, doOwnsValues], 0,
     FComparer);
+  FBindErrorList := TStringList.Create;
 end;
 
 function TPlBinder.DebugInfo: TplBindDebugInfo;
@@ -276,6 +256,7 @@ begin
   Stop;
   FreeValues; {Keys are managed by TObjectsDictionary}
   FreeAndNil(FBindPropertyList);
+  FBindErrorList.Free;
   inherited;
 end;
 
@@ -296,7 +277,7 @@ end;
 
 procedure TPlBinder.FreeValues;
 var
-  targetList: TPlBindTargetList; // TList<TplRTTIMemberBind>
+  targetList: TPlBindTargetList;     //TList<TplRTTIMemberBind>
   targetElement: TplBindElementData; //
 begin
   for targetList in FBindPropertyList.Values do
@@ -355,6 +336,11 @@ begin
     Result := ASource;
 end;
 
+procedure TPlBinder.SetBindErrorList(const Value: TStrings);
+begin
+  FBindErrorList.Assign(Value);
+end;
+
 procedure TPlBinder.SetFEnabled(const Value: Boolean);
 begin
   if FEnabled <> Value then
@@ -367,9 +353,9 @@ begin
     end;
 end;
 
-procedure TPlBinder.Start(const SleepInterval: integer);
+procedure TPlBinder.Start(const ASleepInterval: integer);
 begin
-  Interval := SleepInterval;
+  Interval := ASleepInterval;
   Enabled := True;
 end;
 
@@ -382,15 +368,25 @@ function TPlBinder.UnbindSource(ASource: TObject): Boolean;
 var
   Key: TplBindElementData;
 begin
-  {Remove a Key causes a memory leak when TPlBindPropertyList is created with
-    Create([doOwnsKeys, doOwnsValues], so we enable/disable it}
+  {Removing a Key causes a memory leak when TPlBindPropertyList is created with
+   Create([doOwnsKeys, doOwnsValues]), so we enable/disable it}
+  Key := nil; //This line avoids a warning W1036
   try
     for Key in FBindPropertyList.Keys do
       if Key.Element = ASource then
         Key.Enabled := False;
     Result := True;
   except
-    Result := False;
+    on e: Exception do
+      begin
+        if Assigned(Key) then
+          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+            ['TPlBinder.UnbindSource', e.Message, Key.PropertyPath]))
+        else
+          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+            ['TPlBinder.UnbindSource', e.Message, 'Unassigned key']));
+        Result := False;
+      end;
   end;
 end;
 
@@ -399,6 +395,7 @@ var
   Value: TPlBindTargetList;
   keyOfValue: TplBindElementData;
 begin
+  keyOfValue := nil; //This line avoids a warning W1036
   try
     for Value in FBindPropertyList.Values do
       for keyOfValue in Value do
@@ -406,7 +403,16 @@ begin
           keyOfValue.Enabled := False;
     Result := True;
   except
-    Result := False;
+    on e: Exception do
+      begin
+        if Assigned(keyOfValue) then
+          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+            ['TPlBinder.UnbindTarget', e.Message, keyOfValue.PropertyPath]))
+        else
+          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+            ['TPlBinder.UnbindTarget', e.Message, 'Unassigned Key']));
+        Result := False;
+      end;
   end;
 end;
 
@@ -416,6 +422,7 @@ var
   sourceKey: TplBindElementData;
   sourceValue: TPlBindTargetList;
 begin
+  Key := nil; //This line avoids a warning W1036
   try
     for Key in FBindPropertyList.Keys do
       if Key.Element = ASource then
@@ -427,7 +434,16 @@ begin
         end;
     Result := True;
   except
-    Result := False;
+    on e: Exception do
+      begin
+        if Assigned(Key) then
+          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+            ['TPlBinder.UnbindSource', e.Message, Key.PropertyPath]))
+        else
+          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+            ['TPlBinder.UnbindSource', e.Message, 'Unassigned Key']));
+        Result := False;
+      end;
   end;
   {TODO: unbind methods}
 end;
@@ -446,8 +462,14 @@ var
   item: TplBindElementData;
 begin
   for item in FBindPropertyList.Keys do
-    if item.ValueChanged then
-      UpdateListValues(FBindPropertyList[item], item.Value);
+    try
+      if item.ValueChanged then
+        UpdateListValues(FBindPropertyList[item], item.Value);
+    except
+      on e: Exception do
+        FBindErrorList.Add(Format(SOnUpgradingBindIsDisabled,
+          [e.Message, item.PropertyPath]));
+    end;
 end;
 
 procedure TPlBinder.UpgradeExistingItem(AKey, AValue: TplBindElementData);
@@ -459,7 +481,7 @@ begin
     structureList.Add(AValue)
   else
     {TODO 1 -oPMo -cRefactoring : Maybe would be better
-      to override existing item? Or to enable it?}
+     to override existing item? Or to enable it?}
     AValue.Free;
   AKey.Free;
 end;
