@@ -32,12 +32,13 @@ uses
 
 type
   TPlDeferredElement = record
-    Attribute: ClassBindAttribute;
+    Attribute: BindClassAttribute;
     Source: TObject;
   end;
 
   TPlDeferredBinding = class
   private
+  class var
     class var DeferredList: TDictionary<string,TPlDeferredElement>;
   public
     class constructor Create;
@@ -70,9 +71,9 @@ begin
   deferredElement.Source := ASource;
   rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
   for rAttr in rType.GetAttributes do
-    if rAttr is ClassBindAttribute then
+    if rAttr is BindClassAttribute then
       begin
-        deferredElement.Attribute := ClassBindAttribute(rAttr);
+        deferredElement.Attribute := BindClassAttribute(rAttr);
         Add(deferredElement);
       end;
   Result := ASource;
