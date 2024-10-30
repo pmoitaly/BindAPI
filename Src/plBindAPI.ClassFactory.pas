@@ -1,7 +1,7 @@
 {*****************************************************************************}
-{       BindAPI                                                               }
-{       Copyright (C) 2020 Paolo Morandotti                                   }
-{       Unit plBindAPI.Attributes                                             }
+{                                                                             }
+{Copyright (C) 2020-2024 Paolo Morandotti                                     }
+{Unit plBindAPI.Attributes                                                    }
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }
@@ -43,7 +43,6 @@ type
     constructor Create(AClass: TClass; const AParamsSet: TPlCreateParams);
   end;
 
-  (* Was: TplClassList = class(TDictionary<string, TClass>); *)
   TPlClassList = class(TDictionary<string, TplClassData>);
   TPlInstanceList = class(TObjectDictionary<string, TObject>);
 
@@ -84,6 +83,10 @@ uses
   plBindAPI.BindManagement,
   plBindAPI.DeferredBinding, plBindAPI.RTTIUtils;
 
+resourcestring
+  StrNotRegistered = ' not registered.';
+  StrMethodCreateNotFound = 'Method ''Create'' not found';
+
 { TPlClassManager }
 
 class constructor TPlClassManager.Create;
@@ -102,7 +105,7 @@ class procedure TPlClassManager.AddClassToBindingList(AKey: string;
   AClassData: TplClassData; AnOptionsSet: tplBindOptionsSet);
 begin
   FClassList.Add(AKey, AClassData);
-  if boSingleton in AnOptionsSet then
+  if Singleton in AnOptionsSet then
     FInstanceList.Add(AKey, nil);
 end;
 
@@ -139,7 +142,7 @@ begin
           Exit;
         end;
     end;
-  raise EplBindApiException.Create('Method ''Create'' not found');
+  raise EplBindApiException.Create(StrMethodCreateNotFound);
 end;
 
 class function TPlClassManager.GetInstance(const AClassName: string): TObject;
@@ -152,7 +155,7 @@ begin
         Result := GetNewInstance(AClassName);
     end
   else
-    raise EplBindApiException.Create(AClassName + ' not registered.');
+    raise EplBindApiException.Create(AClassName + StrNotRegistered);
 end;
 
 class function TPlClassManager.GetNewInstance(const AClassName: string)
@@ -204,9 +207,9 @@ var
   options: tplBindOptionsSet;
 begin
   if AsSingleton then
-    options := [boSingleton];
+    options := [Singleton];
   if AsDeferred then
-    options := options + [boDeferred];
+    options := options + [Deferred];
   RegisterClass(AClass, options, []);
 end;
 
@@ -226,8 +229,8 @@ begin
   key := AClass.ClassName;
   if not FClassList.ContainsKey(key) then
     AddClassToBindingList(key, classData, AnOptionsSet);
-  // CreateInstance(AClass));
-  if boDeferred in AnOptionsSet then
+
+  if Deferred in AnOptionsSet then
     AddClassToDeferredList(AClass);
   TPlDeferredBinding.TestDeferred;
 end;
