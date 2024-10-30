@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<codetemplate	xmlns="http://schemas.borland.com/Delphi/2005/codetemplates"
+				version="1.0.0">
+	<template name="BindMethods" invoke="none">
+		<description>
+          A template for plBindApi BindMethod attribute (Long call)
+		</description>
+		<author>
+		   Paolo Morandotti
+		</author>
+        <point name="BindingEnabled">
+			 <text>
+				 True
+			 </text>
+			 <hint>
+                 Boolean: True if that binding is enabled
+			 </hint>
+		 </point>
+        <point name="MethodName" default="true">
+			 <text>
+				 AMethodName
+			 </text>
+			 <hint>
+                 String: The name of the source method
+			 </hint>
+		 </point>
+        <point name="NewMethodName">
+			 <text>
+				 ANewMethodName
+			 </text>
+			 <hint>
+                 String: The name of the new method
+			 </hint>
+		 </point>
+        <point name="TargetClassName">
+			 <text>
+				 ATargetClassName
+			 </text>
+			 <hint>
+                 String: The name of the class exposing the new method
+			 </hint>
+		 </point>
+         <code language="Delphi" context="memberdecl" delimiter="|">
+            <![CDATA[|*|[BindMethod(|BindingEnabled|, '|MethodName|', '|NewMethodName|', '|TargetClassName|')]
+         ]]>
+		</code>
+	</template>
+</codetemplate>
