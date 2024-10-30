@@ -59,3 +59,4 @@ plBindAPI.AutoBinder.pas
 /Test/__recovery
 
 Analysis/BindAPI.eap
+*.bak

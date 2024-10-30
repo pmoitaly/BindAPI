@@ -1,7 +1,7 @@
 {*****************************************************************************}
-{       BindAPI                                                               }
-{       Copyright (C) 2020 Paolo Morandotti                                   }
-{       Unit plBindAPI.BinderElement                                          }
+{                                                                             }
+{Copyright (C) 2020-2024 Paolo Morandotti                                     }
+{Unit plBindAPI.BinderElement                                                 }
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }
@@ -27,16 +27,17 @@ unit plBindAPI.BinderElement;
 interface
 
 uses
-  Rtti, Classes, Generics.Collections, Generics.Defaults,
+  Classes, Rtti, TypInfo,
+  Generics.Collections,
+  Generics.Defaults,
   plBindAPI.Types;
 
 type
 
   TPlBindElementData = class;
 
-  TPlBindTargetList = TList<TplBindElementData>;
-  TPlBindList = TObjectDictionary<TplBindElementData, TPlBindTargetList>;
-
+  TPlBindTargetList = TList<TPlBindElementData>;
+  TPlBindList = TObjectDictionary<TPlBindElementData, TPlBindTargetList>;
 
   {List of bound members}
   {An element data contains source or target atomic info}
@@ -47,13 +48,17 @@ type
     FElement: TObject;
     FElementPath: string;
     FEnabled: Boolean;
+    FParametersType: TPlIndexedPropertyInfo;
     FValue: TValue;
     function CurrentValue: TValue;
     procedure SetValue(Value: TValue); virtual;
   public
-    constructor Create(AObject: TObject; const APropertyPath: string; AFunction: TplBridgeFunction = nil);
-    function IsEqualTo(AStructure: TplBindElementData) : Boolean;
-    function ValueChanged: boolean;
+    constructor Create(AObject: TObject; const APropertyPath: string;
+      AFunction: TplBridgeFunction = nil); // overload; deprecated;
+    // constructor Create(AObject: TObject; const APropertyPath: string;
+    //  const AFunction: string = ''); overload;
+    function IsEqualTo(AStructure: TPlBindElementData): Boolean;
+    function ValueChanged: Boolean;
     property ClassAlias: string read FClassAlias;
     property Element: TObject read FElement;
     property Enabled: Boolean read FEnabled write FEnabled;
@@ -70,28 +75,37 @@ type
 implementation
 
 uses
-  TypInfo, Hash, SysUtils, StrUtils, Math,
+  Hash,
+  Math,
+  StrUtils,
+  SysUtils,
+
   plBindAPI.RTTIUtils;
+
+resourcestring
+  StrAObjectParameterNo = 'AObject parameter not assigned';
+  StrPropertyPathNotSet = 'PropertyPath not set';
 
 {$REGION 'TPlBindElementData'}
 
 constructor TPlBindElementData.Create(AObject: TObject;
   const APropertyPath: string; AFunction: TplBridgeFunction);
 begin
-  // Basic test. We should provide more test to verifiy if property exists, etc.
+  { TODO 5 -oPMo -cRefactoring : Basic test. Should we provide more test to verifiy if property exists, etc. ? }
   if not Assigned(AObject) then
-    raise Exception.Create('AObject not assgined');
+    raise Exception.Create(StrAObjectParameterNo);
   if APropertyPath = '' then
-    raise Exception.Create('PropertyPath not set');
+    raise Exception.Create(StrPropertyPathNotSet);
 
   FEnabled := True;
   FCalculatedValue := AFunction;
   FElementPath := APropertyPath;
   FElement := AObject;
+
   FValue := CurrentValue;
 end;
 
-{Get record value when a is a field of a property}
+{Get record value when there is a field of a property}
 function TPlBindElementData.CurrentValue: TValue;
 var
   path: string;
@@ -100,7 +114,7 @@ begin
   Result := TplRTTIUtils.GetPathValue(FElement, path);
 end;
 
-function TPlBindElementData.IsEqualTo(AStructure: TplBindElementData): Boolean;
+function TPlBindElementData.IsEqualTo(AStructure: TPlBindElementData): Boolean;
 begin
   Result := (Self.Element = AStructure.Element) and
     (Self.PropertyPath = AStructure.PropertyPath);
@@ -120,11 +134,13 @@ begin
   TplRTTIUtils.SetPathValue(FElement, path, FValue);
 end;
 
-{ TODO 2 -oPMo -cRefactoring : We should raise a specific exception without disabling the binding. }
-function TPlBindElementData.ValueChanged: boolean;
+{TODO 2 -oPMo -cRefactoring : Should we raise a specific exception
+without disabling the binding?}
+function TPlBindElementData.ValueChanged: Boolean;
 var
   newValue: TValue;
 begin
+    Result := False;
   if FEnabled and Assigned(FElement) then
     try
       newValue := CurrentValue;
@@ -132,28 +148,32 @@ begin
       if Result then
         FValue := newValue;
     except
-      Result := False;
-      FEnabled := False;
-    end
-  else
-    Result := False;
+      // Result := False;
+      on e: Exception do
+        begin
+          FEnabled := False;
+          raise;
+        end;
+    end;
 end;
 
 {$ENDREGION}
-
 {$REGION 'TPlParKeyComparer'}
 
-function TPlParKeyComparer.Equals(const Left, Right: TPlBindElementData): Boolean;
+function TPlParKeyComparer.Equals(const Left,
+  Right: TPlBindElementData): Boolean;
 begin
   Result := (Left.Element = Right.Element) and
     (Left.PropertyPath = Right.PropertyPath);
 end;
 
-function TPlParKeyComparer.GetHashCode(
-  const Value: TPlBindElementData): Integer;
+function TPlParKeyComparer.GetHashCode(const Value: TPlBindElementData)
+  : Integer;
 begin
-  Result := THashBobJenkins.GetHashValue(PChar(Value.PropertyPath)^, Length(Value.PropertyPath) * SizeOf(Char), 0);
+  Result := THashBobJenkins.GetHashValue(PChar(Value.PropertyPath)^,
+    Length(Value.PropertyPath) * SizeOf(Char), 0);
 end;
 
 {$ENDREGION}
+
 end.
