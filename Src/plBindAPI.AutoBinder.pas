@@ -299,9 +299,9 @@ begin
       bridgeFunction := FindCalculatingFuncion(aTarget,
         AMemberAttribute.FunctionName);
 
-      sourcePath := IfThen(AMemberAttribute.sourcePath <> '',
-        AMemberAttribute.sourcePath, AMemberName);
-      targetPath := AMemberAttribute.targetPath;
+      sourcePath := IfThen(AMemberAttribute.SourceQName <> '',
+        AMemberAttribute.SourceQName, AMemberName);
+      targetPath := AMemberAttribute.TargetQName;
       sourceObject := ASource;
       targetObject := aTarget; //FBinder.NormalizePath(ATarget, targetPath);
 
@@ -365,7 +365,7 @@ procedure TPlAutoBinder.BindMethod(ASource, aTarget: TObject;
 begin
   if CanBind(AClassAttribute, AMethodAttribute, aTarget) then
     FBinder.BindMethod(ASource, AMethodAttribute.SourceMethodName, aTarget,
-      AMethodAttribute.NewMethodName);
+      AMethodAttribute.NewMethodQName);
 end;
 
 procedure TPlAutoBinder.BindMethods(ASource, aTarget: TObject;
