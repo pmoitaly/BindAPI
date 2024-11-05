@@ -12,7 +12,8 @@ uses
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
   BindManagerTest in 'BindManagerTest.pas',
-  BindAPITestClasses in 'BindAPITestClasses.pas';
+  BindAPITestClasses in 'BindAPITestClasses.pas',
+  AttributesTests in 'AttributesTests.pas';
 
 var
   runner : ITestRunner;
