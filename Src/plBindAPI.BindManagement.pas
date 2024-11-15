@@ -32,29 +32,127 @@ uses
   plBindAPI.Types;
 
 type
-
+  /// <summary>
+  /// Manages binding operations and provides utilities for deferred and immediate bindings.
+  /// </summary>
+  /// <remarks>
+  /// <para>Using TPlBindManager is the easiest and fastest way to manage
+  /// an application based on the BindAPI framework.</para>
+  /// <para>It is a completely static class that manages an instance of
+  /// <see cref="TPlAutoBinder" /> in which the information contained in
+  /// the attributes of each class flows together.</para>
+  /// </remarks>
+  ///  <example>
+  ///  The following example comes from the form of <c>BindApiSimpleDemo</c>.
+  ///  <code>procedure TfrmBindApiSimpleDemo.FormCreate(Sender: TObject);
+  ///  begin
+  ///    {Remember: if the bound class is not a singleton, the binder is
+  ///     responsible of its destruction}
+  ///   TplBindManager.Bind(Self);
+  ///  end;
+  ///
+  ///  procedure TfrmBindApiSimpleDemo.FormDestroy(Sender: TObject);
+  ///  begin
+  ///    TplBindManager.Unbind(Self);
+  ///  end;
+  ///  </code>
+  ///  </example>
   TPlBindManager = class(TInterfacedObject)
   private
+    /// <summary>
+    /// Holds the instance of the auto-binder (see <see cref="TPlAutoBinder" />).
+    /// </summary>
     class var FBinder: TPlAutoBinder;
+
+    /// <summary>
+    /// Adds a deferred binding element for the specified source object.
+    /// </summary>
+    /// <param name="ASource">The source object to bind.</param>
+    /// <param name="AClassAttribute">The binding attribute for the class.</param>
     class procedure AddDeferredElement(ASource: TObject;
       AClassAttribute: BindClassAttribute);
+
+    /// <summary>
+    /// Extracts the target object from the specified source object using the given class attribute.
+    /// </summary>
+    /// <param name="ASource">The source object.</param>
+    /// <param name="AClassAttribute">The binding attribute for the class.</param>
+    /// <returns>The target object to bind.</returns>
     class function ExtractTarget(ASource: TObject;
       AClassAttribute: BindClassAttribute): TObject;
+
+    /// <summary>
+    /// Gets the interval for automatic binding operations.
+    /// </summary>
+    /// <returns>The interval in milliseconds.</returns>
     class function GetInterval: Integer; static;
+
+    /// <summary>
+    /// Sets the interval for automatic binding operations.
+    /// </summary>
+    /// <param name="Value">The interval in milliseconds.</param>
     class procedure SetInterval(const Value: Integer); static;
+
   protected
+    /// <summary>
+    /// Class constructor, initializes static members.
+    /// </summary>
     class constructor Create;
+
+    /// <summary>
+    /// Class destructor, cleans up static members.
+    /// </summary>
     class destructor Destroy;
+
   public
-    {Public declarations}
+    /// <summary>
+    /// Adds a binding for the specified source object with the given class attribute.
+    /// </summary>
+    /// <param name="ASource">The source object to bind.</param>
+    /// <param name="AClassAttribute">The binding attribute for the class.</param>
+    /// <returns>True if the binding was successfully added; otherwise, false.</returns>
     class function AddBind(ASource: TObject;
       AClassAttribute: BindClassAttribute): boolean;
+
+    /// <summary>
+    /// Adds a deferred binding for the specified source object.
+    /// </summary>
+    /// <param name="ASource">The source object to bind.</param>
+    /// <returns>True if the deferred binding was successfully added; otherwise, false.</returns>
     class function AddDeferredBind(ASource: TObject): boolean; static;
+
+    /// <summary>
+    /// Performs binding operations on the specified source object.
+    /// </summary>
+    /// <param name="ASource">The source object to bind.</param>
     class procedure Bind(ASource: TObject);
+
+    /// <summary>
+    /// Provides debug information about the binding operations.
+    /// </summary>
+    /// <returns>A <c>TPlBindDebugInfo</c> object containing debug details.</returns>
     class function DebugInfo: TPlBindDebugInfo;
+
+    /// <summary>
+    /// Retrieves a list of errors encountered during binding.
+    /// </summary>
+    /// <returns>A <c>TStrings</c> object containing error messages.</returns>
     class function ErrorList: TStrings;
+
+    /// <summary>
+    /// Unbinds the specified source object.
+    /// </summary>
+    /// <param name="ASource">The source object to unbind.</param>
     class procedure Unbind(ASource: TObject);
+
+    /// <summary>
+    /// Gets the instance of the auto-binder.
+    /// </summary>
     class property Binder: TPlAutoBinder read FBinder;
+
+    /// <summary>
+    /// Gets or sets the interval for automatic binding operations.
+    /// </summary>
     class property Interval: Integer read GetInterval write SetInterval;
   end;
 
@@ -87,6 +185,9 @@ class function TPlBindManager.AddBind(ASource: TObject;
 var
   target: TObject;
 begin
+  if (not Assigned(ASource)) or (not Assigned(AClassAttribute)) then
+    raise EPlBindApiException.Create('Invalid argument in AddBind');
+
   target := ExtractTarget(ASource, AClassAttribute);
   if Assigned(target) then
     FBinder.BindObject(ASource, target, AClassAttribute)
