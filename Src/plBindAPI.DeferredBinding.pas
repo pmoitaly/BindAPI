@@ -31,22 +31,70 @@ uses
   plBindAPI.Types, plBindAPI.Attributes, plBindAPI.AutoBinder;
 
 type
-  TPlDeferredElement = record
-    Attribute: BindClassAttribute;
-    Source: TObject;
-  end;
+/// <summary>
+/// Represents a deferred binding element with its attribute and source object.
+/// </summary>
+TPlDeferredElement = record
+  /// <summary>
+  /// The <see cref="BindClassAttribute">binding class attribute</see> associated with this element.
+  /// </summary>
+  Attribute: BindClassAttribute;
 
-  TPlDeferredBinding = class
-  private
-  class var
-    class var DeferredList: TDictionary<string,TPlDeferredElement>;
-  public
-    class constructor Create;
-    class destructor Destroy;
-    class function Add(ASource: TObject): TObject; overload;
-    class function Add(ADeferredElement: TPlDeferredElement): TPlDeferredElement; overload;
-    class procedure TestDeferred;
-  end;
+  /// <summary>
+  /// The source object for this deferred binding element.
+  /// </summary>
+  Source: TObject;
+end;
+
+/// <summary>
+/// Provides functionality for managing deferred bindings.
+/// </summary>
+TPlDeferredBinding = class
+private
+  /// <summary>
+  /// List of deferred binding elements, indexed by a string key.
+  /// </summary>
+  class var DeferredList: TDictionary<string, TPlDeferredElement>;
+
+public
+  /// <summary>
+  /// Initializes the deferred bindings system. Called automatically when the class is first used.
+  /// </summary>
+  class constructor Create;
+
+  /// <summary>
+  /// Cleans up resources used by the deferred bindings system. Called automatically when the class is no longer needed.
+  /// </summary>
+  class destructor Destroy;
+
+  /// <summary>
+  /// Adds a source object to the deferred list.
+  /// </summary>
+  /// <param name="ASource">The source object to add.</param>
+  /// <returns>The added source object.</returns>
+  class function Add(ASource: TObject): TObject; overload;
+
+  /// <summary>
+  /// Adds a deferred binding element to the deferred list.
+  /// </summary>
+  /// <param name="ADeferredElement">The deferred element to add.</param>
+  /// <returns>The added deferred element.</returns>
+  class function Add(ADeferredElement: TPlDeferredElement): TPlDeferredElement; overload;
+
+  /// <summary>
+  /// Clears all elements from the deferred list.
+  /// </summary>
+  class procedure Clear;
+
+  /// <summary>Counts the number of current bindings.</summary>
+  /// <returns>The total number of bindings.</returns>
+  class function Count: integer;
+
+  /// <summary>
+  /// Processes all deferred bindings.
+  /// </summary>
+  class procedure ProcessDeferred;
+end;
 
 implementation
 
@@ -55,10 +103,11 @@ uses
 
 {$REGION 'TPlDeferredBinding'}
 
-class function TPlDeferredBinding.Add(
-  ADeferredElement: TPlDeferredElement): TPlDeferredElement;
+class function TPlDeferredBinding.Add(ADeferredElement: TPlDeferredElement)
+  : TPlDeferredElement;
 begin
-  DeferredList.Add(ADeferredElement.Attribute.TargetClassName, ADeferredElement);
+  DeferredList.Add(ADeferredElement.Attribute.TargetClassName,
+    ADeferredElement);
   Result := ADeferredElement;
 end;
 
@@ -79,9 +128,19 @@ begin
   Result := ASource;
 end;
 
+class procedure TPlDeferredBinding.Clear;
+begin
+  DeferredList.Clear;
+end;
+
+class function TPlDeferredBinding.Count: integer;
+begin
+  Result := DeferredList.Count;
+end;
+
 class constructor TPlDeferredBinding.Create;
 begin
-  DeferredList :=  TDictionary<string,TPlDeferredElement>.Create;
+  DeferredList := TDictionary<string, TPlDeferredElement>.Create;
 end;
 
 class destructor TPlDeferredBinding.Destroy;
@@ -89,7 +148,7 @@ begin
   DeferredList.Free;
 end;
 
-class procedure TPlDeferredBinding.TestDeferred;
+class procedure TPlDeferredBinding.ProcessDeferred;
 var
   className: string;
   deferredElement: TPlDeferredElement;
@@ -99,7 +158,8 @@ begin
       begin
         // Force binding, then remove the element from the list
         deferredElement := DeferredList.Items[className];
-        TplBindManager.AddBind(deferredElement.Source, deferredElement.Attribute);
+        TplBindManager.AddBind(deferredElement.Source,
+          deferredElement.Attribute);
         DeferredList.Remove(className);
       end;
 end;
