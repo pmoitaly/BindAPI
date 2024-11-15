@@ -28,7 +28,8 @@ unit plBindAPI.Types;
 interface
 
 uses
-  Classes, SysUtils, System.TypInfo, Rtti ,Generics.Collections,
+  Classes, SysUtils, TypInfo, Rtti,
+  Generics.Collections,
   plBindAPI.Attributes;
 
 type
@@ -38,12 +39,14 @@ type
   public type
     AutoBindOptions = (Recursive); // To be continued...
     BindDirection = (LeftToRight, RightToLeft, LeftToRightToLeft,
-      RightToLeftToRight);
-    BindOptions = (Singleton, Deferred);
+      RightToLeftToRight); // future use
+    BindOptions = (Singleton, Deferred, AutoBind);
   end;
 
   TPlAutoBindOptionSet = set of TPlBindAPIOptions.AutoBindOptions;
   TPlBindOptionsSet = set of TPlBindAPIOptions.BindOptions;
+
+  TPlBinderStatus = (bsStopped, bsRunning);
 {$ENDREGION}
 
 {$REGION 'CommonTypes'}
@@ -60,6 +63,7 @@ type
   TarFields = TArray<TRttiField>;
   TarMethods = TArray<TRttiMethod>;
   TarProperties = TArray<TRttiProperty>;
+  TPlRTTIParametersArray = TArray<TRttiParameter>;
   TPlBindParametersType = TArray<TTypeKind>;
   TPlBindParametersTypeInfo = TArray<TTypeInfo>;
   TPlIndexedPropertyInfo = record
@@ -97,6 +101,8 @@ type
   end;
 {$ENDREGION}
 
+const
+  PL_SELF_ALIAS: array[0..2] of string = ('', '.', 'Self');
 implementation
 
 end.
