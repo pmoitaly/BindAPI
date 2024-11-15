@@ -260,7 +260,7 @@ type
     /// <para>When the name of the class to bind is not known in advance,
     /// a generic alias can be entered here that will be used to look up the class in the binding process.</para>
     /// </param>
-   constructor Create(const ATargetClassName, ATargetClassAlias: string); overload;
+    constructor Create(const ATargetClassName, ATargetClassAlias: string); overload;
   end;
 
   /// <summary>
@@ -406,7 +406,6 @@ type
     /// <param name="ATargetQName">Qualified name of the field or property in the target class.</param>
     /// <param name="AFunctionName">Optional name of the bridge function.</param>
     /// <param name="ATargetClassName">Optional name of the target class.</param>
-
     constructor Create(const Enabled: Boolean; const ASourceQName, ATargetQName: string; const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;
 
     /// <summary>
@@ -464,9 +463,9 @@ type
   /// between the source's member and targets' member.
   /// See <see cref="CustomBindMemberAttribute" /> form methods, properties and examples.
   /// </remarks>
- BindMemberToAttribute = class(CustomBindMemberAttribute);
+  BindMemberToAttribute = class(CustomBindMemberAttribute);
 
-{$IFDEF BACKWARD_SUPPORT}
+{$IFDEF SUPPORT_08}
   { Compatibility with BindAPI 0.8 - These items will be removed in future releases }
   ClassBindAttribute = class(BindClassAttribute);
   MethodBindAttribute = class(BindMethodAttribute);
@@ -565,7 +564,7 @@ begin
   FTargetClassName := '';
   // if empty, use the class name from ClassBindAttribute
 end;
-
+//
 { Example:
   [BindMethod(True,'myPublicMethod','NewMethod','NameOfClassExposingNewMethod')] }
 constructor BindMethodAttribute.Create(const Enabled: Boolean; const AMethodQName, ANewMethodName, ATargetClassName: string);
@@ -588,7 +587,7 @@ begin
 end;
 {$ENDREGION}
 {$REGION 'CustomBindPropertyAttribute'}
-{$IFDEF BACKWARD_SUPPORT}
+{$IFDEF SUPPORT_08}
 
 { Example: [BindPropertyAttribute(True,'PropertyOfBindedClass','BindedClass')] }
 { Example: [BindFieldFromAttribute(True, 'FieldOfBindedClass')] }
