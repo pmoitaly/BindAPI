@@ -28,87 +28,189 @@ interface
 
 uses
   Classes, Rtti, Generics.Collections,
-  plBindAPI.Types, plBindAPI.BinderElement, plBindAPI.Attributes,
+  plBindAPI.Types, plBindAPI.BindingElement, plBindAPI.Attributes,
   plBindAPI.CoreBinder;
 
 {$UNDEF SUPPORT_08}
 
 type
 
+  /// <summary>
+  /// TPlAutoBinder is a class that implements the IplAutoBinder interface and provides functionality for automatic binding between objects.
+  /// </summary>
+  /// <remarks>
+  /// This class is designed to bind properties of one object to another, allowing for automatic synchronization of data between them.
+  /// It can be used to create data-binding scenarios where changes in one object's properties are automatically reflected in another.
+  /// </remarks>
+  /// <example>
+  /// <code>
+  /// // Example usage of TPlAutoBinder
+  /// var
+  ///   AutoBinder: IplAutoBinder;
+  ///   SourceObject, TargetObject: TObject;
+  /// begin
+  ///   AutoBinder := TPlAutoBinder.Create;
+  ///   try
+  ///     AutoBinder.Bind(SourceObject, 'PropertyName', TargetObject, 'PropertyName');
+  ///     // Perform operations with the bound objects
+  ///   finally
+  ///     AutoBinder.Free;
+  ///   end;
+  /// end.
+  /// </code>
+  /// </example>
+  /// <seealso cref="IplAutoBinder">IplAutoBinder Interface</seealso>
   TPlAutoBinder = class(TInterfacedObject, IplAutoBinder)
   private
-    ///<link>aggregation</link>
+    /// <summary>Aggregates a TPlBinder instance used for binding management.</summary>
     FBinder: TPlBinder;
+    /// <summary>List of objects that are currently bound.</summary>
     FBoundObjectsList: TPlListObjects;
-    procedure BindAttributes(ASource, aTarget: TObject;
-      AClassAttribute: BindClassAttribute);
+    /// <summary>
+    /// Performs class-level binding between a source and a target object using
+    /// a BindClassAttribute.
+    /// </summary>
+    /// <returns>True if binding was successful; otherwise, false.</returns>
     function BindClass(ASource, aTarget: TObject;
       AClassAttribute: BindClassAttribute): boolean;
-    procedure BindClassAttributes(ASource, aTarget: TObject;
+    /// <summary>
+    /// Binds attributes from a source object to a target object based on a
+    /// given BindClassAttribute.
+    /// </summary>
+    procedure BindInnerAttributes(ASource, aTarget: TObject;
       AClassAttribute: BindClassAttribute);
-{$IFDEF SUPPORT_08}
-    procedure BindField(ASource, aTarget: TObject;
-      AMemberAttribute: CustomBindMemberAttribute;
-      AClassAttribute: ClassBindAttribute; AFieldName: string = '');
-    procedure BindFields(ASource, aTarget: TObject;
-      AClassAttribute: ClassBindAttribute; AList: TarFields);
-{$ENDIF}
+    /// <summary>
+    /// Binds a specific member between the source and target objects based
+    /// on custom and class binding attributes.
+    /// </summary>
+    /// <param name="AMemberName">Optional name of the member to bind.</param>
     procedure BindMember(ASource, aTarget: TObject;
       AMemberAttribute: CustomBindMemberAttribute;
       AClassAttribute: BindClassAttribute; AMemberName: string = '');
+    /// <summary>
+    /// Binds members from a source object to a target object using a list of
+    /// fields.
+    /// </summary>
     procedure BindMembers(ASource, aTarget: TObject;
       AClassAttribute: BindClassAttribute; AList: TarFields); overload;
+    /// <summary>
+    /// Binds members from a source object to a target object using a list of
+    /// properties.
+    /// </summary>
     procedure BindMembers(ASource, aTarget: TObject;
       AClassAttribute: BindClassAttribute; AList: TarProperties); overload;
+    /// <summary>
+    /// Binds a specific method between the source and target objects based on
+    /// method and class binding attributes.
+    /// </summary>
     procedure BindMethod(ASource, aTarget: TObject;
       AMethodAttribute: BindMethodAttribute;
       AClassAttribute: BindClassAttribute);
+    /// <summary>
+    /// Binds methods from the source object to the target object based on a
+    /// list of method attributes.
+    /// </summary>
     procedure BindMethods(ASource, aTarget: TObject;
       AClassAttribute: BindClassAttribute; AList: TarMethods);
-{$IFDEF SUPPORT_08}
-    procedure BindProperties(ASource, aTarget: TObject;
-      AClassAttribute: ClassBindAttribute; AList: TarProperties);
-    procedure BindProperty(ASource, aTarget: TObject;
-      const SourceProperty: string; AMemberAttribute: CustomBindMemberAttribute;
-      AClassAttribute: ClassBindAttribute);
-{$ENDIF}
+    /// <summary>
+    /// Binds all attributes of a source object to a target object using
+    /// a BindClassAttribute.
+    /// </summary>
+    procedure BindOuterAttributes(ASource, aTarget: TObject;
+      AClassAttribute: BindClassAttribute);
+    /// <summary>
+    /// Checks if a specific binding is possible between objects based on provided attributes.
+    /// </summary>
+    /// <returns>True if binding is possible; otherwise, false.</returns>
     function CanBind(AClassAttribute: BindClassAttribute;
       AMemberAttribute: CustomBindAttribute; aTarget: TObject): boolean;
+    /// <summary>
+    /// Finds a function within the owner object by name for custom calculations.
+    /// </summary>
+    /// <param name="AFunctionName">The name of the function to find.</param>
+    /// <returns>The function found, or nil if no matching function is found.</returns>
     function FindCalculatingFuncion(AnOwner: TObject;
       const AFunctionName: string): TplBridgeFunction;
-    function FindSource(AField: TRttiField; AnObject: TObject)
-      : TObject; overload;
-    function FindSource(AProperty: TRttiProperty; AnObject: TObject)
-      : TObject; overload;
+    /// <summary>
+    /// Finds the source object associated with a given field.
+    /// </summary>
+    /// <returns>The source object if found, or nil otherwise.</returns>
+    function FindSource(AField: TRttiField; AnObject: TObject;
+      const APath: string): TObject; overload;
+    /// <summary>
+    /// Finds the source object associated with a given property.
+    /// </summary>
+    /// <returns>The source object if found, or nil otherwise.</returns>
+    function FindSource(AProperty: TRttiProperty; AnObject: TObject;
+      const APath: string): TObject; overload;
+    /// <summary>Gets the enabled state of the binding.</summary>
     function GetEnabled: boolean;
+    /// <summary>Gets the interval at which bindings are updated.</summary>
     function GetInterval: integer;
+    /// <summary>Determines if the binding is from a specified attribute.</summary>
+    /// <returns>True if the binding is from the specified attribute; otherwise, false.</returns>
     function IsBindFrom(AnAttribute: CustomBindMemberAttribute): boolean;
+    /// <summary>Determines if the binding is to a specified attribute.</summary>
+    /// <returns>True if the binding is to the specified attribute; otherwise, false.</returns>
     function IsBindTo(AnAttribute: CustomBindMemberAttribute): boolean;
+    /// <summary>Sets the enabled state of the binding.</summary>
     procedure SetEnabled(const Value: boolean);
+    /// <summary>Sets the interval at which bindings are updated.</summary>
     procedure SetInterval(const Value: integer);
+    /// <summary>Stops binding a specific method based on the method attribute.</summary>
     procedure UnbindMethod(ASource: TObject;
       AMethodAttribute: BindMethodAttribute);
+    /// <summary>Stops binding methods.</summary>
     procedure UnbindMethods; overload;
   public
+    /// <summary>Initializes a new instance of the TPlAutoBinder class.</summary>
     constructor Create;
+    /// <summary>Releases resources used by the TPlAutoBinder class.</summary>
     destructor Destroy; override;
+    /// <summary>
+    /// Binds a source property to a target property, optionally using a custom bridge function.
+    /// </summary>
+    /// <param name="APropertySource">The source property to bind.</param>
+    /// <param name="APropertyTarget">The target property to bind.</param>
+    /// <param name="AFunction">Optional custom function for transformation.</param>
     procedure Bind(ASource: TObject; const APropertySource: string;
       aTarget: TObject; const APropertyTarget: string;
       AFunction: TplBridgeFunction = nil);
+    /// <summary>Retrieves a list of currently bound objects.</summary>
+    /// <returns>A list of bindings in TPlBindList format.</returns>
     function BindInfo: TPlBindList;
+    /// <summary>
+    /// Binds an entire object from a source to a target using the specified class attribute.
+    /// </summary>
     procedure BindObject(ASource, aTarget: TObject;
       AClassAttribute: BindClassAttribute);
+    /// <summary>Counts the number of current bindings.</summary>
+    /// <returns>The total number of bindings.</returns>
     function Count: integer;
+    /// <summary>Provides debug information about current bindings.</summary>
+    /// <returns>A TplBindDebugInfo instance with debugging details.</returns>
     function DebugInfo: TplBindDebugInfo;
+    /// <summary>Gets a list of any errors encountered during binding.</summary>
+    /// <returns>A TStrings object containing error messages.</returns>
     function ErrorList: TStrings;
+    /// <summary>Starts the binding process with an optional update interval.</summary>
+    /// <param name="AnInterval">Optional interval for binding updates in milliseconds.</param>
     procedure Start(const AnInterval: integer = 0);
+    /// <summary>Stops the binding process.</summary>
     procedure Stop;
+    /// <summary>Unbinds all methods from the source object.</summary>
     procedure UnbindMethods(ASource: TObject); overload;
+    /// <summary>Unbinds all bindings related to the specified source object.</summary>
     procedure UnbindSource(ASource: TObject);
+    /// <summary>Unbinds all bindings related to the specified target object.</summary>
     procedure UnbindTarget(aTarget: TObject); overload;
+    /// <summary>Unbinds all bindings related to a specified source and target object pair.</summary>
     procedure UnbindTarget(aTarget, ASource: TObject); overload;
+    /// <summary>Updates values in bound objects based on the current binding configuration.</summary>
     procedure UpdateValues;
+    /// <summary>Gets or sets whether the binding is enabled.</summary>
     property Enabled: boolean read GetEnabled write SetEnabled;
+    /// <summary>Gets or sets the update interval for the binding process.</summary>
     property Interval: integer read GetInterval write SetInterval;
   end;
 
@@ -142,7 +244,7 @@ begin
   FBinder.Bind(ASource, APropertySource, aTarget, APropertyTarget, AFunction);
 end;
 
-procedure TPlAutoBinder.BindAttributes(ASource, aTarget: TObject;
+procedure TPlAutoBinder.BindInnerAttributes(ASource, aTarget: TObject;
   AClassAttribute: BindClassAttribute);
 var
   rFields: TarFields;
@@ -192,7 +294,7 @@ begin
       end;
 end;
 
-procedure TPlAutoBinder.BindClassAttributes(ASource, aTarget: TObject;
+procedure TPlAutoBinder.BindOuterAttributes(ASource, aTarget: TObject;
   AClassAttribute: BindClassAttribute);
 var
   rAttr: TCustomAttribute;
@@ -209,7 +311,7 @@ begin
     else
 {$ENDIF}
       if rAttr is CustomBindMemberAttribute then
-        BindMember(ASource, aTarget, CustomBindFieldAttribute(rAttr),
+        BindMember(ASource, aTarget, CustomBindMemberAttribute(rAttr),
           AClassAttribute)
       else if rAttr is BindMethodAttribute then
         BindMethod(ASource, aTarget, BindMethodAttribute(rAttr),
@@ -298,9 +400,8 @@ begin
     begin
       bridgeFunction := FindCalculatingFuncion(aTarget,
         AMemberAttribute.FunctionName);
-
-      sourcePath := IfThen(AMemberAttribute.SourceQName <> '',
-        AMemberAttribute.SourceQName, AMemberName);
+      sourcePath := IfThen(MatchStr(AMemberAttribute.SourceQName,
+        PL_SELF_ALIAS), AMemberName, AMemberAttribute.SourceQName);
       targetPath := AMemberAttribute.TargetQName;
       sourceObject := ASource;
       targetObject := aTarget; //FBinder.NormalizePath(ATarget, targetPath);
@@ -328,8 +429,9 @@ begin
         (rField.Visibility in [mvPublic, mvPublished]) then
         begin
           {If the field value is an object, it becomes the bind source}
-          bindSource := FindSource(rField, ASource);
-          BindMember(bindSource, aTarget, CustomBindFieldAttribute(rAttr),
+          bindSource := FindSource(rField, ASource,
+            CustomBindMemberAttribute(rAttr).SourceQName);
+          BindMember(bindSource, aTarget, CustomBindMemberAttribute(rAttr),
             AClassAttribute, rField.Name)
         end
       else if rAttr is BindMethodAttribute then
@@ -350,10 +452,16 @@ begin
       if (rAttr is CustomBindMemberAttribute) and
         (rField.Visibility in [mvPublic, mvPublished]) then
         begin
+          { TODO 5 -oPMo -cDebugging : The call to FindSource could be useless after
+            the most recent changes. }
           {If the field value is an object, it becomes the bind source}
-          bindSource := FindSource(rField, ASource);
-          BindMember(bindSource, aTarget, CustomBindFieldAttribute(rAttr),
+          bindSource := FindSource(rField, ASource,
+            CustomBindMemberAttribute(rAttr).SourceQName);
+          BindMember(bindSource, aTarget, CustomBindMemberAttribute(rAttr),
             AClassAttribute, rField.Name)
+          //
+          //          BindMember(ASource, aTarget, CustomBindMemberAttribute(rAttr),
+          //            AClassAttribute, rField.Name)
         end
       else if rAttr is BindMethodAttribute then
         BindMethod(rField.GetValue(ASource).AsObject, aTarget,
@@ -387,8 +495,8 @@ procedure TPlAutoBinder.BindObject(ASource, aTarget: TObject;
 begin
   if BindClass(ASource, aTarget, AClassAttribute) then
     begin
-      BindClassAttributes(ASource, aTarget, AClassAttribute);
-      BindAttributes(ASource, aTarget, AClassAttribute);
+      BindOuterAttributes(ASource, aTarget, AClassAttribute);
+      BindInnerAttributes(ASource, aTarget, AClassAttribute);
     end;
 end;
 
@@ -447,7 +555,8 @@ begin
   {An attribute can be bound when is enabled...}
   Result := AMemberAttribute.IsEnabled and
   {or its Target class is the default class...}
-    (((AMemberAttribute.TargetClassName = '') and AClassAttribute.IsDefault) or
+    (((AMemberAttribute.TargetClassName = '') and
+    (AMemberAttribute.TargetClassAlias = '') and AClassAttribute.IsDefault) or
     {or its Target class is the processed class}
     (AMemberAttribute.TargetClassName = aTarget.ClassName) or
     {or the Alias name it reference to is the current Alias name}
@@ -495,26 +604,32 @@ begin
     end;
 end;
 
-function TPlAutoBinder.FindSource(AField: TRttiField;
-  AnObject: TObject): TObject;
+function TPlAutoBinder.FindSource(AField: TRttiField; AnObject: TObject;
+  const APath: string): TObject;
 var
   fieldValue: TValue;
 begin
   Result := AnObject;
-  fieldValue := AField.GetValue(AnObject);
-  if fieldValue.IsObject then
-    Result := fieldValue.AsObject;
+  if not MatchStr(APath, PL_SELF_ALIAS) then
+    begin
+      fieldValue := AField.GetValue(AnObject);
+      if fieldValue.IsObject then
+        Result := fieldValue.AsObject;
+    end;
 end;
 
-function TPlAutoBinder.FindSource(AProperty: TRttiProperty;
-  AnObject: TObject): TObject;
+function TPlAutoBinder.FindSource(AProperty: TRttiProperty; AnObject: TObject;
+  const APath: string): TObject;
 var
   fieldValue: TValue;
 begin
   Result := AnObject;
-  fieldValue := AProperty.GetValue(AnObject);
-  if fieldValue.IsObject then
-    Result := fieldValue.AsObject;
+  if not MatchStr(APath, PL_SELF_ALIAS) then
+    begin
+      fieldValue := AProperty.GetValue(AnObject);
+      if fieldValue.IsObject then
+        Result := fieldValue.AsObject;
+    end;
 end;
 
 function TPlAutoBinder.GetEnabled: boolean;
@@ -530,8 +645,8 @@ end;
 function TPlAutoBinder.IsBindFrom(AnAttribute
   : CustomBindMemberAttribute): boolean;
 begin
-  Result := (AnAttribute is BindFieldAttribute) or
-    (AnAttribute is BindFieldFromAttribute) or
+  Result := {$IFDEF SUPPORT_08}(AnAttribute is BindFieldAttribute) or
+    (AnAttribute is BindFieldFromAttribute) or {$ENDIF}
     (AnAttribute is BindMemberAttribute) or
     (AnAttribute is BindMemberFromAttribute);
 end;
@@ -539,8 +654,8 @@ end;
 function TPlAutoBinder.IsBindTo(AnAttribute: CustomBindMemberAttribute)
   : boolean;
 begin
-  Result := (AnAttribute is BindFieldAttribute) or
-    (AnAttribute is BindFieldToAttribute) or
+  Result := {$IFDEF SUPPORT_08}(AnAttribute is BindFieldAttribute) or
+    (AnAttribute is BindFieldToAttribute) or {$ENDIF}
     (AnAttribute is BindMemberAttribute) or
     (AnAttribute is BindMemberToAttribute);
 end;
@@ -603,7 +718,13 @@ var
   rAttributes: TarAttributes;
   rType: TRttiType;
 begin
-  rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
+  try
+    rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
+  except
+    // If an error occours when reading ClassType, the Source has been freed
+    // so we can exit.
+    exit;
+  end;
   rAttributes := rType.GetAttributes;
   for rAttr in rAttributes do
     if rAttr is BindMethodAttribute then
