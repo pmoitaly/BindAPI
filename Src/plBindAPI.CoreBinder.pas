@@ -32,189 +32,198 @@ uses
 
 type
 
-/// <summary>
-/// TPlBinder is a class that manages data binding between objects.
-/// </summary>
-/// <remarks>
-/// It supports automatic value synchronization between source and target properties or objects.
-/// </remarks>
-TPlBinder = class(TInterfacedObject)
-private
-  /// <summary>List of binding error messages.</summary>
-  FBindErrorList: TStrings;
+  /// <summary>
+  /// TPlBinder is a class that manages data binding between objects.
+  /// </summary>
+  /// <remarks>
+  /// It supports automatic value synchronization between source and target properties or objects.
+  /// </remarks>
+  TPlBinder = class(TInterfacedObject)
+  private
+    /// <summary>List of binding error messages.</summary>
+    FBindErrorList: TStrings;
 
-  /// <summary>Custom comparer used for key comparison in bindings.</summary>
-  FComparer: TPlParKeyComparer;
+    /// <summary>Custom comparer used for key comparison in bindings.</summary>
+    FComparer: TPlParKeyComparer;
 
-  /// <summary>Indicates whether the binder is enabled or not.</summary>
-  FEnabled: Boolean;
+    /// <summary>Indicates whether the binder is enabled or not.</summary>
+    FEnabled: Boolean;
 
-  /// <summary>Specifies the interval (in milliseconds) for automatic updates.</summary>
-  FInterval: integer;
+    /// <summary>Specifies the interval (in milliseconds) for automatic updates.</summary>
+    FInterval: integer;
 
 {$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
-  /// <summary>Specifies the thread priority for the internal thread on Windows.</summary>
-  FPriority: TThreadPriority;
+    /// <summary>Specifies the thread priority for the internal thread on Windows.</summary>
+    FPriority: TThreadPriority;
 {$WARN SYMBOL_PLATFORM ON}{$ENDIF}
+    /// <summary>Indicates the current status of the binder.</summary>
+    /// <remarks>
+    /// Allowed values are:
+    /// <list type="bullet">
+    ///   <listheader><term>Value</term> <description>Description</description></listheader>
+    ///   <item><term>bsStopped</term> <description>There no control of data changes.</description></item>
+    ///   <item>><term>bsRunning</term> <description>Test for data changes occours every <see cref="Interval" /> milliseconds.</description></item>
+    /// </list>
+    /// </remarks>
+    FStatus: TPlBinderStatus;
 
-  /// <summary>Indicates the current status of the binder.</summary>
-  /// <remarks>
-  /// Allowed values are:
-  /// <list type="bullet">
-  ///   <listheader><term>Value</term> <description>Description</description></listheader>
-  ///   <item><term>bsStopped</term> <description>There no control of data changes.</description></item>
-  ///   <item>><term>bsRunning</term> <description>Test for data changes occours every <see cref="Interval" /> milliseconds.</description></item>
-  /// </list>
-  /// </remarks>
-  FStatus: TPlBinderStatus;
+    /// <summary>Adds a new binding between a key and a value.</summary>
+    procedure AddNewItem(AKey, AValue: TplBindElementData);
 
-  /// <summary>Adds a new binding between a key and a value.</summary>
-  procedure AddNewItem(AKey, AValue: TplBindElementData);
+    /// <summary>Retrieves a component based on the property path.</summary>
+    /// <remarks>
+    /// Use this function to speed up the search of the last component in the path.
+    /// </remarks>
+    /// <param name="ASource">The source component to start from.</param>
+    /// <param name="APropertyPath">The property path to resolve.</param>
+    /// <returns>The resolved component.</returns>
+    function ComponentFromPath(ASource: TComponent; var APropertyPath: string)
+      : TComponent;
 
-  /// <summary>Retrieves a component based on the property path.</summary>
-  /// <remarks>
-  /// Use this function to speed up the search of the last component in the path.
-  /// </remarks>
-  /// <param name="ASource">The source component to start from.</param>
-  /// <param name="APropertyPath">The property path to resolve.</param>
-  /// <returns>The resolved component.</returns>
-  function ComponentFromPath(ASource: TComponent; var APropertyPath: string): TComponent;
+    /// <summary>Internally adds a source-target binding pair.</summary>
+    procedure InternalAdd(Source, Target: TplBindElementData);
 
-  /// <summary>Internally adds a source-target binding pair.</summary>
-  procedure InternalAdd(Source, Target: TplBindElementData);
+    /// <summary>Sets the list of binding errors.</summary>
+    procedure SetBindErrorList(const Value: TStrings);
 
-  /// <summary>Sets the list of binding errors.</summary>
-  procedure SetBindErrorList(const Value: TStrings);
+    /// <summary>Enables or disables the binder.</summary>
+    procedure SetFEnabled(const Value: Boolean);
 
-  /// <summary>Enables or disables the binder.</summary>
-  procedure SetFEnabled(const Value: Boolean);
+    /// <summary>Upgrades an existing binding item.</summary>
+    procedure UpgradeExistingItem(AKey, AValue: TplBindElementData);
+  protected
+    /// <summary>List of binding properties currently managed by the binder.</summary>
+    FBindPropertyList: TPlBindList;
 
-  /// <summary>Upgrades an existing binding item.</summary>
-  procedure UpgradeExistingItem(AKey, AValue: TplBindElementData);
-protected
-  /// <summary>List of binding properties currently managed by the binder.</summary>
-  FBindPropertyList: TPlBindList;
+    /// <summary>Internal thread used for background monitoring.</summary>
+    FInternalThread: TThread;
 
-  /// <summary>Internal thread used for background monitoring.</summary>
-  FInternalThread: TThread;
+    /// <summary>Indicates whether the internal thread has been terminated.</summary>
+    FThreadTerminated: Boolean;
 
-  /// <summary>Indicates whether the internal thread has been terminated.</summary>
-  FThreadTerminated: Boolean;
+    /// <summary>Closes and frees the internal thread.</summary>
+    procedure CloseAndFreeThread; virtual;
 
-  /// <summary>Closes and frees the internal thread.</summary>
-  procedure CloseAndFreeThread; virtual;
+    /// <summary>Handles notifications for key-related changes.</summary>
+    procedure HandleKeyNotify(Sender: TObject; const Key: TplBindElementData;
+      Action: TCollectionNotification);
 
-  /// <summary>Handles notifications for key-related changes.</summary>
-  procedure HandleKeyNotify(Sender: TObject; const Key: TplBindElementData; Action: TCollectionNotification);
+    /// <summary>Handles notifications for value-related changes.</summary>
+    procedure HandleValueNotify(Sender: TObject; const Key: TPlBindElementsList;
+      Action: TCollectionNotification);
 
-  /// <summary>Handles notifications for value-related changes.</summary>
-  procedure HandleValueNotify(Sender: TObject; const Key: TPlBindElementsList; Action: TCollectionNotification);
+    /// <summary>Monitors values and updates bindings as necessary.</summary>
+    procedure MonitorValues; virtual;
 
-  /// <summary>Monitors values and updates bindings as necessary.</summary>
-  procedure MonitorValues; virtual;
+    /// <summary>Updates values in the provided binding list with the new value.</summary>
+    procedure UpdateListValues(aList: TPlBindElementsList; newValue: TValue);
+  public
+    /// <summary>Initializes a new instance of the TPlBinder class.</summary>
+    constructor Create; overload;
 
-  /// <summary>Updates values in the provided binding list with the new value.</summary>
-  procedure UpdateListValues(aList: TPlBindElementsList; newValue: TValue);
-public
-  /// <summary>Initializes a new instance of the TPlBinder class.</summary>
-  constructor Create; overload;
+    /// <summary>Frees resources used by the TPlBinder instance.</summary>
+    destructor Destroy; override;
 
-  /// <summary>Frees resources used by the TPlBinder instance.</summary>
-  destructor Destroy; override;
+    /// <summary>Gets or sets the list of binding errors.</summary>
+    property BindErrorList: TStrings read FBindErrorList write SetBindErrorList;
 
-  /// <summary>Gets or sets the list of binding errors.</summary>
-  property BindErrorList: TStrings read FBindErrorList write SetBindErrorList;
+    /// <summary>Gets or sets whether the binder is enabled.</summary>
+    property Enabled: Boolean read FEnabled write SetFEnabled;
 
-  /// <summary>Gets or sets whether the binder is enabled.</summary>
-  property Enabled: Boolean read FEnabled write SetFEnabled;
-
-  /// <summary>Gets or sets the interval for automatic updates.</summary>
-  property Interval: integer read FInterval write FInterval;
+    /// <summary>Gets or sets the interval for automatic updates.</summary>
+    property Interval: integer read FInterval write FInterval;
 
 {$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
-  /// <summary>Gets or sets the priority of the internal thread.</summary>
-  property Priority: TThreadPriority read FPriority write FPriority;
+    /// <summary>Gets or sets the priority of the internal thread.</summary>
+    property Priority: TThreadPriority read FPriority write FPriority;
 {$WARN SYMBOL_PLATFORM ON}{$ENDIF}
+    /// <summary>Gets the current status of the binder.</summary>
+    property Status: TPlBinderStatus read FStatus;
 
-  /// <summary>Gets the current status of the binder.</summary>
-  property Status: TPlBinderStatus read FStatus;
+    /// <summary>Binds a source object and property to a target object and property.</summary>
+    /// <param name="ASource">The source object.</param>
+    /// <param name="APropertySource">The source property name.</param>
+    /// <param name="ATarget">The target object.</param>
+    /// <param name="APropertyTarget">The target property name.</param>
+    /// <param name="AFunction">Optional transformation function.</param>
+    /// <returns>True if the binding was successful; otherwise, false.</returns>
+    function Bind(ASource: TObject; const APropertySource: string;
+      ATarget: TObject; const APropertyTarget: string;
+      AFunction: TplBridgeFunction = nil): Boolean;
 
-  /// <summary>Binds a source object and property to a target object and property.</summary>
-  /// <param name="ASource">The source object.</param>
-  /// <param name="APropertySource">The source property name.</param>
-  /// <param name="ATarget">The target object.</param>
-  /// <param name="APropertyTarget">The target property name.</param>
-  /// <param name="AFunction">Optional transformation function.</param>
-  /// <returns>True if the binding was successful; otherwise, false.</returns>
-  function Bind(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: TplBridgeFunction = nil): Boolean;
+    /// <summary>Provides information about all current bindings.</summary>
+    /// <returns>A COPY of the BindPropertyList, with a list of current bindings. The caller is responsible for freeing it.</returns>
+    function BindInfo: TPlBindList;
 
-  /// <summary>Provides information about all current bindings.</summary>
-  /// <returns>A COPY of the BindPropertyList, with a list of current bindings. The caller is responsible for freeing it.</returns>
-  function BindInfo: TPlBindList;
+    /// <summary>Binds a method from a source to a new method on a target object.</summary>
+    procedure BindMethod(ASource: TObject; const AMethodPath: string;
+      ATarget: TObject; const ANewMethodName: string;
+      AFunction: TplBridgeFunction = nil);
 
-  /// <summary>Binds a method from a source to a new method on a target object.</summary>
-  procedure BindMethod(ASource: TObject; const AMethodPath: string; ATarget: TObject; const ANewMethodName: string; AFunction: TplBridgeFunction = nil);
+    /// <summary>Binds a source object and property to a target object (overloaded).</summary>
+    procedure BindObject(ASource: TObject; const APropertySource: string;
+      ATarget: TObject); overload;
 
-  /// <summary>Binds a source object and property to a target object (overloaded).</summary>
-  procedure BindObject(ASource: TObject; const APropertySource: string; ATarget: TObject); overload;
+    /// <summary>Binds a source object and property to a target object and path (overloaded).</summary>
+    procedure BindObject(ASource: TObject; const APropertySource: string;
+      ATarget: TObject; ATargetPath: string); overload;
 
-  /// <summary>Binds a source object and property to a target object and path (overloaded).</summary>
-  procedure BindObject(ASource: TObject; const APropertySource: string; ATarget: TObject; ATargetPath: string); overload;
+    /// <summary>Clears all current bindings.</summary>
+    procedure Clear;
 
-  /// <summary>Clears all current bindings.</summary>
-  procedure Clear;
+    /// <summary>Gets the count of registered bindings.</summary>
+    function Count: integer;
 
-  /// <summary>Gets the count of registered bindings.</summary>
-  function Count: integer;
+    /// <summary>Provides debug information about the current state of the binder.</summary>
+    function DebugInfo: TplBindDebugInfo;
 
-  /// <summary>Provides debug information about the current state of the binder.</summary>
-  function DebugInfo: TplBindDebugInfo;
-
-  /// <summary>Deprecated. Use <see cref="UnbindSource" />.</summary>
+    /// <summary>Deprecated. Use <see cref="UnbindSource" />.</summary>
     procedure DetachAsSource(ASource: TObject); deprecated 'Use UnbindSource';
-  /// <summary>Deprecated. Use <see cref="UnbindTarget" />.</summary>
-    procedure DetachAsTarget(ATarget: TObject); overload; deprecated 'Use UnbindTarget';
-  /// <summary>Deprecated. Use <see cref="UnbindTarget" />.</summary>
+    /// <summary>Deprecated. Use <see cref="UnbindTarget" />.</summary>
+    procedure DetachAsTarget(ATarget: TObject); overload;
+      deprecated 'Use UnbindTarget';
+    /// <summary>Deprecated. Use <see cref="UnbindTarget" />.</summary>
     procedure DetachAsTarget(ATarget: TObject; ASource: TObject); overload;
       deprecated 'Use UnbindTarget';
 
-  /// <summary>
-  /// Normalizes the property path for a given source object.
-  /// </summary>
-  ///  <remarks>
-  /// <remarks>
-  /// <para>This method ensures that the property path is valid and converts it into
-  /// a form suitable for data binding.</para>
-  /// <para>Given an input in the form Object, QualifiedName of a property, this
-  ///  method searches for the last component in the QN to reduce the
-  ///  SourcePath parameter to is shorter dimension.</para>
-  /// <para>For instance, assume the Source is a <c>TPageControl</c> class and the
-  /// SourcePath is like <i>ATab.APanel.AMemo.Text</i>, the result will be
-  /// the instance of the AMemo component and SourcePath will be reduced
-  /// to <i>Text</i>.</para>
-  /// </remarks>
-  /// <param name="ASource">The source object whose property path is to be normalized.</param>
-  /// <param name="SourcePath">The property path to normalize.</param>
-  /// <returns>The resolved object associated with the normalized path.</returns>
-  function NormalizePath(ASource: TObject; var SourcePath: string): TObject;
-  /// <summary>Starts the binder with a specified sleep interval.</summary>
-  procedure Start(const ASleepInterval: integer);
+    /// <summary>
+    /// Normalizes the property path for a given source object.
+    /// </summary>
+    ///  <remarks>
+    /// <remarks>
+    /// <para>This method ensures that the property path is valid and converts it into
+    /// a form suitable for data binding.</para>
+    /// <para>Given an input in the form Object, QualifiedName of a property, this
+    ///  method searches for the last component in the QN to reduce the
+    ///  SourcePath parameter to is shorter dimension.</para>
+    /// <para>For instance, assume the Source is a <c>TPageControl</c> class and the
+    /// SourcePath is like <i>ATab.APanel.AMemo.Text</i>, the result will be
+    /// the instance of the AMemo component and SourcePath will be reduced
+    /// to <i>Text</i>.</para>
+    /// </remarks>
+    /// <param name="ASource">The source object whose property path is to be normalized.</param>
+    /// <param name="SourcePath">The property path to normalize.</param>
+    /// <returns>The resolved object associated with the normalized path.</returns>
+    function NormalizePath(ASource: TObject; var SourcePath: string): TObject;
+    /// <summary>Starts the binder with a specified sleep interval.</summary>
+    procedure Start(const ASleepInterval: integer);
 
-  /// <summary>Stops the binder.</summary>
-  procedure Stop;
+    /// <summary>Stops the binder.</summary>
+    procedure Stop;
 
-  /// <summary>Unbinds a specific source object from all targets.</summary>
-  function UnbindSource(ASource: TObject): Boolean;
+    /// <summary>Unbinds a specific source object from all targets.</summary>
+    function UnbindSource(ASource: TObject): Boolean;
 
-  /// <summary>Unbinds a specific target object from all sources (overloaded).</summary>
-  function UnbindTarget(ATarget: TObject): Boolean; overload;
+    /// <summary>Unbinds a specific target object from all sources (overloaded).</summary>
+    function UnbindTarget(ATarget: TObject): Boolean; overload;
 
-  /// <summary>Unbinds a specific target object from a specific source object (overloaded).</summary>
-  function UnbindTarget(ATarget: TObject; ASource: TObject): Boolean; overload;
+    /// <summary>Unbinds a specific target object from a specific source object (overloaded).</summary>
+    function UnbindTarget(ATarget: TObject; ASource: TObject): Boolean;
+      overload;
 
-  /// <summary>Updates values for all active bindings.</summary>
-  procedure UpdateValues;
-end;
+    /// <summary>Updates values for all active bindings.</summary>
+    procedure UpdateValues;
+  end;
 
 implementation
 
@@ -367,8 +376,8 @@ begin
   FComparer := TPlParKeyComparer.Create;
   FBindPropertyList := TPlBindList.Create([doOwnsKeys, doOwnsValues], 0,
     FComparer);
-//  FBindPropertyList.OnKeyNotify := HandleKeyNotify;
-//  FBindPropertyList.OnValueNotify := HandleValueNotify;
+  //  FBindPropertyList.OnKeyNotify := HandleKeyNotify;
+  //  FBindPropertyList.OnValueNotify := HandleValueNotify;
   FBindErrorList := TStringList.Create;
 end;
 
@@ -425,8 +434,8 @@ begin
   end;
 end;
 
-procedure TPlBinder.HandleValueNotify(Sender: TObject; const Key:
-    TPlBindElementsList; Action: TCollectionNotification);
+procedure TPlBinder.HandleValueNotify(Sender: TObject;
+  const Key: TPlBindElementsList; Action: TCollectionNotification);
 var
   sourceElement: TValue;
   targetElement: TValue;
@@ -538,31 +547,34 @@ begin
    because its for.. in loop could be modified. Move keysToDelete to a class
    field and loop it in the MonitorValue procedure.
    This TODO applies to UnbindTarget procedures too.}
-  Key := nil; {This line avoids a warning W1036}
-  keysToDelete := TPlBindElementsList.Create;
-  try
-    for Key in FBindPropertyList.Keys do
-      if Key.Element = ASource then
-        begin
-          Key.Enabled := False;
-          keysToDelete.Add(Key);
-        end;
-    for Key in keysToDelete do
-      FBindPropertyList.Remove(Key);
-    Result := True;
-  except
-    on e: Exception do
-      begin
-        if Assigned(Key) then
-          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-            ['TPlBinder.UnbindSource', e.message, Key.PropertyPath]))
-        else
-          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-            ['TPlBinder.UnbindSource', e.message, 'Unassigned key']));
-        Result := False;
+  if FBindPropertyList.Count > 0 then
+    begin
+      Key := nil; {This line avoids a warning W1036}
+      keysToDelete := TPlBindElementsList.Create;
+      try
+        for Key in FBindPropertyList.Keys do
+          if Key.Element = ASource then
+            begin
+              Key.Enabled := False;
+              keysToDelete.Add(Key);
+            end;
+        for Key in keysToDelete do
+          FBindPropertyList.Remove(Key);
+        Result := True;
+      except
+        on e: Exception do
+          begin
+            if Assigned(Key) then
+              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+                ['TPlBinder.UnbindSource', e.message, Key.PropertyPath]))
+            else
+              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+                ['TPlBinder.UnbindSource', e.message, 'Unassigned key']));
+            Result := False;
+          end;
       end;
-  end;
-  keysToDelete.Free;
+      keysToDelete.Free;
+    end;
 end;
 
 function TPlBinder.UnbindTarget(ATarget: TObject): Boolean;
@@ -573,36 +585,39 @@ var
   Value: TPlBindElementsList;
 begin
   keyOfValue := nil; //This line avoids a warning W1036
-  keysToDelete := TPlBindElementsList.Create;
-  try
-    for Key in FBindPropertyList.Keys do
-      begin
-        FBindPropertyList.TryGetValue(Key, Value);
-        for keyOfValue in Value do
-          if keyOfValue.Element = ATarget then
-            begin
-              keyOfValue.Enabled := False;
-              Value.Remove(keyOfValue);
-            end;
-        if Value.Count = 0 then
-          keysToDelete.Add(Key);
+  if FBindPropertyList.Count > 0 then
+    begin
+      keysToDelete := TPlBindElementsList.Create;
+      try
+        for Key in FBindPropertyList.Keys do
+          begin
+            FBindPropertyList.TryGetValue(Key, Value);
+            for keyOfValue in Value do
+              if keyOfValue.Element = ATarget then
+                begin
+                  keyOfValue.Enabled := False;
+                  Value.Remove(keyOfValue);
+                end;
+            if Value.Count = 0 then
+              keysToDelete.Add(Key);
+          end;
+        for Key in keysToDelete do
+          FBindPropertyList.Remove(Key);
+        Result := True;
+      except
+        on e: Exception do
+          begin
+            if Assigned(keyOfValue) then
+              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+                ['TPlBinder.UnbindTarget', e.message, keyOfValue.PropertyPath]))
+            else
+              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+                ['TPlBinder.UnbindTarget', e.message, 'Unassigned Key']));
+            Result := False;
+          end;
       end;
-    for Key in keysToDelete do
-      FBindPropertyList.Remove(Key);
-    Result := True;
-  except
-    on e: Exception do
-      begin
-        if Assigned(keyOfValue) then
-          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-            ['TPlBinder.UnbindTarget', e.message, keyOfValue.PropertyPath]))
-        else
-          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-            ['TPlBinder.UnbindTarget', e.message, 'Unassigned Key']));
-        Result := False;
-      end;
-  end;
-  keysToDelete.Free;
+      keysToDelete.Free;
+    end;
 end;
 
 function TPlBinder.UnbindTarget(ATarget: TObject; ASource: TObject): Boolean;
@@ -612,39 +627,41 @@ var
   sourceKey: TplBindElementData;
   Value: TPlBindElementsList;
 begin
-  Key := nil; //This line avoids a warning W1036
-  keysToDelete := TPlBindElementsList.Create;
-  try
-    for Key in FBindPropertyList.Keys do
-      if Key.Element = ASource then
-        begin
-          FBindPropertyList.TryGetValue(Key, Value);
-          for sourceKey in Value do
-            if sourceKey.Element = ATarget then
-              begin
-                sourceKey.Enabled := False;
-                Value.Remove(sourceKey);
-              end;
-          if Value.Count = 0 then
-            keysToDelete.Add(Key);
-        end;
-    for Key in keysToDelete do
-      FBindPropertyList.Remove(Key);
-    Result := True;
-  except
-    on e: Exception do
-      begin
-        if Assigned(Key) then
-          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-            ['TPlBinder.UnbindSource', e.message, Key.PropertyPath]))
-        else
-          FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-            ['TPlBinder.UnbindSource', e.message, 'Unassigned Key']));
-        Result := False;
+  if FBindPropertyList.Count > 0 then
+    begin
+      Key := nil; //This line avoids a warning W1036
+      keysToDelete := TPlBindElementsList.Create;
+      try
+        for Key in FBindPropertyList.Keys do
+          if Key.Element = ASource then
+            begin
+              FBindPropertyList.TryGetValue(Key, Value);
+              for sourceKey in Value do
+                if sourceKey.Element = ATarget then
+                  begin
+                    sourceKey.Enabled := False;
+                    Value.Remove(sourceKey);
+                  end;
+              if Value.Count = 0 then
+                keysToDelete.Add(Key);
+            end;
+        for Key in keysToDelete do
+          FBindPropertyList.Remove(Key);
+        Result := True;
+      except
+        on e: Exception do
+          begin
+            if Assigned(Key) then
+              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+                ['TPlBinder.UnbindSource', e.message, Key.PropertyPath]))
+            else
+              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
+                ['TPlBinder.UnbindSource', e.message, 'Unassigned Key']));
+            Result := False;
+          end;
       end;
-  end;
-  keysToDelete.Free;
-
+      keysToDelete.Free;
+    end;
   {TODO 3 -oPMo -cRefactoring : unbind methods}
 end;
 
