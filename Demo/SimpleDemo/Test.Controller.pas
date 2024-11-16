@@ -72,7 +72,7 @@ type
 implementation
 
 uses
-  System.SysUtils, Vcl.Dialogs;
+  System.SysUtils, Dialogs;
 
 { TTestController }
 

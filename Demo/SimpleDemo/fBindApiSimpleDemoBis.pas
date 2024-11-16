@@ -1,7 +1,7 @@
 {*****************************************************************************}
 {       BindAPI                                                               }
 {       Copyright (C) 2020 Paolo Morandotti                                   }
-{       Unit fBindApiSimpleDemo                                               }
+{       Unit fBindApiSimpleDemoBis                                               }
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }
@@ -22,102 +22,54 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
-unit fBindApiSimpleDemo;
+unit fBindApiSimpleDemoBis;
 
 interface
 
 uses
   Winapi.Windows, Winapi.Messages,
-  System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.ExtCtrls, Vcl.Samples.Spin, Vcl.ComCtrls,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  plBindAPI.Attributes, plBindAPI.AutoBinder;
+  System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, fBindApiSimpleDemo, Vcl.Samples.Spin,
+  plBindAPI.Attributes, plBindAPI.AutoBinder, Vcl.ComCtrls;
 
 type
-  [BindDefaultClass(True, 'TTestController')]
-  [BindClass(True, 'TTestSecond')]
-  [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
+  [ClassBind(True, 'TTestController', True)]
+  [ClassBind(True, 'TTestSecond')]
   [BindMemberFrom(True, 'edtTarget2.Text', 'LowerText')]
   [BindMemberFrom(True, 'edtTarget2a.Text', 'UpperText')]
-  [BindMemberTo(True, 'memSource.Text', 'Text')]
+  [BindMemberFrom('edtSame.Text', 'TestObject.IntProp')]
+  [BindMemberFrom(True, 'edtDouble.Text', 'DoubleValue')]
+  [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
   [BindMemberTo(True, 'memSource.Text', 'TestObject.Text')]
   [BindMemberFrom(True, 'memTarget.Text', 'TestObject.Text')]
   [BindMemberTo(True, 'speValue.Value', 'TestObject.IntProp')]
   [BindMemberTo(True, 'speValue.Value', 'NewValue')]
-  [BindMemberFrom(True, 'edtSame.Text', 'TestObject.IntProp')]
   [BindMemberTo(True, 'speValue.Value', 'DoubleValue', 'DoubleOf')]
-  [BindMemberFrom(True, 'lblInt.Caption', 'NewValue')]
-  [BindMemberFrom(True, 'edtDouble.Text', 'DoubleValue')]
-  [BindMemberTo(True, 'speValue.Value', 'TabStyle', '', 'TTestSecond')]
-  [BindMemberFrom(True, 'pctEnum.Style', 'TabStyle', '', 'TTestSecond')]
   [BindMember(True, 'edtBidirectional.Text', 'StrBidirectional', '', 'TTestSecond')]
   [BindMember(True, 'edtBidirectional2.Text', 'StrBidirectional', '', 'TTestSecond')]
-  [BindMethod(True, 'btnTest.OnClick', 'TestEventBind')]
-  TfrmBindApiSimpleDemo = class(TForm)
-    btnTest: TButton;
-    bvlInput: TBevel;
-    bvlOutput: TBevel;
-    edtBidirectional: TEdit;
-    edtBidirectional2: TEdit;
-    edtDouble: TEdit;
-    edtSame: TEdit;
-    edtSource2: TEdit;
-    edtTarget2: TEdit;
-    edtTarget2a: TEdit;
-    lblBidirectionalArrow: TLabel;
-    lblBidirectionalBindingInfo: TLabel;
-    lblBidirectionalInfo2: TLabel;
-    lblBinderInterval: TLabel;
-    lblDoubleValueArrow: TLabel;
-    lblIndirectBindingInfo: TLabel;
-    lblInt: TLabel;
-    lblLowercaseArrow: TLabel;
-    lblMemoTextInfo: TLabel;
-    lblMixedBindingInfo: TLabel;
-    lblSameTextArrow: TLabel;
-    lblSameValueArrow: TLabel;
-    lblUppercaseArrow: TLabel;
-    lblValueToEnumArrow: TLabel;
-    memSource: TMemo;
-    memTarget: TMemo;
-    pctEnum: TPageControl;
-    speInterval: TSpinEdit;
-    speValue: TSpinEdit;
-    tbsTabA: TTabSheet;
-    tbsTabB: TTabSheet;
-    tbsTabC: TTabSheet;
-    TabControl1: TTabControl;
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure speIntervalChange(Sender: TObject);
+  [BindMemberFrom(True, 'lblInt.Caption', 'NewValue')]
+  [MethodBind(True, 'btnTest.OnClick', 'TestEventBind')]
+{$IFDEF USE_INTERNAL_PROP}
+  [BindMemberTo(False, 'Value', 'NewValue')]
+  [BindMemberTo(False, 'DoubleValue', 'DoubleOf')]
+  [BindMemberTo(False, 'DoubleValue', 'DoubleOf')]
+  [BindMemberTo(False, 'SourceText', 'CurrentText')]
+  [BindMemberFrom(False, 'LowerText', 'LowerText')]
+  [BindMemberFrom(False, 'UpperText', 'UpperText')]
+{$ENDIF}
+  TfrmBindApiSimpleDemo1 = class(TfrmBindApiSimpleDemo)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
   end;
 
 var
-  frmBindApiSimpleDemo: TfrmBindApiSimpleDemo;
+  frmBindApiSimpleDemo1: TfrmBindApiSimpleDemo1;
 
 implementation
 
-uses
-  plBindAPI.BindManagement;
-
 {$R *.dfm}
-
-procedure TfrmBindApiSimpleDemo.FormCreate(Sender: TObject);
-begin
-  {Remember: if the bound class is not a singleton, the binder is
-   responsible of its destruction}
-  TplBindManager.Bind(Self);
-  speInterval.Value := TPlBindManager.Interval;
-end;
-
-procedure TfrmBindApiSimpleDemo.FormDestroy(Sender: TObject);
-begin
-  TplBindManager.Unbind(Self);
-end;
-
-procedure TfrmBindApiSimpleDemo.speIntervalChange(Sender: TObject);
-begin
-  TplBindManager.Interval := speInterval.Value;
-end;
 
 end.

@@ -1,0 +1,335 @@
+object BindApiSimpleDemo: TBindApiSimpleDemo
+  Left = 0
+  Top = 0
+  Caption = 'plBindApi Simple Demo'
+  ClientHeight = 714
+  ClientWidth = 660
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object pnlInput: TPanel
+    Position.X = 8.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 273.000000000000000000
+    Size.Height = 689.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object edtSource2: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 0
+      Text = 'Text'
+      Position.X = 8.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object speValue: TSpinBox
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 1
+      Cursor = crIBeam
+      Position.X = 8.000000000000000000
+      Position.Y = 176.000000000000000000
+      Size.Width = 153.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtBidirectional: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 2
+      Position.X = 8.000000000000000000
+      Position.Y = 369.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object lblIndirectBindingInfo: TLabel
+      AutoSize = True
+      Position.X = 8.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 258.000000000000000000
+      Size.Height = 112.000000000000000000
+      Size.PlatformDefault = False
+      Text = 
+        'Test Group 1. The editor above is linked to a property of an ext' +
+        'ernal entity by its Text property. '#13#10'The external class uses its' +
+        ' value to populate two more properties. '#13#10'Each property is linke' +
+        'd to on of the editors on the right. Type anything to propagate ' +
+        'of text.'
+      TabOrder = 3
+    end
+    object lblMixedBindingInfo: TLabel
+      Position.X = 8.000000000000000000
+      Position.Y = 198.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 163.000000000000000000
+      Size.PlatformDefault = False
+      Text = 
+        'Test Group 2. The editor above is linked to two properties of an' +
+        ' external entity by its Value property. '#13#10'The first is a simple,' +
+        ' direct bind. The second one uses a bridge function (Value * 2).' +
+        ' The same value is stored into a label caption, with automatic c' +
+        'onversion from integer to string. Finally, the TabStyle of the p' +
+        'age control is updated too, using the BindApi internal cast. '
+      TabOrder = 5
+    end
+    object lblBidirectionalBindingInfo: TLabel
+      AutoSize = True
+      Position.X = 8.000000000000000000
+      Position.Y = 392.000000000000000000
+      Size.Width = 258.000000000000000000
+      Size.Height = 64.000000000000000000
+      Size.PlatformDefault = False
+      Text = 
+        'Test Group 3. The editor above is linked to one property in a bi' +
+        'directional way. The same property is bidirectionally linked to ' +
+        'the editor in the right.'
+      TabOrder = 7
+    end
+    object memSource: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      TextSettings.WordWrap = True
+      Position.X = 8.000000000000000000
+      Position.Y = 472.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 97.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 8
+      Viewport.Width = 253.000000000000000000
+      Viewport.Height = 93.000000000000000000
+    end
+    object lblMemoTextInfo: TLabel
+      Position.X = 8.000000000000000000
+      Position.Y = 576.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 89.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.VertAlign = Leading
+      Text = 
+        'Test Group 4. The memo above is linked to one property of an ext' +
+        'ernal class in a monodirectional way. The same property is bound' +
+        ' to the Text property of the Memo in the right. Type any text to' +
+        ' seet it on the right.'
+      TabOrder = 9
+    end
+  end
+  object pnlOutput: TPanel
+    Position.X = 382.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 270.000000000000000000
+    Size.Height = 689.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object edtTarget2: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 0
+      Position.X = 8.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 254.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtTarget2a: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 1
+      Position.X = 8.000000000000000000
+      Position.Y = 38.000000000000000000
+      Size.Width = 254.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object btnTest: TButton
+      Position.X = 182.000000000000000000
+      Position.Y = 84.000000000000000000
+      TabOrder = 2
+      Text = 'Clear'
+    end
+    object edtSame: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 3
+      Position.X = 8.000000000000000000
+      Position.Y = 176.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtDouble: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 4
+      Position.X = 8.000000000000000000
+      Position.Y = 206.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object lblInt: TLabel
+      Position.X = 192.000000000000000000
+      Position.Y = 176.000000000000000000
+      Text = 'lblInt'
+    end
+    object edtBidirectional2: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 6
+      Position.X = 8.000000000000000000
+      Position.Y = 369.000000000000000000
+      Size.Width = 254.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object pctEnum: TTabControl
+      Position.X = 8.000000000000000000
+      Position.Y = 240.000000000000000000
+      Size.Width = 254.000000000000000000
+      Size.Height = 81.000000000000000000
+      Size.PlatformDefault = False
+      TabIndex = 0
+      TabOrder = 7
+      TabPosition = PlatformDefault
+      Sizes = (
+        254s
+        55s
+        254s
+        55s
+        254s
+        55s)
+      object tbiFirst: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = True
+        Size.Width = 64.000000000000000000
+        Size.Height = 26.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'First Tab'
+        ExplicitSize.cx = 64.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+      end
+      object tbiSecond: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = False
+        Size.Width = 81.000000000000000000
+        Size.Height = 26.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'Second Tab'
+        ExplicitSize.cx = 81.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+      end
+      object tbiThird: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = False
+        Size.Width = 69.000000000000000000
+        Size.Height = 26.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'Third Tab'
+        ExplicitSize.cx = 69.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+      end
+    end
+    object memTarget: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      TextSettings.WordWrap = True
+      Position.X = 8.000000000000000000
+      Position.Y = 472.000000000000000000
+      Size.Width = 254.000000000000000000
+      Size.Height = 97.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 8
+      Viewport.Width = 250.000000000000000000
+      Viewport.Height = 93.000000000000000000
+    end
+    object lblBidirectionalInfo2: TLabel
+      AutoSize = True
+      Position.X = 8.000000000000000000
+      Position.Y = 400.000000000000000000
+      Size.Width = 254.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Type something in the editor above and see!'
+      TabOrder = 9
+    end
+  end
+  object lblLowercaseArrow: TLabel
+    AutoSize = True
+    Position.X = 285.000000000000000000
+    Position.Y = 18.000000000000000000
+    Size.Width = 98.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = '-> lowercase'
+    TabOrder = 3
+    object lblUppercaseArrow: TLabel
+      AutoSize = True
+      Position.Y = 29.000000000000000000
+      Size.Width = 98.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      Text = '-> UPPERCASE'
+      TabOrder = 4
+    end
+  end
+  object lblSameValueArrow: TLabel
+    AutoSize = True
+    Position.X = 285.000000000000000000
+    Position.Y = 186.000000000000000000
+    Size.Width = 98.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = '-> Same value'
+    TabOrder = 4
+  end
+  object lblDoubleValueArrow: TLabel
+    AutoSize = True
+    Position.X = 285.000000000000000000
+    Position.Y = 217.000000000000000000
+    Size.Width = 98.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = '-> Value x 2'
+    TabOrder = 5
+  end
+  object lblValueToEnumArrow: TLabel
+    AutoSize = True
+    Position.X = 285.000000000000000000
+    Position.Y = 254.000000000000000000
+    Size.Width = 120.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = '-> Value to Enum'
+    TabOrder = 6
+  end
+  object lblBidirectionalArrow: TLabel
+    Position.X = 285.000000000000000000
+    Position.Y = 380.000000000000000000
+    Size.Width = 97.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.HorzAlign = Center
+    Text = '<-->'
+    TabOrder = 7
+  end
+  object lblSameTextArrow: TLabel
+    AutoSize = True
+    Position.X = 285.000000000000000000
+    Position.Y = 480.000000000000000000
+    Size.Width = 90.000000000000000000
+    Size.Height = 16.000000000000000000
+    Size.PlatformDefault = False
+    Text = '-> Same text'
+    TabOrder = 8
+  end
+end
