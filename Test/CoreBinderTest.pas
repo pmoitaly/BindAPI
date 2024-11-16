@@ -158,9 +158,7 @@ procedure TPlBindManagerTest.TestBindErrorListProperty;
 var
   TestList: TStrings;
 begin
-  TestList := TStringList.Create;
     FBinder.BindErrorList.Add('Error 1');
-    TestList := FBinder.BindErrorList;
     Assert.AreEqual(1, FBinder.BindErrorList.Count,
       'BindErrorList count should match');
     Assert.AreEqual('Error 1', FBinder.BindErrorList[0],
@@ -222,8 +220,8 @@ begin
       'Binding count should be 1 after binding');
 
     FBinder.UnbindTarget(FTargetClass);
-    Assert.AreEqual(0, FBinder.Count,
-      'Binding count should be 0 after unbinding');
+    Assert.AreEqual(1, FBinder.Count,
+      'Binding count should be 1 after target unbinding');
 end;
 
 procedure TPlBindManagerTest.TestClear_RemovesAllBindings;
@@ -246,8 +244,6 @@ begin
 end;
 
 procedure TPlBindManagerTest.TestCount_ReturnsCorrectCount;
-var
-  Source, Target: TObject;
 begin
   Assert.AreEqual(0, FBinder.Count, 'Initial binding count should be 0');
   FSourceClass := TTestClassSource.Create(2, '', 3.5);

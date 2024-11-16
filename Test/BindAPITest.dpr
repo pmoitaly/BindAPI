@@ -4,11 +4,6 @@ program BindAPITest;
 {$APPTYPE CONSOLE}
 {$ENDIF}{$STRONGLINKTYPES ON}
 uses
-  madExcept,
-  madLinkDisAsm,
-  madListHardware,
-  madListProcesses,
-  madListModules,
   System.SysUtils,
   {$IFDEF TESTINSIGHT}
   TestInsight.DUnitX,
@@ -25,7 +20,8 @@ uses
   BindManagerTest in 'BindManagerTest.pas',
   ClassManagerTest in 'ClassManagerTest.pas',
   DeferredBindTest in 'DeferredBindTest.pas',
-  RTTIUtilsTest in 'RTTIUtilsTest.pas';
+  RTTIUtilsTest in 'RTTIUtilsTest.pas',
+  BindListTest in 'BindListTest.pas';
 
 var
   runner : ITestRunner;
@@ -38,7 +34,7 @@ begin
   Exit;
 {$ENDIF}
 
-//  System.ReportMemoryLeaksOnShutdown := True;
+  System.ReportMemoryLeaksOnShutdown := True;
 
   TDUnitX.Options.ExitBehavior := TDUnitXExitBehavior.Pause;
   try
