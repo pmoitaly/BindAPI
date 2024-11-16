@@ -4,6 +4,11 @@ program BindAPITest;
 {$APPTYPE CONSOLE}
 {$ENDIF}{$STRONGLINKTYPES ON}
 uses
+  madExcept,
+  madLinkDisAsm,
+  madListHardware,
+  madListProcesses,
+  madListModules,
   System.SysUtils,
   {$IFDEF TESTINSIGHT}
   TestInsight.DUnitX,
@@ -11,10 +16,10 @@ uses
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
+  AutoBinderTest in 'AutoBinderTest.pas',
   CoreBinderTest in 'CoreBinderTest.pas',
   BindAPITestClasses in 'BindAPITestClasses.pas',
   AttributesTests in 'AttributesTests.pas',
-  AutoBinderTests in 'AutoBinderTests.pas',
   BindElementDataTest in 'BindElementDataTest.pas',
   ClassDataTest in 'ClassDataTest.pas',
   BindManagerTest in 'BindManagerTest.pas',
@@ -33,7 +38,7 @@ begin
   Exit;
 {$ENDIF}
 
-  System.ReportMemoryLeaksOnShutdown := True;
+//  System.ReportMemoryLeaksOnShutdown := True;
 
   TDUnitX.Options.ExitBehavior := TDUnitXExitBehavior.Pause;
   try
