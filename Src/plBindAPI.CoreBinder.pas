@@ -417,7 +417,6 @@ procedure TPlBinder.HandleKeyNotify(Sender: TObject;
   const Key: TplBindElementData; Action: TCollectionNotification);
 var
   sourceElement: TValue;
-  targetElement: TValue;
   targetKey: TplBindElementData;
   tempPath: string;
 begin
@@ -437,7 +436,6 @@ end;
 procedure TPlBinder.HandleValueNotify(Sender: TObject;
   const Key: TPlBindElementsList; Action: TCollectionNotification);
 var
-  sourceElement: TValue;
   targetElement: TValue;
   targetKey: TplBindElementData;
   tempPath: string;
@@ -538,42 +536,22 @@ end;
 function TPlBinder.UnbindSource(ASource: TObject): Boolean;
 var
   Key: TplBindElementData;
-  keysToDelete: TPlBindElementsList;
 begin
   {TODO 5 -oPMo -cDebug : Removing a Key allegedly causes a memory leak when
    TPlBindPropertyList is created with Create([doOwnsKeys, doOwnsValues]),
    so we could enable/disable its binding. However, removing an element when
    the binder is running could create problems in the MonitorValues procedure,
-   because its for.. in loop could be modified. Move keysToDelete to a class
-   field and loop it in the MonitorValue procedure.
+   because its for.. in loop could be modified.
    This TODO applies to UnbindTarget procedures too.}
+  Result := FBindPropertyList.Count = 0;
   if FBindPropertyList.Count > 0 then
     begin
-      Key := nil; {This line avoids a warning W1036}
-      keysToDelete := TPlBindElementsList.Create;
-      try
-        for Key in FBindPropertyList.Keys do
-          if Key.Element = ASource then
-            begin
-              Key.Enabled := False;
-              keysToDelete.Add(Key);
-            end;
-        for Key in keysToDelete do
+      Key := FBindPropertyList.FindKey(ASource);
+      while Key <> nil do
+        begin
           FBindPropertyList.Remove(Key);
-        Result := True;
-      except
-        on e: Exception do
-          begin
-            if Assigned(Key) then
-              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-                ['TPlBinder.UnbindSource', e.message, Key.PropertyPath]))
-            else
-              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-                ['TPlBinder.UnbindSource', e.message, 'Unassigned key']));
-            Result := False;
-          end;
-      end;
-      keysToDelete.Free;
+          Key := FBindPropertyList.FindKey(ASource);
+        end;
     end;
 end;
 
@@ -582,87 +560,48 @@ var
   Key: TplBindElementData;
   keyOfValue: TplBindElementData;
   keysToDelete: TPlBindElementsList;
-  Value: TPlBindElementsList;
 begin
-  keyOfValue := nil; //This line avoids a warning W1036
+  Result := FBindPropertyList.Count = 0;
   if FBindPropertyList.Count > 0 then
     begin
-      keysToDelete := TPlBindElementsList.Create;
-      try
-        for Key in FBindPropertyList.Keys do
-          begin
-            FBindPropertyList.TryGetValue(Key, Value);
-            for keyOfValue in Value do
-              if keyOfValue.Element = ATarget then
-                begin
-                  keyOfValue.Enabled := False;
-                  Value.Remove(keyOfValue);
-                end;
-            if Value.Count = 0 then
-              keysToDelete.Add(Key);
-          end;
-        for Key in keysToDelete do
-          FBindPropertyList.Remove(Key);
-        Result := True;
-      except
-        on e: Exception do
-          begin
-            if Assigned(keyOfValue) then
-              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-                ['TPlBinder.UnbindTarget', e.message, keyOfValue.PropertyPath]))
-            else
-              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-                ['TPlBinder.UnbindTarget', e.message, 'Unassigned Key']));
-            Result := False;
-          end;
-      end;
-      keysToDelete.Free;
+      for Key in FBindPropertyList.Keys do
+        begin
+          keyOfValue := FBindPropertyList.FindValue(Key, ATarget);
+          while keyOfValue <> nil do
+            begin
+              FBindPropertyList.TryGetValue(Key, keysToDelete);
+              keysToDelete.Remove(keyOfValue);
+              keyOfValue := FBindPropertyList.FindValue(Key, ATarget);
+            end;
+        end;
+      Result := True
     end;
 end;
 
+{TODO 3 -oPMo -cRefactoring : move Unbind* methods to TPlBindElementsList}
 function TPlBinder.UnbindTarget(ATarget: TObject; ASource: TObject): Boolean;
 var
   Key: TplBindElementData;
-  keysToDelete: TPlBindElementsList;
-  sourceKey: TplBindElementData;
+  Keys: TPlBindElementsArray;
+  keyOfValue: TplBindElementData;
   Value: TPlBindElementsList;
 begin
+  Result := FBindPropertyList.Count = 0;
   if FBindPropertyList.Count > 0 then
     begin
-      Key := nil; //This line avoids a warning W1036
-      keysToDelete := TPlBindElementsList.Create;
-      try
-        for Key in FBindPropertyList.Keys do
-          if Key.Element = ASource then
+      Keys := FBindPropertyList.FindKeys(ASource);
+      for Key in Keys do
+        begin
+          keyOfValue := FBindPropertyList.FindValue(Key, ATarget);
+          while keyOfValue <> nil do
             begin
               FBindPropertyList.TryGetValue(Key, Value);
-              for sourceKey in Value do
-                if sourceKey.Element = ATarget then
-                  begin
-                    sourceKey.Enabled := False;
-                    Value.Remove(sourceKey);
-                  end;
-              if Value.Count = 0 then
-                keysToDelete.Add(Key);
+              Value.Remove(keyOfValue);
+              keyOfValue := FBindPropertyList.FindValue(Key, ATarget);
             end;
-        for Key in keysToDelete do
-          FBindPropertyList.Remove(Key);
-        Result := True;
-      except
-        on e: Exception do
-          begin
-            if Assigned(Key) then
-              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-                ['TPlBinder.UnbindSource', e.message, Key.PropertyPath]))
-            else
-              FBindErrorList.Add(Format(SRemovingFromBindPropertyList,
-                ['TPlBinder.UnbindSource', e.message, 'Unassigned Key']));
-            Result := False;
-          end;
-      end;
-      keysToDelete.Free;
+        end;
+      Result := True
     end;
-  {TODO 3 -oPMo -cRefactoring : unbind methods}
 end;
 
 procedure TPlBinder.UpdateListValues(aList: TPlBindElementsList;
