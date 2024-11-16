@@ -6,13 +6,19 @@
         <Projects Include="plBindAPI.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\Test\BindAPITest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="VCL.plBindAPI.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\Demo\ExternalBindDemo\ExternalBindVCLDemo.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\Test\BindAPITest.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="S:\Test\RTTITest\RTTIMethodRead.dproj">
@@ -24,13 +30,10 @@
         <Projects Include="..\Demo\FrameBindDemo\TestBoundFrame.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="..\Demo\ActionsDemo\ActionDemo.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Demo\RadWay\RadWay.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -50,6 +53,33 @@
     <Target Name="plBindAPI:Make">
         <MSBuild Projects="plBindAPI.dproj" Targets="Make"/>
     </Target>
+    <Target Name="BindAPITest">
+        <MSBuild Projects="..\Test\BindAPITest.dproj"/>
+    </Target>
+    <Target Name="BindAPITest:Clean">
+        <MSBuild Projects="..\Test\BindAPITest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BindAPITest:Make">
+        <MSBuild Projects="..\Test\BindAPITest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo">
+        <MSBuild Projects="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo:Clean">
+        <MSBuild Projects="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo:Make">
+        <MSBuild Projects="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="fmx_BindApiSimpleDemo">
+        <MSBuild Projects="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj"/>
+    </Target>
+    <Target Name="fmx_BindApiSimpleDemo:Clean">
+        <MSBuild Projects="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="fmx_BindApiSimpleDemo:Make">
+        <MSBuild Projects="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Make"/>
+    </Target>
     <Target Name="VCL_plBindAPI">
         <MSBuild Projects="VCL.plBindAPI.dproj"/>
     </Target>
@@ -67,15 +97,6 @@
     </Target>
     <Target Name="ExternalBindVCLDemo:Make">
         <MSBuild Projects="..\Demo\ExternalBindDemo\ExternalBindVCLDemo.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BindAPITest">
-        <MSBuild Projects="..\Test\BindAPITest.dproj"/>
-    </Target>
-    <Target Name="BindAPITest:Clean">
-        <MSBuild Projects="..\Test\BindAPITest.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BindAPITest:Make">
-        <MSBuild Projects="..\Test\BindAPITest.dproj" Targets="Make"/>
     </Target>
     <Target Name="RTTIMethodRead">
         <MSBuild Projects="S:\Test\RTTITest\RTTIMethodRead.dproj"/>
@@ -104,24 +125,6 @@
     <Target Name="TestBoundFrame:Make">
         <MSBuild Projects="..\Demo\FrameBindDemo\TestBoundFrame.dproj" Targets="Make"/>
     </Target>
-    <Target Name="BindApiSimpleDemo">
-        <MSBuild Projects="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj"/>
-    </Target>
-    <Target Name="BindApiSimpleDemo:Clean">
-        <MSBuild Projects="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BindApiSimpleDemo:Make">
-        <MSBuild Projects="..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="fmx_BindApiSimpleDemo">
-        <MSBuild Projects="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj"/>
-    </Target>
-    <Target Name="fmx_BindApiSimpleDemo:Clean">
-        <MSBuild Projects="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="fmx_BindApiSimpleDemo:Make">
-        <MSBuild Projects="..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Make"/>
-    </Target>
     <Target Name="ActionDemo">
         <MSBuild Projects="..\Demo\ActionsDemo\ActionDemo.dproj"/>
     </Target>
@@ -131,14 +134,23 @@
     <Target Name="ActionDemo:Make">
         <MSBuild Projects="..\Demo\ActionsDemo\ActionDemo.dproj" Targets="Make"/>
     </Target>
+    <Target Name="RadWay">
+        <MSBuild Projects="..\Demo\RadWay\RadWay.dproj"/>
+    </Target>
+    <Target Name="RadWay:Clean">
+        <MSBuild Projects="..\Demo\RadWay\RadWay.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RadWay:Make">
+        <MSBuild Projects="..\Demo\RadWay\RadWay.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="plBindAPI;VCL_plBindAPI;ExternalBindVCLDemo;BindAPITest;RTTIMethodRead;BindAPIMultipleFormDemo;TestBoundFrame;BindApiSimpleDemo;fmx_BindApiSimpleDemo;ActionDemo"/>
+        <CallTarget Targets="plBindAPI;BindAPITest;BindApiSimpleDemo;fmx_BindApiSimpleDemo;VCL_plBindAPI;ExternalBindVCLDemo;RTTIMethodRead;BindAPIMultipleFormDemo;TestBoundFrame;ActionDemo;RadWay"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="plBindAPI:Clean;VCL_plBindAPI:Clean;ExternalBindVCLDemo:Clean;BindAPITest:Clean;RTTIMethodRead:Clean;BindAPIMultipleFormDemo:Clean;TestBoundFrame:Clean;BindApiSimpleDemo:Clean;fmx_BindApiSimpleDemo:Clean;ActionDemo:Clean"/>
+        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;BindApiSimpleDemo:Clean;fmx_BindApiSimpleDemo:Clean;VCL_plBindAPI:Clean;ExternalBindVCLDemo:Clean;RTTIMethodRead:Clean;BindAPIMultipleFormDemo:Clean;TestBoundFrame:Clean;ActionDemo:Clean;RadWay:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="plBindAPI:Make;VCL_plBindAPI:Make;ExternalBindVCLDemo:Make;BindAPITest:Make;RTTIMethodRead:Make;BindAPIMultipleFormDemo:Make;TestBoundFrame:Make;BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make;ActionDemo:Make"/>
+        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make;VCL_plBindAPI:Make;ExternalBindVCLDemo:Make;RTTIMethodRead:Make;BindAPIMultipleFormDemo:Make;TestBoundFrame:Make;ActionDemo:Make;RadWay:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
