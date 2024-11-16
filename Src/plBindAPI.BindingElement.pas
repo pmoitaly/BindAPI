@@ -33,11 +33,74 @@ uses
   plBindAPI.Types;
 
 type
-
   TPlBindElementData = class;
+  TPlBindElementsArray = array of TPlBindElementData;
 
   TPlBindElementsList = TObjectList<TPlBindElementData>;
-  TPlBindList = TObjectDictionary<TPlBindElementData, TPlBindElementsList>;
+
+  TPlBindList = class(TObjectDictionary<TPlBindElementData,
+    TPlBindElementsList>)
+  public
+    /// <summary>
+    /// Disables the key element identified by an object and a property path
+    /// </summary>
+    /// <remarks>
+    /// <para>Performs a linear search over the keys and disable the first
+    /// occurrence that matches the parameters.</para>
+    ///  <note type="warning"><b>Do not use an instance of this class, unless
+    /// you konw what are you doing. If you do that, does not add the same
+    /// <c>TPlElementData</c> as key and as value, nor as many values. That
+    /// would resolve in lots of <i>Invalid point operation</i> errors when
+    /// the istance is destroyed.</note>
+    ///  </remarks>
+    /// <param name="ASource">The object to compare with.</param>
+    /// <param name="APropertyPath">Optional. The property path to compare with.</param>
+    procedure DisableElement(ASource: TObject; const APropertyPath: string = '§');
+    /// <summary>
+    /// Enables the key element identified by an object and a property path
+    /// </summary>
+    /// <remarks>
+    /// <para>Performs a linear search over the keys and enable the first
+    /// occurrence that matches the parameters.</para>
+    /// <param name="ASource">The object to compare with.</param>
+    /// <param name="APropertyPath">Optional. The property path to compare with.</param>
+    procedure EnableElement(ASource: TObject; const APropertyPath: string = '§');
+    /// <summary>
+    /// Returns the all keys where element equals the parameter ASource.
+    /// </summary>
+    /// <remarks>
+    /// <para>Performs a linear search over the keys and returns any
+    /// occurrence that matches the parameter.</para>
+    /// <para>If no key is found, the function returns an empty list.</para>
+    /// </remarks>
+    /// <param name="ASource">The object to compare with.</param>
+    /// <returns>The first matching key or nil.</returns>
+    function FindKeys(ASource: TObject): TPlBindElementsArray;
+    /// <summary>
+    /// Returns the first key where element equals the parameter ASource.
+    /// </summary>
+    /// <remarks>
+    /// <para>Performs a linear search over the keys and returns the first
+    /// occurrence that matches the parameter.</para>
+    /// <para>If no key is found, the function returns nil.</para>
+    /// </remarks>
+    /// <param name="ASource">The object to compare with.</param>
+    /// <returns>The first matching key or nil.</returns>
+    function FindKey(ASource: TObject; const APropertyPath: string = '§'): TPlBindElementData;
+    /// <summary>
+    /// Returns the first value of a key where element equals the parameter ASource.
+    /// </summary>
+    /// <remarks>
+    /// <para>Performs a linear search over the values of the keys and returns the first
+    /// occurrence that matches the parameter.</para>
+    /// <para>If no value is found, the function returns nil.</para>
+    /// </remarks>
+    /// <param name="ASource">The object to compare with.</param>
+    /// <param name="ATarget">The object to compare with.</param>
+    /// <returns>The first matching key or nil.</returns>
+    function FindValue(AKey: TPlBindElementData; ATarget: TObject)
+      : TPlBindElementData;
+  end;
 
   {List of bound members}
   /// <summary>
@@ -199,7 +262,7 @@ begin
   FElement := AObject;
 
   FValue := CurrentValue;
-  end;
+end;
 
 {Get record value when there is a field of a property}
 function TPlBindElementData.CurrentValue: TValue;
@@ -237,12 +300,12 @@ begin
 end;
 
 {TODO 2 -oPMo -cRefactoring : Should we raise a specific exception
-without disabling the binding?}
+ without disabling the binding?}
 function TPlBindElementData.ValueChanged: Boolean;
 var
   newValue: TValue;
 begin
-    Result := False;
+  Result := False;
   if FEnabled and Assigned(FElement) then
     try
       newValue := CurrentValue;
@@ -273,6 +336,74 @@ function TPlParKeyComparer.GetHashCode(const Value: TPlBindElementData)
 begin
   Result := THashBobJenkins.GetHashValue(PChar(Value.PropertyPath)^,
     Length(Value.PropertyPath) * SizeOf(Char), 0);
+end;
+
+{$ENDREGION}
+{$REGION 'TPlBindList'}
+
+procedure TPlBindList.DisableElement(ASource: TObject; const APropertyPath:
+    string = '§');
+var
+  key: TPlBindElementData;
+begin
+  key := FindKey(ASource, APropertyPath);
+  if Assigned(key) then
+    key.Enabled := False;
+end;
+
+
+procedure TPlBindList.EnableElement(ASource: TObject; const APropertyPath:
+    string = '§');
+var
+  key: TPlBindElementData;
+begin
+  key := FindKey(ASource, APropertyPath);
+  if Assigned(key) then
+    key.Enabled := True;
+end;
+
+function TPlBindList.FindKey(ASource: TObject; const APropertyPath: string =
+    '§'): TPlBindElementData;
+var
+  key: TPlBindElementData;
+begin
+  for key in keys do
+    if (key.Element = ASource) and ((key.PropertyPath = APropertyPath) or (APropertyPath = '§')) then
+      begin
+        Result := key;
+        Exit;
+      end;
+  Result := nil;
+end;
+
+function TPlBindList.FindKeys(ASource: TObject): TPlBindElementsArray;
+var
+  key: TPlBindElementData;
+begin
+  for key in keys do
+    if key.Element = ASource then
+      begin
+        SetLength(Result, Length(Result) + 1);
+        Result[High(Result)] := key;
+      end;
+end;
+
+function TPlBindList.FindValue(AKey: TPlBindElementData; ATarget: TObject)
+  : TPlBindElementData;
+var
+  Value: TPlBindElementData;
+  keyValue: TPlBindElementsList;
+begin
+  TryGetValue(AKey, keyValue);
+  if Assigned(keyValue) then
+    for Value in keyValue do
+      if Value.Element = ATarget then
+        begin
+          Result := Value;
+          Exit
+        end;
+
+  Result := nil;
 end;
 
 {$ENDREGION}
