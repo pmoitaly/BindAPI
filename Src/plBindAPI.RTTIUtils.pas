@@ -1532,13 +1532,13 @@ begin
   end;
 end;
 
+{TODO 5 -oPMo -cDebug : create a valid method to write indexed properties }
 class procedure TPlRTTIUtils.WriteIndexedPropertyValue(ANode: TObject;
   AIndexedProp: TRttiIndexedProperty; AIndex: string; AValue: TValue);
 var
   propertyInfo: PPropInfo;
   propTypeKind: TTypeKind;
 begin
-{TODO 5 -oPMo -cDebug : create a valid method to write indexed properties }
   if not Assigned(AIndexedProp) then
     Exit;
   propTypeKind := AIndexedProp.PropertyType.TypeKind;
@@ -1551,7 +1551,7 @@ begin
 //        SetObjectProp(ANode, propertyInfo, AValue.AsObject);
       end
   else
-    AIndexedProp.SetValue(ANode, AValue, AIndex);
+//    AIndexedProp.SetValue(ANode, AIndex, AValue);
   end;
 end;
 
