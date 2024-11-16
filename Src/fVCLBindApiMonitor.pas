@@ -3,7 +3,8 @@ unit fVCLBindApiMonitor;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.Grids, Vcl.Menus;
 
@@ -49,14 +50,14 @@ implementation
 
 uses
   System.StrUtils,
-  plBindAPI.ClassFactory, plBindApi.Types,
-  plBindAPI.BindManagement, plBindApi.BinderElement,
-  plBindApi.RTTIUtils;
+  plBindAPI.ClassFactory, plBindAPI.Types,
+  plBindAPI.BindManagement, plBindAPI.BindingElement,
+  plBindAPI.RTTIUtils;
 
 {$R *.dfm}
 
-procedure TfrmBindApiMonitor.FormClose(Sender: TObject; var Action:
-    TCloseAction);
+procedure TfrmBindApiMonitor.FormClose(Sender: TObject;
+  var Action: TCloseAction);
 begin
   tmrUpdate.Enabled := False;
 end;
@@ -111,24 +112,24 @@ var
   bindInfo: TPlBindList;
   keyPropertyList: TPlBindElementData;
   internalLoopIndex: integer;
-  valuePropertyList: TPlBindTargetList;
+  valuePropertyList: TPlBindElementsList;
   value: TPlBindElementData;
   rowIndex: integer;
 begin
-  debugInfo := TplBindManager.DebugInfo;
+  debugInfo := TplBindManager.debugInfo;
   chkBinderEnabled.Checked := debugInfo.Active;
   edtBindingNumber.Text := IntToStr(debugInfo.Count);
   edtInterval.Text := IntToStr(debugInfo.Interval);
 
-  bindInfo := TplBindManager.Binder.BindInfo;
+  bindInfo := TplBindManager.Binder.bindInfo;
   sgrBindList.RowCount := 1;
-  sgrBindList.Cells[0,0] := 'Enabled';
-  sgrBindList.Cells[1,0] :=  'Source Class Name';
-  sgrBindList.Cells[2,0] := 'Source Path';
-  sgrBindList.Cells[3,0] := 'Source value';
-  sgrBindList.Cells[4,0] :=  'Target Class Name';
-  sgrBindList.Cells[5,0] := 'Target Path';
-  sgrBindList.Cells[6,0] := 'Target value';
+  sgrBindList.Cells[0, 0] := 'Enabled';
+  sgrBindList.Cells[1, 0] := 'Source Class Name';
+  sgrBindList.Cells[2, 0] := 'Source Path';
+  sgrBindList.Cells[3, 0] := 'Source value';
+  sgrBindList.Cells[4, 0] := 'Target Class Name';
+  sgrBindList.Cells[5, 0] := 'Target Path';
+  sgrBindList.Cells[6, 0] := 'Target value';
 
   rowIndex := 0;
   for keyPropertyList in bindInfo.Keys do
@@ -136,10 +137,11 @@ begin
       Inc(rowIndex);
       sgrBindList.RowCount := sgrBindList.RowCount + 1;
       valuePropertyList := bindInfo[keyPropertyList];
-      sgrBindList.Cells[0,rowIndex] :=  IfThen(keyPropertyList.Enabled, 'Yes', 'No');
-      sgrBindList.Cells[1,rowIndex] :=  keyPropertyList.Element.ClassName;
-      sgrBindList.Cells[2,rowIndex] :=  keyPropertyList.PropertyPath;
-      sgrBindList.Cells[3,rowIndex] :=  keyPropertyList.Value.ToString;
+      sgrBindList.Cells[0, rowIndex] := IfThen(keyPropertyList.Enabled,
+        'Yes', 'No');
+      sgrBindList.Cells[1, rowIndex] := keyPropertyList.Element.ClassName;
+      sgrBindList.Cells[2, rowIndex] := keyPropertyList.PropertyPath;
+      sgrBindList.Cells[3, rowIndex] := keyPropertyList.value.ToString;
       internalLoopIndex := 0;
       for value in valuePropertyList do
         begin
@@ -148,9 +150,9 @@ begin
               Inc(rowIndex);
               sgrBindList.RowCount := sgrBindList.RowCount + 1;
             end;
-          sgrBindList.Cells[4,rowIndex] :=  value.Element.ClassName;
-          sgrBindList.Cells[5,rowIndex] :=  value.PropertyPath;
-          sgrBindList.Cells[6,rowIndex] :=  value.Value.ToString;
+          sgrBindList.Cells[4, rowIndex] := value.Element.ClassName;
+          sgrBindList.Cells[5, rowIndex] := value.PropertyPath;
+          sgrBindList.Cells[6, rowIndex] := value.value.ToString;
           Inc(internalLoopIndex);
         end;
     end;
@@ -163,28 +165,35 @@ var
   registeredClasses: TPlClassList;
   rowIndex: integer;
 begin
-  instances := TplClassManager.Instances;
-  registeredClasses := TplClassManager.RegisteredClasses;
-  sgrRegisteredClasses.RowCount := registeredClasses.Count + 1;
-  sgrRegisteredClasses.Cells[0,0] := 'Class Name';
-  sgrRegisteredClasses.Cells[1,0] := 'Is singleton';
-  sgrRegisteredClasses.Cells[2,0] := 'Instances';
+  instances := TplClassManager.instances;
+  try
+    registeredClasses := TplClassManager.registeredClasses;
+    try
+      sgrRegisteredClasses.RowCount := registeredClasses.Count + 1;
+      sgrRegisteredClasses.Cells[0, 0] := 'Class Name';
+      sgrRegisteredClasses.Cells[1, 0] := 'Is singleton';
+      sgrRegisteredClasses.Cells[2, 0] := 'Instances';
 
-  rowIndex := 1;
-  for key in registeredClasses.Keys do
-    begin
-      sgrRegisteredClasses.Cells[0,rowIndex] := key;
-      sgrRegisteredClasses.Cells[1,rowIndex] :=
-        IfThen(TplClassManager.IsSingleton(key), 'Yes', 'No');
-      sgrRegisteredClasses.Cells[2,rowIndex] :=
-        IfThen(instances.ContainsKey(key) and Assigned(instances.Items[key]),
-          '1', '0');
-      Inc(rowIndex);
+      rowIndex := 1;
+      for key in registeredClasses.Keys do
+        begin
+          sgrRegisteredClasses.Cells[0, rowIndex] := key;
+          sgrRegisteredClasses.Cells[1, rowIndex] :=
+            IfThen(TplClassManager.IsSingleton(key), 'Yes', 'No');
+          sgrRegisteredClasses.Cells[2, rowIndex] :=
+            IfThen(instances.ContainsKey(key) and Assigned(instances.Items[key]
+            ), '1', '0');
+          Inc(rowIndex);
+        end;
+
+      lblRegisteredClassesTitle.Caption := 'Registered classes - Total: ' +
+        IntToStr(registeredClasses.Count);
+    finally
+      registeredClasses.Free;
     end;
-
-  lblRegisteredClassesTitle.Caption := 'Registered classes - Total: ' +
-    IntToStr(registeredClasses.Count);
-
+  finally
+    instances.Free;
+  end;
 end;
 
 end.
