@@ -1,0 +1,41 @@
+allocation number: 5765
+program up time: 1,78 s
+type: TPlBindElementData
+address: $9a56ae0
+size: 60
+access rights: read/write
+
+main thread ($1017c):
+78b2999b madExcept32.dll       madExceptDbg              1773 GetMemCallback
+00406e88 BindApiSimpleDemo.exe System                    4962 @GetMem
+00408d3a BindApiSimpleDemo.exe System                   18331 TObject.NewInstance
+0040943f BindApiSimpleDemo.exe System                   19661 @ClassCreate
+00668e1b BindApiSimpleDemo.exe plBindAPI.BindingElement   189 TPlBindElementData.Create
+0066dcf1 BindApiSimpleDemo.exe plBindAPI.CoreBinder       261 TPlBinder.Bind
+0066dd7a BindApiSimpleDemo.exe plBindAPI.CoreBinder       272 TPlBinder.Bind
+00670391 BindApiSimpleDemo.exe plBindAPI.AutoBinder       244 TPlAutoBinder.Bind
+0067085b BindApiSimpleDemo.exe plBindAPI.AutoBinder       410 TPlAutoBinder.BindMember
+006708b1 BindApiSimpleDemo.exe plBindAPI.AutoBinder       416 TPlAutoBinder.BindMember
+006709a3 BindApiSimpleDemo.exe plBindAPI.AutoBinder       434 TPlAutoBinder.BindMembers
+00670a99 BindApiSimpleDemo.exe plBindAPI.AutoBinder       440 TPlAutoBinder.BindMembers
+00406ea4 BindApiSimpleDemo.exe System                    5010 @FreeMem
+00670409 BindApiSimpleDemo.exe plBindAPI.AutoBinder       263 TPlAutoBinder.BindInnerAttributes
+00670472 BindApiSimpleDemo.exe plBindAPI.AutoBinder       266 TPlAutoBinder.BindInnerAttributes
+00670e6c BindApiSimpleDemo.exe plBindAPI.AutoBinder       499 TPlAutoBinder.BindObject
+00675e7b BindApiSimpleDemo.exe plBindAPI.BindManagement   193 TPlBindManager.AddBind
+00676079 BindApiSimpleDemo.exe plBindAPI.BindManagement   234 TPlBindManager.Bind
+006760c8 BindApiSimpleDemo.exe plBindAPI.BindManagement   235 TPlBindManager.Bind
+0067f585 BindApiSimpleDemo.exe fBindApiSimpleDemo         108 TfrmBindApiSimpleDemo.FormCreate
+0063ea35 BindApiSimpleDemo.exe Vcl.Forms                 5466 TCustomForm.DoCreate
+0063e554 BindApiSimpleDemo.exe Vcl.Forms                 5333 TCustomForm.AfterConstruction
+004094ad BindApiSimpleDemo.exe System                   19710 @AfterConstruction
+0063e510 BindApiSimpleDemo.exe Vcl.Forms                 5323 TCustomForm.Create
+0064bbda BindApiSimpleDemo.exe Vcl.Forms                13401 TApplication.CreateForm
+00689ed9 BindApiSimpleDemo.exe BindApiSimpleDemo           19 initialization
+76ac7ba7 KERNEL32.DLL                                         BaseThreadInitThunk
+
+memory dump: 
+09a56ae0  40 45 66 00 00 00 00 00 - 00 00 00 00 00 00 00 00  @Ef.............
+09a56af0  00 00 00 00 f8 28 a5 03 - d4 78 a4 03 01 00 00 00  .....(...x......
+09a56b00  a0 10 40 00 44 05 69 00 - 00 00 00 00 00 00 00 00  ..@.D.i.........
+09a56b10  00 00 00 00 00 00 00 00 - 00 00 00 00              ............

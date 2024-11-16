@@ -244,7 +244,7 @@ procedure TPlBinder.AddNewItem(AKey, AValue: TplBindElementData);
 var
   newList: TPlBindElementsList;
 begin
-  newList := TPlBindElementsList.Create;
+  newList := TPlBindElementsList.Create(True);
   newList.Add(AValue);
   FBindPropertyList.Add(AKey, newList);
 end;

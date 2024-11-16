@@ -36,7 +36,7 @@ type
 
   TPlBindElementData = class;
 
-  TPlBindElementsList = TList<TPlBindElementData>;
+  TPlBindElementsList = TObjectList<TPlBindElementData>;
   TPlBindList = TObjectDictionary<TPlBindElementData, TPlBindElementsList>;
 
   {List of bound members}
