@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C435B62C-B3C4-40C8-BA0F-4B4B27AD189E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="plBindAPI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Test\BindAPITest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="S:\Test\RTTITest\RTTIMethodRead.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="plBindAPI">
+        <MSBuild Projects="plBindAPI.dproj"/>
+    </Target>
+    <Target Name="plBindAPI:Clean">
+        <MSBuild Projects="plBindAPI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="plBindAPI:Make">
+        <MSBuild Projects="plBindAPI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BindAPITest">
+        <MSBuild Projects="..\..\Test\BindAPITest.dproj"/>
+    </Target>
+    <Target Name="BindAPITest:Clean">
+        <MSBuild Projects="..\..\Test\BindAPITest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BindAPITest:Make">
+        <MSBuild Projects="..\..\Test\BindAPITest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RTTIMethodRead">
+        <MSBuild Projects="S:\Test\RTTITest\RTTIMethodRead.dproj"/>
+    </Target>
+    <Target Name="RTTIMethodRead:Clean">
+        <MSBuild Projects="S:\Test\RTTITest\RTTIMethodRead.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RTTIMethodRead:Make">
+        <MSBuild Projects="S:\Test\RTTITest\RTTIMethodRead.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo:Clean">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BindApiSimpleDemo:Make">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="plBindAPI;BindAPITest;RTTIMethodRead;BindApiSimpleDemo"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;RTTIMethodRead:Clean;BindApiSimpleDemo:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;RTTIMethodRead:Make;BindApiSimpleDemo:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
