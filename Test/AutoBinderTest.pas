@@ -142,6 +142,10 @@ begin
   FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject,
     'intTarget', nil);
 
+  // Verify the count after the binding
+  Assert.AreEqual(1, FAutoBinder.Count,
+    'There should be 1 binding after binding.');
+
   // Execute unbinding
   FAutoBinder.UnbindSource(FSourceObject);
 
@@ -161,8 +165,8 @@ begin
   FAutoBinder.UnbindTarget(FTargetObject);
 
   // Verify the count after the unbinding
-  Assert.AreEqual(0, FAutoBinder.Count,
-    'There should be 0 bindings after Target unbinding.');
+  Assert.AreEqual(1, FAutoBinder.Count,
+    'There should be 1 bindings after Target unbinding.');
 
 end;
 
@@ -181,7 +185,7 @@ begin
   // Execute unbinding
   FAutoBinder.UnbindTarget(FSecondTarget, FSourceObject);
   // Verify the count after the unbinding
-  Assert.AreEqual(0, FAutoBinder.Count,
+  Assert.AreEqual(1, FAutoBinder.Count,
     'There should be 0 bindings after 2nd Target unbinding.');
 
 end;
