@@ -270,9 +270,12 @@ end;
 
 class procedure TPlBindManager.Unbind(ASource: TObject);
 begin
-  FBinder.UnbindTarget(ASource);
-  FBinder.UnbindSource(ASource);
-  FBinder.UnbindMethods(ASource);
+  if Assigned(ASource) then
+    begin
+      FBinder.UnbindMethods(ASource);
+      FBinder.UnbindTarget(ASource);
+      FBinder.UnbindSource(ASource);
+    end;
 end;
 
 {$ENDREGION}
