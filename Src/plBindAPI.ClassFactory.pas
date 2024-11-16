@@ -161,10 +161,10 @@ type
     class function GetInstance(const AClassName: string): TObject;
 
     /// <summary>
-    /// Returns the list of currently managed instances.
+    /// Returns a copy if the list of currently managed instances.
     /// </summary>
-    /// <returns>A list of managed instances. At present, this function is
-    /// used for monitoring purposes, but could be removed in future.</returns>
+    /// <returns>A list of managed instances. The caller is responsible
+    /// for freeing it.</returns>
     class function Instances: TPlInstanceList;
 
     /// <summary>
@@ -217,10 +217,10 @@ type
       const AParamsSet: TPlCreateParams); overload;
 
     /// <summary>
-    /// Returns a copy of the list of all registered classes.
+    /// Returns a copy the list of all registered classes.
     /// </summary>
-    /// <returns>A list of registered classes and their metadata. At present,
-    /// this function used for monitoring purposes, but could be removed in future.</returns>
+    /// <returns>A list of registered classes and their metadata.
+    /// The caller is responsible for freeing it.</returns>
     class function RegisteredClasses: TPlClassList;
 
     /// <summary>
@@ -363,7 +363,7 @@ end;
 
 class function TPlClassManager.Instances: TPlInstanceList;
 begin
-  Result := FInstanceList;
+  Result := TPlInstanceList.Create(FInstanceList);
 end;
 
 class function TPlClassManager.IsRegistered(const AClassName: string): Boolean;
