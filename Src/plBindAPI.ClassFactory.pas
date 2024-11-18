@@ -22,7 +22,20 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
-
+/// <summary>
+///   Implementation of TPlClassManager.
+/// </summary>
+/// <remarks>
+///  <c>TplClassManager</c> is a class composed of static
+/// methods and contains instances of the classes involved in the binding
+/// process. Classes must be registered at initialization and can be
+/// marked as singletons.
+/// When parsing ClassBind attributes, BindAPI queries TplClassManager
+/// to obtain an instance of the classes with which properties they are
+/// to be mapped. If a class is marked as a singleton, only one instance
+/// of it is created on the first request; otherwise, a new instance is
+/// created on each request.
+/// </remarks>
 unit plBindAPI.ClassFactory;
 
 interface
@@ -194,9 +207,8 @@ type
     /// <param name="AClass">The class to register.</param>
     /// <param name="AsSingleton">Specifies if the class should be a singleton.</param>
     /// <param name="AsDeferred">Specifies if instantiation should be deferred. Default is <c>False</c>.</param>
-    [deprecated('Use the RegisterClass method with TPlBindOptionsSet instead.')]
     class procedure RegisterClass(AClass: TClass; AsSingleton: Boolean;
-      AsDeferred: Boolean = False); overload;
+      AsDeferred: Boolean = False); overload; deprecated 'Use the RegisterClass method with TPlBindOptionsSet instead.';
 
     /// <summary>
     /// Registers a class with specified binding options.
@@ -227,9 +239,7 @@ type
     /// Registers an instance for binding. This method is deprecated.
     /// </summary>
     /// <param name="AnObject">The instance to register.</param>
-    [deprecated
-      ('Instance registration is handled automatically in newer versions.')]
-    class procedure RegisterInstance(AnObject: TObject);
+    class procedure RegisterInstance(AnObject: TObject);  deprecated 'Instance registration is handled automatically in newer versions.';
 
     /// <summary>
     /// Unregisters an instance from binding.

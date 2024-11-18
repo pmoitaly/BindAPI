@@ -22,6 +22,15 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
+/// <summary>
+///   Implementation of TPlBindManager.
+/// </summary>
+/// <remarks>
+///  <c>TPlBindManager</c> is a class composed of static methods
+/// and implements the binding mechanism between classes.
+/// Each class decorated with BindAPI attributes can use its Bind and Unbind
+/// methods to set, start and stop binding.
+/// </remarks>
 unit plBindAPI.BindManagement;
 
 interface
@@ -38,9 +47,12 @@ type
   /// <remarks>
   /// <para>Using TPlBindManager is the easiest and fastest way to manage
   /// an application based on the BindAPI framework.</para>
-  /// <para>It is a completely static class that manages an instance of
-  /// <see cref="TPlAutoBinder" /> in which the information contained in
-  /// the attributes of each class flows together.</para>
+  /// <para>Use this class to parse the attributes of a class and manage BindAPI
+  ///  ones' without create any instance of other objects.</para>
+  /// <para>It is a completely static class that manacontains an instance of
+  /// <see cref="TPlAutoBinder" />, to which it sends information read from
+  ///  the attributes of a class (usually a TForm, TFrame or TComponent
+  ///  descendant).</para>
   /// </remarks>
   ///  <example>
   ///  The following example comes from the form of <c>BindApiSimpleDemo</c>.
@@ -124,6 +136,11 @@ type
     /// <summary>
     /// Performs binding operations on the specified source object.
     /// </summary>
+    /// <remarks>
+    /// The <c>Bind</c> procedure parses the attributes of the <i>ASource</i> object.
+    /// If a <see cref="TCustomBindClassAttribute" /> is found, <see cref="TPlBindManager.AddBind" />
+    /// is called, which calls the binder's <see cref="TPlAutoBinder|BindObject">BindObject</see> procedure.
+    /// </remarks>
     /// <param name="ASource">The source object to bind.</param>
     class procedure Bind(ASource: TObject);
 
@@ -147,6 +164,7 @@ type
 
     /// <summary>
     /// Gets the instance of the auto-binder.
+    ///  <note type="caution">Use this function for monitoring and debug purposes only!</note>
     /// </summary>
     class property Binder: TPlAutoBinder read FBinder;
 
@@ -161,6 +179,9 @@ implementation
 uses
   Rtti, StrUtils, TypInfo,
   plBindAPI.DeferredBinding, plBindAPI.RTTIUtils;
+
+resourcestring
+  SInvalidArgumentInAddBind = 'Invalid argument in AddBind';
 
 const
   DEFAULT_INTERVAL = 10;
@@ -186,7 +207,7 @@ var
   target: TObject;
 begin
   if (not Assigned(ASource)) or (not Assigned(AClassAttribute)) then
-    raise EPlBindApiException.Create('Invalid argument in AddBind');
+    raise EPlBindApiException.Create(SInvalidArgumentInAddBind);
 
   target := ExtractTarget(ASource, AClassAttribute);
   if Assigned(target) then

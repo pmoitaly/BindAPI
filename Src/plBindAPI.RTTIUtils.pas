@@ -22,7 +22,14 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
-
+/// <summary>
+///   Implementation of TPlRTTIUtils.
+/// </summary>
+/// <remarks>
+///  <c>TPlRTTIUtils</c> is a static with a lot of function to simplify RTTI
+/// operations.
+///  You can use it as utility class in your projects.
+/// </remarks>
 unit plBindAPI.RTTIUtils;
 
 interface
@@ -116,7 +123,7 @@ TPlRTTIUtils = class
     /// <param name="APath">The path string to process.</param>
     /// <returns>The last segment of the path.</returns>
     class function ExtractLastIndex(APath: string): string;
-
+ (*  Delphi 12+ only.
     /// <summary>
     /// Searches for a data member or indexed property in the specified object.
     /// </summary>
@@ -126,7 +133,7 @@ TPlRTTIUtils = class
     /// <param name="ANodeName">The name of the node to locate.</param>
     /// <returns>True if a matching member is found, otherwise False.</returns>
     class function ExtractNode(ARoot: TObject; out AMember: TRTTIDataMember; out AIndexedProp: TRttiIndexedProperty; const ANodeName: string): Boolean; overload;
-
+*)
     /// <summary>
     /// Searches for a field, property, or indexed property in the specified object.
     /// </summary>
@@ -315,6 +322,10 @@ TPlRTTIUtils = class
     /// <summary>
     /// Writes a value to a specified indexed property of an object.
     /// </summary>
+    ///  <remarks>
+    ///  <note type="warning">This procedure is under development. Does not use it.
+    /// Its release is planned in 0.9.0.0beta version.</note>
+    ///  </remarks>
     /// <param name="ANode">The object containing the indexed property.</param>
     /// <param name="AIndexedProp">The indexed property to write to.</param>
     /// <param name="AIndex">The index value for the property.</param>
@@ -367,7 +378,8 @@ TPlRTTIUtils = class
     /// <param name="Right">The second value to compare.</param>
     /// <returns>True if the values are equal; otherwise, False.</returns>
     class function AreEqual(Left, Right: TValue): Boolean;
-	    /// <summary>
+
+	  /// <summary>
     /// Retrieves a component from a given property path.
     /// </summary>
     /// <param name="ASource">The root component to start from.</param>
@@ -408,7 +420,7 @@ TPlRTTIUtils = class
     class function GetPathValue(ARoot: TObject; var APath: string): TValue;
 
     /// <summary>
-    /// Determines the owner of a property specified by a path.
+    /// Determines the parent of a property specified by a path.
     /// </summary>
     /// <param name="ARoot">The root object.</param>
     /// <param name="APath">The property path.</param>
@@ -416,7 +428,7 @@ TPlRTTIUtils = class
     /// <param name="AProp">The property, if applicable.</param>
     /// <param name="AIndexedProperty">The indexed property, if applicable.</param>
     /// <returns>The owner of the property.</returns>
-    class function GetPropertyOwner(ARoot: TObject; var APath: string; out AField: TRTTIField; out AProp: TRttiProperty; out AIndexedProperty: TRttiIndexedProperty): TValue;
+    class function GetPropertyParent(ARoot: TObject; var APath: string; out AField: TRTTIField; out AProp: TRttiProperty; out AIndexedProperty: TRttiIndexedProperty): TValue;
 
     /// <summary>
     /// Retrieves the value of a field within a record structure based on a property path.
@@ -540,7 +552,7 @@ TPlRTTIUtils = class
     /// <param name="APath">The property path.</param>
     /// <param name="AValue">The value to set.</param>
     class procedure SetPathValue(ARoot: TObject; const APath: string; AValue: TValue); inline;
-
+(* This function is for Delphi 12 +. Not sure if it is a real advantage.
     /// <summary>
     /// Attempts to extract a node (data member or indexed property) by name.
     /// </summary>
@@ -550,7 +562,7 @@ TPlRTTIUtils = class
     /// <param name="ANodeName">The name of the node to extract.</param>
     /// <returns>True if the node was successfully extracted; otherwise, False.</returns>
     class function TryExtractNode(ARoot: TObject; out AMember: TRTTIDataMember; out AIndexedProp: TRttiIndexedProperty; const ANodeName: string): Boolean; overload;
-
+*)
     /// <summary>
     /// Attempts to extract a node (field, property, or indexed property) by name.
     /// </summary>
@@ -564,16 +576,16 @@ TPlRTTIUtils = class
 end;
 
 resourcestring
+  StrBindApi = 'BindApi';
   StrCantFind = 'Can''t find ';
   StrErrorOnSetting = 'Error on setting ';
+  StrErrorsLog = 'Errors.log';
+  StrInvalidFieldOrProperty = 'Invalid field or property';
   StrIsNotAPathToProperty = ' is not a path to property or field.';
   StrMethodSNotFound = 'method %s not found';
+  StrMorandottiIt = 'morandotti.it';
   StrNoMemberAvailable = 'No member available.';
-  SMorandottiIt = 'morandotti.it';
-  SBindApi = 'BindApi';
-  SErrorsLog = 'Errors.log';
-  SWrongParamsNumber = 'Wrong params number.';
-  SInvalidFieldOrProperty = 'Invalid field or property';
+  StrWrongParamsNumber = 'Wrong params number.';
 
 implementation
 
@@ -750,7 +762,7 @@ begin
  paramsEnd:= APath.LastIndexOf(']');
  Result := APath.Substring(paramsStart + 1, paramsEnd - paramsStart - 1);
 end;
-
+(*
 class function TPlRTTIUtils.ExtractNode(ARoot: TObject;
   out AMember: TRTTIDataMember; out AIndexedProp: TRttiIndexedProperty;
   const ANodeName: string): Boolean;
@@ -769,7 +781,7 @@ begin
     end;
   Result := Assigned(AMember);
 end;
-
+*)
 class function TPlRTTIUtils.ExtractNode(ARoot: TObject; out AField: TRTTIField;
     out AProp: TRttiProperty; out AnIndexedProperty: TRttiIndexedProperty;
     const ANodeName: string): Boolean;
@@ -860,7 +872,7 @@ begin
         begin
           rttiParams := method.GetParameters;
           if Length(rttiParams) <> Length(params) then
-            raise EPlBindApiException.Create(SWrongParamsNumber);
+            raise EPlBindApiException.Create(StrWrongParamsNumber);
           for i := 0 to High(rttiParams) do
             begin
               SetLength(Result.paramsTypes, Length(Result.paramsTypes) + 1);
@@ -895,7 +907,7 @@ begin
   myPath := APath;
   currentNode := ARoot;
   try
-    lastNode := GetPropertyOwner(currentNode, myPath, myField, myProp,
+    lastNode := GetPropertyParent(currentNode, myPath, myField, myProp,
       myIndexedProperty);
   except
     {If we don't manage the exception here, the code flows with lastNode = nil}
@@ -928,7 +940,7 @@ end;
 {verify if the path is correct}
 {or}
 {get the last node value}
-class function TPlRTTIUtils.GetPropertyOwner(ARoot: TObject; var APath: string;
+class function TPlRTTIUtils.GetPropertyParent(ARoot: TObject; var APath: string;
   out AField: TRTTIField; out AProp: TRttiProperty;
   out AIndexedProperty: TRttiIndexedProperty): TValue;
 var
@@ -1160,7 +1172,7 @@ begin
   myField := nil;
   myProp := nil;
   myIndexedProperty := nil;
-  lastNode := GetPropertyOwner(ARoot, myPath, myField, myProp,
+  lastNode := GetPropertyParent(ARoot, myPath, myField, myProp,
     myIndexedProperty);
   Result := (not lastNode.IsEmpty) and (Assigned(myField) or Assigned(myProp) or
     Assigned(myIndexedProperty));
@@ -1173,8 +1185,8 @@ begin
   {Get the filename for the logfile
    In this case should be the Filename 'application-exename.log'?}
   fileName := TPath.GetPublicPath + TPath.DirectorySeparatorChar +
-    SMorandottiIt + TPath.DirectorySeparatorChar + SBindApi +
-    TPath.DirectorySeparatorChar + SErrorsLog;
+    StrMorandottiIt + TPath.DirectorySeparatorChar + StrBindApi +
+    TPath.DirectorySeparatorChar + StrErrorsLog;
 
   if not DirectoryExists(ExtractFilePath(fileName)) then
     ForceDirectories(ExtractFilePath(fileName));
@@ -1296,7 +1308,7 @@ begin
   if not(ReadFieldValue(ARoot, AField, Result) or ReadPropertyValue(ARoot,
     AProp, Result) or ReadIndexedPropertyValue(ARoot, AIndexedProp, AIndex,
     Result)) then
-    raise EPlBindApiException.Create(SInvalidFieldOrProperty);
+    raise EPlBindApiException.Create(StrInvalidFieldOrProperty);
 end;
 
 class function TPlRTTIUtils.ReadPropertyValue(ARoot: TObject;
@@ -1494,6 +1506,7 @@ begin
   Result := OrdinalToEnumeration(AType, intValue);
 end;
 
+
 class function TPlRTTIUtils.TryExtractNode(ARoot: TObject;
   out AField: TRTTIField; out AProp: TRttiProperty;
   out AIndexedProp: TRttiIndexedProperty;
@@ -1506,7 +1519,7 @@ begin
         Result := False;
   end;
 end;
-
+(*
 class function TPlRTTIUtils.TryExtractNode(ARoot: TObject;
   out AMember: TRTTIDataMember; out AIndexedProp: TRttiIndexedProperty;
   const ANodeName: string): Boolean;
@@ -1518,7 +1531,7 @@ begin
         Result := False;
   end;
 end;
-
+*)
 class procedure TPlRTTIUtils.WriteFieldValue(ANode: TObject; AField: TRTTIField;
   AValue: TValue);
 begin

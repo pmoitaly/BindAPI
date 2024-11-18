@@ -22,6 +22,13 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
+/// <summary>
+///   Implementation of TPlBindElement.
+/// </summary>
+/// <remarks>
+///   Implementation of the structures that store the atomic informations of a
+// binding. You should never need a direct access to them.
+/// </remarks>
 unit plBindAPI.BindingElement;
 
 interface

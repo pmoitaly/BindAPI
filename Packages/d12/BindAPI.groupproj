@@ -9,9 +9,6 @@
         <Projects Include="..\..\Test\BindAPITest.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="S:\Test\RTTITest\RTTIMethodRead.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj">
             <Dependencies/>
         </Projects>
@@ -41,15 +38,6 @@
     <Target Name="BindAPITest:Make">
         <MSBuild Projects="..\..\Test\BindAPITest.dproj" Targets="Make"/>
     </Target>
-    <Target Name="RTTIMethodRead">
-        <MSBuild Projects="S:\Test\RTTITest\RTTIMethodRead.dproj"/>
-    </Target>
-    <Target Name="RTTIMethodRead:Clean">
-        <MSBuild Projects="S:\Test\RTTITest\RTTIMethodRead.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="RTTIMethodRead:Make">
-        <MSBuild Projects="S:\Test\RTTITest\RTTIMethodRead.dproj" Targets="Make"/>
-    </Target>
     <Target Name="BindApiSimpleDemo">
         <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj"/>
     </Target>
@@ -60,13 +48,13 @@
         <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="plBindAPI;BindAPITest;RTTIMethodRead;BindApiSimpleDemo"/>
+        <CallTarget Targets="plBindAPI;BindAPITest;BindApiSimpleDemo"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;RTTIMethodRead:Clean;BindApiSimpleDemo:Clean"/>
+        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;BindApiSimpleDemo:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;RTTIMethodRead:Make;BindApiSimpleDemo:Make"/>
+        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;BindApiSimpleDemo:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

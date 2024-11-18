@@ -21,6 +21,16 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
+/// <summary>
+///   Implementation of TPlBinder.
+/// </summary>
+/// <remarks>
+///  <c>TplBinder</c> is the class that handles all mappings.
+/// BindAPI attributes produce elements of this class, but you can also create
+///  new links programmatically.
+/// It periodically checks the values of the source elements and,
+/// if they have changed, propagates them to the bound elements.
+/// </remarks>
 unit plBindAPI.CoreBinder;
 
 interface
@@ -56,6 +66,7 @@ type
     /// <summary>Specifies the thread priority for the internal thread on Windows.</summary>
     FPriority: TThreadPriority;
 {$WARN SYMBOL_PLATFORM ON}{$ENDIF}
+
     /// <summary>Indicates the current status of the binder.</summary>
     /// <remarks>
     /// Allowed values are:
@@ -113,7 +124,7 @@ type
       Action: TCollectionNotification);
 
     /// <summary>Monitors values and updates bindings as necessary.</summary>
-    procedure MonitorValues; virtual;
+    procedure MonitorValues(const ARepeat: boolean = True); virtual;
 
     /// <summary>Updates values in the provided binding list with the new value.</summary>
     procedure UpdateListValues(aList: TPlBindElementsList; newValue: TValue);
@@ -171,25 +182,26 @@ type
     /// <summary>Clears all current bindings.</summary>
     procedure Clear;
 
-    /// <summary>Gets the count of registered bindings.</summary>
+    /// <summary>Gets the count of registered binding sources.</summary>
     function Count: integer;
 
     /// <summary>Provides debug information about the current state of the binder.</summary>
     function DebugInfo: TplBindDebugInfo;
 
     /// <summary>Deprecated. Use <see cref="UnbindSource" />.</summary>
-    procedure DetachAsSource(ASource: TObject); deprecated 'Use UnbindSource';
+    procedure DetachAsSource(ASource: TObject); deprecated 'Will be removed in 0.9 version - Use UnbindSource';
+
     /// <summary>Deprecated. Use <see cref="UnbindTarget" />.</summary>
     procedure DetachAsTarget(ATarget: TObject); overload;
-      deprecated 'Use UnbindTarget';
+      deprecated 'Will be removed in 0.9 version - Use UnbindTarget';
+
     /// <summary>Deprecated. Use <see cref="UnbindTarget" />.</summary>
     procedure DetachAsTarget(ATarget: TObject; ASource: TObject); overload;
-      deprecated 'Use UnbindTarget';
+      deprecated 'Will be removed in 0.9 version - Use UnbindTarget';
 
     /// <summary>
     /// Normalizes the property path for a given source object.
     /// </summary>
-    ///  <remarks>
     /// <remarks>
     /// <para>This method ensures that the property path is valid and converts it into
     /// a form suitable for data binding.</para>
@@ -205,6 +217,7 @@ type
     /// <param name="SourcePath">The property path to normalize.</param>
     /// <returns>The resolved object associated with the normalized path.</returns>
     function NormalizePath(ASource: TObject; var SourcePath: string): TObject;
+
     /// <summary>Starts the binder with a specified sleep interval.</summary>
     procedure Start(const ASleepInterval: integer);
 
@@ -232,6 +245,7 @@ uses
   plBindAPI.RTTIUtils;
 
 resourcestring
+  SErrorInsertingABinding = 'Error inserting a binding: ';
   SOnUpgradingBindIsDisabled = '%s on upgrading %s. Bind is disabled.';
   SRemovingFromBindPropertyList = '%s : %s removing %s from BindPropertyList.';
 
@@ -262,7 +276,9 @@ begin
   except
     on e: Exception do
       begin
-        FBindErrorList.Add('Error inserting a binding: ' + e.message + '.');
+        if Assigned(Source) then
+          Source.Free;
+        FBindErrorList.Add(SErrorInsertingABinding + e.message + '.');
         Result := False;
         Exit;
       end;
@@ -463,15 +479,17 @@ begin
     AddNewItem(Source, Target);
 end;
 
-procedure TPlBinder.MonitorValues;
+procedure TPlBinder.MonitorValues(const ARepeat: boolean = True);
 begin
   FThreadTerminated := False;
   FInternalThread := TThread.CreateAnonymousThread(
     procedure
     var
       item: TplBindElementData;
+      doRepeat: Boolean;
     begin
-      while Enabled and not TThread.CheckTerminated do
+      doRepeat := True;
+      while doRepeat and Enabled and not TThread.CheckTerminated do
         begin
           if (Interval > 0) then
             TThread.Sleep(Interval);
@@ -485,6 +503,7 @@ begin
                     UpdateListValues(FBindPropertyList[item], item.Value);
                   end);
             end;
+            doRepeat := ARepeat;
         end;
       FThreadTerminated := True;
       Exit;

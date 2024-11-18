@@ -22,6 +22,15 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
+/// <summary>
+///   Implementation of TPlDeferredBinding.
+/// </summary>
+/// <remarks>
+///  <c>TPlDeferredBinding</c> is the class that handles deferred mappings.
+/// A deferred mapping is set by request or when a class interested in a binding
+///  is not yet registered.
+/// It periodically checks if the class is registered and then set the binding.
+/// </remarks>
 unit plBindAPI.DeferredBinding;
 
 interface

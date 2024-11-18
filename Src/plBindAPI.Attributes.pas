@@ -22,7 +22,13 @@
 {FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS }
 {IN THE SOFTWARE.                                                             }
 {*****************************************************************************}
-
+/// <summary>
+///   Implementation of BindAPI attributes.
+/// </summary>
+/// <remarks>
+///   This unit contains the complete hierarchy of the BindAPI set of attributes
+///   he introduces.
+/// </remarks>
 unit plBindAPI.Attributes;
 
 interface
@@ -52,7 +58,9 @@ type
   /// Ancestor class of all BindApi attributes
   /// </summary>
   /// <remarks>
-  /// Contains general switch-on and -off bind instructions
+  /// BindApi attributes contain general binding instructions.
+  /// They can be used to create data-binding scenarios where changes
+  /// in one object's properties are automatically reflected in another.
   /// </remarks>
   CustomBindAttribute = class(TCustomAttribute)
   protected
@@ -73,6 +81,7 @@ type
     ///  Boolean
     ///  </value>
     property IsEnabled: Boolean read FIsEnabled;
+
     /// <summary>
     /// An alias name for the target class.
     /// </summary>
@@ -83,6 +92,7 @@ type
     /// to ensure that you can place correct attributes in superclasses.
     /// </remarks>
     property TargetClassAlias: string read FTargetClassAlias;
+
     /// <summary>
     /// The target class' name.
     /// </summary>
@@ -115,12 +125,12 @@ type
   /// The constructor has many signatures, supporting different options. However, the only mandatory parameter is ATargetClassName.
   /// </remarks>
   ///  <example>
-  /// <c>type
+  /// <code>type
   /// [BindClass(True, 'MyBindTargetClass')]
   /// TMyForm = class(TForm)
   ///  public
   ///
-  ///  ...</c>
+  ///  ...</code>
   ///  </example>
   BindClassAttribute = class(CustomBindAttribute)
   protected
@@ -145,13 +155,14 @@ type
     /// Default: False
     /// </param>
     /// <example>
-    ///    <c>type
+    ///    <code>type
     ///   { Syntax: [BindClass(True, 'MyBindTargetClass')] }
     ///   TMyClass = class
     ///   ...
-    ///    </c>
+    ///    </code>
     ///  </example>
     constructor Create(const Enabled: Boolean; const ATargetClassName: string; const IsDefaultClass: Boolean = False); overload;
+
     /// <summary>
     /// Initializes a new instance of the <c>BindClassAttribute</c> class with enabled status,
     /// target class name, target class alias, and an optional default class flag.
@@ -166,6 +177,7 @@ type
     /// This param will be removed in future. Please, use BindDefaultClass instead.
     /// Default value: <c>False</c></param>
     constructor Create(const Enabled: Boolean; const ATargetClassName, ATargetClassAlias: string; const IsDefaultClass: Boolean = False); overload;
+
    /// <summary>
     /// Initializes a new instance of the <c>BindClassAttribute</c> class with target class name
     /// and an optional default class flag.
@@ -178,6 +190,7 @@ type
     /// This param will be removed in future. Please, use BindDefaultClass instead.
     /// Default value: <c>False</c></param>
     constructor Create(const ATargetClassName: string; const IsDefaultClass: Boolean = False); overload;
+
     /// <summary>
     /// Initializes a new instance of the <c>BindClassAttribute</c> class with target class name,
     /// target class alias, and an optional default class flag.
@@ -191,6 +204,7 @@ type
     /// This param will be removed in future. Please, use BindDefaultClass instead.
     /// Default value: <c>False</c></param>
     constructor Create(const ATargetClassName, ATargetClassAlias: string; const IsDefaultClass: Boolean = False); overload;
+
     /// <summary>
     /// Gets a value indicating whether the target class is the default class for this binding.
     /// </summary>
@@ -222,6 +236,7 @@ type
     /// <param name="Enabled">Indicates whether the binding is enabled.</param>
     /// <param name="ATargetClassName">The name of the class that will be bound.</param>
     constructor Create(const Enabled: Boolean; const ATargetClassName: string); overload;
+
     /// <summary>
     /// Initializes a new instance of the <c>BindDefaultClassAttribute</c> class with enabled status, the target class name and the target class alias.
     /// </summary>
@@ -236,6 +251,7 @@ type
     /// a generic alias can be entered here that will be used to look up the class in the binding process.</para>
     /// </param>
     constructor Create(const Enabled: Boolean; const ATargetClassName, ATargetClassAlias: string); overload;
+
     /// <summary>
     /// Initializes a new instance of the <c>BindDefaultClassAttribute</c>
     /// class with the target class name.
@@ -247,6 +263,7 @@ type
     /// </remarks>
     /// <param name="ATargetClassName">The name of the class that will be bound.</param>
     constructor Create(const ATargetClassName: string); overload;
+
     /// <summary>
     /// Initializes a new instance of the <c>BindDefaultClassAttribute</c>
     /// class with the target class and the target class alias.
@@ -286,6 +303,7 @@ type
     /// The qualified name of the source method in the binding.
     /// </summary>
     FSourceMethodName: string;
+
   public
     /// <summary>
     /// Initializes a new instance of the <c>BindMethodAttribute</c> class with enabled status,
@@ -295,7 +313,7 @@ type
     /// <param name="AMethodQName">The fully qualified name of the source method.</param>
     /// <param name="ANewMethodName">The name of the new method to be used in the binding.</param>
     /// <example>
-    ///  <c>type
+    ///  <code>type
     ///   {...}
     ///   [BindDefaultClass(True, 'MyBindTargetClass')]
     ///   [BindMethod(True, 'MyMethod', 'NewMethod')]
@@ -303,15 +321,15 @@ type
     ///   public
     ///     MyMethod:  TNotifyEvent;
     ///   {...}
-    ///  </c>
+    ///  </code>
     ///  or
-    ///  <c>type
+    ///  <code>type
     ///   [BindDefaultClass(True, 'MyBindTargetClass')]
     ///   [BindMethod(True, 'Button1.OnClick', 'NewEventHandler'))]
     ///   TMyForm := class(TForm)
     ///     Button1: TButton;
     ///   {...}
-    ///  </c>
+    ///  </code>
     ///  </example>
     constructor Create(const Enabled: Boolean; const AMethodQName, ANewMethodName: string); overload;
 
@@ -365,7 +383,7 @@ type
   /// in subclasses.
   /// </remarks>
   /// <example>
-  /// <c>type
+  /// <code>type
   ///   [BindDefaultClass(True, 'TTestController')]
   ///   [BindClass(True, 'TTestSecond')]
   ///   [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
@@ -376,7 +394,7 @@ type
   ///     edtTarget2: TEdit;
   ///     edtTarget2a: TEdit;
   ///     {...}
-  /// </c>
+  /// </code>
   /// </example>
   CustomBindMemberAttribute = class(CustomBindAttribute)
   protected
@@ -446,6 +464,7 @@ type
   /// See <see cref="CustomBindMemberAttribute" /> form methods, properties and examples.
   /// </remarks>
   BindMemberAttribute = class(CustomBindMemberAttribute);
+
   /// <summary>
   /// Requires a bi-directional bindig for the involved member.
   /// </summary>
@@ -455,6 +474,7 @@ type
   /// See <see cref="CustomBindMemberAttribute" /> form methods, properties and examples.
   /// </remarks>
   BindMemberFromAttribute = class(CustomBindMemberAttribute);
+
   /// <summary>
   /// Requires a bi-directional bindig for the involved member.
   /// </summary>
@@ -465,6 +485,7 @@ type
   /// </remarks>
   BindMemberToAttribute = class(CustomBindMemberAttribute);
 
+{$REGION 'Support_08'}
 {$IFDEF SUPPORT_08}
   { Compatibility with BindAPI 0.8 - These items will be removed in future releases }
   ClassBindAttribute = class(BindClassAttribute);
@@ -486,6 +507,7 @@ type
   BindPropertyFromAttribute = class(CustomBindPropertyAttribute);
   BindPropertyToAttribute = class(CustomBindPropertyAttribute);
 {$ENDIF}
+{$ENDREGION}
 
 implementation
 
@@ -586,7 +608,8 @@ begin
   Create(True, AMethodQName, ANewMethodName);
 end;
 {$ENDREGION}
-{$REGION 'CustomBindPropertyAttribute'}
+
+{$REGION 'CustomBindPropertyAttribute 08'}
 {$IFDEF SUPPORT_08}
 
 { Example: [BindPropertyAttribute(True,'PropertyOfBindedClass','BindedClass')] }
