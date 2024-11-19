@@ -122,40 +122,44 @@ begin
   edtInterval.Text := IntToStr(debugInfo.Interval);
 
   bindInfo := TplBindManager.Binder.bindInfo;
-  sgrBindList.RowCount := 1;
-  sgrBindList.Cells[0, 0] := 'Enabled';
-  sgrBindList.Cells[1, 0] := 'Source Class Name';
-  sgrBindList.Cells[2, 0] := 'Source Path';
-  sgrBindList.Cells[3, 0] := 'Source value';
-  sgrBindList.Cells[4, 0] := 'Target Class Name';
-  sgrBindList.Cells[5, 0] := 'Target Path';
-  sgrBindList.Cells[6, 0] := 'Target value';
+  try
+    sgrBindList.RowCount := 1;
+    sgrBindList.Cells[0, 0] := 'Enabled';
+    sgrBindList.Cells[1, 0] := 'Source Class Name';
+    sgrBindList.Cells[2, 0] := 'Source Path';
+    sgrBindList.Cells[3, 0] := 'Source value';
+    sgrBindList.Cells[4, 0] := 'Target Class Name';
+    sgrBindList.Cells[5, 0] := 'Target Path';
+    sgrBindList.Cells[6, 0] := 'Target value';
 
-  rowIndex := 0;
-  for keyPropertyList in bindInfo.Keys do
-    begin
-      Inc(rowIndex);
-      sgrBindList.RowCount := sgrBindList.RowCount + 1;
-      valuePropertyList := bindInfo[keyPropertyList];
-      sgrBindList.Cells[0, rowIndex] := IfThen(keyPropertyList.Enabled,
-        'Yes', 'No');
-      sgrBindList.Cells[1, rowIndex] := keyPropertyList.Element.ClassName;
-      sgrBindList.Cells[2, rowIndex] := keyPropertyList.PropertyPath;
-      sgrBindList.Cells[3, rowIndex] := keyPropertyList.value.ToString;
-      internalLoopIndex := 0;
-      for value in valuePropertyList do
-        begin
-          if internalLoopIndex > 0 then
-            begin
-              Inc(rowIndex);
-              sgrBindList.RowCount := sgrBindList.RowCount + 1;
-            end;
-          sgrBindList.Cells[4, rowIndex] := value.Element.ClassName;
-          sgrBindList.Cells[5, rowIndex] := value.PropertyPath;
-          sgrBindList.Cells[6, rowIndex] := value.value.ToString;
-          Inc(internalLoopIndex);
-        end;
-    end;
+    rowIndex := 0;
+    for keyPropertyList in bindInfo.Keys do
+      begin
+        Inc(rowIndex);
+        sgrBindList.RowCount := sgrBindList.RowCount + 1;
+        valuePropertyList := bindInfo[keyPropertyList];
+        sgrBindList.Cells[0, rowIndex] := IfThen(keyPropertyList.Enabled,
+          'Yes', 'No');
+        sgrBindList.Cells[1, rowIndex] := keyPropertyList.Element.ClassName;
+        sgrBindList.Cells[2, rowIndex] := keyPropertyList.PropertyPath;
+        sgrBindList.Cells[3, rowIndex] := keyPropertyList.value.ToString;
+        internalLoopIndex := 0;
+        for value in valuePropertyList do
+          begin
+            if internalLoopIndex > 0 then
+              begin
+                Inc(rowIndex);
+                sgrBindList.RowCount := sgrBindList.RowCount + 1;
+              end;
+            sgrBindList.Cells[4, rowIndex] := value.Element.ClassName;
+            sgrBindList.Cells[5, rowIndex] := value.PropertyPath;
+            sgrBindList.Cells[6, rowIndex] := value.value.ToString;
+            Inc(internalLoopIndex);
+          end;
+      end;
+  finally
+    bindInfo.Free;
+  end;
 end;
 
 procedure TfrmBindApiMonitor.UpdateRegisteredClassesList;
