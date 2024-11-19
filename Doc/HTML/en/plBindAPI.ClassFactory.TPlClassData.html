@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.ClassFactory: Record TPlClassData</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li></ul></div><div class="content">
+BindApi 0.9 Alpha Release 1 Documentation
+<span id="TPlClassData"></span><h1 class="cio">Record TPlClassData</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="plBindAPI.ClassFactory.html">plBindAPI.ClassFactory</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TPlClassData = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Represents the metadata for a registered class, including binding and creation parameters. </p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.ClassFactory.TPlClassData.html#Create-TClass-TPlCreateParams-Boolean-">Create</a></strong>(AClass: TClass; const AParamsSet: <a href="plBindAPI.Types.html#TPlCreateParams">TPlCreateParams</a>; AAutoBind: Boolean = False);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.ClassFactory.TPlClassData.html#AutoBind">AutoBind</a></strong>: Boolean read FAutoBind;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.ClassFactory.TPlClassData.html#CreateParams">CreateParams</a></strong>: <a href="plBindAPI.Types.html#TPlCreateParams">TPlCreateParams</a> read FCreateParams;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.ClassFactory.TPlClassData.html#RegisteredClass">RegisteredClass</a></strong>: TClass read FRegisteredClass;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TClass-TPlCreateParams-Boolean-"></span><code>constructor <strong>Create</strong>(AClass: TClass; const AParamsSet: <a href="plBindAPI.Types.html#TPlCreateParams">TPlCreateParams</a>; AAutoBind: Boolean = False);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initializes a new instance of the <code>TPlClassData</code> record. </p>
+<p>
+ 
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AClass</dt>
+<dd>The class type to be registered.</dd>
+<dt>AParamsSet</dt>
+<dd>The creation parameters for the class.</dd>
+<dt>AAutoBind</dt>
+<dd>Specifies whether the class should be automatically bound. Default is <code>False</code>.</dd>
+</dl>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AutoBind"></span><code>property <strong>AutoBind</strong>: Boolean read FAutoBind;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Indicates if the class is automatically bound to data sources. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateParams"></span><code>property <strong>CreateParams</strong>: <a href="plBindAPI.Types.html#TPlCreateParams">TPlCreateParams</a> read FCreateParams;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the parameters used to create an instance of the registered class. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RegisteredClass"></span><code>property <strong>RegisteredClass</strong>: TClass read FRegisteredClass;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Provides the registered class type. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</div></div></body></html>

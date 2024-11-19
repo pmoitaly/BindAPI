@@ -11,8 +11,17 @@ uses
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
+  AutoBinderTest in 'AutoBinderTest.pas',
+  CoreBinderTest in 'CoreBinderTest.pas',
+  BindAPITestClasses in 'BindAPITestClasses.pas',
+  BindElementDataTest in 'BindElementDataTest.pas',
+  ClassDataTest in 'ClassDataTest.pas',
   BindManagerTest in 'BindManagerTest.pas',
-  BindAPITestClasses in 'BindAPITestClasses.pas';
+  ClassManagerTest in 'ClassManagerTest.pas',
+  DeferredBindTest in 'DeferredBindTest.pas',
+  RTTIUtilsTest in 'RTTIUtilsTest.pas',
+  BindListTest in 'BindListTest.pas',
+  AttributesTest in 'AttributesTest.pas';
 
 var
   runner : ITestRunner;
@@ -22,8 +31,12 @@ var
 begin
 {$IFDEF TESTINSIGHT}
   TestInsight.DUnitX.RunRegisteredTests;
-  exit;
+  Exit;
 {$ENDIF}
+
+  System.ReportMemoryLeaksOnShutdown := True;
+
+  TDUnitX.Options.ExitBehavior := TDUnitXExitBehavior.Pause;
   try
     //Check command line options, will exit if invalid
     TDUnitX.CheckCommandLine;
@@ -38,7 +51,7 @@ begin
     //Generate an NUnit compatible XML File
     nunitLogger := TDUnitXXMLNUnitFileLogger.Create(TDUnitX.Options.XMLOutputFile);
     runner.AddLogger(nunitLogger);
-    runner.FailsOnNoAsserts := False; //When true, Assertions must be made during tests;
+    runner.FailsOnNoAsserts := False; //When true, assertions must be made during tests;
 
     //Run tests
     results := runner.Execute;

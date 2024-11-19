@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.Types</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li></ul></div><div class="content">
+BindApi 0.9 Alpha Release 1 Documentation
+<h1 class="unit">Unit plBindAPI.Types</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Uses">Uses</a></div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+ Implementation of types used across the framework. </p>
+<span id="PasDoc-Uses"></span><h2 class="uses">Uses</h2>
+<ul class="useslist"><li>Classes</li><li>Generics.Collections</li><li><a href="plBindAPI.Attributes.html">plBindAPI.Attributes</a></li><li>Rtti</li><li>SysUtils</li><li>TypInfo</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="plBindAPI.Types.TPlBindAPIOptions.html"><code>TPlBindAPIOptions</code></a></td>
+<td class="itemdesc"> Some sets used for binding definition </td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="plBindAPI.Types.TPlBindDebugInfo.html"><code>TPlBindDebugInfo</code></a></td>
+<td class="itemdesc"> Small set of info about the binder - for debug purposes. </td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="plBindAPI.Types.TPlIndexedPropertyInfo.html"><code>TPlIndexedPropertyInfo</code></a></td>
+<td class="itemdesc"> Info about the index id a IndexedProperty </td>
+</tr>
+<tr class="list2">
+<td class="itemname">Interface&nbsp;<a class="bold" href="plBindAPI.Types.IPlAutoBinder.html"><code>IPlAutoBinder</code></a></td>
+<td class="itemdesc"> (In progress) Interface for automatically binding properties between objects. </td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#EPlBindApiException">EPlBindApiException</a></strong> = Exception;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TarAttributes">TarAttributes</a></strong> = TArray&lt;TCustomAttribute&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TarFields">TarFields</a></strong> = TArray&lt;TRttiField&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TarMethods">TarMethods</a></strong> = TArray&lt;TRttiMethod&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TarProperties">TarProperties</a></strong> = TArray&lt;TRttiProperty&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlAutoBindOptionSet">TPlAutoBindOptionSet</a></strong> = set of <a href="plBindAPI.Types.TPlBindAPIOptions.html#AutoBindOptions">TPlBindAPIOptions.AutoBindOptions</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlBinderStatus">TPlBinderStatus</a></strong> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlBindOptionsSet">TPlBindOptionsSet</a></strong> = set of <a href="plBindAPI.Types.TPlBindAPIOptions.html#BindOptions">TPlBindAPIOptions.BindOptions</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlBindParametersType">TPlBindParametersType</a></strong> = TArray&lt;TTypeKind&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlBindParametersTypeInfo">TPlBindParametersTypeInfo</a></strong> = TArray&lt;TTypeInfo&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlBoundObjects">TPlBoundObjects</a></strong> = TArray&lt;TObject&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlBridgeFunction">TPlBridgeFunction</a></strong> = function(const NewValue, OldValue: TValue) : TValue of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlCallbackProcedure">TPlCallbackProcedure</a></strong> = TNotifyEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlCreateParams">TPlCreateParams</a></strong> = array of TValue;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlListObjects">TPlListObjects</a></strong> = TList&lt;TObject&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#TPlRTTIParametersArray">TPlRTTIParametersArray</a></strong> = TArray&lt;TRttiParameter&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="plBindAPI.Types.html#PL_SELF_ALIAS">PL_SELF_ALIAS</a></strong>: array[0..2] of string = ('', '.', 'Self');</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="EPlBindApiException"></span><code><strong>EPlBindApiException</strong> = Exception;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TarAttributes"></span><code><strong>TarAttributes</strong> = TArray&lt;TCustomAttribute&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TarFields"></span><code><strong>TarFields</strong> = TArray&lt;TRttiField&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TarMethods"></span><code><strong>TarMethods</strong> = TArray&lt;TRttiMethod&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TarProperties"></span><code><strong>TarProperties</strong> = TArray&lt;TRttiProperty&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlAutoBindOptionSet"></span><code><strong>TPlAutoBindOptionSet</strong> = set of <a href="plBindAPI.Types.TPlBindAPIOptions.html#AutoBindOptions">TPlBindAPIOptions.AutoBindOptions</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlBinderStatus"></span><code><strong>TPlBinderStatus</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Describes the Status of the binder. </p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="bsStopped">bsStopped</span></li>
+<li>
+<span id="bsRunning">bsRunning</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlBindOptionsSet"></span><code><strong>TPlBindOptionsSet</strong> = set of <a href="plBindAPI.Types.TPlBindAPIOptions.html#BindOptions">TPlBindAPIOptions.BindOptions</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlBindParametersType"></span><code><strong>TPlBindParametersType</strong> = TArray&lt;TTypeKind&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlBindParametersTypeInfo"></span><code><strong>TPlBindParametersTypeInfo</strong> = TArray&lt;TTypeInfo&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlBoundObjects"></span><code><strong>TPlBoundObjects</strong> = TArray&lt;TObject&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlBridgeFunction"></span><code><strong>TPlBridgeFunction</strong> = function(const NewValue, OldValue: TValue) : TValue of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlCallbackProcedure"></span><code><strong>TPlCallbackProcedure</strong> = TNotifyEvent;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlCreateParams"></span><code><strong>TPlCreateParams</strong> = array of TValue;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlListObjects"></span><code><strong>TPlListObjects</strong> = TList&lt;TObject&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TPlRTTIParametersArray"></span><code><strong>TPlRTTIParametersArray</strong> = TArray&lt;TRttiParameter&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PL_SELF_ALIAS"></span><code><strong>PL_SELF_ALIAS</strong>: array[0..2] of string = ('', '.', 'Self');</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</div></div></body></html>

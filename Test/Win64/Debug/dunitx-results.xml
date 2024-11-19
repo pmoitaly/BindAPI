@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<test-results name="S:\OpenSource\BindAPI-onGithub\Test\Win64\Debug\BindAPITest.exe" total="111" errors="0" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2024-11-19" time="3.814">
+  <culture-info current-culture="en" current-uiculture="en" />
+  <test-suite type="Assembly" name="BindAPITest.exe" executed="true" result="Success" success="True" time="3.814" asserts="0">
+    <results>
+        <test-suite type="Namespace" name="AttributesTest" executed="true" result="Success" success="True" time="0.002" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TBindClassAttributeTests" executed="True" result="Success" success="True" time="0.001" >
+                <results>
+                  <test-case name="Test_CreateWithEnabledAndDefault.BindMethodAttribute Test Create With Enabled True And Defaule True" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledAndDefault.BindMethodAttribute Test Create_With Enabled False And Status False" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledAndDefault.BindMethodAttribute Test Create With Enabled True And Defaule False" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledAndDefault.BindMethodAttribute Test Create_With Enabled True And Status False" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledAliasAndDefault.BindMethodAttribute Test Create With Enabled True And Default True, Alias1 as Alias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledAliasAndDefault.BindMethodAttribute Test Create_With Enabled False And Default False, Alias2 as Alias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledAliasAndDefault.BindMethodAttribute Test Create With Enabled True And Default False, Alias3 as Alias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledAliasAndDefault.BindMethodAttribute Test Create_With Enabled True And Default False, Alias4 as Alias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyClassNameAndDefault.BindMethodAttribute Test Create With Default True, TargetName1 as TargetName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyClassNameAndDefault.BindMethodAttribute Test Create_With Default False, TargetName2 as TargetName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithClassNameAliasAndDefault.BindMethodAttribute Test Create With Default True, TargetName1 as TargetName, Alias1 as Alias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithClassNameAliasAndDefault.BindMethodAttribute Test Create_With Default False, TargetName2 as TargetName, Alias2 as Alias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyEnabledAndClassName.BindMethodAttribute Test Create With Enabled True, TargetName1 as TargetName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyEnabledAndClassName.BindMethodAttribute Test Create_With Enabled False, TargetName2 as TargetName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyEnabledClassNameAndAlias.BindMethodAttribute Test Create With Enabled True, TargetName1 as TargetName, Alias1 as Alias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyEnabledClassNameAndAlias.BindMethodAttribute Test Create_With Enabled False, TargetName2 as TargetName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyClassName.BindMethodAttribute Test Create With TargetName1 as TargetName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyClassName.BindMethodAttribute Test Create_With TargetName2 as TargetName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="Fixture" name="TBindDefaultClassAttributeTests" executed="True" result="Success" success="True" time="0.000" >
+                <results>
+                  <test-case name="Test_CreateWithClassNameOnly" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithClassNameAndAlias" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="Fixture" name="TBindMethodAttributeTests" executed="True" result="Success" success="True" time="0.000" >
+                <results>
+                  <test-case name="Test_CreateWithEnabledTrue.BindMethodAttribute Test Create_With_Enabled Status True" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithEnabledTrue.BindMethodAttribute Test Create_With Enabled Status False" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_CreateWithOnlyMethodNameAndNewMethodName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="Fixture" name="TCustomBindMemberAttributeTests" executed="True" result="Success" success="True" time="0.000" >
+                <results>
+                  <test-case name="Test_Create_WithEnabledStatus.Test Create_With Enabled Status True" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_Create_WithEnabledStatus.Test Create_With Enabled Status False" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_Create_WithoutEnabledStatus" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_FunctionNameProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_SourceQNameProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="Test_TargetQNameProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="AutoBinderTest" executed="true" result="Success" success="True" time="3.732" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TPlAutoBinderTests" executed="True" result="Success" success="True" time="3.732" >
+                <results>
+                  <test-case name="TestBindObject_WithValidAttributes" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestCreate" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBind" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestUnbindSource" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestUnbindTarget" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestUnbindTarget2" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindInfo" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindInfoCreation" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBind_WithInvalidAttributes" executed="True" result="Success" success="True" time="0.162" asserts="0" />
+                  <test-case name="TestErrorList" executed="True" result="Success" success="True" time="0.012" asserts="0" />
+                  <test-case name="TestUpdateValues" executed="True" result="Success" success="True" time="0.050" asserts="0" />
+                  <test-case name="TestEnabledProperty" executed="True" result="Success" success="True" time="0.053" asserts="0" />
+                  <test-case name="TestIntervalProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="BindElementDataTest" executed="true" result="Success" success="True" time="0.028" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TPlBindElementData" executed="True" result="Success" success="True" time="0.028" >
+                <results>
+                  <test-case name="TestCreate" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestCreateException" executed="True" result="Success" success="True" time="0.028" asserts="0" />
+                  <test-case name="TestSetValue" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestValueChanged" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestIsEqualTo" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBridgeFunction" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="BindListTest" executed="true" result="Success" success="True" time="0.001" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TTestTPlBindList" executed="True" result="Success" success="True" time="0.001" >
+                <results>
+                  <test-case name="TestDisableElement" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestEnableElement" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestFindKeys" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestFindKey" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestFindValue" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="BindManagerTest" executed="true" result="Success" success="True" time="0.006" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TTestPlBindManager" executed="True" result="Success" success="True" time="0.006" >
+                <results>
+                  <test-case name="TestAddBindValid" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestAddBindInvalid" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="TestAddDeferredBind" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBind" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestUnbind" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestErrorList" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestIntervalProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="ClassDataTest" executed="true" result="Success" success="True" time="0.000" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TTestPlClassData" executed="True" result="Success" success="True" time="0.000" >
+                <results>
+                  <test-case name="TestCreateConstructor" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestAutoBindProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestRegisteredClassProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestCreateParamsProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="ClassManagerTest" executed="true" result="Success" success="True" time="0.001" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TTestPlClassManager" executed="True" result="Success" success="True" time="0.001" >
+                <results>
+                  <test-case name="TestRegisterClass" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestRegisterClassWithParams" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestGetInstance_NewInstance" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestGetInstance_Singleton" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestIsRegistered" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestIsSingleton_ByName" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestIsSingleton_ByInstance" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestUnregisterInstance" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestRegisteredClasses" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="CoreBinderTest" executed="true" result="Success" success="True" time="0.036" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TPlBindManagerTest" executed="True" result="Success" success="True" time="0.036" >
+                <results>
+                  <test-case name="TestCreate_Destroy" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestEnabledProperty" executed="True" result="Success" success="True" time="0.033" asserts="0" />
+                  <test-case name="TestBindErrorListProperty" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestNormalizePath_ValidPath" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestNormalizePath_InvalidPath" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBind_AddsBinding" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestUnbindTarget_RemovesBinding" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestClear_RemovesAllBindings" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestCount_ReturnsCorrectCount" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestReadNumbers.Test Reading Number form an IndexedProperty using enumerated" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestReadStrings.Test Reading Number form a StringList" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestReadStrings.Test Reading Strings form a StringList" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestReadStrings.Test Reading Strings form a StringList" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestReadStrings.Test Reading Strings form a StringList" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindProperty.Test On Properties" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindProperty.Test On Properties" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindRecordField.Test On Record Field" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindFieldProperty.Test On Object Field" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindObjectProperty.Test On Object Property" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestBindEvent.Test On Event binding for BindMethod" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestDirectBindEvent.Test for BindMethod method" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestUpdateValues.Test On Start and Stop" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="DeferredBindTest" executed="true" result="Success" success="True" time="0.007" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TTestPlDeferredBinding" executed="True" result="Success" success="True" time="0.007" >
+                <results>
+                  <test-case name="TestAddObject" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestAddDeferredElement" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestClear" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestCount" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestDeferredProcessing" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+        <test-suite type="Namespace" name="RTTIUtilsTest" executed="true" result="Success" success="True" time="0.001" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TTestTPlRTTIUtils" executed="True" result="Success" success="True" time="0.001" >
+                <results>
+                  <test-case name="TestAreEqual" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestComponentFromPath" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestEnumerationToOrdinal" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestGetIndexedPropertyInfo" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestGetPathValue" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestSetPathValue" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestIsValidPath" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestPropertyExists" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestMethodIsImplemented" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestOrdinalToEnumeration" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="TestTryExtractNode" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+    </results>
+  </test-suite>
+</test-results>

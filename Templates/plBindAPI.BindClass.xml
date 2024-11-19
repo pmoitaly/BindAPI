@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<codetemplate	xmlns="http://schemas.borland.com/Delphi/2005/codetemplates"
+				version="1.0.0">
+	<template name="BindClass" invoke="none">
+		<description>
+          A template for plBindApi BindClass attribute
+		</description>
+		<author>
+		   Paolo Morandotti
+		</author>
+        <point name="BindingEnabled">
+			 <text>
+				 True
+			 </text>
+			 <hint>
+                 Boolean: True if that binding is enabled
+			 </hint>
+		 </point>
+        <point name="BoundClassName" default="true">
+			 <text>
+				 AClassName
+			 </text>
+			 <hint>
+                 String: The bound class name
+			 </hint>
+		 </point>
+        <point name="ClassAliasName">
+			 <text>
+				 AnAliasName
+			 </text>
+			 <hint>
+                 String: Optional:
+			 </hint>
+		 </point>
+         <code language="Delphi" delimiter="|">
+            <![CDATA[[BindClass(|BindingEnabled|, '|BoundClassName|', '|ClassAliasName|')]|end|
+         ]]>
+		</code>
+	</template>
+</codetemplate>

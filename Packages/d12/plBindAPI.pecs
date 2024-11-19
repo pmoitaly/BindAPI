@@ -1,0 +1,19 @@
+[Documentation]
+Title=plBindAPI.dpk
+Infos=A set of classes to bind properties between objects without a line (or with one line) of code.By Paolo MorandottiAll rights reserved
+ProjectInfos=This is an open source project.
+ThirdPartyInfos=No 3rd-Party are (yet) used for this project.
+BaseOutputPath=S:\OpenSource\BindAPI\Packages\d12\DOCU
+CreatecHelp=0
+CreatePDF=0
+CreateDelphiProjectPage=0
+ShowNone=0
+ShowWeb=1
+ShowCHelp=0
+ShowPDF=0
+DistributionFolder=
+SrcDocumentationLink=
+UserHelpLink=
+ProductPageLink=https://www.morandotti.it
+CreateDelphiProjectPagePath=S:\OpenSource\BindAPI\Doc\HTML\BindAPI.html
+IgnoredUnits=

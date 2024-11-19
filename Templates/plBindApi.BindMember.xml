@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<codetemplate	xmlns="http://schemas.borland.com/Delphi/2005/codetemplates"
+				version="1.0.0">
+	<template name="BindMember" invoke="none">
+		<description>
+          A template for plBindApi BindMember attribute (Long call)
+		</description>
+		<author>
+		   Paolo Morandotti
+		</author>
+        <point name="BindingEnabled">
+			 <text>
+				 True
+			 </text>
+			 <hint>
+                 Boolean: True if that binding is enabled
+			 </hint>
+        </point>
+        <point name="SourceMemberFullName" default="true">
+			 <text>
+				 ASourceMemberFullName
+			 </text>
+			 <hint>
+                 String: The full name of the source member (like myComponent.Property)
+			 </hint>
+		</point>
+        <point name="TargetMemberFullName">
+			 <text>
+				 ATargetMemberFullName
+			 </text>
+			 <hint>
+                 String: The full name of the target member (like targetComponent.Property)
+			 </hint>
+		</point>
+        <point name="FunctionName">
+			 <text>
+				 AFunctionName
+			 </text>
+			 <hint>
+                 String: The name of a bridge function. Optional.
+			 </hint>
+		</point>
+        <point name="TargetClassName">
+			 <text>
+				 ATargetClassName
+			 </text>
+			 <hint>
+                 String: The name of the class containing the target method. Optional.
+			 </hint>
+		</point>
+        <code language="Delphi" context="memberdecl" delimiter="|">
+            <![CDATA[[BindMember(|BindingEnabled|, '|SourceMemberFullName|', '|TargetMemberFullName|', '|FunctionName|', '|TargetClassName|')]
+         ]]>
+		</code>
+	</template>
+</codetemplate>

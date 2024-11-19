@@ -1,0 +1,64 @@
+inherited BindApiSimpleDemo_Windows: TBindApiSimpleDemo_Windows
+  Left = 580
+  Top = 180
+  ClientHeight = 716
+  ClientWidth = 656
+  Position = Designed
+  Left = 580
+  Top = 180
+  DesignerMasterStyle = 0
+  inherited pnlInput: TPanel
+    inherited speValue: TSpinBox
+      Position.Y = 168.000000000000000000
+    end
+    inherited memSource: TMemo
+      Viewport.Width = 257.000000000000000000
+      Viewport.Height = 97.000000000000000000
+    end
+  end
+  inherited pnlOutput: TPanel
+    inherited edtSame: TEdit
+      Position.Y = 168.000000000000000000
+    end
+    inherited edtDouble: TEdit
+      Position.Y = 198.000000000000000000
+    end
+    inherited lblInt: TLabel
+      Position.X = 166.000000000000000000
+      Position.Y = 168.000000000000000000
+    end
+    inherited pctEnum: TTabControl
+      TabIndex = 2
+      Sizes = (
+        254s
+        55s
+        254s
+        55s
+        254s
+        55s)
+      inherited tbiFirst: TTabItem
+        IsSelected = False
+        ExplicitSize.cx = 69.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+      end
+      inherited tbiSecond: TTabItem
+        ExplicitSize.cx = 69.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+      end
+      inherited tbiThird: TTabItem
+        IsSelected = True
+        ExplicitSize.cx = 69.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+      end
+    end
+    inherited memTarget: TMemo
+      Viewport.Width = 254.000000000000000000
+      Viewport.Height = 97.000000000000000000
+    end
+  end
+  inherited lblLowercaseArrow: TLabel
+    inherited lblUppercaseArrow: TLabel
+      Position.X = -1.000000000000000000
+    end
+  end
+end
