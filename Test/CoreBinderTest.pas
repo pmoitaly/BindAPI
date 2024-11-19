@@ -156,15 +156,16 @@ end;
 
 procedure TPlBindManagerTest.TestBindErrorListProperty;
 var
-  TestList: TStrings;
+  ErrorList: TStrings;
 begin
-    FBinder.BindErrorList.Add('Error 1');
-    Assert.AreEqual(1, FBinder.BindErrorList.Count,
-      'BindErrorList count should match');
-    Assert.AreEqual('Error 1', FBinder.BindErrorList[0],
-      'First error should match');
-  // Do not free the TestList here, or you will get a AV when the Binder will try to free it
-  // TestList.Free;
+  FBinder.AddError('Error 1');
+  ErrorList := FBinder.BindErrorList;
+  try
+    Assert.AreEqual(1, ErrorList.Count, 'BindErrorList count should match');
+    Assert.AreEqual('Error 1', ErrorList[0], 'First error should match');
+  finally
+    ErrorList.Free;
+  end;
 end;
 
 procedure TPlBindManagerTest.TestNormalizePath_ValidPath;
@@ -178,7 +179,8 @@ begin
     Path := 'Name';
     ResultComponent := FBinder.NormalizePath(TestComponent, Path);
     Assert.IsNotNull(ResultComponent, 'Normalized component should not be nil');
-    Assert.AreSame(TestComponent, ResultComponent, 'Normalized component should not change');
+    Assert.AreSame(TestComponent, ResultComponent,
+      'Normalized component should not change');
   finally
     TestComponent.Free;
   end;
@@ -203,7 +205,6 @@ end;
 
 procedure TPlBindManagerTest.TestBind_AddsBinding;
 var
-  Source, Target: TObject;
   Success: Boolean;
 begin
   FSourceClass := TTestClassSource.Create(2, '', 3.5);

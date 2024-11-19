@@ -87,7 +87,6 @@ type
     [Test]
     procedure TestIntervalProperty;
 
-
   end;
 
 implementation
@@ -117,7 +116,8 @@ end;
 
 procedure TPlAutoBinderTests.TestCreate;
 begin
-  Assert.IsNotNull(FAutoBinder, 'The TPlAutoBinder instance should be created.');
+  Assert.IsNotNull(FAutoBinder,
+    'The TPlAutoBinder instance should be created.');
 end;
 
 procedure TPlAutoBinderTests.TestBind;
@@ -194,13 +194,14 @@ procedure TPlAutoBinderTests.TestBindInfo;
 var
   BindList: TPlBindList;
 begin
-  FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject, 'intTarget', nil);
+  FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject,
+    'intTarget', nil);
   FAutoBinder.Bind(FSourceObject, 'IntPropOut', FSecondTarget, 'intProp', nil);
 
   // Testa l'ottenimento delle informazioni di binding
   BindList := FAutoBinder.BindInfo;
   try
-  Assert.AreEqual(1, FAutoBinder.BindInfo.Count,
+  Assert.IsTrue(1 = FAutoBinder.BindInfo.Count,
     'There should be 1 bindings after 2nd Target unbinding.');
   finally
     BindList.Free;
@@ -227,7 +228,7 @@ var
   myrec: TTestRecord;
 begin
   FSourceObject.DblPropOut := 2.5;
-  FSourceObject.intPropOut := 2;
+  FSourceObject.IntPropOut := 2;
   myrec.Name := 'Pippo';
   myrec.Age := 26;
   FSourceObject.RecPropOut := myRec;
@@ -235,7 +236,8 @@ begin
   FSourceObject.ObjPropOut.Age := 22;
   FSourceObject.ObjPropOut.Name := 'Topolino';
 
-  classAttribute := BindClassAttribute.Create(True, 'TTestClassTarget','', True);
+  classAttribute := BindClassAttribute.Create(True, 'TTestClassTarget',
+    '', True);
   try
     FAutoBinder.BindObject(FSourceObject, FTargetObject, classAttribute);
   finally
@@ -277,30 +279,40 @@ var
 begin
   // Ottieni la lista di errori
   ErrorList := FAutoBinder.ErrorList;
+  try
   Assert.IsNotNull(ErrorList, 'ErrorList should not be nil.');
   Assert.AreEqual(0, ErrorList.Count, 'ErrorList should initially be empty.');
-
+  finally
+    ErrorList.Free;
+  end;
   // Esegui un'operazione che genera un errore di binding
-  FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject, 'none', nil); // Codice per generare un errore
+  FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject, 'none', nil);
 
-
+  ErrorList := FAutoBinder.ErrorList;
+  try
   // Verifica che la lista di errori non sia vuota
   Assert.AreEqual(1, ErrorList.Count,
     'Error list should contain errors after a failed binding operation.');
+  finally
+    ErrorList.Free;
+  end;
 
 end;
 
 procedure TPlAutoBinderTests.TestUpdateValues;
 begin
   FSourceObject.IntPropOut := 2;
-  FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject, 'intTarget', nil);
-  Assert.AreEqual(2, FTargetObject.intTarget, 'TargetObject.intTarget should be 2.');
+  FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject,
+    'intTarget', nil);
+  Assert.AreEqual(2, FTargetObject.intTarget,
+    'TargetObject.intTarget should be 2.');
   FSourceObject.IntPropOut := 4;
 
   FAutoBinder.UpdateValues;
   // Ensure no exceptions are raised
   Assert.Pass('UpdateValues executed without exceptions.');
-  Assert.AreEqual(4, FTargetObject.intTarget, 'TargetObject.intTarget should be 4.');
+  Assert.AreEqual(4, FTargetObject.intTarget,
+    'TargetObject.intTarget should be 4.');
 
 end;
 
@@ -317,10 +329,13 @@ end;
 procedure TPlAutoBinderTests.TestIntervalProperty;
 begin
   FAutoBinder.Interval := 500;
-  Assert.AreEqual(500, FAutoBinder.Interval, 'Interval property should reflect the set value.');
+  Assert.AreEqual(500, FAutoBinder.Interval,
+    'Interval property should reflect the set value.');
   FAutoBinder.Interval := 100;
-  Assert.AreEqual(100, FAutoBinder.Interval, 'Interval property should reflect the set value.');
+  Assert.AreEqual(100, FAutoBinder.Interval,
+    'Interval property should reflect the set value.');
 end;
+
 initialization
 
 TDUnitX.RegisterTestFixture(TPlAutoBinderTests);

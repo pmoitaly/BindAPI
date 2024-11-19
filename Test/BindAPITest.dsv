@@ -11,10 +11,10 @@ EditViewName=S:\OpenSource\BindAPI\src\plBindAPI.CoreBinder.pas
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXHNyY1xwbEJpbmRBUEkuQmluZGluZ0VsZW1lbnQucGFz]
 Module=S:\OpenSource\BindAPI\src\plBindAPI.BindingElement.pas
 CursorX=1
-CursorY=201
-TopLine=193
+CursorY=25
+TopLine=23
 LeftCol=1
-Elisions={{262,0},{278,11},{'TPlParKeyComparer'}}
+Elisions=
 Bookmarks=
 EditViewName=
 
@@ -31,8 +31,8 @@ EditViewName=
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQ29yZUJpbmRlclRlc3QucGFz]
 Module=S:\OpenSource\BindAPI\Test\CoreBinderTest.pas
 CursorX=1
-CursorY=162
-TopLine=154
+CursorY=204
+TopLine=50
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -40,9 +40,9 @@ EditViewName=S:\OpenSource\BindAPI\Test\CoreBinderTest.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQXV0b0JpbmRlclRlc3QucGFz]
 Module=S:\OpenSource\BindAPI\Test\AutoBinderTest.pas
-CursorX=59
-CursorY=184
-TopLine=173
+CursorX=20
+CursorY=203
+TopLine=196
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -70,12 +70,12 @@ EditViewName=S:\OpenSource\BindAPI\src\plBindAPI.Attributes.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQ29yZUJpbmRlci5wYXM=]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.CoreBinder.pas
-CursorX=1
-CursorY=420
-TopLine=412
+CursorX=80
+CursorY=1
+TopLine=1
 LeftCol=1
 Elisions=
-Bookmarks={1,313,1}{2,394,6}{7,524,1}
+Bookmarks={1,333,1}{2,414,6}{7,488,64}
 EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.CoreBinder.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQXR0cmlidXRlc1Rlc3RzLnBhcw==]
@@ -91,38 +91,38 @@ EditViewName=S:\OpenSource\BindAPI\Test\AttributesTests.pas
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQXV0b0JpbmRlci5wYXM=]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.AutoBinder.pas
 CursorX=1
-CursorY=722
-TopLine=714
+CursorY=1
+TopLine=1
 LeftCol=1
-Elisions=
-Bookmarks={7,164,36}
-EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.AutoBinder.pas
+Elisions={{70,4},{74,77},{'XML Documentation'}}{{78,4},{81,19},{'XML Documentation'}}{{85,4},{89,79},{'XML Documentation'}}{{94,4},{97,19},{'XML Documentation'}}{{101,4},{104,19},{'XML Documentation'}}{{108,4},{111,19},{'XML Documentation'}}{{116,4},{119,19},{'XML Documentation'}}{{123,4},{126,19},{'XML Documentation'}}{{130,4},{133,74},{'XML Documentation'}}{{137,4},{141,88},{'XML Documentation'}}{{145,4},{148,73},{'XML Documentation'}}{{152,4},{155,73},{'XML Documentation'}}{{165,4},{166,98},{'XML Documentation'}}{{169,4},{170,96},{'XML Documentation'}}{{193,4},{198,85},{'XML Documentation'}}{{203,4},{204,69},{'XML Documentation'}}{{207,4},{209,19},{'XML Documentation'}}{{213,4},{214,56},{'XML Documentation'}}{{217,4},{218,79},{'XML Documentation'}}{{221,4},{222,72},{'XML Documentation'}}{{225,4},{226,96},{'XML Documentation'}}
+Bookmarks={7,62,2}
+EditViewName=
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQmluZE1hbmFnZW1lbnQucGFz]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.BindManagement.pas
-CursorX=1
-CursorY=1
-TopLine=37
+CursorX=5
+CursorY=300
+TopLine=1
 LeftCol=1
-Elisions={{168,0},{278,11},{'TPlBindManager'}}
+Elisions=
 Bookmarks=
 EditViewName=
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQ2xhc3NGYWN0b3J5LnBhcw==]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.ClassFactory.pas
-CursorX=30
-CursorY=72
-TopLine=51
+CursorX=1
+CursorY=63
+TopLine=394
 LeftCol=1
-Elisions=
-Bookmarks={7,79,1}
-EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.ClassFactory.pas
+Elisions={{25,0},{38,15},{'XML Documentation'}}{{48,2},{50,17},{'XML Documentation'}}{{53,4},{55,19},{'XML Documentation'}}{{58,4},{60,19},{'XML Documentation'}}{{63,4},{65,19},{'XML Documentation'}}{{69,4},{71,19},{'XML Documentation'}}{{74,4},{76,19},{'XML Documentation'}}{{79,4},{81,19},{'XML Documentation'}}{{84,4},{89,124},{'XML Documentation'}}{{98,2},{101,17},{'XML Documentation'}}{{104,4},{106,19},{'XML Documentation'}}{{109,4},{111,19},{'XML Documentation'}}{{114,4},{118,66},{'XML Documentation'}}{{121,4},{125,66},{'XML Documentation'}}{{128,4},{132,74},{'XML Documentation'}}{{136,4},{138,19},{'XML Documentation'}}{{141,4},{143,19},{'XML Documentation'}}{{146,4},{151,89},{'XML Documentation'}}{{155,4},{159,74},{'XML Documentation'}}{{164,4},{166,19},{'XML Documentation'}}{{169,4},{173,63},{'XML Documentation'}}{{176,4},{180,34},{'XML Documentation'}}{{183,4},{187,92},{'XML Documentation'}}{{190,4},{194,93},{'XML Documentation'}}{{197,4},{201,96},{'XML Documentation'}}{{204,4},{209,113},{'XML Documentation'}}{{213,4},{217,81},{'XML Documentation'}}{{221,4},{226,91},{'XML Documentation'}}{{231,4},{235,60},{'XML Documentation'}}{{238,4},{241,65},{'XML Documentation'}}{{244,4},{247,67},{'XML Documentation'}}{{456,0},{470,11},{'TPlClassData'}}
+Bookmarks=
+EditViewName=
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBcGkuRXh0ZXJuYWxCaW5kZXIucGFz]
 Module=S:\OpenSource\BindAPI\Src\plBindApi.ExternalBinder.pas
-CursorX=1
-CursorY=1
-TopLine=1
+CursorX=43
+CursorY=120
+TopLine=42
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -140,33 +140,33 @@ EditViewName=
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuUlRUSVV0aWxzLnBhcw==]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.RTTIUtils.pas
-CursorX=24
-CursorY=490
-TopLine=480
+CursorX=1
+CursorY=25
+TopLine=22
 LeftCol=1
-Elisions=
-Bookmarks={7,1144,1}{9,1144,5}
+Elisions={{46,4},{48,19},{'XML Documentation'}}{{51,4},{55,63},{'XML Documentation'}}{{58,4},{62,56},{'XML Documentation'}}{{65,4},{69,57},{'XML Documentation'}}{{72,4},{76,59},{'XML Documentation'}}{{79,4},{83,57},{'XML Documentation'}}{{86,4},{92,72},{'XML Documentation'}}{{95,4},{100,88},{'XML Documentation'}}{{103,4},{109,83},{'XML Documentation'}}{{112,4},{117,88},{'XML Documentation'}}{{120,4},{124,57},{'XML Documentation'}}{{127,4},{134,80},{'XML Documentation'}}{{137,4},{145,82},{'XML Documentation'}}{{148,4},{154,56},{'XML Documentation'}}{{157,4},{163,75},{'XML Documentation'}}{{166,4},{171,88},{'XML Documentation'}}{{174,4},{179,58},{'XML Documentation'}}{{182,4},{188,63},{'XML Documentation'}}{{191,4},{197,63},{'XML Documentation'}}{{200,4},{205,76},{'XML Documentation'}}{{223,4},{226,65},{'XML Documentation'}}{{229,4},{238,58},{'XML Documentation'}}{{243,4},{249,90},{'XML Documentation'}}{{252,4},{259,93},{'XML Documentation'}}{{263,4},{271,57},{'XML Documentation'}}{{275,4},{281,93},{'XML Documentation'}}{{285,4},{290,78},{'XML Documentation'}}{{293,4},{298,57},{'XML Documentation'}}{{301,4},{309,57},{'XML Documentation'}}{{314,4},{319,57},{'XML Documentation'}}{{322,4},{328,57},{'XML Documentation'}}{{332,4},{338,55},{'XML Documentation'}}{{342,4},{348,55},{'XML Documentation'}}{{351,4},{356,55},{'XML Documentation'}}{{360,4},{362,19},{'XML Documentation'}}{{365,4},{367,19},{'XML Documentation'}}{{370,4},{375,75},{'XML Documentation'}}{{378,3},{383,70},{'XML Documentation'}}{{386,4},{391,65},{'XML Documentation'}}{{394,4},{399,67},{'XML Documentation'}}{{402,4},{407,67},{'XML Documentation'}}{{410,4},{415,60},{'XML Documentation'}}{{418,4},{426,54},{'XML Documentation'}}{{429,4},{434,66},{'XML Documentation'}}{{437,4},{442,43},{'XML Documentation'}}{{445,4},{450,43},{'XML Documentation'}}{{453,4},{460,64},{'XML Documentation'}}{{463,4},{467,86},{'XML Documentation'}}{{470,4},{475,74},{'XML Documentation'}}{{478,4},{483,72},{'XML Documentation'}}{{486,4},{491,80},{'XML Documentation'}}{{494,4},{499,80},{'XML Documentation'}}{{502,4},{507,79},{'XML Documentation'}}{{510,4},{515,74},{'XML Documentation'}}{{518,4},{523,74},{'XML Documentation'}}{{526,4},{531,76},{'XML Documentation'}}{{534,4},{541,86},{'XML Documentation'}}{{544,4},{549,55},{'XML Documentation'}}{{552,4},{559,90},{'XML Documentation'}}{{562,4},{570,90},{'XML Documentation'}}
+Bookmarks={7,1152,1}{9,1152,5}
 EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.RTTIUtils.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQXR0cmlidXRlcy5wYXM=]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.Attributes.pas
-CursorX=9
-CursorY=634
-TopLine=489
-LeftCol=1
-Elisions={{76,4},{84,19},{'XML Documentation'}}{{86,4},{95,18},{'XML Documentation'}}{{99,2},{105,17},{'XML Documentation'}}{{129,4},{153,20},{'XML Documentation'}}{{155,4},{167,44},{'XML Documentation'}}{{169,3},{179,44},{'XML Documentation'}}{{181,4},{192,44},{'XML Documentation'}}{{194,4},{200,19},{'XML Documentation'}}{{204,2},{210,17},{'XML Documentation'}}{{213,4},{223,89},{'XML Documentation'}}{{225,4},{237,17},{'XML Documentation'}}{{239,4},{248,89},{'XML Documentation'}}{{250,4},{262,17},{'XML Documentation'}}{{357,2},{380,17},{'XML Documentation'}}{{383,4},{385,19},{'XML Documentation'}}{{388,4},{390,19},{'XML Documentation'}}{{393,4},{395,19},{'XML Documentation'}}{{398,4},{408,82},{'XML Documentation'}}
-Bookmarks=
-EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.Attributes.pas
-
-[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuVHlwZXMucGFz]
-Module=S:\OpenSource\BindAPI\Src\plBindAPI.Types.pas
-CursorX=4
-CursorY=54
-TopLine=51
+CursorX=1
+CursorY=33
+TopLine=33
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.Types.pas
+EditViewName=
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuVHlwZXMucGFz]
+Module=S:\OpenSource\BindAPI\Src\plBindAPI.Types.pas
+CursorX=1
+CursorY=119
+TopLine=110
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXERlbW9cU2ltcGxlRGVtb1wuLlwuLlxTcmNccGxCaW5kQVBJ
 LkNvcmVCaW5kZXIucGFz]
 Module=S:\OpenSource\BindAPI\Demo\SimpleDemo\..\..\Src\plBindAPI.CoreBinder.pas
@@ -300,9 +300,9 @@ EditViewName=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\Sy
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXHNyY1xwbEJpbmRBUEkuQXV0b0JpbmRlci5wYXM=]
 Module=S:\OpenSource\BindAPI\src\plBindAPI.AutoBinder.pas
-CursorX=1
-CursorY=235
-TopLine=227
+CursorX=67
+CursorY=739
+TopLine=736
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -357,4 +357,84 @@ LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=S:\OpenSource\BindAPI\Test\BindAPITestClasses.pas
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQmluZEFQSVRlc3QuZHBy]
+Module=S:\OpenSource\BindAPI\Test\BindAPITest.dpr
+CursorX=1
+CursorY=73
+TopLine=65
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI\Test\BindAPITest.dpr
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuRGVmZXJyZWRCaW5kaW5nLnBhcw==]
+Module=S:\OpenSource\BindAPI\Src\plBindAPI.DeferredBinding.pas
+CursorX=1
+CursorY=35
+TopLine=22
+LeftCol=1
+Elisions={{113,0},{176,11},{'TPlDeferredBinding'}}
+Bookmarks=
+EditViewName=
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXERlbW9cU2ltcGxlRGVtb1xmQmluZEFwaVNpbXBsZURlbW8u
+cGFz]
+Module=S:\OpenSource\BindAPI\Demo\SimpleDemo\fBindApiSimpleDemo.pas
+CursorX=1
+CursorY=1
+TopLine=4
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI\Demo\SimpleDemo\fBindApiSimpleDemo.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxzb3VyY2VccnRs
+XGNvbW1vblxTeXN0ZW0uUnR0aS5wYXM=]
+Module=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Rtti.pas
+CursorX=1
+CursorY=5640
+TopLine=5636
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Rtti.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxzb3VyY2VccnRs
+XGNvbW1vblxTeXN0ZW0uUnR0aS5wYXM=]
+Module=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Rtti.pas
+CursorX=1
+CursorY=5640
+TopLine=5636
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Rtti.pas
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQXR0cmlidXRlc1Rlc3QucGFz]
+Module=S:\OpenSource\BindAPI\Test\AttributesTest.pas
+CursorX=81
+CursorY=9
+TopLine=1
+LeftCol=1
+Elisions={{190,0},{221,11},{'TBindMethodAttributeTests'}}{{223,0},{252,11},{'TBindDefaultClassAttributeTests'}}{{255,0},{369,11},{'TBindClassAttributeTests'}}
+Bookmarks=
+EditViewName=
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJMlxTcmNccGxCaW5kQVBJLkJpbmRpbmdFbGVtZW50LnBhcw==]
+Module=S:\OpenSource\BindAPI2\Src\plBindAPI.BindingElement.pas
+CursorX=79
+CursorY=4
+TopLine=1
+LeftCol=1
+Elisions={{255,0},{331,11},{'TPlBindElementData'}}{{332,0},{348,11},{'TPlParKeyComparer'}}{{349,0},{416,11},{'TPlBindList'}}
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI2\Src\plBindAPI.BindingElement.pas
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJMlxQYWNrYWdlc1xwbEJpbmRBUEkuZHBr]
+Module=S:\OpenSource\BindAPI2\Packages\plBindAPI.dpk
+CursorX=1
+CursorY=45
+TopLine=6
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI2\Packages\plBindAPI.dpk
 

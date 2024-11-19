@@ -96,7 +96,7 @@ var
   Keys: TPlBindElementsArray;
 begin
   Keys := FBindList.FindKeys(FSource1);
-  Assert.AreEqual(1, Length(Keys), 'Should find exactly one key for Source1');
+  Assert.IsTrue(1 = Length(Keys), 'Should find exactly one key for Source1');
   Assert.AreSame(FKey1, Keys[0], 'Found key should match Key1');
 end;
 

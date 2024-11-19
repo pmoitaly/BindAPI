@@ -5,8 +5,8 @@
         <FrameworkType>None</FrameworkType>
         <MainSource>BindAPITest.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Config Condition="'$(Config)'==''">Release</Config>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>19</TargetedPlatforms>
         <AppType>Console</AppType>
         <ProjectName Condition="'$(ProjectName)'==''">BindAPITest</ProjectName>
@@ -133,7 +133,6 @@
         <DCCReference Include="AutoBinderTest.pas"/>
         <DCCReference Include="CoreBinderTest.pas"/>
         <DCCReference Include="BindAPITestClasses.pas"/>
-        <DCCReference Include="AttributesTests.pas"/>
         <DCCReference Include="BindElementDataTest.pas"/>
         <DCCReference Include="ClassDataTest.pas"/>
         <DCCReference Include="BindManagerTest.pas"/>
@@ -141,6 +140,7 @@
         <DCCReference Include="DeferredBindTest.pas"/>
         <DCCReference Include="RTTIUtilsTest.pas"/>
         <DCCReference Include="BindListTest.pas"/>
+        <DCCReference Include="AttributesTest.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
