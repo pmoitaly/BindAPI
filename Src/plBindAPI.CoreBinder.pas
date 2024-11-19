@@ -1,4 +1,5 @@
-{                                                                             }
+{*****************************************************************************}
+{BindAPI                                                                      }
 {Copyright (C) 2020-2024 Paolo Morandotti                                     }
 {Unit plBindAPI.CoreBinder                                                    }
 {*****************************************************************************}
@@ -91,6 +92,9 @@ type
     function ComponentFromPath(ASource: TComponent; var APropertyPath: string)
       : TComponent;
 
+    /// <summary>Gets a copy of the list of binding errors.</summary>
+    function GetBindErrorList: TStrings;
+
     /// <summary>Internally adds a source-target binding pair.</summary>
     procedure InternalAdd(Source, Target: TplBindElementData);
 
@@ -124,7 +128,7 @@ type
       Action: TCollectionNotification);
 
     /// <summary>Monitors values and updates bindings as necessary.</summary>
-    procedure MonitorValues(const ARepeat: boolean = True); virtual;
+    procedure MonitorValues(const ARepeat: Boolean = True); virtual;
 
     /// <summary>Updates values in the provided binding list with the new value.</summary>
     procedure UpdateListValues(aList: TPlBindElementsList; newValue: TValue);
@@ -136,7 +140,7 @@ type
     destructor Destroy; override;
 
     /// <summary>Gets or sets the list of binding errors.</summary>
-    property BindErrorList: TStrings read FBindErrorList write SetBindErrorList;
+    property BindErrorList: TStrings read GetBindErrorList write SetBindErrorList;
 
     /// <summary>Gets or sets whether the binder is enabled.</summary>
     property Enabled: Boolean read FEnabled write SetFEnabled;
@@ -150,6 +154,10 @@ type
 {$WARN SYMBOL_PLATFORM ON}{$ENDIF}
     /// <summary>Gets the current status of the binder.</summary>
     property Status: TPlBinderStatus read FStatus;
+
+    /// <summary>Adds a line to the BindErrorList property.</summary>
+    /// <param name="AError">The exception message.</param>
+    procedure AddError(AError: string);
 
     /// <summary>Binds a source object and property to a target object and property.</summary>
     /// <param name="ASource">The source object.</param>
@@ -189,7 +197,8 @@ type
     function DebugInfo: TplBindDebugInfo;
 
     /// <summary>Deprecated. Use <see cref="UnbindSource" />.</summary>
-    procedure DetachAsSource(ASource: TObject); deprecated 'Will be removed in 0.9 version - Use UnbindSource';
+    procedure DetachAsSource(ASource: TObject);
+      deprecated 'Will be removed in 0.9 version - Use UnbindSource';
 
     /// <summary>Deprecated. Use <see cref="UnbindTarget" />.</summary>
     procedure DetachAsTarget(ATarget: TObject); overload;
@@ -269,9 +278,17 @@ function TPlBinder.Bind(ASource: TObject; const APropertySource: string;
 var
   Source, Target: TplBindElementData;
 begin
-  {Done Is a test necessary here? No}
+  Result := False;
   try
     Source := TplBindElementData.Create(ASource, APropertySource);
+  except
+    on e: Exception do
+      begin
+        FBindErrorList.Add(SErrorInsertingABinding + e.message + '.');
+        Exit;
+      end;
+  end;
+  try
     Target := TplBindElementData.Create(ATarget, APropertyTarget, AFunction);
   except
     on e: Exception do
@@ -279,7 +296,6 @@ begin
         if Assigned(Source) then
           Source.Free;
         FBindErrorList.Add(SErrorInsertingABinding + e.message + '.');
-        Result := False;
         Exit;
       end;
   end;
@@ -414,6 +430,11 @@ begin
   inherited;
 end;
 
+procedure TPlBinder.AddError(AError: string);
+begin
+  FBindErrorList.Add(AError);
+end;
+
 procedure TPlBinder.DetachAsSource(ASource: TObject);
 begin
   UnbindSource(ASource);
@@ -427,6 +448,12 @@ end;
 procedure TPlBinder.DetachAsTarget(ATarget, ASource: TObject);
 begin
   UnbindTarget(ATarget, ASource);
+end;
+
+function TPlBinder.GetBindErrorList: TStrings;
+begin
+  Result := TStringList.Create;
+  Result.Assign(FBindErrorList);
 end;
 
 procedure TPlBinder.HandleKeyNotify(Sender: TObject;
@@ -479,7 +506,7 @@ begin
     AddNewItem(Source, Target);
 end;
 
-procedure TPlBinder.MonitorValues(const ARepeat: boolean = True);
+procedure TPlBinder.MonitorValues(const ARepeat: Boolean = True);
 begin
   FThreadTerminated := False;
   FInternalThread := TThread.CreateAnonymousThread(
@@ -503,7 +530,7 @@ begin
                     UpdateListValues(FBindPropertyList[item], item.Value);
                   end);
             end;
-            doRepeat := ARepeat;
+          doRepeat := ARepeat;
         end;
       FThreadTerminated := True;
       Exit;
