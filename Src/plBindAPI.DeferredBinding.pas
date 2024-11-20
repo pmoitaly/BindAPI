@@ -167,7 +167,7 @@ begin
       begin
         // Force binding, then remove the element from the list
         deferredElement := DeferredList.Items[className];
-        TplBindManager.AddBind(deferredElement.Source,
+        TplBindManager.AddBinding(deferredElement.Source,
           deferredElement.Attribute);
         DeferredList.Remove(className);
       end;
