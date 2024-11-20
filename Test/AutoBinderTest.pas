@@ -192,16 +192,16 @@ end;
 
 procedure TPlAutoBinderTests.TestBindInfo;
 var
-  BindList: TPlBindList;
+  BindList: TPlBindingList;
 begin
   FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject,
     'intTarget', nil);
   FAutoBinder.Bind(FSourceObject, 'IntPropOut', FSecondTarget, 'intProp', nil);
 
   // Testa l'ottenimento delle informazioni di binding
-  BindList := FAutoBinder.BindInfo;
+  BindList := FAutoBinder.BindingInfo;
   try
-  Assert.IsTrue(1 = FAutoBinder.BindInfo.Count,
+  Assert.IsTrue(1 = BindList.Count,
     'There should be 1 bindings after 2nd Target unbinding.');
   finally
     BindList.Free;
@@ -210,10 +210,10 @@ end;
 
 procedure TPlAutoBinderTests.TestBindInfoCreation;
 var
-  BindList: TPlBindList;
+  BindList: TPlBindingList;
 begin
   // Testa l'ottenimento delle informazioni di binding
-  BindList := FAutoBinder.BindInfo;
+  BindList := FAutoBinder.BindingInfo;
   try
     // Verifica che la lista di binding non sia nulla
     Assert.IsNotNull(BindList, 'The bind information list should not be null.');
@@ -244,7 +244,7 @@ begin
     classAttribute.Free;
   end;
   Assert.IsTrue(FAutoBinder.Count > 0, 'Class-level binding should have been created.');
-  Assert.IsTrue(FAutoBinder.ErrorList.Count = 0, 'No errors should have been registered.' + chr(13) + FAutoBinder.ErrorList.Text);
+  Assert.IsTrue(FAutoBinder.ErrorList = '', 'No errors should have been registered.' + chr(13) + FAutoBinder.ErrorList);
   Assert.AreEqual(FSourceObject.DblPropOut, FTargetObject.dblTarget, 'DblPropOut did not propagate its value.');
   Assert.AreEqual(FSourceObject.intPropOut, FTargetObject.intTarget, 'intPropOut did not propagate its value.');
   Assert.AreEqual(FSourceObject.intPropOut * 3, FTargetObject.intTarget3, 'intPropOut did not multiplicate its value.');
@@ -274,28 +274,17 @@ begin
 end;
 
 procedure TPlAutoBinderTests.TestErrorList;
-var
-  ErrorList: TStrings;
 begin
-  // Ottieni la lista di errori
-  ErrorList := FAutoBinder.ErrorList;
-  try
-  Assert.IsNotNull(ErrorList, 'ErrorList should not be nil.');
-  Assert.AreEqual(0, ErrorList.Count, 'ErrorList should initially be empty.');
-  finally
-    ErrorList.Free;
-  end;
-  // Esegui un'operazione che genera un errore di binding
+  // Get an test the errors list
+  Assert.IsNotNull(FAutoBinder.ErrorList, 'ErrorList should not be nil.');
+  Assert.AreEqual('', FAutoBinder.ErrorList, 'ErrorList should initially be empty.');
+
+  // Generate an error
   FAutoBinder.Bind(FSourceObject, 'IntPropOut', FTargetObject, 'none', nil);
 
-  ErrorList := FAutoBinder.ErrorList;
-  try
-  // Verifica che la lista di errori non sia vuota
-  Assert.AreEqual(1, ErrorList.Count,
+  // Verify that error list stored the error message
+  Assert.AreNotEqual('', FAutoBinder.ErrorList,
     'Error list should contain errors after a failed binding operation.');
-  finally
-    ErrorList.Free;
-  end;
 
 end;
 

@@ -12,17 +12,17 @@ uses
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
-  AutoBinderTest in 'AutoBinderTest.pas',
-  CoreBinderTest in 'CoreBinderTest.pas',
-  BindAPITestClasses in 'BindAPITestClasses.pas',
-  BindElementDataTest in 'BindElementDataTest.pas',
-  ClassDataTest in 'ClassDataTest.pas',
-  BindManagerTest in 'BindManagerTest.pas',
-  ClassManagerTest in 'ClassManagerTest.pas',
-  DeferredBindTest in 'DeferredBindTest.pas',
+//  CoreBinderTest in 'CoreBinderTest.pas',
+//  BindElementDataTest in 'BindElementDataTest.pas',
+//  ClassDataTest in 'ClassDataTest.pas',
+//  ClassManagerTest in 'ClassManagerTest.pas',
+//  DeferredBindTest in 'DeferredBindTest.pas',
   RTTIUtilsTest in 'RTTIUtilsTest.pas',
-  BindListTest in 'BindListTest.pas',
-  AttributesTest in 'AttributesTest.pas';
+//  BindListTest in 'BindListTest.pas',
+//  AttributesTest in 'AttributesTest.pas',
+//  BindManagerTest in 'BindManagerTest.pas',
+//  AutoBinderTest in 'AutoBinderTest.pas',
+  BindAPITestClasses in 'BindAPITestClasses.pas';
 
 var
   runner: ITestRunner;

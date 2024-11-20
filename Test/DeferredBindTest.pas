@@ -146,7 +146,7 @@ begin
   TPlDeferredBinding.ProcessDeferred;
   Assert.Pass('TestDeferred executed without exceptions.');
   finally
-//    localObject.Free;
+    localObject.Free;
   end;
 end;
 

@@ -118,7 +118,7 @@ begin
   TPlClassManager.RegisterClass(TTestClassTarget, [Singleton], []);
   Attribute := BindClassAttribute.Create('TTestClassTarget');
   try
-    Assert.IsTrue(TPlBindManager.AddBind(FSourceObject, Attribute), 'AddBind should return true for valid inputs.');
+    Assert.IsTrue(TPlBindManager.AddBinding(FSourceObject, Attribute), 'AddBind should return true for valid inputs.');
   finally
     Attribute.Free;
   end;
@@ -129,7 +129,7 @@ begin
   Assert.WillRaise(
     procedure
     begin
-      TPlBindManager.AddBind(nil, nil);
+      TPlBindManager.AddBinding(nil, nil);
     end,
     EPlBindApiException,
     'AddBind should raise EArgumentException for invalid inputs.'
@@ -138,7 +138,7 @@ end;
 
 procedure TTestPlBindManager.TestAddDeferredBind;
 begin
-  Assert.IsTrue(TPlBindManager.AddDeferredBind(FTargetObject), 'AddDeferredBind should return true for valid input.');
+  Assert.IsTrue(TPlBindManager.AddDeferredBinding(FTargetObject), 'AddDeferredBind should return true for valid input.');
 end;
 
 procedure TTestPlBindManager.TestBind;
@@ -166,17 +166,9 @@ begin
 end;
 
 procedure TTestPlBindManager.TestErrorList;
-var
-  Errors: TStrings;
 begin
-  Errors := TPlBindManager.ErrorList;
-  try
-    Assert.IsNotNull(Errors, 'ErrorList should not return nil.');
     // Assuming no errors are present initially
-    Assert.AreEqual(0, Errors.Count, 'ErrorList should be empty initially.');
-  finally
-    Errors.Free;
-  end;
+    Assert.AreEqual('', TPlBindManager.ErrorList, 'ErrorList should be empty initially.');
 end;
 
 procedure TTestPlBindManager.TestIntervalProperty;

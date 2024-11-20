@@ -11,12 +11,12 @@ EditViewName=S:\OpenSource\BindAPI\src\plBindAPI.CoreBinder.pas
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXHNyY1xwbEJpbmRBUEkuQmluZGluZ0VsZW1lbnQucGFz]
 Module=S:\OpenSource\BindAPI\src\plBindAPI.BindingElement.pas
 CursorX=1
-CursorY=25
-TopLine=23
+CursorY=423
+TopLine=420
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=
+EditViewName=S:\OpenSource\BindAPI\src\plBindAPI.BindingElement.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXHNyY1xwbEJpbmRBUEkuUlRUSVV0aWxzLnBhcw==]
 Module=S:\OpenSource\BindAPI\src\plBindAPI.RTTIUtils.pas
@@ -30,9 +30,9 @@ EditViewName=
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQ29yZUJpbmRlclRlc3QucGFz]
 Module=S:\OpenSource\BindAPI\Test\CoreBinderTest.pas
-CursorX=1
-CursorY=204
-TopLine=50
+CursorX=15
+CursorY=50
+TopLine=44
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -40,9 +40,9 @@ EditViewName=S:\OpenSource\BindAPI\Test\CoreBinderTest.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQXV0b0JpbmRlclRlc3QucGFz]
 Module=S:\OpenSource\BindAPI\Test\AutoBinderTest.pas
-CursorX=20
-CursorY=203
-TopLine=196
+CursorX=38
+CursorY=216
+TopLine=228
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -70,12 +70,12 @@ EditViewName=S:\OpenSource\BindAPI\src\plBindAPI.Attributes.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQ29yZUJpbmRlci5wYXM=]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.CoreBinder.pas
-CursorX=80
-CursorY=1
-TopLine=1
+CursorX=18
+CursorY=796
+TopLine=779
 LeftCol=1
-Elisions=
-Bookmarks={1,333,1}{2,414,6}{7,488,64}
+Elisions={{71,2},{76,17},{'XML Documentation'}}{{578,65},{612,3},{''}}{{615,33},{621,3},{''}}{{623,60},{626,3},{''}}{{628,54},{638,3},{''}}{{640,57},{644,3},{''}}{{646,25},{649,3},{''}}{{720,59},{742,3},{''}}{{745,77},{768,3},{''}}{{771,18},{777,3},{''}}{{779,33},{792,3},{''}}
+Bookmarks={1,293,1}{2,482,5}{7,650,1}{9,658,1}
 EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.CoreBinder.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQXR0cmlidXRlc1Rlc3RzLnBhcw==]
@@ -90,23 +90,23 @@ EditViewName=S:\OpenSource\BindAPI\Test\AttributesTests.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQXV0b0JpbmRlci5wYXM=]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.AutoBinder.pas
-CursorX=1
-CursorY=1
-TopLine=1
+CursorX=25
+CursorY=530
+TopLine=531
 LeftCol=1
 Elisions={{70,4},{74,77},{'XML Documentation'}}{{78,4},{81,19},{'XML Documentation'}}{{85,4},{89,79},{'XML Documentation'}}{{94,4},{97,19},{'XML Documentation'}}{{101,4},{104,19},{'XML Documentation'}}{{108,4},{111,19},{'XML Documentation'}}{{116,4},{119,19},{'XML Documentation'}}{{123,4},{126,19},{'XML Documentation'}}{{130,4},{133,74},{'XML Documentation'}}{{137,4},{141,88},{'XML Documentation'}}{{145,4},{148,73},{'XML Documentation'}}{{152,4},{155,73},{'XML Documentation'}}{{165,4},{166,98},{'XML Documentation'}}{{169,4},{170,96},{'XML Documentation'}}{{193,4},{198,85},{'XML Documentation'}}{{203,4},{204,69},{'XML Documentation'}}{{207,4},{209,19},{'XML Documentation'}}{{213,4},{214,56},{'XML Documentation'}}{{217,4},{218,79},{'XML Documentation'}}{{221,4},{222,72},{'XML Documentation'}}{{225,4},{226,96},{'XML Documentation'}}
-Bookmarks={7,62,2}
-EditViewName=
+Bookmarks={7,614,38}
+EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.AutoBinder.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQmluZE1hbmFnZW1lbnQucGFz]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.BindManagement.pas
-CursorX=5
-CursorY=300
-TopLine=1
+CursorX=48
+CursorY=151
+TopLine=148
 LeftCol=1
 Elisions=
-Bookmarks=
-EditViewName=
+Bookmarks={7,264,48}
+EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.BindManagement.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQ2xhc3NGYWN0b3J5LnBhcw==]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.ClassFactory.pas
@@ -140,12 +140,12 @@ EditViewName=
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuUlRUSVV0aWxzLnBhcw==]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.RTTIUtils.pas
-CursorX=1
-CursorY=25
-TopLine=22
+CursorX=3
+CursorY=1397
+TopLine=1392
 LeftCol=1
-Elisions={{46,4},{48,19},{'XML Documentation'}}{{51,4},{55,63},{'XML Documentation'}}{{58,4},{62,56},{'XML Documentation'}}{{65,4},{69,57},{'XML Documentation'}}{{72,4},{76,59},{'XML Documentation'}}{{79,4},{83,57},{'XML Documentation'}}{{86,4},{92,72},{'XML Documentation'}}{{95,4},{100,88},{'XML Documentation'}}{{103,4},{109,83},{'XML Documentation'}}{{112,4},{117,88},{'XML Documentation'}}{{120,4},{124,57},{'XML Documentation'}}{{127,4},{134,80},{'XML Documentation'}}{{137,4},{145,82},{'XML Documentation'}}{{148,4},{154,56},{'XML Documentation'}}{{157,4},{163,75},{'XML Documentation'}}{{166,4},{171,88},{'XML Documentation'}}{{174,4},{179,58},{'XML Documentation'}}{{182,4},{188,63},{'XML Documentation'}}{{191,4},{197,63},{'XML Documentation'}}{{200,4},{205,76},{'XML Documentation'}}{{223,4},{226,65},{'XML Documentation'}}{{229,4},{238,58},{'XML Documentation'}}{{243,4},{249,90},{'XML Documentation'}}{{252,4},{259,93},{'XML Documentation'}}{{263,4},{271,57},{'XML Documentation'}}{{275,4},{281,93},{'XML Documentation'}}{{285,4},{290,78},{'XML Documentation'}}{{293,4},{298,57},{'XML Documentation'}}{{301,4},{309,57},{'XML Documentation'}}{{314,4},{319,57},{'XML Documentation'}}{{322,4},{328,57},{'XML Documentation'}}{{332,4},{338,55},{'XML Documentation'}}{{342,4},{348,55},{'XML Documentation'}}{{351,4},{356,55},{'XML Documentation'}}{{360,4},{362,19},{'XML Documentation'}}{{365,4},{367,19},{'XML Documentation'}}{{370,4},{375,75},{'XML Documentation'}}{{378,3},{383,70},{'XML Documentation'}}{{386,4},{391,65},{'XML Documentation'}}{{394,4},{399,67},{'XML Documentation'}}{{402,4},{407,67},{'XML Documentation'}}{{410,4},{415,60},{'XML Documentation'}}{{418,4},{426,54},{'XML Documentation'}}{{429,4},{434,66},{'XML Documentation'}}{{437,4},{442,43},{'XML Documentation'}}{{445,4},{450,43},{'XML Documentation'}}{{453,4},{460,64},{'XML Documentation'}}{{463,4},{467,86},{'XML Documentation'}}{{470,4},{475,74},{'XML Documentation'}}{{478,4},{483,72},{'XML Documentation'}}{{486,4},{491,80},{'XML Documentation'}}{{494,4},{499,80},{'XML Documentation'}}{{502,4},{507,79},{'XML Documentation'}}{{510,4},{515,74},{'XML Documentation'}}{{518,4},{523,74},{'XML Documentation'}}{{526,4},{531,76},{'XML Documentation'}}{{534,4},{541,86},{'XML Documentation'}}{{544,4},{549,55},{'XML Documentation'}}{{552,4},{559,90},{'XML Documentation'}}{{562,4},{570,90},{'XML Documentation'}}
-Bookmarks={7,1152,1}{9,1152,5}
+Elisions=
+Bookmarks={7,1660,12}{9,1660,12}
 EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.RTTIUtils.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuQXR0cmlidXRlcy5wYXM=]
@@ -161,12 +161,12 @@ EditViewName=
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuVHlwZXMucGFz]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.Types.pas
 CursorX=1
-CursorY=119
-TopLine=110
+CursorY=72
+TopLine=108
 LeftCol=1
 Elisions=
-Bookmarks=
-EditViewName=
+Bookmarks={7,72,1}
+EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.Types.pas
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXERlbW9cU2ltcGxlRGVtb1wuLlwuLlxTcmNccGxCaW5kQVBJ
 LkNvcmVCaW5kZXIucGFz]
 Module=S:\OpenSource\BindAPI\Demo\SimpleDemo\..\..\Src\plBindAPI.CoreBinder.pas
@@ -300,9 +300,9 @@ EditViewName=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\Sy
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXHNyY1xwbEJpbmRBUEkuQXV0b0JpbmRlci5wYXM=]
 Module=S:\OpenSource\BindAPI\src\plBindAPI.AutoBinder.pas
-CursorX=67
-CursorY=739
-TopLine=736
+CursorX=1
+CursorY=271
+TopLine=263
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -310,9 +310,9 @@ EditViewName=S:\OpenSource\BindAPI\src\plBindAPI.AutoBinder.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXHNyY1xwbEJpbmRBUEkuQmluZE1hbmFnZW1lbnQucGFz]
 Module=S:\OpenSource\BindAPI\src\plBindAPI.BindManagement.pas
-CursorX=23
-CursorY=273
-TopLine=96
+CursorX=1
+CursorY=297
+TopLine=289
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -340,9 +340,9 @@ EditViewName=S:\OpenSource\BindAPI\src\PlBindAPI.ClassFactory.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQmluZExpc3RUZXN0LnBhcw==]
 Module=S:\OpenSource\BindAPI\Test\BindListTest.pas
-CursorX=18
-CursorY=9
-TopLine=1
+CursorX=31
+CursorY=63
+TopLine=58
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -352,7 +352,7 @@ EditViewName=S:\OpenSource\BindAPI\Test\BindListTest.pas
 Module=S:\OpenSource\BindAPI\Test\BindAPITestClasses.pas
 CursorX=23
 CursorY=151
-TopLine=145
+TopLine=100
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -360,9 +360,9 @@ EditViewName=S:\OpenSource\BindAPI\Test\BindAPITestClasses.pas
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQmluZEFQSVRlc3QuZHBy]
 Module=S:\OpenSource\BindAPI\Test\BindAPITest.dpr
-CursorX=1
-CursorY=73
-TopLine=65
+CursorX=3
+CursorY=21
+TopLine=13
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -370,13 +370,13 @@ EditViewName=S:\OpenSource\BindAPI\Test\BindAPITest.dpr
 
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xwbEJpbmRBUEkuRGVmZXJyZWRCaW5kaW5nLnBhcw==]
 Module=S:\OpenSource\BindAPI\Src\plBindAPI.DeferredBinding.pas
-CursorX=1
-CursorY=35
-TopLine=22
+CursorX=45
+CursorY=152
+TopLine=35
 LeftCol=1
-Elisions={{113,0},{176,11},{'TPlDeferredBinding'}}
+Elisions=
 Bookmarks=
-EditViewName=
+EditViewName=S:\OpenSource\BindAPI\Src\plBindAPI.DeferredBinding.pas
 [ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXERlbW9cU2ltcGxlRGVtb1xmQmluZEFwaVNpbXBsZURlbW8u
 cGFz]
 Module=S:\OpenSource\BindAPI\Demo\SimpleDemo\fBindApiSimpleDemo.pas
@@ -437,4 +437,515 @@ LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=S:\OpenSource\BindAPI2\Packages\plBindAPI.dpk
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQmluZE1hbmFnZXJUZXN0LnBhcw==]
+Module=S:\OpenSource\BindAPI\Test\BindManagerTest.pas
+CursorX=29
+CursorY=104
+TopLine=142
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI\Test\BindManagerTest.pas
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcQmluZEVsZW1lbnREYXRhVGVzdC5wYXM=]
+Module=S:\OpenSource\BindAPI\Test\BindElementDataTest.pas
+CursorX=108
+CursorY=118
+TopLine=35
+LeftCol=2
+Elisions=
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI\Test\BindElementDataTest.pas
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFNyY1xmVkNMQmluZEFwaU1vbml0b3IucGFz]
+Module=S:\OpenSource\BindAPI\Src\fVCLBindApiMonitor.pas
+CursorX=48
+CursorY=124
+TopLine=124
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI\Src\fVCLBindApiMonitor.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxzb3VyY2VccnRs
+XGNvbW1vblxTeXN0ZW0uR2VuZXJpY3MuQ29sbGVjdGlvbnMucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Generics.Collections.pas
+CursorX=15
+CursorY=916
+TopLine=870
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Generics.Collections.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxzb3VyY2VccnRs
+XGNvbW1vblxTeXN0ZW0uR2VuZXJpY3MuQ29sbGVjdGlvbnMucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Generics.Collections.pas
+CursorX=39
+CursorY=1125
+TopLine=1124
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\source\rtl\common\System.Generics.Collections.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=18405
+TopLine=18394
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25581
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25581
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=39209
+TopLine=39201
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25582
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25629
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25629
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+
+[ClosedView_UzpcT3BlblNvdXJjZVxCaW5kQVBJXFRlc3RcRGVmZXJyZWRCaW5kVGVzdC5wYXM=]
+Module=S:\OpenSource\BindAPI\Test\DeferredBindTest.pas
+CursorX=1
+CursorY=149
+TopLine=68
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=S:\OpenSource\BindAPI\Test\DeferredBindTest.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25587
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25634
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25567
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25576
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25637
+TopLine=25630
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=6
+CursorY=12
+TopLine=6
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=18
+CursorY=25587
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25587
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25583
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25523
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25576
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+
+[ClosedView_YzpccHJvZ3JhbSBmaWxlcyAoeDg2KVxlbWJhcmNhZGVyb1xzdHVkaW9cMjMuMFxTT1VSQ0VcUlRM
+XFNZU1xTeXN0ZW0ucGFz]
+Module=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
+CursorX=1
+CursorY=25589
+TopLine=25585
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\23.0\SOURCE\RTL\SYS\System.pas
 
