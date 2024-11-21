@@ -109,11 +109,11 @@ end;
 procedure TfrmBindApiMonitor.UpdateBinderData;
 var
   debugInfo: TplBindDebugInfo;
-  bindInfo: TPlBindList;
-  keyPropertyList: TPlBindElementData;
+  bindInfo: TPlBindingList;
+  keyPropertyList: TPlBindingElement;
   internalLoopIndex: integer;
-  valuePropertyList: TPlBindElementsList;
-  value: TPlBindElementData;
+  valuePropertyList: TPlBindingElementsList;
+  value: TPlBindingElement;
   rowIndex: integer;
 begin
   debugInfo := TplBindManager.debugInfo;
@@ -121,7 +121,7 @@ begin
   edtBindingNumber.Text := IntToStr(debugInfo.Count);
   edtInterval.Text := IntToStr(debugInfo.Interval);
 
-  bindInfo := TplBindManager.Binder.bindInfo;
+  bindInfo := TplBindManager.Binder.BindingInfo;
   try
     sgrBindList.RowCount := 1;
     sgrBindList.Cells[0, 0] := 'Enabled';
