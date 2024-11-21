@@ -29,14 +29,22 @@ digraph Classes {
   "TPlBinder" [href="plBindAPI.CoreBinder.TPlBinder.html"]
   "TPlBindManager" -> "TInterfacedObject"
   "TPlBindManager" [href="plBindAPI.BindManagement.TPlBindManager.html"]
-  "TPlBindElementData" -> "TObject"
-  "TPlBindElementData" [href="plBindAPI.BindingElement.TPlBindElementData.html"]
+  "TList" -> "TObject"
+  "TObjectList" -> "TList"
+  "TPlBindingElementsList" -> "TObjectList"
+  "TPlBindingElementsList" [href="plBindAPI.BindingElement.TPlBindingElementsList.html"]
+  "TPlBindingElement" -> "TObject"
+  "TPlBindingElement" [href="plBindAPI.BindingElement.TPlBindingElement.html"]
   "TPlClassManager" -> "TObject"
   "TPlClassManager" [href="plBindAPI.ClassFactory.TPlClassManager.html"]
+  "TPlDeferredBinding" -> "TObject"
+  "TPlDeferredBinding" [href="plBindAPI.DeferredBinding.TPlDeferredBinding.html"]
   "TPlRTTIUtils" -> "TObject"
   "TPlRTTIUtils" [href="plBindAPI.RTTIUtils.TPlRTTIUtils.html"]
-  "TPlBindList" -> "TObjectDictionary"
-  "TPlBindList" [href="plBindAPI.BindingElement.TPlBindList.html"]
+  "TPlBindingList" -> "TObjectDictionary"
+  "TPlBindingList" [href="plBindAPI.BindingElement.TPlBindingList.html"]
+  "TPlBoundMethodsList" -> "TObjectDictionary"
+  "TPlBoundMethodsList" [href="plBindAPI.CoreBinder.TPlBoundMethodsList.html"]
   "TPlInstanceList" -> "TObjectDictionary"
   "TPlInstanceList" [href="plBindAPI.ClassFactory.TPlInstanceList.html"]
 }

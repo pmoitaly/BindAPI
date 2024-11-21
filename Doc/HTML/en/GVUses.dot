@@ -35,6 +35,13 @@ digraph Uses {
   "plBindAPI.CoreBinder" -> "plBindAPI.Types"
   "plBindAPI.CoreBinder" -> "Rtti"
   "plBindAPI.CoreBinder" [href="plBindAPI.CoreBinder.html"]
+  "plBindAPI.DeferredBinding" -> "Classes"
+  "plBindAPI.DeferredBinding" -> "Generics.Collections"
+  "plBindAPI.DeferredBinding" -> "plBindAPI.Attributes"
+  "plBindAPI.DeferredBinding" -> "plBindAPI.AutoBinder"
+  "plBindAPI.DeferredBinding" -> "plBindAPI.Types"
+  "plBindAPI.DeferredBinding" -> "Rtti"
+  "plBindAPI.DeferredBinding" [href="plBindAPI.DeferredBinding.html"]
   "plBindAPI.RTTIUtils" -> "Classes"
   "plBindAPI.RTTIUtils" -> "Generics.Collections"
   "plBindAPI.RTTIUtils" -> "Generics.Defaults"

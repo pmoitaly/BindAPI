@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>BindApi 0.9 Alpha Release 1: plBindAPI.Types: Record TPlIndexedPropertyInfo</title>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.DeferredBinding: Record TPlDeferredElement</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.16.0-snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -15,32 +15,28 @@
 <div style="clear: both"></div>
 </li></ul></div><div class="content">
 BindApi 0.9 Alpha Release 1 Documentation
-<span id="TPlIndexedPropertyInfo"></span><h1 class="cio">Record TPlIndexedPropertyInfo</h1>
+<span id="TPlDeferredElement"></span><h1 class="cio">Record TPlDeferredElement</h1>
 <div class="sections">
 <div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
-<a href="plBindAPI.Types.html">plBindAPI.Types</a></p>
+<a href="plBindAPI.DeferredBinding.html">plBindAPI.DeferredBinding</a></p>
 <h2 class="declaration">Declaration</h2>
 <p class="declaration">
-<code>type TPlIndexedPropertyInfo = record</code></p>
+<code>type TPlDeferredElement = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Info about the index id a IndexedProperty </p>
+ Represents a deferred binding element with its attribute and source object. </p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
 <table class="summary wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="plBindAPI.Types.TPlIndexedPropertyInfo.html#paramsTypes">paramsTypes</a></strong>: <a href="plBindAPI.Types.html#TPlBindParametersType">TPlBindParametersType</a>;</code></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.DeferredBinding.TPlDeferredElement.html#Attribute">Attribute</a></strong>: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="plBindAPI.Types.TPlIndexedPropertyInfo.html#paramsTypInfo">paramsTypInfo</a></strong>: <a href="plBindAPI.Types.html#TPlBindParametersTypeInfo">TPlBindParametersTypeInfo</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="plBindAPI.Types.TPlIndexedPropertyInfo.html#paramsValues">paramsValues</a></strong>: <a href="plBindAPI.Types.html#TPlCreateParams">TPlCreateParams</a>;</code></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.DeferredBinding.TPlDeferredElement.html#Source">Source</a></strong>: TObject;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -48,26 +44,22 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="paramsTypes"></span><code><strong>paramsTypes</strong>: <a href="plBindAPI.Types.html#TPlBindParametersType">TPlBindParametersType</a>;</code></td>
+<td class="itemcode"><span id="Attribute"></span><code><strong>Attribute</strong>: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+ The <a class="normal" href="plBindAPI.Attributes.BindClassAttribute.html">binding class attribute</a> associated with this element. </p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="paramsTypInfo"></span><code><strong>paramsTypInfo</strong>: <a href="plBindAPI.Types.html#TPlBindParametersTypeInfo">TPlBindParametersTypeInfo</a>;</code></td>
+<td class="itemcode"><span id="Source"></span><code><strong>Source</strong>: TObject;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="paramsValues"></span><code><strong>paramsValues</strong>: <a href="plBindAPI.Types.html#TPlCreateParams">TPlCreateParams</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+ The source object for this deferred binding element. </p>
+</td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
 </span>

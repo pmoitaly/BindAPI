@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>BindApi 0.9 Alpha Release 1: plBindAPI.BindingElement: Class TPlBindElementData</title>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.BindingElement: Class TPlBindingElement</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.16.0-snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -15,7 +15,7 @@
 <div style="clear: both"></div>
 </li></ul></div><div class="content">
 BindApi 0.9 Alpha Release 1 Documentation
-<span id="TPlBindElementData"></span><h1 class="cio">Class TPlBindElementData</h1>
+<span id="TPlBindingElement"></span><h1 class="cio">Class TPlBindingElement</h1>
 <div class="sections">
 <div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
@@ -23,7 +23,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <a href="plBindAPI.BindingElement.html">plBindAPI.BindingElement</a></p>
 <h2 class="declaration">Declaration</h2>
 <p class="declaration">
-<code>type TPlBindElementData = class(TObject)</code></p>
+<code>type TPlBindingElement = class(TObject)</code></p>
 <h2 class="description">Description</h2>
 <p>
  An element data contains source or target atomic info. </p>
@@ -35,47 +35,47 @@ BindApi 0.9 Alpha Release 1 Documentation
 <p>Do not use this class directly. &lt;see cref=”TPlBinder” \&gt; manages all necessary instances of this class.</p>
 <span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
 <ul class="hierarchy"><li class="ancestor">TObject</li>
-<li class="thisitem">TPlBindElementData</li></ul><h2 class="overview">Overview</h2>
+<li class="thisitem">TPlBindingElement</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>constructor <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#Create-TObject-string-TplBridgeFunction-">Create</a></strong>(AObject: TObject; const APropertyPath: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TplBridgeFunction</a> = nil);</code></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#Create-TObject-string-TplBridgeFunction-">Create</a></strong>(AObject: TObject; const APropertyPath: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TplBridgeFunction</a> = nil);</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>destructor <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#Destroy">Destroy</a></strong>; override;</code></td>
+<td class="itemcode"><code>destructor <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#Destroy">Destroy</a></strong>; override;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#IsEqualTo-TPlBindElementData-">IsEqualTo</a></strong>(AStructure: <a href="plBindAPI.BindingElement.TPlBindElementData.html">TPlBindElementData</a>): Boolean;</code></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#IsEqualTo-TPlBindingElement-">IsEqualTo</a></strong>(AStructure: <a href="plBindAPI.BindingElement.TPlBindingElement.html">TPlBindingElement</a>): Boolean;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#ValueChanged">ValueChanged</a></strong>: Boolean;</code></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#ValueChanged">ValueChanged</a></strong>: Boolean;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#ClassAlias">ClassAlias</a></strong>: string read FClassAlias;</code></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#ClassAlias">ClassAlias</a></strong>: string read FClassAlias;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#Element">Element</a></strong>: TObject read FElement;</code></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#Element">Element</a></strong>: TObject read FElement;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#Enabled">Enabled</a></strong>: Boolean read FEnabled write FEnabled;</code></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#Enabled">Enabled</a></strong>: Boolean read FEnabled write FEnabled;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#PropertyPath">PropertyPath</a></strong>: string read FElementPath;</code></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#PropertyPath">PropertyPath</a></strong>: string read FElementPath;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindElementData.html#Value">Value</a></strong>: TValue read FValue write SetValue;</code></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.BindingElement.TPlBindingElement.html#Value">Value</a></strong>: TValue read FValue write SetValue;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -118,7 +118,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="IsEqualTo-TPlBindElementData-"></span><code>function <strong>IsEqualTo</strong>(AStructure: <a href="plBindAPI.BindingElement.TPlBindElementData.html">TPlBindElementData</a>): Boolean;</code></td>
+<td class="itemcode"><span id="IsEqualTo-TPlBindingElement-"></span><code>function <strong>IsEqualTo</strong>(AStructure: <a href="plBindAPI.BindingElement.TPlBindingElement.html">TPlBindingElement</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
