@@ -31,15 +31,15 @@ uses
   System.Variants, System.Classes,
   Vcl.Graphics, Vcl.ExtCtrls, Vcl.Samples.Spin, Vcl.ComCtrls,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  plBindAPI.Attributes, plBindAPI.AutoBinder;
+  plBindAPI.Attributes, plBindAPI.AutoBinder, Vcl.Menus;
 
 type
   [BindDefaultClass(True, 'TTestController')]
+  [BindClass(True, 'TSimpleDemoFormController', 'GUIController')]
   [BindClass(True, 'TTestSecond')]
   [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
   [BindMemberFrom(True, 'edtTarget2.Text', 'LowerText')]
   [BindMemberFrom(True, 'edtTarget2a.Text', 'UpperText')]
-  [BindMemberTo(True, 'memSource.Text', 'Text')]
   [BindMemberTo(True, 'memSource.Text', 'TestObject.Text')]
   [BindMemberFrom(True, 'memTarget.Text', 'TestObject.Text')]
   [BindMemberTo(True, 'speValue.Value', 'TestObject.IntProp')]
@@ -80,13 +80,22 @@ type
     lblValueToEnumArrow: TLabel;
     memSource: TMemo;
     memTarget: TMemo;
+    [BindMethod(True, 'OnClick', 'ShowAbout', 'GUIController')]
+    mitAbout: TMenuItem;
+    [BindMethod(True, 'OnClick', 'ExitProgram', 'GUIController')]
+    mitExit: TMenuItem;
+    mitFile: TMenuItem;
+    mitHelp: TMenuItem;
+    mitMonitor: TMenuItem;
+    [BindMethod(True, 'OnClick', 'SwitchMonitor', 'GUIController')]
+    mitMonitorVisible: TMenuItem;
+    mmnMain: TMainMenu;
     pctEnum: TPageControl;
     speInterval: TSpinEdit;
     speValue: TSpinEdit;
     tbsTabA: TTabSheet;
     tbsTabB: TTabSheet;
     tbsTabC: TTabSheet;
-    TabControl1: TTabControl;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure speIntervalChange(Sender: TObject);

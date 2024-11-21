@@ -10,6 +10,7 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = mmnMain
   WindowState = wsMaximized
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -271,11 +272,27 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     Value = 0
     OnChange = speIntervalChange
   end
-  object TabControl1: TTabControl
-    Left = 684
-    Top = 352
-    Width = 289
-    Height = 193
-    TabOrder = 13
+  object mmnMain: TMainMenu
+    Left = 736
+    Top = 200
+    object mitFile: TMenuItem
+      Caption = '&File'
+      object mitExit: TMenuItem
+        Caption = 'E&xit'
+      end
+    end
+    object mitMonitor: TMenuItem
+      Caption = '&Monitor'
+      object mitMonitorVisible: TMenuItem
+        AutoCheck = True
+        Caption = 'Visible'
+      end
+    end
+    object mitHelp: TMenuItem
+      Caption = '&Help'
+      object mitAbout: TMenuItem
+        Caption = '&About...'
+      end
+    end
   end
 end
