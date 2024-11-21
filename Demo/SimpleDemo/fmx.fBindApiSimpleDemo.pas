@@ -15,7 +15,6 @@ type
   [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
   [BindMemberFrom(True, 'edtTarget2.Text', 'LowerText')]
   [BindMemberFrom(True, 'edtTarget2a.Text', 'UpperText')]
-//  [BindMemberTo(False, 'memSource.Text', 'Text')]
   [BindMemberTo(True, 'memSource.Text', 'TestObject.Text')]
   [BindMemberFrom(True, 'memTarget.Text', 'TestObject.Text')]
   [BindMemberTo(True, 'speValue.Value', 'TestObject.IntProp')]

@@ -1,6 +1,11 @@
 program fmx.BindApiSimpleDemo;
 
 uses
+  madExcept,
+  madLinkDisAsm,
+  madListHardware,
+  madListProcesses,
+  madListModules,
   System.StartUpCopy,
   FMX.Forms,
   fmx.fBindApiSimpleDemo in 'fmx.fBindApiSimpleDemo.pas' {BindApiSimpleDemo},

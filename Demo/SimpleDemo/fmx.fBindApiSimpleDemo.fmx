@@ -147,6 +147,7 @@ object BindApiSimpleDemo: TBindApiSimpleDemo
       Position.Y = 84.000000000000000000
       TabOrder = 2
       Text = 'Clear'
+      TextSettings.Trimming = None
     end
     object edtSame: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
@@ -200,6 +201,7 @@ object BindApiSimpleDemo: TBindApiSimpleDemo
         CustomIcon = <
           item
           end>
+        TextSettings.Trimming = None
         IsSelected = True
         Size.Width = 64.000000000000000000
         Size.Height = 26.000000000000000000
@@ -214,6 +216,7 @@ object BindApiSimpleDemo: TBindApiSimpleDemo
         CustomIcon = <
           item
           end>
+        TextSettings.Trimming = None
         IsSelected = False
         Size.Width = 81.000000000000000000
         Size.Height = 26.000000000000000000
@@ -228,6 +231,7 @@ object BindApiSimpleDemo: TBindApiSimpleDemo
         CustomIcon = <
           item
           end>
+        TextSettings.Trimming = None
         IsSelected = False
         Size.Width = 69.000000000000000000
         Size.Height = 26.000000000000000000
