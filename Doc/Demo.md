@@ -1,7 +1,7 @@
 
 # BindAPI: demo
 
-Some demo showing how to use BindAPI are available in the library repository on Github.
+Some demo showing how to use BindAPI are - or will be - available in the \\Demo folder.
 
 ## BindApiSimpleDemo
 

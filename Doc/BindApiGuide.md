@@ -10,9 +10,9 @@ BindAPI polls properties and fields at regular interval to propagate their chang
 
 This quick guide to BindAPI contains information about:
 
-- Requirements
-- License
-- Demo
-- Version 0.9 Changes
+- [Requirements](Requirements.md)
+- [License](Liceense.md)
+- [Demo](Demo.md)
+- [Version 0.9 Changes](Version 0.9 changes.md)
 
-See documentation in \Doc\HTML\en folder for more details about the classes.
+See [documentation](.\HTML\en\index.html) in \\Doc\\HTML\\en folder for more details about the classes.

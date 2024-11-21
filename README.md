@@ -1,9 +1,10 @@
 # BindAPI
 BindAPI is a small framework for Delphi to bind virtually any property or field among classes without few code lines: just decorate your class with some attributes and run your app.
 You can use BindAPI with any library.
+See the [Quick Guide](.\Doc\BindApiGuide.md) for more detailed information.
 
 Current version is [0.9.0.0 Alpha](#LastVersion).
-Some improvements will be released in next weeks to obtain a more complete framework. 
+Some improvements will be released in next weeks to obtain a more complete framework.
 
 ---
 
@@ -70,8 +71,11 @@ end;
 ...
 
 end.
+```
 
+The Business Logic is in another unit:
 
+```language Pascal
 unit Test.Controller;
 
 interface
@@ -105,12 +109,13 @@ implementation
   ...
 
 initialization
-  TplClassManager.RegisterClass(TTestController, true);
+  {Just add this line:}
+  TplClassManager.RegisterClass(TTestController, [Singleton]);
 
 ```
 
 That's all.
-You can also bind two elements manually. See demo and test apps for other examples. 
+You can also bind two elements manually. See [demo](.\Doc\Demo.md) and test apps for other examples.
 
 ---
 
@@ -136,8 +141,9 @@ It is a full rewrite of 0.8 version in order to simplify the interface of attrib
 - Better support for records
 - Attributes can read indexed properties values (support for write them is wip)
 
-*Changes:*
-- Attributes was renamed in consistent way. See the [release notes](https://github.com/pmoitaly/BindAPI/blob/master/Doc/Version 09 changes.md) for more info. 
+*Main Changes:*
+- Attributes was renamed in consistent way.
+See the [ChangeLog](.\Doc\Version 0.9 changes.md) for more information.
 
 ---
 

@@ -815,26 +815,6 @@ begin
   Result := APath.Substring(paramsStart + 1, paramsEnd - paramsStart - 1);
 end;
 
-(*
- class function TPlRTTIUtils.ExtractNode(ARoot: TObject;
- out AMember: TRTTIDataMember; out AIndexedProp: TRttiIndexedProperty;
- const ANodeName: string): Boolean;
- begin
- AMember := FContext.GetType(ARoot.ClassType).GetField(ANodeName);
- if not Assigned(AMember) then
- begin
- AMember := FContext.GetType(ARoot.ClassType).GetProperty(ANodeName);
- if not Assigned(AMember) then
- begin
- {DONE 3 -oPMo -cFeatures : write this error to a log file}
- Log(StrCantFind + ARoot.ClassName + '.' + ANodeName);
- raise EPlBindApiException.Create
- (Format('%s %s. %s', [StrCantFind, ARoot.ClassName, ANodeName]));
- end;
- end;
- Result := Assigned(AMember);
- end;
-*)
 class function TPlRTTIUtils.ExtractNode(ARoot: TObject; out AField: TRTTIField;
   out AProp: TRttiProperty; out AnIndexedProperty: TRttiIndexedProperty;
   const ANodeName: string): Boolean;
@@ -855,7 +835,7 @@ begin
     (AIndexedProp, Result);
   if not typeFound then
     begin
-      Log(StrNoMemberAvailable);
+      {$IFDEF DEBUG}Log(StrNoMemberAvailable);{$ENDIF}
       raise EPlBindApiException.Create(StrNoMemberAvailable);
     end;
 end;
@@ -1040,7 +1020,7 @@ begin
       on e: exception do
         begin
           {Raise an exception if ARoot doesn't contain the APath.}
-          Log(e.Message);
+          {$IFDEF DEBUG}Log(e.Message);{$ENDIF}
           raise EPlBindApiException.Create(e.Message);
         end;
     end;

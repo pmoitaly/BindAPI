@@ -69,4 +69,30 @@
         <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;VCL_BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='plBindAPI Group'">
+        <BuildGroupProject Include="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj">
+            <ProjectGuid>{D478E719-4667-47E5-A1BE-26F08BC7E4E8}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\Test\BindAPITest.dproj">
+            <ProjectGuid>{1059BF10-28E7-46FD-9905-10164785761E}</ProjectGuid>
+            <Configurations>Debug</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="plBindAPI.dproj">
+            <ProjectGuid>{5984AED8-CBFD-446D-9813-959FE7F98EA9}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Android</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj">
+            <ProjectGuid>{A16B4DE4-C3AD-472F-BFFE-55A76F3307BA}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
 </Project>
