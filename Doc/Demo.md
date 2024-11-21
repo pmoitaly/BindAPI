@@ -12,7 +12,10 @@ That demo uses the simple case of Autobinding - i.e. a class binds itself. We us
 - the use of data conversion functions;
 - method binding.
 
-VCL and FMX versions of the demo are available. Please, note that they share the same business logic in the common unit _Test.Controller.pas_.
+There is a monitor form to see registered binder, classes and the error list.
+
+VCL and FMX versions of the demo will be available. Please, note that they share the same business logic in the common unit _Test.Controller.pas_.
 
 
-The demo will be updated now and then to use new features of the library.
+
+The demo set will be updated to show new features of the library.
