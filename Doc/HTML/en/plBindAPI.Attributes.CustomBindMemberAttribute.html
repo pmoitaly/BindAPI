@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.Attributes: Class CustomBindMemberAttribute</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li><li><form class="search-form" action="tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input" pattern=".{1,}" title="At least 1 characters" required><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></div></form>
+<div style="clear: both"></div>
+</li></ul></div><div class="content">
+BindApi 0.9 Alpha Release 1 Documentation
+<span id="CustomBindMemberAttribute"></span><h1 class="cio">Class CustomBindMemberAttribute</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="plBindAPI.Attributes.html">plBindAPI.Attributes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type CustomBindMemberAttribute = class(<a class="normal" href="plBindAPI.Attributes.CustomBindAttribute.html">CustomBindAttribute</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Attribute to force bind properties of object's public/published section </p>
+<p>
+
+
+<p><code>CustomBindMemberAttribute</code> inherits all members of <code>CustomBindAttribute</code>. Place a <code>CustomBindMemberAttribute</code> subclass before the class definition to bind its members to a target. To place such binding outside the class avoids the binding to be inherited in subclasses.
+
+<p>&lt;example&gt; </p>
+
+<pre class="preformatted">type
+   [BindDefaultClass(True, 'TTestController')]
+   [BindClass(True, 'TTestSecond')]
+   [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
+   [BindMemberFrom(True, 'edtTarget2.Text', 'LowerText')]
+   [BindMemberFrom(True, 'edtTarget2a.Text', 'UpperText')]
+   TfrmBindApiSimpleDemo = class(TForm)
+     edtSource2: TEdit;
+     edtTarget2: TEdit;
+     edtTarget2a: TEdit;
+     {...}</pre>
+
+<p> &lt;/example&gt;</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TCustomAttribute</li>
+<li class="ancestor"><a class="normal" href="plBindAPI.Attributes.CustomBindAttribute.html">CustomBindAttribute</a></li>
+<li class="thisitem">CustomBindMemberAttribute</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FFunctionName">FFunctionName</a></strong>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FSourceQName">FSourceQName</a></strong>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FTargetQName">FTargetQName</a></strong>: string;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#Create-string-string-string-string-">Create</a></strong>(const ASourceQName, ATargetQName: string; const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#Create-Boolean-string-string-string-string-">Create</a></strong>(const Enabled: Boolean; const ASourceQName, ATargetQName: string; const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FunctionName">FunctionName</a></strong>: string read <a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FFunctionName">FFunctionName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#SourceQName">SourceQName</a></strong>: string read <a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FSourceQName">FSourceQName</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#TargetQName">TargetQName</a></strong>: string read <a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FTargetQName">FTargetQName</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FFunctionName"></span><code><strong>FFunctionName</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Name of the bridge function that handles the binding between source and target. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FSourceQName"></span><code><strong>FSourceQName</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Qualified name of the source field or property in the source class. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FTargetQName"></span><code><strong>FTargetQName</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Qualified name of the target field or property in the target class. </p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-string-string-string-string-"></span><code>constructor <strong>Create</strong>(const ASourceQName, ATargetQName: string; const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Constructor that initializes the binding attribute with source member qualified name, target member qualified name, and optional function name and target class name. </p>
+<p>
+
+
+<p>IsEnabled property is set to True. Use this shorter signature to create an always-enabled attribute.
+
+<p>
+
+<p>
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASourceQName</dt>
+<dd>Qualified name of the field or property in the source class.</dd>
+<dt>ATargetQName</dt>
+<dd>Qualified name of the field or property in the target class.</dd>
+<dt>AFunctionName</dt>
+<dd>Optional name of the bridge function.</dd>
+<dt>ATargetClassName</dt>
+<dd>Optional name of the target class.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-Boolean-string-string-string-string-"></span><code>constructor <strong>Create</strong>(const Enabled: Boolean; const ASourceQName, ATargetQName: string; const AFunctionName: string = ''; const ATargetClassName: string = ''); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Constructor that initializes the binding attribute with enabled status, source member qualified name, target member qualified name, and optional function name and target class name. </p>
+<p>
+ &lt;description&gt; If you omits the ATargetClassName attribute the target member will be searched in the Default Class. &lt;/description&gt; 
+
+<p>
+
+<p>
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Enabled</dt>
+<dd>Indicates whether the binding is enabled.</dd>
+<dt>ASourceQName</dt>
+<dd>Qualified name of the field or property in the source class.</dd>
+<dt>ATargetQName</dt>
+<dd>Qualified name of the field or property in the target class.</dd>
+<dt>AFunctionName</dt>
+<dd>Optional name of the bridge function.</dd>
+<dt>ATargetClassName</dt>
+<dd>Optional name of the target class.</dd>
+</dl>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FunctionName"></span><code>property <strong>FunctionName</strong>: string read <a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FFunctionName">FFunctionName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets the name of the bridge function associated with this binding. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SourceQName"></span><code>property <strong>SourceQName</strong>: string read <a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FSourceQName">FSourceQName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets the qualified name of the field or property in the source class. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TargetQName"></span><code>property <strong>TargetQName</strong>: string read <a href="plBindAPI.Attributes.CustomBindMemberAttribute.html#FTargetQName">FTargetQName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets the qualified name of the field or property in the target class. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</div></div></body></html>

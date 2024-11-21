@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.CoreBinder: Class TPlBinder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li><li><form class="search-form" action="tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input" pattern=".{1,}" title="At least 1 characters" required><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></div></form>
+<div style="clear: both"></div>
+</li></ul></div><div class="content">
+BindApi 0.9 Alpha Release 1 Documentation
+<span id="TPlBinder"></span><h1 class="cio">Class TPlBinder</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="plBindAPI.CoreBinder.html">plBindAPI.CoreBinder</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TPlBinder = class(TInterfacedObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ TPlBinder is a class that manages data binding between objects. </p>
+<p>
+
+
+<p>It supports automatic value synchronization between source and target properties or objects.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="thisitem">TPlBinder</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.CoreBinder.TPlBinder.html#FBindPropertyList">FBindPropertyList</a></strong>: <a href="plBindAPI.BindingElement.TPlBindingList.html">TPlBindingList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.CoreBinder.TPlBinder.html#FInternalThread">FInternalThread</a></strong>: TThread;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="plBindAPI.CoreBinder.TPlBinder.html#FThreadTerminated">FThreadTerminated</a></strong>: Boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Create">Create</a></strong>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Bind-TObject-string-TObject-string-TplBridgeFunction-">Bind</a></strong>(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TplBridgeFunction</a> = nil): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#BindingInfo">BindingInfo</a></strong>: <a href="plBindAPI.BindingElement.TPlBindingList.html">TPlBindingList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Count">Count</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#DebugInfo">DebugInfo</a></strong>: <a href="plBindAPI.Types.TPlBindDebugInfo.html">TplBindDebugInfo</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#ErrorList">ErrorList</a></strong>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#NormalizePath-TObject-string-">NormalizePath</a></strong>(ASource: TObject; var SourcePath: string): TObject;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UnbindSource-TObject-">UnbindSource</a></strong>(ASource: TObject): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UnbindTarget-TObject-TObject-">UnbindTarget</a></strong>(ATarget: TObject; ASource: TObject): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UnbindTarget-TObject-">UnbindTarget</a></strong>(ATarget: TObject): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#AddError-string-">AddError</a></strong>(AError: string);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#BindMethod-TObject-string-TObject-string-TplBridgeFunction-">BindMethod</a></strong>(ASource: TObject; const AMethodPath: string; ATarget: TObject; const ANewMethodName: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TplBridgeFunction</a> = nil);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#BindObject-TObject-string-TObject-">BindObject</a></strong>(ASource: TObject; const APropertySource: string; ATarget: TObject); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#BindObject-TObject-string-TObject-string-">BindObject</a></strong>(ASource: TObject; const APropertySource: string; ATarget: TObject; ATargetPath: string); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Clear">Clear</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#DetachAsSource-TObject-">DetachAsSource</a></strong>(ASource: TObject); deprecated 'Will be removed in 0.9 version - Use UnbindSource';</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#DetachAsTarget-TObject-TObject-">DetachAsTarget</a></strong>(ATarget: TObject; ASource: TObject); overload; deprecated 'Will be removed in 0.9 version - Use UnbindTarget';</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#DetachAsTarget-TObject-">DetachAsTarget</a></strong>(ATarget: TObject); overload; deprecated 'Will be removed in 0.9 version - Use UnbindTarget';</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Start-integer-">Start</a></strong>(const ASleepInterval: integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Stop">Stop</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UnbindMethods">UnbindMethods</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UnbindMethodsBetween-TObject-TObject-">UnbindMethodsBetween</a></strong>(ASource, aTarget: TObject);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UnbindMethodsFrom-TObject-">UnbindMethodsFrom</a></strong>(ATarget: TObject);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UnbindMethodsTo-TObject-">UnbindMethodsTo</a></strong>(ASource: TObject);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UpdateValues">UpdateValues</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#CloseAndFreeThread">CloseAndFreeThread</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#HandleKeyNotify-TObject-TPlBindingElement-TCollectionNotification-">HandleKeyNotify</a></strong>(Sender: TObject; const Key: <a href="plBindAPI.BindingElement.TPlBindingElement.html">TPlBindingElement</a>; Action: TCollectionNotification);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#HandleValueNotify-TObject-TPlBindingElementsList-TCollectionNotification-">HandleValueNotify</a></strong>(Sender: TObject; const Key: <a href="plBindAPI.BindingElement.TPlBindingElementsList.html">TPlBindingElementsList</a>; Action: TCollectionNotification);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#MonitorValues-Boolean-">MonitorValues</a></strong>(const ARepeat: Boolean = True); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#UpdateListValues-TPlBindingElementsList-TValue-">UpdateListValues</a></strong>(aList: <a href="plBindAPI.BindingElement.TPlBindingElementsList.html">TPlBindingElementsList</a>; newValue: TValue);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#BindingErrors">BindingErrors</a></strong>: TStrings read GetBindErrorList
+      write SetBindErrorList;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Enabled">Enabled</a></strong>: Boolean read FEnabled write SetFEnabled;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Interval">Interval</a></strong>: integer read FInterval write FInterval;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Priority">Priority</a></strong>: TThreadPriority read FPriority write FPriority;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.CoreBinder.TPlBinder.html#Status">Status</a></strong>: <a href="plBindAPI.Types.html#TPlBinderStatus">TPlBinderStatus</a> read FStatus;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FBindPropertyList"></span><code><strong>FBindPropertyList</strong>: <a href="plBindAPI.BindingElement.TPlBindingList.html">TPlBindingList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+List of binding properties currently managed by the binder.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FInternalThread"></span><code><strong>FInternalThread</strong>: TThread;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Internal thread used for background monitoring.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FThreadTerminated"></span><code><strong>FThreadTerminated</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Indicates whether the internal thread has been terminated.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Initializes a new instance of the TPlBinder class.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Frees resources used by the TPlBinder instance.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Bind-TObject-string-TObject-string-TplBridgeFunction-"></span><code>function <strong>Bind</strong>(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TplBridgeFunction</a> = nil): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Binds a source object and property to a target object and property.</p>
+<p>
+ 
+
+<p>
+
+<p>
+
+<p>
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASource</dt>
+<dd>The source object.</dd>
+<dt>APropertySource</dt>
+<dd>The source property name.</dd>
+<dt>ATarget</dt>
+<dd>The target object.</dd>
+<dt>APropertyTarget</dt>
+<dd>The target property name.</dd>
+<dt>AFunction</dt>
+<dd>Optional transformation function.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">True if the binding was successful; otherwise, false.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BindingInfo"></span><code>function <strong>BindingInfo</strong>: <a href="plBindAPI.BindingElement.TPlBindingList.html">TPlBindingList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides information about all current bindings.</p>
+<p>
+ </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">A COPY of the BindPropertyList, with a list of current bindings. The caller is responsible for freeing it.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Count"></span><code>function <strong>Count</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gets the count of registered binding sources.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DebugInfo"></span><code>function <strong>DebugInfo</strong>: <a href="plBindAPI.Types.TPlBindDebugInfo.html">TplBindDebugInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides debug information about the current state of the binder.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ErrorList"></span><code>function <strong>ErrorList</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gets the text of the internale errors list</p>
+<p>
+ </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">The resolved object associated with the normalized path.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NormalizePath-TObject-string-"></span><code>function <strong>NormalizePath</strong>(ASource: TObject; var SourcePath: string): TObject;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Normalizes the property path for a given source object. </p>
+<p>
+
+
+<p>This method ensures that the property path is valid and converts it into a form suitable for data binding.
+
+<p>Given an input in the form Object, QualifiedName of a property, this method searches for the last component in the QN to reduce the SourcePath parameter to is shorter dimension.
+
+<p>For instance, assume the Source is a <code>TPageControl</code> class and the SourcePath is like <em>ATab.APanel.AMemo.Text</em>, the result will be the instance of the AMemo component and SourcePath will be reduced to <em>Text</em>.
+
+<p>
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASource</dt>
+<dd>The source object whose property path is to be normalized.</dd>
+<dt>SourcePath</dt>
+<dd>The property path to normalize.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">The resolved object associated with the normalized path.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindSource-TObject-"></span><code>function <strong>UnbindSource</strong>(ASource: TObject): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unbinds a specific source object from all targets.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindTarget-TObject-TObject-"></span><code>function <strong>UnbindTarget</strong>(ATarget: TObject; ASource: TObject): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unbinds a specific target object from a specific source object (overloaded).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindTarget-TObject-"></span><code>function <strong>UnbindTarget</strong>(ATarget: TObject): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unbinds a specific target object from all sources (overloaded).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddError-string-"></span><code>procedure <strong>AddError</strong>(AError: string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Adds a line to the BindErrorList property.</p>
+<p>
+ </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AError</dt>
+<dd>The exception message.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BindMethod-TObject-string-TObject-string-TplBridgeFunction-"></span><code>procedure <strong>BindMethod</strong>(ASource: TObject; const AMethodPath: string; ATarget: TObject; const ANewMethodName: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TplBridgeFunction</a> = nil);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Binds a method from a source to a new method on a target object.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BindObject-TObject-string-TObject-"></span><code>procedure <strong>BindObject</strong>(ASource: TObject; const APropertySource: string; ATarget: TObject); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Binds a source object and property to a target object (overloaded).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BindObject-TObject-string-TObject-string-"></span><code>procedure <strong>BindObject</strong>(ASource: TObject; const APropertySource: string; ATarget: TObject; ATargetPath: string); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Binds a source object and property to a target object and path (overloaded).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>procedure <strong>Clear</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Clears all current bindings.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DetachAsSource-TObject-"></span><code>procedure <strong>DetachAsSource</strong>(ASource: TObject); deprecated 'Will be removed in 0.9 version - Use UnbindSource';</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="hint_directive">Warning: this symbol is deprecated: Will be removed in 0.9 version - Use UnbindSource</p><p>
+Deprecated. Use <a class="normal" href="plBindAPI.CoreBinder.TPlBinder.html#UnbindSource-TObject-">UnbindSource</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DetachAsTarget-TObject-TObject-"></span><code>procedure <strong>DetachAsTarget</strong>(ATarget: TObject; ASource: TObject); overload; deprecated 'Will be removed in 0.9 version - Use UnbindTarget';</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="hint_directive">Warning: this symbol is deprecated: Will be removed in 0.9 version - Use UnbindTarget</p><p>
+Deprecated. Use <a class="normal" href="plBindAPI.CoreBinder.TPlBinder.html#UnbindTarget-TObject-TObject-">UnbindTarget</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DetachAsTarget-TObject-"></span><code>procedure <strong>DetachAsTarget</strong>(ATarget: TObject); overload; deprecated 'Will be removed in 0.9 version - Use UnbindTarget';</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="hint_directive">Warning: this symbol is deprecated: Will be removed in 0.9 version - Use UnbindTarget</p><p>
+Deprecated. Use <a class="normal" href="plBindAPI.CoreBinder.TPlBinder.html#UnbindTarget-TObject-TObject-">UnbindTarget</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Start-integer-"></span><code>procedure <strong>Start</strong>(const ASleepInterval: integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Starts the binder with a specified interval.</p>
+<p>
+ </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASleepInterval</dt>
+<dd>The new interval of the binder, in milliseconds .</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Stop"></span><code>procedure <strong>Stop</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Stops the binder.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindMethods"></span><code>procedure <strong>UnbindMethods</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Stops binding methods.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindMethodsBetween-TObject-TObject-"></span><code>procedure <strong>UnbindMethodsBetween</strong>(ASource, aTarget: TObject);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Stops binding methods in a specific source object.</p>
+<p>
+ 
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASource</dt>
+<dd>The object that uses methods bound from other objects.</dd>
+<dt>ATarget</dt>
+<dd>The object containing the methods bound to be unbound from source.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindMethodsFrom-TObject-"></span><code>procedure <strong>UnbindMethodsFrom</strong>(ATarget: TObject);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Stops binding methods from a specific target object.</p>
+<p>
+
+
+<p>UnbindMethods is required when &lt;list type=&quot;bullet&quot;&gt; &lt;item&gt;The binder is released.&lt;/item&gt; &lt;item&gt;A target object is destroyed. All bound metohods are set to nil.&lt;/item&gt; &lt;item&gt;It is forced programmaticaly&lt;/item&gt; &lt;/list&gt;
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ATarget</dt>
+<dd>The object containing the methods bound to be unbound from other objects .</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindMethodsTo-TObject-"></span><code>procedure <strong>UnbindMethodsTo</strong>(ASource: TObject);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Stops binding methods in a specific source object.</p>
+<p>
+ </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASource</dt>
+<dd>The object that uses methods bound from other objects.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateValues"></span><code>procedure <strong>UpdateValues</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Updates values for all active bindings.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CloseAndFreeThread"></span><code>procedure <strong>CloseAndFreeThread</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Closes and frees the internal thread.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HandleKeyNotify-TObject-TPlBindingElement-TCollectionNotification-"></span><code>procedure <strong>HandleKeyNotify</strong>(Sender: TObject; const Key: <a href="plBindAPI.BindingElement.TPlBindingElement.html">TPlBindingElement</a>; Action: TCollectionNotification);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Handles notifications for key-related changes.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HandleValueNotify-TObject-TPlBindingElementsList-TCollectionNotification-"></span><code>procedure <strong>HandleValueNotify</strong>(Sender: TObject; const Key: <a href="plBindAPI.BindingElement.TPlBindingElementsList.html">TPlBindingElementsList</a>; Action: TCollectionNotification);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Handles notifications for value-related changes.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MonitorValues-Boolean-"></span><code>procedure <strong>MonitorValues</strong>(const ARepeat: Boolean = True); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Monitors values and updates bindings as necessary.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="UpdateListValues-TPlBindingElementsList-TValue-"></span><code>procedure <strong>UpdateListValues</strong>(aList: <a href="plBindAPI.BindingElement.TPlBindingElementsList.html">TPlBindingElementsList</a>; newValue: TValue);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Updates values in the provided binding list with the new value.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="BindingErrors"></span><code>property <strong>BindingErrors</strong>: TStrings read GetBindErrorList
+      write SetBindErrorList;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gets or sets the list of binding errors.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Enabled"></span><code>property <strong>Enabled</strong>: Boolean read FEnabled write SetFEnabled;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gets or sets whether the binder is enabled.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Interval"></span><code>property <strong>Interval</strong>: integer read FInterval write FInterval;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gets or sets the interval for automatic updates.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Priority"></span><code>property <strong>Priority</strong>: TThreadPriority read FPriority write FPriority;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gets or sets the priority of the internal thread.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Status"></span><code>property <strong>Status</strong>: <a href="plBindAPI.Types.html#TPlBinderStatus">TPlBinderStatus</a> read FStatus;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gets the current status of the binder.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</div></div></body></html>

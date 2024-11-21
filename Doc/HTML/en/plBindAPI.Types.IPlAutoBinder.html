@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.Types: Interface IPlAutoBinder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li><li><form class="search-form" action="tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input" pattern=".{1,}" title="At least 1 characters" required><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></div></form>
+<div style="clear: both"></div>
+</li></ul></div><div class="content">
+BindApi 0.9 Alpha Release 1 Documentation
+<span id="IPlAutoBinder"></span><h1 class="cio">Interface IPlAutoBinder</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="plBindAPI.Types.html">plBindAPI.Types</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type IPlAutoBinder = interface(IInterface)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ (In progress) Interface for automatically binding properties between objects. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{64BF1986-35A2-48D4-9558-2EBDB345EFEB}']</dt>
+  <dd></dd>
+</dl>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="thisitem">IPlAutoBinder</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.Types.IPlAutoBinder.html#Count">Count</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.Types.IPlAutoBinder.html#Bind-TObject-string-TObject-string-TPlBridgeFunction-">Bind</a></strong>(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TPlBridgeFunction</a> = nil);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.Types.IPlAutoBinder.html#BindObject-TObject-TObject-BindClassAttribute-">BindObject</a></strong>(ASource, ATarget: TObject; AnAttribute: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.Types.IPlAutoBinder.html#Start-integer-">Start</a></strong>(const SleepInterval: integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.Types.IPlAutoBinder.html#Stop">Stop</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.Types.IPlAutoBinder.html#UnbindSource-TObject-">UnbindSource</a></strong>(ASource: TObject);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.Types.IPlAutoBinder.html#UnbindTarget-TObject-">UnbindTarget</a></strong>(ATarget: TObject);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="plBindAPI.Types.IPlAutoBinder.html#UpdateValues">UpdateValues</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Count"></span><code>function <strong>Count</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets the number of active bindings. </p>
+<p>
+ </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">The total count of current binding sources.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Bind-TObject-string-TObject-string-TPlBridgeFunction-"></span><code>procedure <strong>Bind</strong>(ASource: TObject; const APropertySource: string; ATarget: TObject; const APropertyTarget: string; AFunction: <a href="plBindAPI.Types.html#TPlBridgeFunction">TPlBridgeFunction</a> = nil);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Binds a property of a source object to a property of a target object. </p>
+<p>
+ 
+
+<p>
+
+<p>
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASource</dt>
+<dd>The source object containing the property to bind.</dd>
+<dt>APropertySource</dt>
+<dd>The name of the property in the source object.</dd>
+<dt>ATarget</dt>
+<dd>The target object containing the property to bind to.</dd>
+<dt>APropertyTarget</dt>
+<dd>The name of the property in the target object.</dd>
+<dt>AFunction</dt>
+<dd>Optional. A function to apply transformations during binding.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BindObject-TObject-TObject-BindClassAttribute-"></span><code>procedure <strong>BindObject</strong>(ASource, ATarget: TObject; AnAttribute: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Binds two objects using a binding class attribute. </p>
+<p>
+ 
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASource</dt>
+<dd>The source object to bind.</dd>
+<dt>ATarget</dt>
+<dd>The target object to bind.</dd>
+<dt>AnAttribute</dt>
+<dd>The attribute defining the binding rules.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Start-integer-"></span><code>procedure <strong>Start</strong>(const SleepInterval: integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Starts the automatic binding process. </p>
+<p>
+ </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>SleepInterval</dt>
+<dd>The interval in milliseconds for periodic updates of bound values.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Stop"></span><code>procedure <strong>Stop</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stops the automatic binding process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindSource-TObject-"></span><code>procedure <strong>UnbindSource</strong>(ASource: TObject);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Unbinds all bindings for a given source object. </p>
+<p>
+ </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ASource</dt>
+<dd>The source object to unbind.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnbindTarget-TObject-"></span><code>procedure <strong>UnbindTarget</strong>(ATarget: TObject);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Unbinds all bindings for a given target object. </p>
+<p>
+ </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ATarget</dt>
+<dd>The target object to unbind.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateValues"></span><code>procedure <strong>UpdateValues</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Forces an update of all bound properties. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</div></div></body></html>

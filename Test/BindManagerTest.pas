@@ -1,7 +1,7 @@
 {*****************************************************************************}
-{       BindAPI                                                               }
-{       Copyright (C) 2020 Paolo Morandotti                                   }
-{       Unit BindManagerTest                                                  }
+{BindAPI                                                                      }
+{Copyright (C) 2020 Paolo Morandotti                                          }
+{Unit BindManagerTest                                                         }
 {*****************************************************************************}
 {                                                                             }
 {Permission is hereby granted, free of charge, to any person obtaining        }
@@ -25,207 +25,161 @@
 unit BindManagerTest;
 
 interface
+
 uses
   DUnitX.TestFramework,
-  Vcl.StdCtrls,
-  plBindAPI.CoreBinder,
-  BindAPITestClasses;
+  System.SysUtils,
+  System.Classes,
+  BindAPITestClasses,
+  PlBindAPI.BindManagement,
+  plBindAPI.Types,
+  PlBindAPI.AutoBinder,   // For TPlAutoBinder
+  PlBindAPI.Attributes; // For BindClassAttribute
 
 type
-
   [TestFixture]
-  TPlBindManagerTest = class(TObject)
+  TTestPlBindManager = class
   private
-    binder: TPlBinder;
-    activeClass: TTestClassB;
-    passiveClass: TTestClassA;
+    FSourceObject: TTestClassSource;
+    FTargetObject: TTestClassTarget;
   public
     [Setup]
     procedure Setup;
+
     [TearDown]
     procedure TearDown;
 
-    // Test properties binding
-    [Test(True)]
-    [TestCase('Test On Properties', '2, Pippo, 3.6')]
-    [TestCase('Test On Properties', '3, Topolino, 0.8')]
-    procedure TestBindProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
-    // Test fields binding
-    [Test(True)]
-    [TestCase('Test On Record Field', '2, Pippo, 3.6')]
-    procedure TestBindRecordField(const AnInt: Integer; const AStr: string; const ADbl: Double);
-    [Test(True)]
-    [TestCase('Test On Object Field', '3, Pippo, 12')]
-    procedure TestBindFieldProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
-    // Test property as objects
-    [Test(True)]
-    [TestCase('Test On Object Property', '3, Pippo, 12')]
-    procedure TestBindObjectProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
-    // Test event binding
-    [Test(True)]
-    [TestCase('Test On Event', '2, Pippo, 3.6')]
-    procedure TestBindEvent(const AnInt: Integer; const AStr: string; const ADbl: Double);
-    // General Test
-    [Test(True)]
-    [TestCase('Test On Start and Stop', '2, Pippo, 3.6')]
-    procedure TestUpdateValues(const AnInt: Integer; const AStr: string; const ADbl: Double);
+    /// <summary>
+    /// Tests the AddBind method with valid inputs.
+    /// </summary>
+    [Test]
+    procedure TestAddBindValid;
 
+    /// <summary>
+    /// Tests the AddBind method with invalid inputs and ensures an exception is raised.
+    /// </summary>
+    [Test]
+    procedure TestAddBindInvalid;
+
+    /// <summary>
+    /// Tests the AddDeferredBind method.
+    /// </summary>
+    [Test]
+    procedure TestAddDeferredBind;
+
+    /// <summary>
+    /// Tests the Bind method to ensure the object is properly bound.
+    /// </summary>
+    [Test]
+    procedure TestBind;
+
+    /// <summary>
+    /// Tests the Unbind method to ensure the object is properly unbound.
+    /// </summary>
+    [Test]
+    procedure TestUnbind;
+
+    /// <summary>
+    /// Tests the ErrorList method to verify it retrieves binding errors.
+    /// </summary>
+    [Test]
+    procedure TestErrorList;
+
+    /// <summary>
+    /// Tests the Interval property for getting and setting the interval.
+    /// </summary>
+    [Test]
+    procedure TestIntervalProperty;
   end;
 
 implementation
 
 uses
-  System.SysUtils;
+  plBindAPI.ClassFactory;
 
-procedure TPlBindManagerTest.Setup;
+procedure TTestPlBindManager.Setup;
 begin
-  binder := TPlBinder.Create;
-  passiveClass := TTestClassA.Create;
+  // Initialize test objects before each test
+  FSourceObject := TTestClassSource.Create(2, 'Test String', 2.5);
+  FTargetObject := TTestClassTarget.Create;
 end;
 
-procedure TPlBindManagerTest.TearDown;
+procedure TTestPlBindManager.TearDown;
 begin
-  binder.Free;
-  // Free classes
-  activeClass.Free;
-  passiveClass.Free;
+  // Free the test objects after each test
+  FSourceObject.Free;
+  FTargetObject.Free;
 end;
 
-procedure TPlBindManagerTest.TestBindEvent(const AnInt: Integer;
-  const AStr: string; const ADbl: Double);
+procedure TTestPlBindManager.TestAddBindValid;
+var
+  Attribute: BindClassAttribute;
 begin
-  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-  // Binding
-  binder.Bind(passiveClass, 'EventFiredTarget', activeClass, 'EventFired');
-  binder.BindMethod(activeClass.btnTest, 'OnClick', passiveClass, 'TestEventBind');
-  // Test
-  activeClass.btnTest.Click;
-  binder.UpdateValues;
-  Assert.IsTrue(activeClass.EventFired, 'Event not fired');
+  TPlClassManager.RegisterClass(TTestClassTarget, [Singleton], []);
+  Attribute := BindClassAttribute.Create('TTestClassTarget');
+  try
+    Assert.IsTrue(TPlBindManager.AddBinding(FSourceObject, Attribute), 'AddBind should return true for valid inputs.');
+  finally
+    Attribute.Free;
+  end;
 end;
 
-procedure TPlBindManagerTest.TestBindFieldProperty(const AnInt: Integer;
-  const AStr: string; const ADbl: Double);
+procedure TTestPlBindManager.TestAddBindInvalid;
 begin
-  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-
-  // binding
-  { TODO 4 -oPMo -cRefactoring :
-    Although BindAPI allows this operation, if not carefully managed it causes pointer errors when freeing the instances.
-    Consider to automatically bind on each fields. }
-//  binder.Bind(activeClass, 'FObjPropOut', passiveClass, 'FObjTarget');
-  binder.Bind(activeClass, 'FObjPropOut.Age', passiveClass, 'FObjTarget.Age');
-  binder.Bind(activeClass, 'FObjPropOut.Name', passiveClass, 'FObjTarget.Name');
-  binder.Bind(passiveClass, 'FObjTarget.Age', activeClass, 'FObjPropIn.Age');
-  // Test
-  with activeClass do
+  Assert.WillRaise(
+    procedure
     begin
-      Assert.AreEqual(AStr + ' (Obj)', passiveClass.ObjTarget.Name, 'ObjTarget Name field error');
-      Assert.AreEqual('', ObjPropIn.Name, 'Object Name field error');
-      Assert.AreEqual(AnInt + 11, ObjPropIn.Age, 'Object Age field error');
-    end;
+      TPlBindManager.AddBinding(nil, nil);
+    end,
+    EPlBindApiException,
+    'AddBind should raise EArgumentException for invalid inputs.'
+  );
 end;
 
-procedure TPlBindManagerTest.TestBindObjectProperty(const AnInt: Integer;
-  const AStr: string; const ADbl: Double);
+procedure TTestPlBindManager.TestAddDeferredBind;
 begin
-  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
+  Assert.IsTrue(TPlBindManager.AddDeferredBinding(FTargetObject), 'AddDeferredBind should return true for valid input.');
+end;
 
-  // binding
-  { TODO 4 -oPMo -cRefactoring :
-    Although BindAPI allows this operation, if not carefully managed it causes pointer errors when freeing the instances.
-    Consider to automatically bind on fields. }
-//  binder.Bind(activeClass, 'ObjPropOut', passiveClass, 'ObjTarget');
-  binder.Bind(activeClass, 'ObjPropOut.Age', passiveClass, 'ObjTarget.Age');
-  binder.Bind(activeClass, 'ObjPropOut.Name', passiveClass, 'ObjTarget.Name');
-  binder.Bind(passiveClass, 'ObjTarget.Age', activeClass, 'ObjPropIn.Age');
-  // Test
-  with activeClass do
+procedure TTestPlBindManager.TestBind;
+begin
+  // Test the binding process
+  Assert.WillNotRaiseAny(
+    procedure
     begin
-      Assert.AreEqual(AStr + ' (Obj)', passiveClass.ObjTarget.Name, 'ObjTarget Name property error');
-      Assert.AreEqual('', ObjPropIn.Name, 'Object Name property error');
-      Assert.AreEqual(AnInt + 11, ObjPropIn.Age, 'Object Age property error');
-    end;
+      TPlBindManager.Bind(FTargetObject);
+    end,
+    'Bind should not raise any exceptions for valid input.'
+  );
 end;
 
-procedure TPlBindManagerTest.TestBindProperty(const AnInt: Integer; const AStr: string; const ADbl: Double);
+procedure TTestPlBindManager.TestUnbind;
 begin
-  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-
-  // binding
-  binder.Bind(activeClass, 'DblPropOut', passiveClass, 'DblTarget');
-  binder.Bind(activeClass, 'IntPropOut', passiveClass, 'intTarget');
-  binder.Bind(activeClass, 'IntPropOut', passiveClass, 'intTarget3', passiveClass.TripleOf);
-  binder.Bind(activeClass, 'RecPropOut', passiveClass, 'RecTarget');
-  binder.Bind(activeClass, 'StrPropOut', passiveClass, 'StrTarget', passiveClass.ToName);
-  binder.Bind(passiveClass, 'dblTarget', activeClass, 'DblPropIn');
-  binder.Bind(passiveClass, 'dblTarget', activeClass, 'DblPropIn2', passiveClass.DoubleOf);
-  binder.Bind(passiveClass, 'intTarget', activeClass, 'IntPropIn');
-  binder.Bind(passiveClass, 'intTarget', activeClass, 'IntPropIn2', passiveClass.DoubleOf);
-  binder.Bind(passiveClass, 'IntTarget3', activeClass, 'IntPropIn3');
-  binder.Bind(passiveClass, 'RecTarget', activeClass, 'RecPropIn');
-  binder.Bind(passiveClass, 'StrTarget', activeClass, 'StrPropIn');
-  // Test
-  with activeClass do
+  // Test the unbinding process
+  Assert.WillNotRaiseAny(
+    procedure
     begin
-      Assert.AreEqual(AStr + ' (Rec)', RecPropIn.Name, 'Record Name property error');
-      Assert.AreEqual(AnInt + 1, RecPropIn.Age, 'Record Age property error');
-      Assert.AreEqual(DblPropOut, DblPropIn, 'Double property error');
-      Assert.AreEqual(AnInt, IntPropIn, 'Integer property error');
-      Assert.AreEqual(Double(ADbl * 2.0), DblPropIn2, 'Double property function error');
-      Assert.AreEqual(AnInt * 2, IntPropIn2, 'Integer 2 property function error');
-      Assert.AreEqual(AnInt * 3, IntPropIn3, 'Integer 3 property function error');
-      Assert.AreEqual(AStr + ' (No Rec)', StrPropIn, 'String property error');
-    end;
-
+      TPlBindManager.Unbind(FTargetObject);
+    end,
+    'Unbind should not raise any exceptions for valid input.'
+  );
 end;
 
-procedure TPlBindManagerTest.TestBindRecordField(const AnInt: Integer;
-  const AStr: string; const ADbl: Double);
+procedure TTestPlBindManager.TestErrorList;
 begin
-  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-
-  // binding
-  binder.Bind(activeClass, 'RecPropOut', passiveClass, 'RecTarget');
-//  binder.Bind(passiveClass, 'RecTarget.Name', activeClass, 'RecPropIn.Name');
-  binder.Bind(passiveClass, 'RecTarget.Age', activeClass, 'RecPropIn.Age');
-  // Test
-  with activeClass do
-    begin
-      Assert.AreEqual('', RecPropIn.Name, 'Record Name property error');
-      Assert.AreEqual(AnInt + 1, RecPropIn.Age, 'Record Age property error');
-    end;
+    // Assuming no errors are present initially
+    Assert.AreEqual('', TPlBindManager.ErrorList, 'ErrorList should be empty initially.');
 end;
 
-procedure TPlBindManagerTest.TestUpdateValues(const AnInt: Integer;
-  const AStr: string; const ADbl: Double);
+procedure TTestPlBindManager.TestIntervalProperty;
+const
+  TestInterval = 5000; // 5 seconds
 begin
-  activeClass := TTestClassB.Create(AnInt, AStr, ADbl);
-
-  // binding
-  binder.Bind(activeClass, 'IntPropOut', passiveClass, 'intTarget');
-  // 1.st Test
-  Assert.AreEqual(AnInt, passiveClass.intTarget, 'Integer map error');
-  activeClass.IntPropOut := AnInt * 2;
-  binder.UpdateValues;
-  Assert.AreEqual(AnInt * 2, passiveClass.intTarget, 'Integer bind error');
-  Exit;
-
-  binder.Start(100);
-//  if activeClass.IntPropOut < 5 then
-//    Exit;
-  Sleep(5000);
-  if passiveClass.intTarget > 2 then
-    Exit;
-  with activeClass do
-    Assert.AreEqual(4, passiveClass.intTarget, 'Integer bind error');
-  binder.Stop;
-//  activeClass.IntPropOut := 6;
-//  Sleep(150);
-//  with activeClass do
-//    Assert.AreEqual(4, passiveClass.intTarget, 'Integer bind error');
+  TPlBindManager.Interval := TestInterval;
+  Assert.AreEqual(TestInterval, TPlBindManager.Interval, 'Interval property should reflect the set value.');
 end;
 
 initialization
-  TDUnitX.RegisterTestFixture(TPlBindManagerTest);
+  TDUnitX.RegisterTestFixture(TTestPlBindManager);
+
 end.

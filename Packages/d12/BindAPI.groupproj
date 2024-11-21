@@ -1,0 +1,80 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{5875D5B3-CC6B-4338-908E-6DCE707619D9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="plBindAPI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Test\BindAPITest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="plBindAPI">
+        <MSBuild Projects="plBindAPI.dproj"/>
+    </Target>
+    <Target Name="plBindAPI:Clean">
+        <MSBuild Projects="plBindAPI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="plBindAPI:Make">
+        <MSBuild Projects="plBindAPI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BindAPITest">
+        <MSBuild Projects="..\..\Test\BindAPITest.dproj"/>
+    </Target>
+    <Target Name="BindAPITest:Clean">
+        <MSBuild Projects="..\..\Test\BindAPITest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BindAPITest:Make">
+        <MSBuild Projects="..\..\Test\BindAPITest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="VCL_BindApiSimpleDemo">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj"/>
+    </Target>
+    <Target Name="VCL_BindApiSimpleDemo:Clean">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VCL_BindApiSimpleDemo:Make">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="plBindAPI;BindAPITest;VCL_BindApiSimpleDemo"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;VCL_BindApiSimpleDemo:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;VCL_BindApiSimpleDemo:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='plBindApi Core'">
+        <BuildGroupProject Include="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj">
+            <ProjectGuid>{D478E719-4667-47E5-A1BE-26F08BC7E4E8}</ProjectGuid>
+            <Configurations>Debug;Release</Configurations>
+            <Platforms>Win32;Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\Test\BindAPITest.dproj">
+            <ProjectGuid>{1059BF10-28E7-46FD-9905-10164785761E}</ProjectGuid>
+            <Configurations>Debug;Release</Configurations>
+            <Platforms>Win32;Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="plBindAPI.dproj">
+            <ProjectGuid>{5984AED8-CBFD-446D-9813-959FE7F98EA9}</ProjectGuid>
+            <Configurations>Debug;Release</Configurations>
+            <Platforms>Android;Android64;Win32;Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+</Project>

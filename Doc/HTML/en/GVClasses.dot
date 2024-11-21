@@ -1,0 +1,50 @@
+digraph Classes {
+  "IPlAutoBinder" -> "IInterface"
+  "IPlAutoBinder" [href="plBindAPI.Types.IPlAutoBinder.html"]
+  "CustomBindAttribute" -> "TCustomAttribute"
+  "CustomBindAttribute" [href="plBindAPI.Attributes.CustomBindAttribute.html"]
+  "BindClassAttribute" -> "CustomBindAttribute"
+  "BindClassAttribute" [href="plBindAPI.Attributes.BindClassAttribute.html"]
+  "BindDefaultClassAttribute" -> "BindClassAttribute"
+  "BindDefaultClassAttribute" [href="plBindAPI.Attributes.BindDefaultClassAttribute.html"]
+  "BindMethodAttribute" -> "CustomBindAttribute"
+  "BindMethodAttribute" [href="plBindAPI.Attributes.BindMethodAttribute.html"]
+  "CustomBindMemberAttribute" -> "CustomBindAttribute"
+  "CustomBindMemberAttribute" [href="plBindAPI.Attributes.CustomBindMemberAttribute.html"]
+  "BindMemberAttribute" -> "CustomBindMemberAttribute"
+  "BindMemberAttribute" [href="plBindAPI.Attributes.BindMemberAttribute.html"]
+  "BindMemberFromAttribute" -> "CustomBindMemberAttribute"
+  "BindMemberFromAttribute" [href="plBindAPI.Attributes.BindMemberFromAttribute.html"]
+  "BindMemberToAttribute" -> "CustomBindMemberAttribute"
+  "BindMemberToAttribute" [href="plBindAPI.Attributes.BindMemberToAttribute.html"]
+  "RegisterBridgeClassAttribute" -> "CustomBindAttribute"
+  "RegisterBridgeClassAttribute" [href="plBindAPI.Attributes.RegisterBridgeClassAttribute.html"]
+  "TPlClassList" -> "TDictionary"
+  "TPlClassList" [href="plBindAPI.ClassFactory.TPlClassList.html"]
+  "TPlParKeyComparer" -> "TEqualityComparer"
+  "TPlParKeyComparer" [href="plBindAPI.BindingElement.TPlParKeyComparer.html"]
+  "TPlAutoBinder" -> "TInterfacedObject"
+  "TPlAutoBinder" [href="plBindAPI.AutoBinder.TPlAutoBinder.html"]
+  "TPlBinder" -> "TInterfacedObject"
+  "TPlBinder" [href="plBindAPI.CoreBinder.TPlBinder.html"]
+  "TPlBindManager" -> "TInterfacedObject"
+  "TPlBindManager" [href="plBindAPI.BindManagement.TPlBindManager.html"]
+  "TList" -> "TObject"
+  "TObjectList" -> "TList"
+  "TPlBindingElementsList" -> "TObjectList"
+  "TPlBindingElementsList" [href="plBindAPI.BindingElement.TPlBindingElementsList.html"]
+  "TPlBindingElement" -> "TObject"
+  "TPlBindingElement" [href="plBindAPI.BindingElement.TPlBindingElement.html"]
+  "TPlClassManager" -> "TObject"
+  "TPlClassManager" [href="plBindAPI.ClassFactory.TPlClassManager.html"]
+  "TPlDeferredBinding" -> "TObject"
+  "TPlDeferredBinding" [href="plBindAPI.DeferredBinding.TPlDeferredBinding.html"]
+  "TPlRTTIUtils" -> "TObject"
+  "TPlRTTIUtils" [href="plBindAPI.RTTIUtils.TPlRTTIUtils.html"]
+  "TPlBindingList" -> "TObjectDictionary"
+  "TPlBindingList" [href="plBindAPI.BindingElement.TPlBindingList.html"]
+  "TPlBoundMethodsList" -> "TObjectDictionary"
+  "TPlBoundMethodsList" [href="plBindAPI.CoreBinder.TPlBoundMethodsList.html"]
+  "TPlInstanceList" -> "TObjectDictionary"
+  "TPlInstanceList" [href="plBindAPI.ClassFactory.TPlInstanceList.html"]
+}

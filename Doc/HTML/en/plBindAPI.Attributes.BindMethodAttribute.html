@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BindApi 0.9 Alpha Release 1: plBindAPI.Attributes: Class BindMethodAttribute</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li><li><form class="search-form" action="tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input" pattern=".{1,}" title="At least 1 characters" required><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></div></form>
+<div style="clear: both"></div>
+</li></ul></div><div class="content">
+BindApi 0.9 Alpha Release 1 Documentation
+<span id="BindMethodAttribute"></span><h1 class="cio">Class BindMethodAttribute</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="plBindAPI.Attributes.html">plBindAPI.Attributes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type BindMethodAttribute = class(<a class="normal" href="plBindAPI.Attributes.CustomBindAttribute.html">CustomBindAttribute</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Ancestor class for attributes containing information about a single bind of methods and events. </p>
+<p>
+
+
+<p>Use this attribute to replace a method or an event indentified by SourceMethidName with the method called NewMethidName in the Target class. &lt;note type=&quot;warning&quot;&gt;If the Source's method is already defined, it is replaced by the new method and no info is kept. So you will not able to restore it.&lt;/note&gt;</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TCustomAttribute</li>
+<li class="ancestor"><a class="normal" href="plBindAPI.Attributes.CustomBindAttribute.html">CustomBindAttribute</a></li>
+<li class="thisitem">BindMethodAttribute</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.Attributes.BindMethodAttribute.html#Create-string-string-">Create</a></strong>(const AMethodQName, ANewMethodName: string); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.Attributes.BindMethodAttribute.html#Create-string-string-string-">Create</a></strong>(const AMethodQName, ANewMethodName, ATargetClassName: string); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.Attributes.BindMethodAttribute.html#Create-Boolean-string-string-">Create</a></strong>(const Enabled: Boolean; const AMethodQName, ANewMethodName: string); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="plBindAPI.Attributes.BindMethodAttribute.html#Create-Boolean-string-string-string-">Create</a></strong>(const Enabled: Boolean; const AMethodQName, ANewMethodName, ATargetClassName: string); overload;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.Attributes.BindMethodAttribute.html#NewMethodQName">NewMethodQName</a></strong>: string read FNewMethodName;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="plBindAPI.Attributes.BindMethodAttribute.html#SourceMethodName">SourceMethodName</a></strong>: string read FSourceMethodName;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-string-string-"></span><code>constructor <strong>Create</strong>(const AMethodQName, ANewMethodName: string); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initializes a new instance of the <code>BindMethodAttribute</code> class with the name of the source method and the name of the new method to be used in the binding. </p>
+<p>
+ 
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AMethodQName</dt>
+<dd>The fully qualified name of the source method.</dd>
+<dt>ANewMethodName</dt>
+<dd>The name of the new method to be used in the binding.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-string-string-string-"></span><code>constructor <strong>Create</strong>(const AMethodQName, ANewMethodName, ATargetClassName: string); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initializes a new instance of the <code>BindMethodAttribute</code> class with the name of the source method, name of the new method, and target class name. </p>
+<p>
+ 
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AMethodName</dt>
+<dd>The name of the source method.</dd>
+<dt>AMethodQName</dt>
+<dd>The fully qualified name of the source method.</dd>
+<dt>ATargetClassName</dt>
+<dd>Optional name of the target class for the binding.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-Boolean-string-string-"></span><code>constructor <strong>Create</strong>(const Enabled: Boolean; const AMethodQName, ANewMethodName: string); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initializes a new instance of the <code>BindMethodAttribute</code> class with enabled status, qualified name of the source method, and name of the new method. </p>
+<p>
+ 
+
+<p>
+
+<p>
+
+<p>&lt;example&gt; </p>
+
+<pre class="preformatted">type
+   {...}
+   [BindDefaultClass(True, 'MyBindTargetClass')]
+   [BindMethod(True, 'MyMethod', 'NewMethod')]
+   TMyForm := class(TForm)
+   public
+     MyMethod:  TNotifyEvent;
+   {...}</pre>
+
+<p> or </p>
+
+<pre class="preformatted">type
+   [BindDefaultClass(True, 'MyBindTargetClass')]
+   [BindMethod(True, 'Button1.OnClick', 'NewEventHandler')</pre>
+
+<p>] TMyForm := class(TForm) Button1: TButton; {...} ) &lt;/example&gt;</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Enabled</dt>
+<dd>Indicates whether the binding is enabled.</dd>
+<dt>AMethodQName</dt>
+<dd>The fully qualified name of the source method.</dd>
+<dt>ANewMethodName</dt>
+<dd>The name of the new method to be used in the binding.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-Boolean-string-string-string-"></span><code>constructor <strong>Create</strong>(const Enabled: Boolean; const AMethodQName, ANewMethodName, ATargetClassName: string); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initializes a new instance of the <code>BindMethodAttribute</code> class with enabled status, name of the source method, name of the new method, and target class name. </p>
+<p>
+ 
+
+<p>
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Enabled</dt>
+<dd>Indicates whether the binding is enabled.</dd>
+<dt>AMethodQName</dt>
+<dd>The fully qualified name of the source method.</dd>
+<dt>ANewMethodName</dt>
+<dd>The name of the new method to be used in the binding.</dd>
+<dt>ATargetClassName</dt>
+<dd>Optional name of the target class for the binding.</dd>
+</dl>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewMethodQName"></span><code>property <strong>NewMethodQName</strong>: string read FNewMethodName;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets the fully qualified name of the new method to be used in the binding. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SourceMethodName"></span><code>property <strong>SourceMethodName</strong>: string read FSourceMethodName;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets the qualified name of the source method. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</div></div></body></html>

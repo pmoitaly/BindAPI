@@ -1,0 +1,73 @@
+inherited BindApiSimpleDemo_XLgXhdpiTb: TBindApiSimpleDemo_XLgXhdpiTb
+  ClientHeight = 1254
+  ClientWidth = 800
+  DesignerMasterStyle = 0
+  inherited pnlInput: TPanel
+    inherited edtSource2: TEdit
+      Size.Height = 32.000000000000000000
+    end
+    inherited speValue: TSpinBox
+      Size.Height = 32.000000000000000000
+    end
+    inherited edtBidirectional: TEdit
+      Size.Height = 32.000000000000000000
+    end
+    inherited memSource: TMemo
+      Viewport.Width = 257.000000000000000000
+      Viewport.Height = 97.000000000000000000
+    end
+  end
+  inherited pnlOutput: TPanel
+    inherited edtTarget2: TEdit
+      Size.Height = 32.000000000000000000
+    end
+    inherited edtTarget2a: TEdit
+      Size.Height = 32.000000000000000000
+    end
+    inherited edtSame: TEdit
+      Size.Height = 32.000000000000000000
+    end
+    inherited edtDouble: TEdit
+      Size.Height = 32.000000000000000000
+    end
+    inherited edtBidirectional2: TEdit
+      Size.Height = 32.000000000000000000
+    end
+    inherited pctEnum: TTabControl
+      Sizes = (
+        254s
+        66s
+        254s
+        66s
+        254s
+        66s)
+      inherited tbiFirst: TTabItem
+        Size.Width = 65.000000000000000000
+        Size.Height = 15.000000000000000000
+        ExplicitSize.cx = 64.000000000000000000
+        ExplicitSize.cy = 15.000000000000000000
+      end
+      inherited tbiSecond: TTabItem
+        Size.Width = 79.000000000000000000
+        Size.Height = 15.000000000000000000
+        ExplicitSize.cx = 64.000000000000000000
+        ExplicitSize.cy = 15.000000000000000000
+      end
+      inherited tbiThird: TTabItem
+        Size.Width = 67.000000000000000000
+        Size.Height = 15.000000000000000000
+        ExplicitSize.cx = 64.000000000000000000
+        ExplicitSize.cy = 15.000000000000000000
+      end
+    end
+    inherited memTarget: TMemo
+      Viewport.Width = 254.000000000000000000
+      Viewport.Height = 97.000000000000000000
+    end
+  end
+  inherited lblLowercaseArrow: TLabel
+    inherited lblUppercaseArrow: TLabel
+      Position.X = -1.000000000000000000
+    end
+  end
+end
