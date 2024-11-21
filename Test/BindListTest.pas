@@ -25,25 +25,25 @@ type
     /// <summary>
     ///   Check if the items are correctly disabled.
     /// </summary>
-    [Test(False)]
+    [Test]
     procedure TestDisableElement;
 
     /// <summary>
     ///   Check if the items are correctly enabled.
     /// </summary>
-    [Test(False)]
+    [Test]
     procedure TestEnableElement;
 
     /// <summary>
     ///   Check that methods return the correct keys for a given object.
     /// </summary>
-    [Test(False)]
+    [Test]
     procedure TestFindKeys;
 
     /// <summary>
     ///   Check that methods return the first key for a given object.
     /// </summary>
-    [Test(False)]
+    [Test]
     procedure TestFindKey;
 
     /// <summary>
@@ -76,6 +76,8 @@ end;
 procedure TTestTPlBindList.Teardown;
 begin
   FBindList.Free;
+  FSource1.Free;
+  FSource2.Free;
 end;
 
 procedure TTestTPlBindList.TestDisableElement;
