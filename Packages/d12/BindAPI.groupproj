@@ -9,7 +9,7 @@
         <Projects Include="..\..\Test\BindAPITest.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj">
+        <Projects Include="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj">
@@ -41,14 +41,14 @@
     <Target Name="BindAPITest:Make">
         <MSBuild Projects="..\..\Test\BindAPITest.dproj" Targets="Make"/>
     </Target>
-    <Target Name="BindApiSimpleDemo">
-        <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj"/>
+    <Target Name="VCL_BindApiSimpleDemo">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj"/>
     </Target>
-    <Target Name="BindApiSimpleDemo:Clean">
-        <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Clean"/>
+    <Target Name="VCL_BindApiSimpleDemo:Clean">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="BindApiSimpleDemo:Make">
-        <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Make"/>
+    <Target Name="VCL_BindApiSimpleDemo:Make">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\VCL.BindApiSimpleDemo.dproj" Targets="Make"/>
     </Target>
     <Target Name="fmx_BindApiSimpleDemo">
         <MSBuild Projects="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj"/>
@@ -60,13 +60,13 @@
         <MSBuild Projects="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="plBindAPI;BindAPITest;BindApiSimpleDemo;fmx_BindApiSimpleDemo"/>
+        <CallTarget Targets="plBindAPI;BindAPITest;VCL_BindApiSimpleDemo;fmx_BindApiSimpleDemo"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;BindApiSimpleDemo:Clean;fmx_BindApiSimpleDemo:Clean"/>
+        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;VCL_BindApiSimpleDemo:Clean;fmx_BindApiSimpleDemo:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make"/>
+        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;VCL_BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

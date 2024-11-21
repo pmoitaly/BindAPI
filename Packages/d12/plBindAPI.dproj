@@ -6,10 +6,9 @@
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Android</Platform>
         <TargetedPlatforms>32787</TargetedPlatforms>
         <AppType>Package</AppType>
-        <ProjectName Condition="'$(ProjectName)'==''">plBindAPI</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -185,7 +184,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.0;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.2;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_UNSUPPORTED_CONSTRUCT>false</DCC_UNSUPPORTED_CONSTRUCT>
         <DCC_UNSAFE_VOID_POINTER>true</DCC_UNSAFE_VOID_POINTER>
         <DCC_UNSAFE_CODE>true</DCC_UNSAFE_CODE>
@@ -195,14 +194,15 @@
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
         <DCC_DcuOutput>..\..\DCU\$(CompilerVersion )\$(Platform)\$(Config)</DCC_DcuOutput>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <VerInfo_Build>2</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.18;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.25;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
-        <VerInfo_Build>18</VerInfo_Build>
+        <VerInfo_Build>25</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -222,19 +222,20 @@
         <VerInfo_Keys>package=it.morandotti.BindAPI;label=BindAPI;versionCode=1;versionName=0.9.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.0;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.2;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
+        <VerInfo_Build>2</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.12;InternalName=BindApi;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.16;InternalName=BindApi;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
-        <VerInfo_Build>12</VerInfo_Build>
+        <VerInfo_Build>16</VerInfo_Build>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
