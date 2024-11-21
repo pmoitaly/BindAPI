@@ -123,7 +123,7 @@ type
     /// <param name="ASource">The source object to bind.</param>
     /// <param name="AClassAttribute">The binding attribute for the class.</param>
     /// <returns>True if the binding was successfully added; otherwise, false.</returns>
-    class function AddBind(ASource: TObject;
+    class function AddBinding(ASource: TObject;
       AClassAttribute: BindClassAttribute): boolean;
 
     /// <summary>
@@ -131,7 +131,7 @@ type
     /// </summary>
     /// <param name="ASource">The source object to bind.</param>
     /// <returns>True if the deferred binding was successfully added; otherwise, false.</returns>
-    class function AddDeferredBind(ASource: TObject): boolean; static;
+    class function AddDeferredBinding(ASource: TObject): boolean; static;
 
     /// <summary>
     /// Performs binding operations on the specified source object.
@@ -154,7 +154,7 @@ type
     /// Retrieves a list of errors encountered during binding.
     /// </summary>
     /// <returns>A <c>TStrings</c> object containing error messages.</returns>
-    class function ErrorList: TStrings;
+    class function ErrorList: string;
 
     /// <summary>
     /// Unbinds the specified source object.
@@ -202,7 +202,7 @@ begin
   inherited;
 end;
 
-class function TPlBindManager.AddBind(ASource: TObject;
+class function TPlBindManager.AddBinding(ASource: TObject;
   AClassAttribute: BindClassAttribute): boolean;
 var
   target: TObject;
@@ -218,7 +218,7 @@ begin
   Result := Assigned(target);
 end;
 
-class function TPlBindManager.AddDeferredBind(ASource: TObject): boolean;
+class function TPlBindManager.AddDeferredBinding(ASource: TObject): boolean;
 var
   rType: TRttiType;
   rAttr: TCustomAttribute;
@@ -253,7 +253,7 @@ begin
   {Search for enabled BindAPI attributes and process them}
   for rAttr in rType.GetAttributes() do
     if rAttr is BindClassAttribute and BindClassAttribute(rAttr).IsEnabled then
-      AddBind(ASource, BindClassAttribute(rAttr));
+      AddBinding(ASource, BindClassAttribute(rAttr));
 end;
 
 class function TPlBindManager.DebugInfo: TPlBindDebugInfo;
@@ -261,7 +261,7 @@ begin
   Result := FBinder.DebugInfo;
 end;
 
-class function TPlBindManager.ErrorList: TStrings;
+class function TPlBindManager.ErrorList: string;
 begin
   Result := FBinder.ErrorList;
 end;

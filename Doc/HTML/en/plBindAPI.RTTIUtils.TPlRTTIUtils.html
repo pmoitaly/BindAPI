@@ -5,11 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.16.0-snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <div class="container"><div class="navigation">
-<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li></ul></div><div class="content">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li><li><form class="search-form" action="tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input" pattern=".{1,}" title="At least 1 characters" required><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></div></form>
+<div style="clear: both"></div>
+</li></ul></div><div class="content">
 BindApi 0.9 Alpha Release 1 Documentation
 <span id="TPlRTTIUtils"></span><h1 class="cio">Class TPlRTTIUtils</h1>
 <div class="sections">
@@ -64,11 +68,11 @@ BindApi 0.9 Alpha Release 1 Documentation
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#InternalCastTo-TTypeKind-TValue-">InternalCastTo</a></strong>(const AType: TTypeKind; AValue: TValue): TValue; overload;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#InternalCastTo-TTypeKind-TValue-">InternalCastTo</a></strong>(const AType: TTypeKind; AValue: TValue) : TValue; overload;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#InternalCastTo-TRttiType-TValue-">InternalCastTo</a></strong>(const AType: TRttiType; AValue: TValue): TValue; overload;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#InternalCastTo-TRttiType-TValue-">InternalCastTo</a></strong>(const AType: TRttiType; AValue: TValue) : TValue; overload;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -76,7 +80,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#IsIndexedProperty-TObject-string-">IsIndexedProperty</a></strong>(ARoot: TObject; const AName: string): Boolean; overload;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#IsIndexedProperty-TObject-string-">IsIndexedProperty</a></strong>(ARoot: TObject; const AName: string) : Boolean; overload;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -92,7 +96,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#MethodIsImplemented-Pointer-string-">MethodIsImplemented</a></strong>(ATypeInfo: Pointer; AMethodName: string): Boolean; overload;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#MethodIsImplemented-Pointer-string-">MethodIsImplemented</a></strong>(ATypeInfo: Pointer; AMethodName: string) : Boolean; overload;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -100,11 +104,11 @@ BindApi 0.9 Alpha Release 1 Documentation
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#PropertyExists-TClass-string-">PropertyExists</a></strong>(const AClass: TClass; APropertyName: string): Boolean; overload;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#PropertyExists-TClass-string-">PropertyExists</a></strong>(const AClass: TClass; APropertyName: string) : Boolean; overload;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#PropertyExists-Pointer-string-">PropertyExists</a></strong>(ATypeInfo: Pointer; APropertyName: string): Boolean; overload;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#PropertyExists-Pointer-string-">PropertyExists</a></strong>(ATypeInfo: Pointer; APropertyName: string) : Boolean; overload;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -119,6 +123,10 @@ BindApi 0.9 Alpha Release 1 Documentation
 <td class="itemcode"><code>class function <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#TryExtractNode-TObject-TRTTIField-TRttiProperty-TRttiIndexedProperty-string-">TryExtractNode</a></strong>(ARoot: TObject; out AField: TRTTIField; out AProp: TRttiProperty; out AIndexedProp: TRttiIndexedProperty; const ANodeName: string): Boolean; overload;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#ResetMethod-TObject-string-">ResetMethod</a></strong>(ARoot: TObject; const AMethodName: string);</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class procedure <strong><a href="plBindAPI.RTTIUtils.TPlRTTIUtils.html#SetPathValue-TObject-string-TValue-">SetPathValue</a></strong>(ARoot: TObject; const APath: string; AValue: TValue); inline;</code></td>
 </tr>
@@ -349,7 +357,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="InternalCastTo-TTypeKind-TValue-"></span><code>class function <strong>InternalCastTo</strong>(const AType: TTypeKind; AValue: TValue): TValue; overload;</code></td>
+<td class="itemcode"><span id="InternalCastTo-TTypeKind-TValue-"></span><code>class function <strong>InternalCastTo</strong>(const AType: TTypeKind; AValue: TValue) : TValue; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -373,7 +381,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="InternalCastTo-TRttiType-TValue-"></span><code>class function <strong>InternalCastTo</strong>(const AType: TRttiType; AValue: TValue): TValue; overload;</code></td>
+<td class="itemcode"><span id="InternalCastTo-TRttiType-TValue-"></span><code>class function <strong>InternalCastTo</strong>(const AType: TRttiType; AValue: TValue) : TValue; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -429,7 +437,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="IsIndexedProperty-TObject-string-"></span><code>class function <strong>IsIndexedProperty</strong>(ARoot: TObject; const AName: string): Boolean; overload;</code></td>
+<td class="itemcode"><span id="IsIndexedProperty-TObject-string-"></span><code>class function <strong>IsIndexedProperty</strong>(ARoot: TObject; const AName: string) : Boolean; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -521,7 +529,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="MethodIsImplemented-Pointer-string-"></span><code>class function <strong>MethodIsImplemented</strong>(ATypeInfo: Pointer; AMethodName: string): Boolean; overload;</code></td>
+<td class="itemcode"><span id="MethodIsImplemented-Pointer-string-"></span><code>class function <strong>MethodIsImplemented</strong>(ATypeInfo: Pointer; AMethodName: string) : Boolean; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -569,7 +577,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="PropertyExists-TClass-string-"></span><code>class function <strong>PropertyExists</strong>(const AClass: TClass; APropertyName: string): Boolean; overload;</code></td>
+<td class="itemcode"><span id="PropertyExists-TClass-string-"></span><code>class function <strong>PropertyExists</strong>(const AClass: TClass; APropertyName: string) : Boolean; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -593,7 +601,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="PropertyExists-Pointer-string-"></span><code>class function <strong>PropertyExists</strong>(ATypeInfo: Pointer; APropertyName: string): Boolean; overload;</code></td>
+<td class="itemcode"><span id="PropertyExists-Pointer-string-"></span><code>class function <strong>PropertyExists</strong>(ATypeInfo: Pointer; APropertyName: string) : Boolean; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -705,6 +713,35 @@ BindApi 0.9 Alpha Release 1 Documentation
 </dl>
 <h6 class="description_section">Returns</h6>
 <p class="return">True if the node was successfully extracted; otherwise, False.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetMethod-TObject-string-"></span><code>class procedure <strong>ResetMethod</strong>(ARoot: TObject; const AMethodName: string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Resets the specified method of an object to nil. </p>
+<p>
+
+
+<p>This procedure sets the method's code and data pointers to nil, effectively unbinding the method from any assigned implementation.
+
+<p>The method must be a published property of the object specified in
+
+<p>.
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ARoot</dt>
+<dd>The object whose method is being reset.</dd>
+<dt>AMethodName</dt>
+<dd>The name of the method to reset.</dd>
+</dl>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">

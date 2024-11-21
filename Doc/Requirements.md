@@ -1,25 +1,18 @@
-# BindAPI requirements
+# BindAPI General Requirements
 
-BindAPI requirements are very light, as they are reduced to the Delphi compiler only.
+BindAPI requirements are very light, as they are reduced to the Delphi compiler only. No 3rd-party libraries required, just RTL. 
 
-## Current version (0.8 beta)
+## Current Version (0.9 alpha)
 
+BindAPI is implemented with Embarcadero Delphi 12.1 CE. It could work with previous versions of Delphi.
 
-BindAPI requires Embarcadero Delphi 10.3 Rio. It could work with previous versions of Delphi.
+At present BindAPI is being tested under Windows 11 with the following targets:
 
-Currently BindAPI is being tested under Windows 10 with 32 and 64 bit applications. The current version is to be considered a preview, mature enough but not yet suitable for real applications.
+| Target platform | Compiled   | Tested      | Demo       |
+| --------------- | ---------- | ----------- |----------- |
+| Win32           | Yes        | Yes         | Yes        |
+| Win64           | Yes        | Yes         | Yes        |
+| Android 32      | Yes        | No          | No         |
+| Android 64      | Yes        | No          | No         |
 
-## Future versions
-
-There is not a precise roadmap, but some goals of future releases are:
-
-- Support for Collections and Arrays.
-- Compatibility with FreePascal Compiler and Lazarus.
-- Checking for compatibility with Android 32 and 64 bit.
-- Compatibility with Delphi 10.2 and previous edition.
-
-## Limitations
-
-- BindAPI is not yet suitable for applications that require real-time responses.
-- BindAPI is based on the assumption that no property is of record type.
-- Fields support is still under development.
+The current version is still to be considered a preview, mature enough but not yet suitable for real applications.

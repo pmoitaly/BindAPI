@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<codetemplate xmlns="http://schemas.borland.com/Delphi/2005/codetemplates" version="1.0.0">
+    <template name="RegisterClassI" invoke="none">
+        <description>
+          A BindAPI template to register a class
+        </description>
+        <author>
+		   Paolo Morandotti
+        </author>
+        <point name="ClassName">
+            <text>
+			  ClassName	 
+            </text>
+            <hint>
+                 String: The ClassName of the class to register
+            </hint>
+        </point>
+        <point name="BindingOptions">
+            <text>
+				 BindingOptions
+            </text>
+            <hint>
+                Optional: A set of Singleton, Deferred, AutoBind or empty
+            </hint>
+        </point>
+        <point name="CreateParams">
+            <text>
+				CreateParams
+            </text>
+            <hint>
+                Optional: Arguments of Object's Create constructor
+            </hint>
+        </point>
+        <code language="Delphi" context="memberdecl" delimiter="|">
+            <![CDATA[
+initialization
+  TPlClassManager.RegisterClass(|ClassName|, [|BindingOptions|], [|CreateParams|]);|end|
+            ]]>
+        </code>
+    </template>
+</codetemplate>

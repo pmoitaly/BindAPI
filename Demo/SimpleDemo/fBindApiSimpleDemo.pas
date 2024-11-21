@@ -35,6 +35,7 @@ uses
 
 type
   [BindDefaultClass(True, 'TTestController')]
+  [BindClass(True, 'TSimpleDemoFormController', 'GUIController')]
   [BindClass(True, 'TTestSecond')]
   [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
   [BindMemberFrom(True, 'edtTarget2.Text', 'LowerText')]
@@ -79,19 +80,22 @@ type
     lblValueToEnumArrow: TLabel;
     memSource: TMemo;
     memTarget: TMemo;
+    [BindMethod(True, 'OnClick', 'ShowAbout', 'GUIController')]
+    mitAbout: TMenuItem;
+    [BindMethod(True, 'OnClick', 'ExitProgram', 'GUIController')]
+    mitExit: TMenuItem;
+    mitFile: TMenuItem;
+    mitHelp: TMenuItem;
+    mitMonitor: TMenuItem;
+    [BindMethod(True, 'OnClick', 'SwitchMonitor', 'GUIController')]
+    mitMonitorVisible: TMenuItem;
+    mmnMain: TMainMenu;
     pctEnum: TPageControl;
     speInterval: TSpinEdit;
     speValue: TSpinEdit;
     tbsTabA: TTabSheet;
     tbsTabB: TTabSheet;
     tbsTabC: TTabSheet;
-    mmnMain: TMainMenu;
-    mitFile: TMenuItem;
-    mitExit: TMenuItem;
-    mitMonitor: TMenuItem;
-    mitHelp: TMenuItem;
-    mitContents: TMenuItem;
-    mitAbout: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure speIntervalChange(Sender: TObject);

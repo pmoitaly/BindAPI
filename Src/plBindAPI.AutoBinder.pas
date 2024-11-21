@@ -64,8 +64,8 @@ type
     /// <summary>Aggregates a TPlBinder instance used for binding management.</summary>
     FBinder: TPlBinder;
 
-    /// <summary>List of objects that are currently bound.</summary>
-    FBoundObjectsList: TPlListObjects;
+//    /// <summary>List of objects that are currently bound.</summary>
+//    FBoundObjectsList: TPlListObjects;
 
     /// <summary>
     /// Performs class-level binding between a source and a target object using
@@ -176,9 +176,8 @@ type
     /// <summary>Sets the interval at which bindings are updated.</summary>
     procedure SetInterval(const Value: integer);
 
-    /// <summary>Stops binding a specific method based on the method attribute.</summary>
-    procedure UnbindMethod(ASource: TObject;
-      AMethodAttribute: BindMethodAttribute);
+//    /// <summary>Stops binding a specific method based on the method attribute.</summary>
+//    procedure UnbindMethod(ASource: TObject; AMethodAttribute: BindMethodAttribute);
 
     /// <summary>Stops binding methods.</summary>
     procedure UnbindMethods; overload;
@@ -202,7 +201,7 @@ type
 
     /// <summary>Retrieves a list of currently bound objects.</summary>
     /// <returns>A list of bindings in TPlBindList format.</returns>
-    function BindInfo: TPlBindList;
+    function BindingInfo: TPlBindingList;
 
     /// <summary>
     /// Binds an entire object from a source to a target using the specified class attribute.
@@ -220,7 +219,7 @@ type
 
     /// <summary>Gets a list of any errors encountered during binding.</summary>
     /// <returns>A TStrings object containing error messages.</returns>
-    function ErrorList: TStrings;
+    function ErrorList: string;
 
     /// <summary>Starts the binding process with an optional update interval.</summary>
     /// <param name="AnInterval">Optional interval for binding updates in milliseconds.</param>
@@ -263,13 +262,13 @@ constructor TPlAutoBinder.Create;
 begin
   inherited;
   FBinder := TPlBinder.Create;
-  FBoundObjectsList := TPlListObjects.Create;
+//  FBoundObjectsList := TPlListObjects.Create;
 end;
 
 destructor TPlAutoBinder.Destroy;
 begin
-  UnbindMethods;
-  FBoundObjectsList.Free;
+  FBinder.UnbindMethods;
+//  FBoundObjectsList.Free;
   FBinder.Free;
   inherited;
 end;
@@ -324,7 +323,7 @@ begin
           ((classBinderAttr.TargetClassName = aTarget.ClassName) or
           (AClassAttribute.TargetClassAlias = aTarget.ClassName)) then
           begin
-            FBoundObjectsList.Add(ASource);
+//            FBoundObjectsList.Add(ASource);
             Result := True;
             Break;
           end;
@@ -418,9 +417,9 @@ begin
 end;
 {$ENDIF}
 
-function TPlAutoBinder.BindInfo: TPlBindList;
+function TPlAutoBinder.BindingInfo: TPlBindingList;
 begin
-  Result := FBinder.BindInfo;
+  Result := FBinder.BindingInfo;
 end;
 
 procedure TPlAutoBinder.BindMember(ASource, aTarget: TObject;
@@ -489,16 +488,14 @@ begin
       if (rAttr is CustomBindMemberAttribute) and
         (rField.Visibility in [mvPublic, mvPublished]) then
         begin
-          { TODO 5 -oPMo -cDebugging : The call to FindSource could be useless after
-            the most recent changes. }
+          { TODO 5 -oPMo -cRefactoring : Implement a more correct solution.
+           Should the original field value change, the binding is still on the
+           old value. }
           {If the field value is an object, it becomes the bind source}
           bindSource := FindSource(rField, ASource,
             CustomBindMemberAttribute(rAttr).SourceQName);
           BindMember(bindSource, aTarget, CustomBindMemberAttribute(rAttr),
             AClassAttribute, rField.Name)
-          //
-          //          BindMember(ASource, aTarget, CustomBindMemberAttribute(rAttr),
-          //            AClassAttribute, rField.Name)
         end
       else if rAttr is BindMethodAttribute then
         BindMethod(rField.GetValue(ASource).AsObject, aTarget,
@@ -611,9 +608,9 @@ begin
   Result := FBinder.DebugInfo;
 end;
 
-function TPlAutoBinder.ErrorList: TStrings;
+function TPlAutoBinder.ErrorList: string;
 begin
-  Result := FBinder.BindErrorList;
+  Result := FBinder.ErrorList;
 end;
 
 function TPlAutoBinder.FindCalculatingFuncion(AnOwner: TObject;
@@ -717,66 +714,56 @@ begin
   FBinder.Stop;
 end;
 
-procedure TPlAutoBinder.UnbindMethod(ASource: TObject;
-  AMethodAttribute: BindMethodAttribute);
-var
-  propertyPath: string;
-  recMethod: TMethod;
-  targetObject: TObject;
-begin
-  propertyPath := AMethodAttribute.SourceMethodName;
-  targetObject := FBinder.NormalizePath(ASource, propertyPath);
-
-  recMethod.Code := nil;
-  recMethod.Data := nil;
-  SetMethodProp(targetObject, propertyPath, recMethod);
-end;
+//procedure TPlAutoBinder.UnbindMethod(ASource: TObject;
+//  AMethodAttribute: BindMethodAttribute);
+//var
+//  propertyPath: string;
+//  recMethod: TMethod;
+//  targetObject: TObject;
+//begin
+//  propertyPath := AMethodAttribute.SourceMethodName;
+//  targetObject := FBinder.NormalizePath(ASource, propertyPath);
+//
+//  recMethod.Code := nil;
+//  recMethod.Data := nil;
+//  SetMethodProp(targetObject, propertyPath, recMethod);
+//end;
 
 procedure TPlAutoBinder.UnbindMethods;
-var
-  target: TObject;
 begin
-  for target in FBoundObjectsList do
-    try
-      UnbindMethods(target);
-    except
-      on e: Exception do
-        begin
-          FBinder.BindErrorList.Add(Format('%s: % with a %s class',
-            ['TPlAutoBinder.UnbindMethods', e.Message, target.ClassName]));
-          Continue;
-        end;
-    end;
+  FBinder.UnbindMethods;
 end;
 
 procedure TPlAutoBinder.UnbindMethods(ASource: TObject);
-var
-  rAttr: TCustomAttribute;
-  rAttributes: TarAttributes;
-  rType: TRttiType;
+//var
+//  rAttr: TCustomAttribute;
+//  rAttributes: TarAttributes;
+//  rType: TRttiType;
 begin
-  try
-    rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
-  except
-    // If an error occours when reading ClassType, the Source has been freed
-    // so we can exit.
-    exit;
-  end;
-  rAttributes := rType.GetAttributes;
-  for rAttr in rAttributes do
-    if rAttr is BindMethodAttribute then
-      UnbindMethod(ASource, BindMethodAttribute(rAttr));
-  FBoundObjectsList.Remove(ASource);
+  FBinder.UnbindMethodsTo(ASource);
+{This way is not so robust...}
+//  try
+//    rType := TplRTTIUtils.Context.GetType(ASource.ClassType);
+//  except
+//    // If an error occours when reading ClassType, the Source has been freed
+//    // so we can exit.
+//    exit;
+//  end;
+//  rAttributes := rType.GetAttributes;
+//  for rAttr in rAttributes do
+//    if rAttr is BindMethodAttribute then
+//      UnbindMethod(ASource, BindMethodAttribute(rAttr));
+////  FBoundObjectsList.Remove(ASource);
 end;
 
 procedure TPlAutoBinder.UnbindSource(ASource: TObject);
 begin
-  FBinder.UnbindSource(ASource); //FBinder.DetachAsSource(ASource);
+  FBinder.UnbindSource(ASource);
 end;
 
 procedure TPlAutoBinder.UnbindTarget(aTarget: TObject);
 begin
-  FBinder.UnbindTarget(aTarget); //FBinder.DetachAsTarget(ATarget);
+  FBinder.UnbindTarget(aTarget);
 end;
 
 procedure TPlAutoBinder.UnbindTarget(aTarget, ASource: TObject);

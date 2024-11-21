@@ -5,11 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.16.0-snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <div class="container"><div class="navigation">
-<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li></ul></div><div class="content">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li><li><form class="search-form" action="tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input" pattern=".{1,}" title="At least 1 characters" required><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></div></form>
+<div style="clear: both"></div>
+</li></ul></div><div class="content">
 BindApi 0.9 Alpha Release 1 Documentation
 <span id="TPlAutoBinder"></span><h1 class="cio">Class TPlAutoBinder</h1>
 <div class="sections">
@@ -26,26 +30,11 @@ BindApi 0.9 Alpha Release 1 Documentation
 <p>
 
 
-<p>This class is designed to bind properties of one object to another, allowing for automatic synchronization of data between them. It can be used to create data-binding scenarios where changes in one object's properties are automatically reflected in another.
+<p>This class is designed to bind properties of one object to another and contains an instance of <a class="normal" href="plBindAPI.CoreBinder.TPlBinder.html">TPlBinder</a> allowing for automatic synchronization of data between them.
 
-<p>&lt;example&gt; </p>
+<p>You should never use this class: It is a bridge between &lt;see cref=&quot;TPlBindManager /&gt; and <a class="normal" href="plBindAPI.CoreBinder.TPlBinder.html">TPlBinder</a>. TPlBindManager sends to its instance of TPlAutoBinder data read from attributes of a class, then that instance transforms them to a real bind in TPlBinder.
 
-<pre class="preformatted">
-// Example usage of TPlAutoBinder
-var
-  AutoBinder: IplAutoBinder;
-  SourceObject, TargetObject: TObject;
-begin
-  AutoBinder := TPlAutoBinder.Create;
-  try
-    AutoBinder.Bind(SourceObject, 'PropertyName', TargetObject, 'PropertyName');
-    // Perform operations with the bound objects
-  finally
-    AutoBinder.Free;
-  end;
-end.</pre>
-
-<p> &lt;/example&gt; </p>
+<p></p>
 <h6 class="description_section">See also</h6>
 <dl class="see_also">
   <dt><a class="normal" href="plBindAPI.Types.IPlAutoBinder.html">IplAutoBinder Interface</a></dt>
@@ -66,7 +55,7 @@ end.</pre>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="plBindAPI.AutoBinder.TPlAutoBinder.html#BindInfo">BindInfo</a></strong>: <a href="plBindAPI.BindingElement.TPlBindList.html">TPlBindList</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.AutoBinder.TPlAutoBinder.html#BindingInfo">BindingInfo</a></strong>: <a href="plBindAPI.BindingElement.TPlBindingList.html">TPlBindingList</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -78,7 +67,7 @@ end.</pre>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="plBindAPI.AutoBinder.TPlAutoBinder.html#ErrorList">ErrorList</a></strong>: TStrings;</code></td>
+<td class="itemcode"><code>function <strong><a href="plBindAPI.AutoBinder.TPlAutoBinder.html#ErrorList">ErrorList</a></strong>: string;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -153,7 +142,7 @@ Releases resources used by the TPlAutoBinder class.</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="BindInfo"></span><code>function <strong>BindInfo</strong>: <a href="plBindAPI.BindingElement.TPlBindList.html">TPlBindList</a>;</code></td>
+<td class="itemcode"><span id="BindingInfo"></span><code>function <strong>BindingInfo</strong>: <a href="plBindAPI.BindingElement.TPlBindingList.html">TPlBindingList</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -192,7 +181,7 @@ Provides debug information about current bindings.</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="ErrorList"></span><code>function <strong>ErrorList</strong>: TStrings;</code></td>
+<td class="itemcode"><span id="ErrorList"></span><code>function <strong>ErrorList</strong>: string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>

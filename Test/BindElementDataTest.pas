@@ -37,8 +37,8 @@ type
   TTestPlBindElementData = class
   private
     FTestObject: TTestClassTarget;
-    FBindElement: TPlBindElementData;
-    FBindElementExt: TPlBindElementData;
+    FBindElement: TPlBindingElement;
+    FBindElementExt: TPlBindingElement;
   public
     [Setup]
     procedure Setup;
@@ -91,8 +91,8 @@ implementation
 procedure TTestPlBindElementData.Setup;
 begin
   FTestObject := TTestClassTarget.Create;
-  FBindElement := TPlBindElementData.Create(FTestObject, 'IntTarget');
-  FBindElementExt := TPlBindElementData.Create(FTestObject, 'IntTarget', FTestObject.DoubleOf);
+  FBindElement := TPlBindingElement.Create(FTestObject, 'IntTarget');
+  FBindElementExt := TPlBindingElement.Create(FTestObject, 'IntTarget', FTestObject.DoubleOf);
 end;
 
 procedure TTestPlBindElementData.TearDown;
@@ -122,7 +122,7 @@ begin
   Assert.WillRaise(
     procedure
     begin
-      TPlBindElementData.Create(FTestObject, 'NoProp');
+      TPlBindingElement.Create(FTestObject, 'NoProp');
     end,
     Exception,
     'Expected exception was not raised for empty property path.'
@@ -155,16 +155,18 @@ end;
 
 procedure TTestPlBindElementData.TestIsEqualTo;
 var
-  AnotherBindElement: TPlBindElementData;
+  AnotherBindElement: TPlBindingElement;
 begin
-  AnotherBindElement := TPlBindElementData.Create(FTestObject, 'IntTarget');
+  AnotherBindElement := TPlBindingElement.Create(FTestObject, 'IntTarget');
   try
     // Two instances with the same object and path should be equal
     Assert.IsTrue(FBindElement.IsEqualTo(AnotherBindElement), 'Two instances with the same data should be equal');
-
+  finally
+    AnotherBindElement.Free;
+  end;
     // Change the property path in AnotherBindElement
-    AnotherBindElement := TPlBindElementData.Create(FTestObject, 'StrTarget');
-
+    AnotherBindElement := TPlBindingElement.Create(FTestObject, 'StrTarget');
+  try
     Assert.IsFalse(FBindElement.IsEqualTo(AnotherBindElement), 'Instances with different paths should not be equal');
   finally
     AnotherBindElement.Free;

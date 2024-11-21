@@ -12,10 +12,10 @@ type
   [TestFixture]
   TTestTPlBindList = class
   private
-    FBindList: TPlBindList;
+    FBindList: TPlBindingList;
     FSource1, FSource2: TTestClassSource;
-    FKey1, FKey2, FKey3: TPlBindElementData;
-    FList1: TPlBindElementsList;
+    FKey1, FKey2, FKey3: TPlBindingElement;
+    FList1: TPlBindingElementsList;
   public
     [Setup]
     procedure Setup;
@@ -57,25 +57,27 @@ implementation
 
 procedure TTestTPlBindList.Setup;
 begin
-  FBindList := TPlBindList.Create([doOwnsKeys, doOwnsValues]);
+  FBindList := TPlBindingList.Create([doOwnsKeys, doOwnsValues]);
 
   // Oggetti per i test
   FSource1 := TTestClassSource.Create(2,'Source 1', 3.14);
   FSource2 := TTestClassSource.Create(37,'Source 2', 2.72);
 
   // Crea chiavi e liste
-  FKey1 := TPlBindElementData.Create(FSource1, 'StrPropOut');
-  FKey2 := TPlBindElementData.Create(FSource2, 'StrPropIn');
-  FList1 := TPlBindElementsList.Create;
+  FKey1 := TPlBindingElement.Create(FSource1, 'StrPropOut');
+  FKey2 := TPlBindingElement.Create(FSource2, 'StrPropIn');
+  FList1 := TPlBindingElementsList.Create(True);
 
   // Aggiungi elementi al dizionario
   FBindList.Add(FKey1, FList1);
-  FBindList.Add(FKey2, TPlBindElementsList.Create);
+  FBindList.Add(FKey2, TPlBindingElementsList.Create(True));
 end;
 
 procedure TTestTPlBindList.Teardown;
 begin
   FBindList.Free;
+  FSource1.Free;
+  FSource2.Free;
 end;
 
 procedure TTestTPlBindList.TestDisableElement;
@@ -93,7 +95,7 @@ end;
 
 procedure TTestTPlBindList.TestFindKeys;
 var
-  Keys: TPlBindElementsArray;
+  Keys: TPlBindingElementsArray;
 begin
   Keys := FBindList.FindKeys(FSource1);
   Assert.IsTrue(1 = Length(Keys), 'Should find exactly one key for Source1');
@@ -102,7 +104,7 @@ end;
 
 procedure TTestTPlBindList.TestFindKey;
 var
-  Key: TPlBindElementData;
+  Key: TPlBindingElement;
 begin
   Key := FBindList.FindKey(FSource1, 'StrPropOut');
   Assert.IsNotNull(Key, 'Should find a key for Source1 and StrPropOut');
@@ -111,9 +113,9 @@ end;
 
 procedure TTestTPlBindList.TestFindValue;
 var
-  FoundValue: TPlBindElementData;
+  FoundValue: TPlBindingElement;
 begin
-  FKey3 := TPlBindElementData.Create(FSource1, 'StrPropOut');
+  FKey3 := TPlBindingElement.Create(FSource1, 'StrPropOut');
   FList1.Add(FKey3);
   FoundValue := FBindList.FindValue(FKey1, FSource1);
   Assert.IsNotNull(FoundValue, 'Should find value for Key3 and Source1');

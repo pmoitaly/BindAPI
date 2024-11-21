@@ -5,11 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.16.0-snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <div class="container"><div class="navigation">
-<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li></ul></div><div class="content">
+<h2><a href="index.html">BindApi 0.9 Alpha Release 1</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li><li><a href="GVUses.png">Unit dependency graph</a></li><li><a href="GVClasses.png">Classes hierarchy graph</a></li><li><form class="search-form" action="tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input" pattern=".{1,}" title="At least 1 characters" required><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></div></form>
+<div style="clear: both"></div>
+</li></ul></div><div class="content">
 BindApi 0.9 Alpha Release 1 Documentation
 <span id="TPlBindManager"></span><h1 class="cio">Class TPlBindManager</h1>
 <div class="sections">
@@ -30,7 +34,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 
 <p>Use this class to parse the attributes of a class and manage BindAPI ones' without create any instance of other objects.
 
-<p>It is a completely static class that manages an instance of <a class="normal" href="plBindAPI.AutoBinder.TPlAutoBinder.html">TPlAutoBinder</a> in which the information contained in the attributes of each class flows.
+<p>It is a completely static class that manacontains an instance of <a class="normal" href="plBindAPI.AutoBinder.TPlAutoBinder.html">TPlAutoBinder</a>, to which it sends information read from the attributes of a class (usually a TForm, TFrame or TComponent descendant).
 
 <p>&lt;example&gt; The following example comes from the form of <code>BindApiSimpleDemo</code>. </p>
 
@@ -62,11 +66,11 @@ BindApi 0.9 Alpha Release 1 Documentation
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.BindManagement.TPlBindManager.html#AddBind-TObject-BindClassAttribute-">AddBind</a></strong>(ASource: TObject; AClassAttribute: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>): boolean;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.BindManagement.TPlBindManager.html#AddBinding-TObject-BindClassAttribute-">AddBinding</a></strong>(ASource: TObject; AClassAttribute: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>): boolean;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.BindManagement.TPlBindManager.html#AddDeferredBind-TObject-">AddDeferredBind</a></strong>(ASource: TObject): boolean; static;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.BindManagement.TPlBindManager.html#AddDeferredBinding-TObject-">AddDeferredBinding</a></strong>(ASource: TObject): boolean; static;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -74,7 +78,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="plBindAPI.BindManagement.TPlBindManager.html#ErrorList">ErrorList</a></strong>: TStrings;</code></td>
+<td class="itemcode"><code>class function <strong><a href="plBindAPI.BindManagement.TPlBindManager.html#ErrorList">ErrorList</a></strong>: string;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -121,7 +125,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="AddBind-TObject-BindClassAttribute-"></span><code>class function <strong>AddBind</strong>(ASource: TObject; AClassAttribute: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>): boolean;</code></td>
+<td class="itemcode"><span id="AddBinding-TObject-BindClassAttribute-"></span><code>class function <strong>AddBinding</strong>(ASource: TObject; AClassAttribute: <a href="plBindAPI.Attributes.BindClassAttribute.html">BindClassAttribute</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -145,7 +149,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="AddDeferredBind-TObject-"></span><code>class function <strong>AddDeferredBind</strong>(ASource: TObject): boolean; static;</code></td>
+<td class="itemcode"><span id="AddDeferredBinding-TObject-"></span><code>class function <strong>AddDeferredBinding</strong>(ASource: TObject): boolean; static;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -178,7 +182,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="ErrorList"></span><code>class function <strong>ErrorList</strong>: TStrings;</code></td>
+<td class="itemcode"><span id="ErrorList"></span><code>class function <strong>ErrorList</strong>: string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -199,7 +203,7 @@ BindApi 0.9 Alpha Release 1 Documentation
 <p>
 
 
-<p>The <code>Bind</code> procedure parses the attributes of the <em>ASource</em> object. If a <code>TCustomBindClassAttribute</code> is found, <a class="normal" href="plBindAPI.BindManagement.TPlBindManager.html#AddBind-TObject-BindClassAttribute-">TPlBindManager.AddBind</a> is called, which calls the binder's UNKNOWN procedure.
+<p>The <code>Bind</code> procedure parses the attributes of the <em>ASource</em> object. If a <code>TCustomBindClassAttribute</code> is found, <code>TPlBindManager.AddBind</code> is called, which calls the binder's UNKNOWN procedure.
 
 <p></p>
 <h6 class="description_section">Parameters</h6>

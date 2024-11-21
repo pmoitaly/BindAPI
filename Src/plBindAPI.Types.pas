@@ -166,6 +166,7 @@ type
 
 const
   PL_SELF_ALIAS: array[0..2] of string = ('', '.', 'Self');
+
 implementation
 
 end.

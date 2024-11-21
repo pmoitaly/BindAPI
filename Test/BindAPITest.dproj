@@ -5,7 +5,7 @@
         <FrameworkType>None</FrameworkType>
         <MainSource>BindAPITest.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>19</TargetedPlatforms>
         <AppType>Console</AppType>
@@ -130,17 +130,19 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="AutoBinderTest.pas"/>
         <DCCReference Include="CoreBinderTest.pas"/>
-        <DCCReference Include="BindAPITestClasses.pas"/>
         <DCCReference Include="BindElementDataTest.pas"/>
         <DCCReference Include="ClassDataTest.pas"/>
-        <DCCReference Include="BindManagerTest.pas"/>
         <DCCReference Include="ClassManagerTest.pas"/>
         <DCCReference Include="DeferredBindTest.pas"/>
         <DCCReference Include="RTTIUtilsTest.pas"/>
         <DCCReference Include="BindListTest.pas"/>
         <DCCReference Include="AttributesTest.pas"/>
+        <DCCReference Include="BindManagerTest.pas"/>
+        <DCCReference Include="AutoBinderTest.pas"/>
+        <DCCReference Include="BindAPITestClasses.pas">
+            <Form>/,</Form>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -47,31 +47,28 @@ type
     [TearDown]
     procedure TearDown;
     // standard test
-    [Test]
+    [Test(True)]
     procedure TestCreate_Destroy;
 
-    [Test]
+    [Test(True)]
     procedure TestEnabledProperty;
 
-    [Test]
-    procedure TestBindErrorListProperty;
-
-    [Test]
+    [Test(True)]
     procedure TestNormalizePath_ValidPath;
 
-    [Test]
+    [Test(True)]
     procedure TestNormalizePath_InvalidPath;
 
-    [Test]
+    [Test(True)]
     procedure TestBind_AddsBinding;
 
-    [Test]
+    [Test(True)]
     procedure TestUnbindTarget_RemovesBinding;
 
-    [Test]
+    [Test(True)]
     procedure TestClear_RemovesAllBindings;
 
-    [Test]
+    [Test(True)]
     procedure TestCount_ReturnsCorrectCount;
 
     [Test(True)]
@@ -113,6 +110,10 @@ type
     [TestCase('Test for BindMethod method', '2, Pippo, 3.6')]
     procedure TestDirectBindEvent(const AnInt: integer; const AStr: string;
       const ADbl: Double);
+    [Test(True)]
+    [TestCase('Test for BindMethod method', '2, Pippo, 3.6')]
+    procedure TestUnbind(const AnInt: integer; const AStr: string;
+      const ADbl: Double);
     // General Test
     [Test(True)]
     [TestCase('Test On Start and Stop', '2, Pippo, 3.6')]
@@ -152,20 +153,6 @@ begin
 
   FBinder.Enabled := False;
   Assert.IsFalse(FBinder.Enabled, 'Enabled should be False after setting');
-end;
-
-procedure TPlBindManagerTest.TestBindErrorListProperty;
-var
-  ErrorList: TStrings;
-begin
-  FBinder.AddError('Error 1');
-  ErrorList := FBinder.BindErrorList;
-  try
-    Assert.AreEqual(1, ErrorList.Count, 'BindErrorList count should match');
-    Assert.AreEqual('Error 1', ErrorList[0], 'First error should match');
-  finally
-    ErrorList.Free;
-  end;
 end;
 
 procedure TPlBindManagerTest.TestNormalizePath_ValidPath;
@@ -213,6 +200,19 @@ begin
   Assert.AreEqual(1, FBinder.Count, 'Binding count should increase');
 end;
 
+procedure TPlBindManagerTest.TestUnbind(const AnInt: integer;
+  const AStr: string; const ADbl: Double);
+begin
+  FSourceClass := TTestClassSource.Create(AnInt, AStr, ADbl);
+  // Undbind from
+  FBinder.Bind(FTargetClass, 'EventFiredTarget', FSourceClass, 'EventFired');
+  FBinder.BindMethod(FSourceClass, 'OnEvent', FTargetClass, 'TestEventBind');
+  Assert.IsTrue(Assigned(FSourceClass.OnEvent), 'Event not bound');
+  FBinder.UnbindMethodsFrom(FTargetClass);
+  Assert.IsFalse(Assigned(FSourceClass.OnEvent), 'Event not removed');
+  {TODO 3 -oPMo -cDebug : Test other unbind* methods }
+end;
+
 procedure TPlBindManagerTest.TestUnbindTarget_RemovesBinding;
 begin
   FSourceClass := TTestClassSource.Create(2, '', 3.5);
@@ -220,9 +220,9 @@ begin
     Assert.AreEqual(1, FBinder.Count,
       'Binding count should be 1 after binding');
 
-  FBinder.UnbindTarget(FTargetClass);
-  Assert.AreEqual(1, FBinder.Count,
-    'Binding count should be 1 after target unbinding');
+    FBinder.UnbindTarget(FTargetClass);
+    Assert.AreEqual(1, FBinder.Count,
+      'Binding count should be 1 after target unbinding');
 end;
 
 procedure TPlBindManagerTest.TestClear_RemovesAllBindings;
@@ -299,7 +299,7 @@ begin
   // binding
   { TODO 4 -oPMo -cRefactoring :
     Although BindAPI allows this operation, if not carefully managed it causes pointer errors when freeing the instances.
-   Consider to automatically bind on fields. }
+   Consider to automatically binding objects members, not objects. }
   //  binder.Bind(activeClass, 'ObjPropOut', passiveClass, 'ObjTarget');
   FBinder.Bind(FSourceClass, 'ObjPropOut.Age', FTargetClass, 'ObjTarget.Age');
   FBinder.Bind(FSourceClass, 'ObjPropOut.Name', FTargetClass, 'ObjTarget.Name');

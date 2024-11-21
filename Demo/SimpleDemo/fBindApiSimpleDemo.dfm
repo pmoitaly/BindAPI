@@ -283,12 +283,13 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     end
     object mitMonitor: TMenuItem
       Caption = '&Monitor'
+      object mitMonitorVisible: TMenuItem
+        AutoCheck = True
+        Caption = 'Visible'
+      end
     end
     object mitHelp: TMenuItem
       Caption = '&Help'
-      object mitContents: TMenuItem
-        Caption = '&Contents'
-      end
       object mitAbout: TMenuItem
         Caption = '&About...'
       end
