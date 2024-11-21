@@ -40,13 +40,16 @@ uses
   plBindAPI.Types;
 
 type
-  TPlBindElementData = class;
-  TPlBindElementsArray = array of TPlBindElementData;
+  TPlBindingElement = class;
+  TPlBindingElementsArray = array of TPlBindingElement;
 
-  TPlBindElementsList = TObjectList<TPlBindElementData>;
+  TPlBindingElementsList = class(TObjectList<TPlBindingElement>)
+  public
+    constructor Create; reintroduce; overload;
+  end;
 
-  TPlBindList = class(TObjectDictionary<TPlBindElementData,
-    TPlBindElementsList>)
+  TPlBindingList = class(TObjectDictionary<TPlBindingElement,
+    TPlBindingElementsList>)
   public
     /// <summary>
     /// Disables the key element identified by an object and a property path
@@ -82,7 +85,7 @@ type
     /// </remarks>
     /// <param name="ASource">The object to compare with.</param>
     /// <returns>The first matching key or nil.</returns>
-    function FindKeys(ASource: TObject): TPlBindElementsArray;
+    function FindKeys(ASource: TObject): TPlBindingElementsArray;
     /// <summary>
     /// Returns the first key where element equals the parameter ASource.
     /// </summary>
@@ -93,7 +96,7 @@ type
     /// </remarks>
     /// <param name="ASource">The object to compare with.</param>
     /// <returns>The first matching key or nil.</returns>
-    function FindKey(ASource: TObject; const APropertyPath: string = '§'): TPlBindElementData;
+    function FindKey(ASource: TObject; const APropertyPath: string = '§'): TPlBindingElement;
     /// <summary>
     /// Returns the first value of a key where element equals the parameter ASource.
     /// </summary>
@@ -105,8 +108,8 @@ type
     /// <param name="ASource">The object to compare with.</param>
     /// <param name="ATarget">The object to compare with.</param>
     /// <returns>The first matching key or nil.</returns>
-    function FindValue(AKey: TPlBindElementData; ATarget: TObject)
-      : TPlBindElementData;
+    function FindValue(AKey: TPlBindingElement; ATarget: TObject)
+      : TPlBindingElement;
   end;
 
   {List of bound members}
@@ -119,7 +122,7 @@ type
   /// <para>Do not use this class directly. <see cref=”TPlBinder” \>
   /// manages all necessary instances of this class.</para>
   /// </remarks>
-  TPlBindElementData = class
+  TPlBindingElement = class
   private
     /// <summary>
     /// Holds a function for calculating the value sent to the target.
@@ -184,7 +187,7 @@ type
     /// </summary>
     /// <param name="AStructure">The structure to compare with.</param>
     /// <returns>True if structures are equal; otherwise, false.</returns>
-    function IsEqualTo(AStructure: TPlBindElementData): Boolean;
+    function IsEqualTo(AStructure: TPlBindingElement): Boolean;
 
     /// <summary>
     /// Checks if the value has changed since the last update.
@@ -221,21 +224,21 @@ type
   /// <summary>
   /// This class is required by <see cref="TPlBindPropertyList" />.
   /// </summary>
-  TPlParKeyComparer = class(TEqualityComparer<TPlBindElementData>)
+  TPlParKeyComparer = class(TEqualityComparer<TPlBindingElement>)
     /// <summary>
     /// Compares two <see cref="TPlBindElementData /> instances for equality.
     /// </summary>
     /// <param name="Left">The first instance to compare.</param>
     /// <param name="Right">The second instance to compare.</param>
     /// <returns>True if both instances are equal; otherwise, false.</returns>
-    function Equals(const Left, Right: TPlBindElementData): Boolean; override;
+    function Equals(const Left, Right: TPlBindingElement): Boolean; override;
 
     /// <summary>
     /// Generates a hash code for a <see cref="TPlBindElementData /> instance.
     /// </summary>
     /// <param name="Value">The instance to generate a hash code for.</param>
     /// <returns>The generated hash code.</returns>
-    function GetHashCode(const Value: TPlBindElementData): Integer; override;
+    function GetHashCode(const Value: TPlBindingElement): Integer; override;
   end;
 
 implementation
@@ -254,7 +257,7 @@ resourcestring
 
 {$REGION 'TPlBindElementData'}
 
-constructor TPlBindElementData.Create(AObject: TObject;
+constructor TPlBindingElement.Create(AObject: TObject;
   const APropertyPath: string; AFunction: TplBridgeFunction);
 begin
   { TODO 5 -oPMo -cRefactoring : Basic test. Should we provide more test to verifiy if property exists, etc. ? }
@@ -272,7 +275,7 @@ begin
 end;
 
 {Get record value when there is a field of a property}
-function TPlBindElementData.CurrentValue: TValue;
+function TPlBindingElement.CurrentValue: TValue;
 var
   path: string;
 begin
@@ -280,19 +283,19 @@ begin
   Result := TplRTTIUtils.GetPathValue(FElement, path);
 end;
 
-destructor TPlBindElementData.Destroy;
+destructor TPlBindingElement.Destroy;
 begin
 
   inherited;
 end;
 
-function TPlBindElementData.IsEqualTo(AStructure: TPlBindElementData): Boolean;
+function TPlBindingElement.IsEqualTo(AStructure: TPlBindingElement): Boolean;
 begin
   Result := (Self.Element = AStructure.Element) and
     (Self.PropertyPath = AStructure.PropertyPath);
 end;
 
-procedure TPlBindElementData.SetValue(Value: TValue);
+procedure TPlBindingElement.SetValue(Value: TValue);
 var
   path: string;
 begin
@@ -308,7 +311,7 @@ end;
 
 {TODO 2 -oPMo -cRefactoring : Should we raise a specific exception
  without disabling the binding?}
-function TPlBindElementData.ValueChanged: Boolean;
+function TPlBindingElement.ValueChanged: Boolean;
 var
   newValue: TValue;
 begin
@@ -332,13 +335,13 @@ end;
 {$REGION 'TPlParKeyComparer'}
 
 function TPlParKeyComparer.Equals(const Left,
-  Right: TPlBindElementData): Boolean;
+  Right: TPlBindingElement): Boolean;
 begin
   Result := (Left.Element = Right.Element) and
     (Left.PropertyPath = Right.PropertyPath);
 end;
 
-function TPlParKeyComparer.GetHashCode(const Value: TPlBindElementData)
+function TPlParKeyComparer.GetHashCode(const Value: TPlBindingElement)
   : Integer;
 begin
   Result := THashBobJenkins.GetHashValue(PChar(Value.PropertyPath)^,
@@ -348,10 +351,10 @@ end;
 {$ENDREGION}
 {$REGION 'TPlBindList'}
 
-procedure TPlBindList.DisableElement(ASource: TObject; const APropertyPath:
+procedure TPlBindingList.DisableElement(ASource: TObject; const APropertyPath:
     string = '§');
 var
-  key: TPlBindElementData;
+  key: TPlBindingElement;
 begin
   key := FindKey(ASource, APropertyPath);
   if Assigned(key) then
@@ -359,20 +362,20 @@ begin
 end;
 
 
-procedure TPlBindList.EnableElement(ASource: TObject; const APropertyPath:
+procedure TPlBindingList.EnableElement(ASource: TObject; const APropertyPath:
     string = '§');
 var
-  key: TPlBindElementData;
+  key: TPlBindingElement;
 begin
   key := FindKey(ASource, APropertyPath);
   if Assigned(key) then
     key.Enabled := True;
 end;
 
-function TPlBindList.FindKey(ASource: TObject; const APropertyPath: string =
-    '§'): TPlBindElementData;
+function TPlBindingList.FindKey(ASource: TObject; const APropertyPath: string =
+    '§'): TPlBindingElement;
 var
-  key: TPlBindElementData;
+  key: TPlBindingElement;
 begin
   for key in keys do
     if (key.Element = ASource) and ((key.PropertyPath = APropertyPath) or (APropertyPath = '§')) then
@@ -383,9 +386,9 @@ begin
   Result := nil;
 end;
 
-function TPlBindList.FindKeys(ASource: TObject): TPlBindElementsArray;
+function TPlBindingList.FindKeys(ASource: TObject): TPlBindingElementsArray;
 var
-  key: TPlBindElementData;
+  key: TPlBindingElement;
 begin
   for key in keys do
     if key.Element = ASource then
@@ -395,11 +398,11 @@ begin
       end;
 end;
 
-function TPlBindList.FindValue(AKey: TPlBindElementData; ATarget: TObject)
-  : TPlBindElementData;
+function TPlBindingList.FindValue(AKey: TPlBindingElement; ATarget: TObject)
+  : TPlBindingElement;
 var
-  Value: TPlBindElementData;
-  keyValue: TPlBindElementsList;
+  Value: TPlBindingElement;
+  keyValue: TPlBindingElementsList;
 begin
   TryGetValue(AKey, keyValue);
   if Assigned(keyValue) then
@@ -414,5 +417,12 @@ begin
 end;
 
 {$ENDREGION}
+
+{ TPlBindingElementsList }
+
+constructor TPlBindingElementsList.Create;
+begin
+  inherited Create(True);
+end;
 
 end.
