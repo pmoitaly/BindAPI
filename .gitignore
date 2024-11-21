@@ -15,11 +15,7 @@
 
 # Temporary and build files
 *.dcu
-*.dfm
-*.dpr
-*.dproj
 *.exe
-*.pas
 
 # Build folders
 /DCU
@@ -35,7 +31,9 @@
 /__recovery
 /Demo/__history
 /Demo/__recovery
-/Demo/SimpleDemo/__history
+/Demo/Common/__history
+/Demo/Common/__recovery/
+Demo/SimpleDemo/__history
 /Demo/SimpleDemo/__recovery
 /Src/__history
 /Src/__recovery
