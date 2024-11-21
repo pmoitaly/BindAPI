@@ -1,0 +1,46 @@
+package plBindAPI;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'A library to bind objects using attributes'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl;
+
+contains
+  plBindAPI.AutoBinder in '..\..\Src\plBindAPI.AutoBinder.pas',
+  plBindAPI.BindingElement in '..\..\src\plBindAPI.BindingElement.pas',
+  plBindAPI.BindManagement in '..\..\Src\plBindAPI.BindManagement.pas',
+  plBindAPI.ClassFactory in '..\..\Src\plBindAPI.ClassFactory.pas',
+  plBindAPI.CoreBinder in '..\..\Src\plBindAPI.CoreBinder.pas',
+  plBindAPI.Types in '..\..\Src\plBindAPI.Types.pas',
+  plBindAPI.RTTIUtils in '..\..\Src\plBindAPI.RTTIUtils.pas',
+  plBindAPI.Attributes in '..\..\Src\plBindAPI.Attributes.pas',
+  plBindAPI.DeferredBinding in '..\..\Src\plBindAPI.DeferredBinding.pas';
+
+end.

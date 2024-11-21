@@ -12,6 +12,9 @@
         <Projects Include="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="BindApiSimpleDemo:Make">
         <MSBuild Projects="..\..\Demo\SimpleDemo\BindApiSimpleDemo.dproj" Targets="Make"/>
     </Target>
+    <Target Name="fmx_BindApiSimpleDemo">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj"/>
+    </Target>
+    <Target Name="fmx_BindApiSimpleDemo:Clean">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="fmx_BindApiSimpleDemo:Make">
+        <MSBuild Projects="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="plBindAPI;BindAPITest;BindApiSimpleDemo"/>
+        <CallTarget Targets="plBindAPI;BindAPITest;BindApiSimpleDemo;fmx_BindApiSimpleDemo"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;BindApiSimpleDemo:Clean"/>
+        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;BindApiSimpleDemo:Clean;fmx_BindApiSimpleDemo:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;BindApiSimpleDemo:Make"/>
+        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

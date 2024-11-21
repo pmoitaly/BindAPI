@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="BindAPI"/>
+    <Author Value="Paolo Morandotti"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\Src"/>
+        <UnitOutputDirectory Value="..\lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="DelphiUnicode"/>
+        </SyntaxOptions>
+      </Parsing>
+    </CompilerOptions>
+    <Description Value="A library to bind objects using attributes"/>
+    <License Value="MIT Licence
+Copyright (c) 2020 Paolo Morandotti"/>
+    <Version Minor="9" Release="2"/>
+    <Files Count="8">
+      <Item1>
+        <Filename Value="..\Src\plBindAPI.Attributes.pas"/>
+        <UnitName Value="plBindAPI.Attributes"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\Src\plBindAPI.AutoBinder.pas"/>
+        <UnitName Value="plBindAPI.AutoBinder"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\Src\plBindAPI.BinderElement.pas"/>
+        <UnitName Value="plBindAPI.BinderElement"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\Src\plBindAPI.BindManagement.pas"/>
+        <UnitName Value="plBindAPI.BindManagement"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\Src\plBindAPI.ClassFactory.pas"/>
+        <UnitName Value="plBindAPI.ClassFactory"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\Src\plBindAPI.CoreBinder.pas"/>
+        <UnitName Value="plBindAPI.CoreBinder"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\Src\plBindAPI.QueryPath.pas"/>
+        <UnitName Value="plBindAPI.QueryPath"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\Src\plBindAPI.Types.pas"/>
+        <UnitName Value="plBindAPI.Types"/>
+      </Item8>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
