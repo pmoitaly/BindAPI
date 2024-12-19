@@ -47,42 +47,36 @@ type
     /// Holds the RTTI context for the class. Used to query type information.
     /// </summary>
     class var FContext: TRttiContext;
-
     /// <summary>
     /// Casts the given value to an enumeration.
     /// </summary>
     /// <param name="AValue">The value to be casted.</param>
     /// <returns>The value casted as an enumeration.</returns>
     class function CastToEnumeration(AValue: TValue): TValue;
-
     /// <summary>
     /// Casts the given value to a floating-point number.
     /// </summary>
     /// <param name="AValue">The value to be casted.</param>
     /// <returns>The value casted as a float.</returns>
     class function CastToFloat(AValue: TValue): TValue;
-
     /// <summary>
     /// Casts the given value to an Int64.
     /// </summary>
     /// <param name="AValue">The value to be casted.</param>
     /// <returns>The value casted as an Int64.</returns>
     class function CastToInt64(AValue: TValue): TValue;
-
     /// <summary>
     /// Casts the given value to an integer.
     /// </summary>
     /// <param name="AValue">The value to be casted.</param>
     /// <returns>The value casted as an integer.</returns>
     class function CastToInteger(AValue: TValue): TValue;
-
     /// <summary>
     /// Casts the given value to a string.
     /// </summary>
     /// <param name="AValue">The value to be casted.</param>
     /// <returns>The value casted as a string.</returns>
     class function CastToString(AValue: TValue): TValue;
-
     /// <summary>
     /// Searches for a field in the specified object by node name.
     /// </summary>
@@ -92,7 +86,6 @@ type
     /// <returns>True if the field is found, otherwise False.</returns>
     class function ExtractField(ARoot: TObject; out AField: TRTTIField;
       const ANodeName: string): Boolean; static;
-
     /// <summary>
     /// Retrieves the type information of the specified field.
     /// </summary>
@@ -101,7 +94,6 @@ type
     /// <returns>True if the type is successfully extracted, otherwise False.</returns>
     class function ExtractFieldType(AField: TRTTIField; out AType: TRttiType)
       : Boolean; static;
-
     /// <summary>
     /// Searches for an indexed property in the specified object by node name.
     /// </summary>
@@ -111,7 +103,6 @@ type
     /// <returns>True if the indexed property is found, otherwise False.</returns>
     class function ExtractIndexedProperty(ARoot: TObject;
       out AProp: TRttiIndexedProperty; const ANodeName: string): Boolean;
-
     /// <summary>
     /// Retrieves the type information of the specified indexed property.
     /// </summary>
@@ -120,7 +111,6 @@ type
     /// <returns>True if the type is successfully extracted, otherwise False.</returns>
     class function ExtractIndexedPropertyType(AProp: TRttiIndexedProperty;
       out AType: TRttiType): Boolean; static;
-
     /// <summary>
     /// Extracts the last index or segment from a given path string.
     /// </summary>
@@ -150,7 +140,6 @@ type
     class function ExtractNode(ARoot: TObject; out AField: TRTTIField;
       out AProp: TRttiProperty; out AnIndexedProperty: TRttiIndexedProperty;
       const ANodeName: string): Boolean; overload;
-
     /// <summary>
     /// Determines the RTTI type from a field, property, or indexed property.
     /// </summary>
@@ -160,7 +149,6 @@ type
     /// <returns>The RTTI type of the member.</returns>
     class function ExtractNodeType(AField: TRTTIField; AProp: TRttiProperty;
       AIndexedProp: TRttiIndexedProperty): TRttiType; overload; inline;
-
     /// <summary>
     /// Searches for a property in the specified object by node name.
     /// </summary>
@@ -170,7 +158,6 @@ type
     /// <returns>True if the property is found, otherwise False.</returns>
     class function ExtractProperty(ARoot: TObject; out AProp: TRttiProperty;
       const ANodeName: string): Boolean; static;
-
     /// <summary>
     /// Retrieves the type information of the specified property.
     /// </summary>
@@ -179,7 +166,6 @@ type
     /// <returns>True if the type is successfully extracted, otherwise False.</returns>
     class function ExtractPropertyType(AProp: TRttiProperty;
       out AType: TRttiType): Boolean; static;
-
     /// <summary>
     /// Retrieves the first node or segment from a path string, removing it
     /// from pathNode var parameter.
@@ -187,7 +173,6 @@ type
     /// <param name="pathNodes">The path string to process.</param>
     /// <returns>The first segment of the path.</returns>
     class function FirstNode(var pathNodes: string): string;
-
     /// <summary>
     /// Retrieves the value of a specified field in a record structure.
     /// </summary>
@@ -197,7 +182,6 @@ type
     /// <returns>The value of the field as a TValue.</returns>
     class function GetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField): TValue; overload;
-
     /// <summary>
     /// Retrieves the value of a field in a record through a property owner.
     /// </summary>
@@ -207,7 +191,6 @@ type
     /// <returns>The value of the field as a TValue.</returns>
     class function GetRecordFieldValue(Sender: TObject; AOwner: TRttiProperty;
       AField: TRTTIField): TValue; overload;
-
     /// <summary>
     /// Compares two pointers for equality.
     /// </summary>
@@ -236,7 +219,6 @@ type
     /// </summary>
     /// <param name="AMessage">The message to be logged.</param>
     class procedure Log(const AMessage: string);
-
     /// <summary>
     /// Retrieves the next node in the given path and updates the root and its members.
     /// </summary>
@@ -251,7 +233,6 @@ type
       var AField: TRTTIField; var AProp: TRttiProperty;
       var AIndexedProp: TRttiIndexedProperty; var APath: string)
       : TValue; inline;
-
     /// <summary>
     /// Reads the value of a specified field from the given object.
     /// </summary>
@@ -261,7 +242,6 @@ type
     /// <returns>True if the field value is successfully read, otherwise False.</returns>
     class function ReadFieldValue(ARoot: TObject; AField: TRTTIField;
       out AValue: TValue): Boolean; static;
-
     /// <summary>
     /// Reads the value of a specified indexed property from the given object.
     /// </summary>
@@ -273,7 +253,6 @@ type
     class function ReadIndexedPropertyValue(ARoot: TObject;
       AProp: TRttiIndexedProperty; const AnIndex: string; out AValue: TValue)
       : Boolean; static;
-
     /// <summary>
     /// Reads the value of a data member (field, property, or indexed property) from the given object.
     /// </summary>
@@ -286,7 +265,6 @@ type
     class function ReadMemberValue(ARoot: TObject; AField: TRTTIField;
       AProp: TRttiProperty; AIndexedProp: TRttiIndexedProperty;
       const AIndex: string): TValue; inline;
-
     /// <summary>
     /// Reads the value of a specified property from the given object.
     /// </summary>
@@ -296,62 +274,6 @@ type
     /// <returns>True if the property value is successfully read, otherwise False.</returns>
     class function ReadPropertyValue(ARoot: TObject; AProp: TRttiProperty;
       out AValue: TValue): Boolean; static;
-
-    /// <summary>
-    /// Converts a string representation to its corresponding enumeration value.
-    /// </summary>
-    /// <param name="AType">The RTTI type of the enumeration.</param>
-    /// <param name="AValue">The string value to convert.</param>
-    /// <returns>The enumeration value corresponding to the string.</returns>
-    class function StringToEnumeration(const AType: TRttiType; AValue: TValue)
-      : TValue; static;
-
-    /// <summary>
-    /// Writes a value to the specified field of an object.
-    /// </summary>
-    /// <param name="ANode">The object containing the field.</param>
-    /// <param name="AField">The field to write to.</param>
-    /// <param name="AValue">The value to write.</param>
-    class procedure WriteFieldValue(ANode: TObject; AField: TRTTIField;
-      AValue: TValue);
-
-    /// <summary>
-    /// Writes a value to a specified data member (field, property, or indexed property).
-    /// </summary>
-    /// <param name="ANode">The object containing the data member.</param>
-    /// <param name="AField">The field to write to, if applicable.</param>
-    /// <param name="AProp">The property to write to, if applicable.</param>
-    /// <param name="AIndexedProp">The indexed property to write to, if applicable.</param>
-    /// <param name="APath">The path identifying the member.</param>
-    /// <param name="AValue">The value to write.</param>
-    class procedure WriteMemberValue(ANode: TObject; AField: TRTTIField;
-      AProp: TRttiProperty; AIndexedProp: TRttiIndexedProperty;
-      const APath: string; AValue: TValue); inline;
-
-    /// <summary>
-    /// Writes a value to the specified property of an object.
-    /// </summary>
-    /// <param name="ANode">The object containing the property.</param>
-    /// <param name="AProp">The property to write to.</param>
-    /// <param name="AValue">The value to write.</param>
-    class procedure WritePropertyValue(ANode: TObject; AProp: TRttiProperty;
-      AValue: TValue);
-
-    /// <summary>
-    /// Writes a value to a specified indexed property of an object.
-    /// </summary>
-    ///  <remarks>
-    ///  <note type="warning">This procedure is under development. Does not use it.
-    /// Its release is planned in 0.9.0.0beta version.</note>
-    ///  </remarks>
-    /// <param name="ANode">The object containing the indexed property.</param>
-    /// <param name="AIndexedProp">The indexed property to write to.</param>
-    /// <param name="AIndex">The index value for the property.</param>
-    /// <param name="AValue">The value to write.</param>
-    class procedure WriteIndexedPropertyValue(ANode: TObject;
-      AIndexedProp: TRttiIndexedProperty; AIndex: string;
-      AValue: TValue); static;
-
     /// <summary>
     /// Sets the value of a field within a record structure.
     /// </summary>
@@ -361,7 +283,6 @@ type
     /// <param name="AValue">The value to set.</param>
     class procedure SetRecordFieldValue(Sender: TObject;
       AOwner, AField: TRTTIField; AValue: TValue); overload;
-
     /// <summary>
     /// Sets the value of a field within a record using a property owner.
     /// </summary>
@@ -379,17 +300,60 @@ type
     /// <param name="AValue">The value to set.</param>
     class procedure SetRecordPathValue(ARoot: TObject; const APath: string;
       AValue: TValue);
+    /// <summary>
+    /// Converts a string representation to its corresponding enumeration value.
+    /// </summary>
+    /// <param name="AType">The RTTI type of the enumeration.</param>
+    /// <param name="AValue">The string value to convert.</param>
+    /// <returns>The enumeration value corresponding to the string.</returns>
+    class function StringToEnumeration(const AType: TRttiType; AValue: TValue)
+      : TValue; static;
+    /// <summary>
+    /// Writes a value to the specified field of an object.
+    /// </summary>
+    /// <param name="ANode">The object containing the field.</param>
+    /// <param name="AField">The field to write to.</param>
+    /// <param name="AValue">The value to write.</param>
+    class procedure WriteFieldValue(ANode: TObject; AField: TRTTIField;
+      AValue: TValue);
+    /// <summary>
+    /// Writes a value to a specified indexed property of an object.
+    /// </summary>
+    ///  <remarks>
+    ///  <note type="warning">This procedure is under development. Does not use it.
+    /// Its release is planned in 0.9.0.0beta version.</note>
+    ///  </remarks>
+    /// <param name="ANode">The object containing the indexed property.</param>
+    /// <param name="AIndexedProp">The indexed property to write to.</param>
+    /// <param name="AIndex">The index value for the property.</param>
+    /// <param name="AValue">The value to write.</param>
+    class procedure WriteIndexedPropertyValue(ANode: TObject; AIndexedProp:
+        TRttiIndexedProperty; AIndex: string; AValue: TValue); static;
+    /// <summary>
+    /// Writes a value to a specified data member (field, property, or indexed property).
+    /// </summary>
+    /// <param name="ANode">The object containing the data member.</param>
+    /// <param name="AField">The field to write to, if applicable.</param>
+    /// <param name="AProp">The property to write to, if applicable.</param>
+    /// <param name="AIndexedProp">The indexed property to write to, if applicable.</param>
+    /// <param name="APath">The path identifying the member.</param>
+    /// <param name="AValue">The value to write.</param>
+    class procedure WriteMemberValue(ANode: TObject; AField: TRTTIField;
+      AProp: TRttiProperty; AIndexedProp: TRttiIndexedProperty;
+      const APath: string; AValue: TValue); inline;
+    /// <summary>
+    /// Writes a value to the specified property of an object.
+    /// </summary>
+    /// <param name="ANode">The object containing the property.</param>
+    /// <param name="AProp">The property to write to.</param>
+    /// <param name="AValue">The value to write.</param>
+    class procedure WritePropertyValue(ANode: TObject; AProp: TRttiProperty;
+      AValue: TValue);
   public
     /// <summary>
     /// Class constructor that initializes the shared RTTI context.
     /// </summary>
     class constructor Create;
-
-    /// <summary>
-    /// Gets the shared RTTI context.
-    /// </summary>
-    class property Context: TRttiContext read FContext;
-
     /// <summary>
     /// Checks whether two TValue instances are equal.
     /// </summary>
@@ -397,7 +361,6 @@ type
     /// <param name="Right">The second value to compare.</param>
     /// <returns>True if the values are equal; otherwise, False.</returns>
     class function AreEqual(Left, Right: TValue): Boolean;
-
     /// <summary>
     /// Retrieves a component from a given property path.
     /// </summary>
@@ -406,7 +369,6 @@ type
     /// <returns>The component found at the specified path.</returns>
     class function ComponentFromPath(ASource: TComponent;
       var APropertyPath: string): TComponent; static;
-
     /// <summary>
     /// Converts an enumeration value to its ordinal equivalent.
     /// </summary>
@@ -415,7 +377,6 @@ type
     /// <returns>The ordinal value of the enumeration.</returns>
     class function EnumerationToOrdinal(const AType: TRttiType;
       AValue: TValue): TValue;
-
     /// <summary>
     /// Retrieves information about an indexed property by name.
     /// </summary>
@@ -424,7 +385,6 @@ type
     /// <returns>Information about the indexed property.</returns>
     class function GetIndexedPropertyInfo(ARoot: TObject;
       const APropertyName: string): TPlIndexedPropertyInfo; overload;
-
     /// <summary>
     /// Retrieves information about an indexed property by its RTTI representation.
     /// </summary>
@@ -433,7 +393,6 @@ type
     /// <returns>Information about the indexed property.</returns>
     class function GetIndexedPropertyInfo(AIndexedProp: TRttiIndexedProperty;
       const AIndex: string): TPlIndexedPropertyInfo; overload;
-
     /// <summary>
     /// Gets the value from an object based on a property path.
     /// </summary>
@@ -441,7 +400,6 @@ type
     /// <param name="APath">The property path.</param>
     /// <returns>The value at the specified path.</returns>
     class function GetPathValue(ARoot: TObject; var APath: string): TValue;
-
     /// <summary>
     /// Determines the parent of a property specified by a path.
     /// </summary>
@@ -454,7 +412,6 @@ type
     class function GetPropertyParent(ARoot: TObject; var APath: string;
       out AField: TRTTIField; out AProp: TRttiProperty;
       out AIndexedProperty: TRttiIndexedProperty): TValue;
-
     /// <summary>
     /// Retrieves the value of a field within a record structure based on a property path.
     /// </summary>
@@ -463,7 +420,6 @@ type
     /// <returns>The value found at the specified path.</returns>
     class function GetRecordPathValue(ARoot: TObject;
       var APath: string): TValue;
-
     /// <summary>
     /// Casts a value to a specific RTTI type.
     /// </summary>
@@ -472,7 +428,6 @@ type
     /// <returns>The cast value.</returns>
     class function InternalCastTo(const AType: TRttiType; AValue: TValue)
       : TValue; overload;
-
     /// <summary>
     /// Casts a value to a specific type kind.
     /// </summary>
@@ -481,7 +436,6 @@ type
     /// <returns>The cast value.</returns>
     class function InternalCastTo(const AType: TTypeKind; AValue: TValue)
       : TValue; overload;
-
     /// <summary>
     /// Invokes a method by name on a specified class or instance.
     /// </summary>
@@ -492,14 +446,12 @@ type
     /// <returns>The result of the method invocation.</returns>
     class function InvokeEx(const AMethodName: string; AClass: TClass;
       Instance: TValue; const Args: array of TValue): TValue; static;
-
     /// <summary>
     /// Determines if a name represents an indexed property.
     /// </summary>
     /// <param name="AName">The name to check.</param>
     /// <returns>True if the name is an indexed property; otherwise, False.</returns>
     class function IsIndexedProperty(const AName: string): Boolean; overload;
-
     /// <summary>
     /// Determines if an object contains an indexed property with the specified name.
     /// </summary>
@@ -508,7 +460,6 @@ type
     /// <returns>True if the property exists; otherwise, False.</returns>
     class function IsIndexedProperty(ARoot: TObject; const AName: string)
       : Boolean; overload;
-
     /// <summary>
     /// Validates a property path.
     /// </summary>
@@ -516,7 +467,6 @@ type
     /// <param name="APath">The path to validate.</param>
     /// <returns>True if the path is valid; otherwise, False.</returns>
     class function IsValidPath(ARoot: TObject; const APath: string): Boolean;
-
     /// <summary>
     /// Checks if a method is implemented for a given type by method name.
     /// </summary>
@@ -525,7 +475,6 @@ type
     /// <returns>True if the method is implemented; otherwise, False.</returns>
     class function MethodIsImplemented(ATypeInfo: Pointer; AMethodName: string)
       : Boolean; overload;
-
     /// <summary>
     /// Checks if a method is implemented for a given class by method name.
     /// </summary>
@@ -534,7 +483,6 @@ type
     /// <returns>True if the method is implemented; otherwise, False.</returns>
     class function MethodIsImplemented(const AClass: TClass;
       AMethodName: string): Boolean; overload;
-
     /// <summary>
     /// Converts an ordinal value to its corresponding enumeration value.
     /// </summary>
@@ -543,7 +491,6 @@ type
     /// <returns>The enumeration value corresponding to the ordinal.</returns>
     class function OrdinalToEnumeration(const AType: TRttiType;
       AValue: TValue): TValue;
-
     /// <summary>
     /// Checks if a property exists for a given type by name.
     /// </summary>
@@ -552,7 +499,6 @@ type
     /// <returns>True if the property exists; otherwise, False.</returns>
     class function PropertyExists(ATypeInfo: Pointer; APropertyName: string)
       : Boolean; overload;
-
     /// <summary>
     /// Checks if a property exists for a given class by name.
     /// </summary>
@@ -561,7 +507,6 @@ type
     /// <returns>True if the property exists; otherwise, False.</returns>
     class function PropertyExists(const AClass: TClass; APropertyName: string)
       : Boolean; overload;
-
     /// <summary>
     /// Resets the specified method of an object to nil.
     /// </summary>
@@ -573,7 +518,6 @@ type
     /// <param name="ARoot">The object whose method is being reset.</param>
     /// <param name="AMethodName">The name of the method to reset.</param>
     class procedure ResetMethod(ARoot: TObject; const AMethodName: string);
-
     /// <summary>
     /// Verifies if a method's parameters match a given set of arguments.
     /// </summary>
@@ -582,7 +526,6 @@ type
     /// <returns>True if the signature matches; otherwise, False.</returns>
     class function SameSignature(const AParams: TPlRTTIParametersArray;
       const Args: array of TValue): Boolean; static;
-
     /// <summary>
     /// Sets a method from a root object to target another object's method.
     /// </summary>
@@ -593,7 +536,6 @@ type
     /// <returns>True if the method was successfully set; otherwise, False.</returns>
     class function SetMethod(ARoot: TObject; const ARootMethodPath: string;
       ATarget: TObject; const ATargetMethodName: string = ''): Boolean; inline;
-
     /// <summary>
     /// Sets the value of a property at a specified path in an object.
     /// </summary>
@@ -625,6 +567,10 @@ type
     class function TryExtractNode(ARoot: TObject; out AField: TRTTIField;
       out AProp: TRttiProperty; out AIndexedProp: TRttiIndexedProperty;
       const ANodeName: string): Boolean; overload;
+    /// <summary>
+    /// Gets the shared RTTI context.
+    /// </summary>
+    class property Context: TRttiContext read FContext;
   end;
 
 resourcestring
@@ -1216,7 +1162,7 @@ class procedure TPlRTTIUtils.Log(const AMessage: string);
 var
   fileName: string;
 begin
-  {Get the filename for the logfile
+  {Get the filename for the logfile.
    In this case should be the Filename 'application-exename.log'?}
   fileName := TPath.GetPublicPath + TPath.DirectorySeparatorChar +
     StrMorandottiIt + TPath.DirectorySeparatorChar + StrBindApi +
@@ -1594,24 +1540,23 @@ end;
 
 {TODO 5 -oPMo -cDebug : create a valid method to write indexed properties }
 class procedure TPlRTTIUtils.WriteIndexedPropertyValue(ANode: TObject;
-  AIndexedProp: TRttiIndexedProperty; AIndex: string; AValue: TValue);
+    AIndexedProp: TRttiIndexedProperty; AIndex: string; AValue: TValue);
 var
+  indexedPropertyInfo: TPlIndexedPropertyInfo;
   propertyInfo: PPropInfo;
   propTypeKind: TTypeKind;
 begin
   if not Assigned(AIndexedProp) then
     Exit;
+  indexedPropertyInfo := GetIndexedPropertyInfo(AIndexedProp, AIndex);
   propTypeKind := AIndexedProp.PropertyType.TypeKind;
   if (propTypeKind <> AValue.Kind) then
     AValue := InternalCastTo(AIndexedProp.PropertyType, AValue);
   case propTypeKind of
     tkClass:
-      begin
-        //        propertyInfo := (AIndexedProp as TRttiInstanceProperty).PropInfo;
-        //        SetObjectProp(ANode, propertyInfo, AValue.AsObject);
-      end
+      AIndexedProp.SetValue(ANode, indexedPropertyInfo.paramsValues, TObject(AValue.AsObject))
   else
-    //    AIndexedProp.SetValue(ANode, AIndex, AValue);
+    AIndexedProp.SetValue(ANode, indexedPropertyInfo.paramsValues, AValue);
   end;
 end;
 
@@ -1623,11 +1568,9 @@ begin
     WriteFieldValue(ANode, AField, AValue)
   else if Assigned(AProp) then
     WritePropertyValue(ANode, AProp, AValue)
-  else if Assigned(AProp) then
-    begin
-      WriteIndexedPropertyValue(ANode, AIndexedProp,
-        ExtractLastIndex(APath), AValue);
-    end;
+  else if Assigned(AIndexedProp) then
+    WriteIndexedPropertyValue(ANode, AIndexedProp, ExtractLastIndex(APath),
+      AValue);
 end;
 
 class procedure TPlRTTIUtils.WritePropertyValue(ANode: TObject;
