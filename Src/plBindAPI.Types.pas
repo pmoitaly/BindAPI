@@ -52,9 +52,20 @@ type
   TPlBindOptionsSet = set of TPlBindAPIOptions.BindOptions;
 
   /// <summary>
+  ///   Describes the Mode of the binder.
+  /// </summary>
+  /// <remarks>
+  ///   When the Binder.Mode property is bmSingle, a single test is performed
+  ///   to update registered entities. When Binder.Mode property is bmContinuous,
+  ///   an endless loop is performed to update registered entities.
+  /// </remarks>
+  TPlBinderMode = (bmSingle, bmContinuous);
+
+  /// <summary>
   ///   Describes the Status of the binder.
   /// </summary>
   TPlBinderStatus = (bsStopped, bsRunning);
+
 {$ENDREGION}
 
 {$REGION 'CommonTypes'}
@@ -162,11 +173,67 @@ type
     /// </summary>
     procedure UpdateValues;
   end;
+
+(*
+
+    IPlBinder = interface(IInterface)
+      procedure SetEnabled(Value: Boolean);
+      function GetEnabled: Boolean;
+      property Enabled: Boolean read GetEnabled write SetEnabled;
+
+      function GetInterval: integer;
+      procedure SetInterval(Value: integer);
+      property Interval: integer read GetInterval write SetInterval;
+
+      function GetMode: TPlBinderMode;
+      procedure SetMode(Value: TPlBinderMode);
+      property Mode: TPlBinderMode read GetMode write SetMode;
+
+  {$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
+      function GetPriority: TThreadPriority;
+      procedure SetPriority(Value: TThreadPriority);
+      property Priority: TThreadPriority read GetPriority write SetPriority;
+  {$WARN SYMBOL_PLATFORM ON}{$ENDIF}
+
+      function GetStatus: TPlBinderStatus;
+      property Status: TPlBinderStatus read GetStatus;
+      procedure AddError(AError: string);
+      function Bind(ASource: TObject; const APropertySource: string;
+        ATarget: TObject; const APropertyTarget: string;
+        AFunction: TplBridgeFunction = nil): Boolean;
+      function BindingInfo: IPlBindingList;
+      procedure BindMethod(ASource: TObject; const AMethodPath: string;
+        ATarget: TObject; const ANewMethodName: string;
+        AFunction: TplBridgeFunction = nil);
+      procedure BindObject(ASource: TObject; const APropertySource: string;
+        ATarget: TObject); overload;
+      procedure BindObject(ASource: TObject; const APropertySource: string;
+        ATarget: TObject; ATargetPath: string); overload;
+      procedure Clear;
+      function Count: integer;
+      function DebugInfo: TplBindDebugInfo;
+      function ErrorList: string;
+      function NormalizePath(ASource: TObject; var SourcePath: string): TObject;
+      procedure Start(const ASleepInterval: integer = 0);
+      procedure Stop;
+      procedure UnbindMethods;
+      procedure UnbindMethodsTo(ASource: TObject);
+      procedure UnbindMethodsBetween(ASource, aTarget: TObject);
+      procedure UnbindMethodsFrom(ATarget: TObject);
+      function UnbindSource(ASource: TObject): Boolean;
+      function UnbindTarget(ATarget: TObject): Boolean; overload;
+      function UnbindTarget(ATarget: TObject; ASource: TObject): Boolean;
+        overload;
+      procedure UpdateValues;
+    end;
+
+
+*)
 {$ENDREGION}
 
 const
+  DEFAULT_INTERVAL = 10;
   PL_SELF_ALIAS: array[0..2] of string = ('', '.', 'Self');
-
 implementation
 
 end.
