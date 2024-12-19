@@ -79,13 +79,23 @@ type
 
     [Test]
     procedure TestTryExtractNode;
-  end;
+
+    [Test]
+    procedure TestGetIndexedPropertyValue;
+
+    [Test]
+    procedure TestSetIndexedPropertyValue;
+end;
 
 implementation
+
+const
+  SCpmTest = 'cpmTest';
 
 procedure TTestTPlRTTIUtils.Setup;
 begin
   FSampleComponent := TComponent.Create(nil);
+  FSampleComponent.Name := SCpmTest;
 end;
 
 procedure TTestTPlRTTIUtils.TearDown;
@@ -145,19 +155,52 @@ begin
   Assert.WillNotRaise(
     procedure
     begin
+      { TODO 3 -oPMo -cDebugging : Name? It is not an indexed property. }
       PropertyInfo := TPlRTTIUtils.GetIndexedPropertyInfo(FSampleComponent, 'Name');
     end
   );
 end;
 
+procedure TTestTPlRTTIUtils.TestGetIndexedPropertyValue;
+var
+  path: string;
+  testComponent: TObject;
+  testStrings: TStrings;
+begin
+  testStrings := TStringList.Create;
+  testStrings.AddObject('TComponent', FSampleComponent);
+  path := 'Objects[0]';
+  try
+    testComponent := TPlRTTIUtils.GetPathValue(testStrings, path).AsObject;
+    Assert.IsTrue(Assigned(testComponent), 'Object from StringList not read');
+    Assert.AreEqual(testComponent.ClassName, testStrings.Objects[0].ClassName);
+  finally
+    testStrings.Free;
+  end;
+end;
+
 procedure TTestTPlRTTIUtils.TestGetPathValue;
 var
-  Path: string;
-  Value: TValue;
+  path: string;
+  testString: TValue;
 begin
-  Path := 'Name';
-  Value := TPlRTTIUtils.GetPathValue(FSampleComponent, Path);
-  Assert.AreEqual(FSampleComponent.Name, Value.AsString);
+    path := 'Name';
+    testString := TPlRTTIUtils.GetPathValue(FSampleComponent, path);
+    Assert.AreEqual(SCpmTest, testString);
+end;
+
+procedure TTestTPlRTTIUtils.TestSetIndexedPropertyValue;
+var
+  testStrings: TStrings;
+begin
+  testStrings := TStringList.Create;
+  testStrings.Add('TComponent');
+  try
+    TPlRTTIUtils.SetPathValue(testStrings, 'Objects[0]', FSampleComponent);
+    Assert.AreEqual(FSampleComponent.ClassName, testStrings.Objects[0].ClassName);
+  finally
+    testStrings.Free;
+  end;
 end;
 
 procedure TTestTPlRTTIUtils.TestSetPathValue;
