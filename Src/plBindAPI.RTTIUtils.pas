@@ -902,7 +902,7 @@ begin
           myIndexedProperty, ExtractLastIndex(myPath));
       except
         //sul superamento degli indici restituire un valore vuoto:
-        //il bind potrebbe avvenire quando l'oggetto target non è ancora popolato
+        //il bind potrebbe avvenire quando l'oggetto target non ï¿½ ancora popolato
         Result := TValue.Empty;
       end;
     end

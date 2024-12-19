@@ -31,7 +31,7 @@ uses
   System.Variants, System.Classes,
   Vcl.Graphics, Vcl.ExtCtrls, Vcl.Samples.Spin, Vcl.ComCtrls,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  plBindAPI.Attributes, plBindAPI.AutoBinder, Vcl.Menus;
+  plBindAPI.Attributes, Vcl.Menus, Vcl.Buttons;
 
 type
   [BindDefaultClass(True, 'TTestController')]
@@ -96,6 +96,8 @@ type
     tbsTabA: TTabSheet;
     tbsTabB: TTabSheet;
     tbsTabC: TTabSheet;
+    CheckBox1: TCheckBox;
+    spbStartStop: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure speIntervalChange(Sender: TObject);

@@ -2,13 +2,18 @@
     <PropertyGroup>
         <ProjectGuid>{5984AED8-CBFD-446D-9813-959FE7F98EA9}</ProjectGuid>
         <MainSource>plBindAPI.dpk</MainSource>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+        <ProjectVersion>19.5</ProjectVersion>
+========
         <ProjectVersion>20.1</ProjectVersion>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
-        <Platform Condition="'$(Platform)'==''">Android</Platform>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>32787</TargetedPlatforms>
         <AppType>Package</AppType>
+        <ProjectName Condition="'$(ProjectName)'==''">plBindAPI</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -78,12 +83,6 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Android64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Android64)'!=''">
-        <Cfg_2_Android64>true</Cfg_2_Android64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
         <Cfg_2_Win32>true</Cfg_2_Win32>
         <CfgParent>Cfg_2</CfgParent>
@@ -107,7 +106,6 @@
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>plBindAPI</SanitizedProjectName>
         <DCC_UnitSearchPath>..\..\Src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1040</VerInfo_Locale>
@@ -126,6 +124,15 @@
         <EnabledSysJars>android-support-v4.dex.jar;cloud-messaging.dex.jar;com-google-android-gms.play-services-ads-base.17.2.0.dex.jar;com-google-android-gms.play-services-ads-identifier.16.0.0.dex.jar;com-google-android-gms.play-services-ads-lite.17.2.0.dex.jar;com-google-android-gms.play-services-ads.17.2.0.dex.jar;com-google-android-gms.play-services-analytics-impl.16.0.8.dex.jar;com-google-android-gms.play-services-analytics.16.0.8.dex.jar;com-google-android-gms.play-services-base.16.0.1.dex.jar;com-google-android-gms.play-services-basement.16.2.0.dex.jar;com-google-android-gms.play-services-gass.17.2.0.dex.jar;com-google-android-gms.play-services-identity.16.0.0.dex.jar;com-google-android-gms.play-services-maps.16.1.0.dex.jar;com-google-android-gms.play-services-measurement-base.16.4.0.dex.jar;com-google-android-gms.play-services-measurement-sdk-api.16.4.0.dex.jar;com-google-android-gms.play-services-stats.16.0.1.dex.jar;com-google-android-gms.play-services-tagmanager-v4-impl.16.0.8.dex.jar;com-google-android-gms.play-services-tasks.16.0.1.dex.jar;com-google-android-gms.play-services-wallet.16.0.1.dex.jar;com-google-firebase.firebase-analytics.16.4.0.dex.jar;com-google-firebase.firebase-common.16.1.0.dex.jar;com-google-firebase.firebase-iid-interop.16.0.1.dex.jar;com-google-firebase.firebase-iid.17.1.1.dex.jar;com-google-firebase.firebase-measurement-connector.17.0.1.dex.jar;com-google-firebase.firebase-messaging.17.5.0.dex.jar;fmx.dex.jar;google-play-billing.dex.jar;google-play-licensing.dex.jar</EnabledSysJars>
         <Android_LauncherIcon192>$(BDS)\bin\Artwork\Android\FM_LauncherIcon_192x192.png</Android_LauncherIcon192>
         <VerInfo_Build>1</VerInfo_Build>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+        <VerInfo_Keys>CompanyName=Paolo Morandottti;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=plBindAPI;LegalCopyright=Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=1.0.0.0;Comments=;versionCode=1</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Android64)'!=''">
+        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=</VerInfo_Keys>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>false</VerInfo_IncludeVerInfo>
+        <EnabledSysJars>activity-1.1.0.dex.jar;annotation-1.2.0.dex.jar;appcompat-1.2.0.dex.jar;appcompat-resources-1.2.0.dex.jar;asynclayoutinflater-1.0.0.dex.jar;billing-4.0.0.dex.jar;biometric-1.1.0.dex.jar;browser-1.0.0.dex.jar;cloud-messaging.dex.jar;collection-1.1.0.dex.jar;coordinatorlayout-1.0.0.dex.jar;core-1.5.0-rc02.dex.jar;core-common-2.1.0.dex.jar;core-runtime-2.1.0.dex.jar;cursoradapter-1.0.0.dex.jar;customview-1.0.0.dex.jar;documentfile-1.0.0.dex.jar;drawerlayout-1.0.0.dex.jar;firebase-annotations-16.0.0.dex.jar;firebase-common-20.0.0.dex.jar;firebase-components-17.0.0.dex.jar;firebase-datatransport-18.0.0.dex.jar;firebase-encoders-17.0.0.dex.jar;firebase-encoders-json-18.0.0.dex.jar;firebase-iid-interop-17.1.0.dex.jar;firebase-installations-17.0.0.dex.jar;firebase-installations-interop-17.0.0.dex.jar;firebase-measurement-connector-19.0.0.dex.jar;firebase-messaging-22.0.0.dex.jar;fmx.dex.jar;fragment-1.2.5.dex.jar;google-play-licensing.dex.jar;interpolator-1.0.0.dex.jar;javax.inject-1.dex.jar;legacy-support-core-ui-1.0.0.dex.jar;legacy-support-core-utils-1.0.0.dex.jar;lifecycle-common-2.2.0.dex.jar;lifecycle-livedata-2.0.0.dex.jar;lifecycle-livedata-core-2.2.0.dex.jar;lifecycle-runtime-2.2.0.dex.jar;lifecycle-service-2.0.0.dex.jar;lifecycle-viewmodel-2.2.0.dex.jar;lifecycle-viewmodel-savedstate-2.2.0.dex.jar;listenablefuture-1.0.dex.jar;loader-1.0.0.dex.jar;localbroadcastmanager-1.0.0.dex.jar;play-services-ads-20.1.0.dex.jar;play-services-ads-base-20.1.0.dex.jar;play-services-ads-identifier-17.0.0.dex.jar;play-services-ads-lite-20.1.0.dex.jar;play-services-base-17.5.0.dex.jar;play-services-basement-17.6.0.dex.jar;play-services-cloud-messaging-16.0.0.dex.jar;play-services-drive-17.0.0.dex.jar;play-services-games-21.0.0.dex.jar;play-services-location-18.0.0.dex.jar;play-services-maps-17.0.1.dex.jar;play-services-measurement-base-18.0.0.dex.jar;play-services-measurement-sdk-api-18.0.0.dex.jar;play-services-places-placereport-17.0.0.dex.jar;play-services-stats-17.0.0.dex.jar;play-services-tasks-17.2.0.dex.jar;print-1.0.0.dex.jar;room-common-2.1.0.dex.jar;room-runtime-2.1.0.dex.jar;savedstate-1.0.0.dex.jar;slidingpanelayout-1.0.0.dex.jar;sqlite-2.0.1.dex.jar;sqlite-framework-2.0.1.dex.jar;swiperefreshlayout-1.0.0.dex.jar;transport-api-3.0.0.dex.jar;transport-backend-cct-3.0.0.dex.jar;transport-runtime-3.0.0.dex.jar;user-messaging-platform-1.0.0.dex.jar;vectordrawable-1.1.0.dex.jar;vectordrawable-animated-1.1.0.dex.jar;versionedparcelable-1.1.1.dex.jar;viewpager-1.0.0.dex.jar;work-runtime-2.1.0.dex.jar</EnabledSysJars>
+========
         <VerInfo_Keys>CompanyName=Paolo Morandottti;FileDescription=BindAPI Core Package;FileVersion=0.9.0.0;InternalName=plBindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=;versionCode=1</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android64)'!=''">
@@ -134,21 +141,32 @@
         <VerInfo_IncludeVerInfo>false</VerInfo_IncludeVerInfo>
         <EnabledSysJars>activity-1.1.0.dex.jar;annotation-1.2.0.dex.jar;appcompat-1.2.0.dex.jar;appcompat-resources-1.2.0.dex.jar;asynclayoutinflater-1.0.0.dex.jar;billing-4.0.0.dex.jar;biometric-1.1.0.dex.jar;browser-1.0.0.dex.jar;cloud-messaging.dex.jar;collection-1.1.0.dex.jar;coordinatorlayout-1.0.0.dex.jar;core-1.5.0-rc02.dex.jar;core-common-2.1.0.dex.jar;core-runtime-2.1.0.dex.jar;cursoradapter-1.0.0.dex.jar;customview-1.0.0.dex.jar;documentfile-1.0.0.dex.jar;drawerlayout-1.0.0.dex.jar;firebase-annotations-16.0.0.dex.jar;firebase-common-20.0.0.dex.jar;firebase-components-17.0.0.dex.jar;firebase-datatransport-18.0.0.dex.jar;firebase-encoders-17.0.0.dex.jar;firebase-encoders-json-18.0.0.dex.jar;firebase-iid-interop-17.1.0.dex.jar;firebase-installations-17.0.0.dex.jar;firebase-installations-interop-17.0.0.dex.jar;firebase-measurement-connector-19.0.0.dex.jar;firebase-messaging-22.0.0.dex.jar;fmx.dex.jar;fragment-1.2.5.dex.jar;google-play-licensing.dex.jar;interpolator-1.0.0.dex.jar;javax.inject-1.dex.jar;legacy-support-core-ui-1.0.0.dex.jar;legacy-support-core-utils-1.0.0.dex.jar;lifecycle-common-2.2.0.dex.jar;lifecycle-livedata-2.0.0.dex.jar;lifecycle-livedata-core-2.2.0.dex.jar;lifecycle-runtime-2.2.0.dex.jar;lifecycle-service-2.0.0.dex.jar;lifecycle-viewmodel-2.2.0.dex.jar;lifecycle-viewmodel-savedstate-2.2.0.dex.jar;listenablefuture-1.0.dex.jar;loader-1.0.0.dex.jar;localbroadcastmanager-1.0.0.dex.jar;play-services-ads-20.1.0.dex.jar;play-services-ads-base-20.1.0.dex.jar;play-services-ads-identifier-17.0.0.dex.jar;play-services-ads-lite-20.1.0.dex.jar;play-services-base-17.5.0.dex.jar;play-services-basement-17.6.0.dex.jar;play-services-cloud-messaging-16.0.0.dex.jar;play-services-drive-17.0.0.dex.jar;play-services-games-21.0.0.dex.jar;play-services-location-18.0.0.dex.jar;play-services-maps-17.0.1.dex.jar;play-services-measurement-base-18.0.0.dex.jar;play-services-measurement-sdk-api-18.0.0.dex.jar;play-services-places-placereport-17.0.0.dex.jar;play-services-stats-17.0.0.dex.jar;play-services-tasks-17.2.0.dex.jar;print-1.0.0.dex.jar;room-common-2.1.0.dex.jar;room-runtime-2.1.0.dex.jar;savedstate-1.0.0.dex.jar;slidingpanelayout-1.0.0.dex.jar;sqlite-2.0.1.dex.jar;sqlite-framework-2.0.1.dex.jar;swiperefreshlayout-1.0.0.dex.jar;transport-api-3.0.0.dex.jar;transport-backend-cct-3.0.0.dex.jar;transport-runtime-3.0.0.dex.jar;user-messaging-platform-1.0.0.dex.jar;vectordrawable-1.1.0.dex.jar;vectordrawable-animated-1.1.0.dex.jar;versionedparcelable-1.1.1.dex.jar;viewpager-1.0.0.dex.jar;work-runtime-2.1.0.dex.jar</EnabledSysJars>
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
         <VerInfo_Build>1</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+========
         <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.0;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
         <DCC_UNSAFE_VOID_POINTER>false</DCC_UNSAFE_VOID_POINTER>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+        <DCC_UsePackage>vcl;vcldb;office2K;$(DCC_UsePackage)</DCC_UsePackage>
+========
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+========
         <VerInfo_Keys>CompanyName=Morandotti Paolo;FileDescription=BindApi Core Package;FileVersion=0.9.0.0;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UNSAFE_VOID_POINTER>false</DCC_UNSAFE_VOID_POINTER>
@@ -159,8 +177,11 @@
     <PropertyGroup Condition="'$(Base_Win64x)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_UNSAFE_VOID_POINTER>false</DCC_UNSAFE_VOID_POINTER>
+        <DCC_UsePackage>vcl;vcldb;office2K;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -181,10 +202,35 @@
         <VerInfo_Build>1</VerInfo_Build>
         <VerInfo_Keys>package=it.morandotti.BindAPI;label=BindAPI;versionCode=1;versionName=0.9.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=</VerInfo_Keys>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Android)'!=''">
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Paolo Morandottti;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=plBindAPI;LegalCopyright=Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=1.0.0.0;Comments=;versionCode=1</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Android64)'!=''">
+        <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=</VerInfo_Keys>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.4;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=0.9.2.11;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_UNSUPPORTED_CONSTRUCT>false</DCC_UNSUPPORTED_CONSTRUCT>
+        <DCC_UNSAFE_VOID_POINTER>true</DCC_UNSAFE_VOID_POINTER>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Build>11</VerInfo_Build>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <VerInfo_MinorVer>9</VerInfo_MinorVer>
+        <VerInfo_Release>2</VerInfo_Release>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.3;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>3</VerInfo_Build>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+========
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.3;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_UNSUPPORTED_CONSTRUCT>false</DCC_UNSUPPORTED_CONSTRUCT>
         <DCC_UNSAFE_VOID_POINTER>true</DCC_UNSAFE_VOID_POINTER>
         <DCC_UNSAFE_CODE>true</DCC_UNSAFE_CODE>
@@ -194,15 +240,16 @@
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
         <DCC_DcuOutput>..\..\DCU\$(CompilerVersion )\$(Platform)\$(Config)</DCC_DcuOutput>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Build>4</VerInfo_Build>
+        <VerInfo_Build>3</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.27;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.4;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
-        <VerInfo_Build>27</VerInfo_Build>
+        <VerInfo_Build>4</VerInfo_Build>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -217,31 +264,66 @@
         <VerInfo_Build>1</VerInfo_Build>
         <VerInfo_Keys>CompanyName=Paolo Morandottti;FileDescription=BindAPI Core Package;FileVersion=0.9.0.0;InternalName=plBindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=;versionCode=1</VerInfo_Keys>
     </PropertyGroup>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.9;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Build>9</VerInfo_Build>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <VerInfo_Build>4</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.4;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+========
     <PropertyGroup Condition="'$(Cfg_2_Android64)'!=''">
         <VerInfo_Build>1</VerInfo_Build>
         <VerInfo_Keys>package=it.morandotti.BindAPI;label=BindAPI;versionCode=1;versionName=0.9.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.4;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.3;InternalName=BindAPI;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <VerInfo_MinorVer>9</VerInfo_MinorVer>
+        <VerInfo_Build>3</VerInfo_Build>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.4;InternalName=BindApi;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
         <VerInfo_Build>4</VerInfo_Build>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <VerInfo_Keys>CompanyName=Paolo Morandotti;FileDescription=BindApi Core Package;FileVersion=0.9.0.20;InternalName=BindApi;LegalCopyright=Copyright Paolo Morandotti 2020-2024 - Released under GNU-GPL Licence;LegalTrademarks=;OriginalFilename=;ProgramID=it.morandotti.BindAPI;ProductName=BindAPI;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <VerInfo_MinorVer>9</VerInfo_MinorVer>
-        <VerInfo_Build>20</VerInfo_Build>
-    </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+        <DCCReference Include="..\Src\plBindAPI.AutoBinder.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.BinderElement.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.BindManagement.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.ClassFactory.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.CoreBinder.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.Types.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.RTTIUtils.pas"/>
+        <DCCReference Include="..\Src\plBindApi.ExternalBinder.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.Attributes.pas"/>
+        <DCCReference Include="..\Src\plBindAPI.DeferredBinding.pas"/>
+        <None Include="ModelSupport_plBindAPI\default.txaPackage"/>
+        <None Include="ModelSupport_plBindAPI\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindApi\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindApi\ExternalBinder\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\Class Diagram.txvcls"/>
+        <None Include="ModelSupport_plBindAPI\plBindAPI\Types\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindAPI\CoreBinder\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindAPI\RTTIQuery\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindAPI\ClassFactory\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindAPI\BinderElement\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindAPI\BindManagement\default.txvpck"/>
+        <None Include="ModelSupport_plBindAPI\plBindAPI\AutoBinder\default.txvpck"/>
+========
         <DCCReference Include="..\..\Src\plBindAPI.AutoBinder.pas"/>
         <DCCReference Include="..\..\src\plBindAPI.BindingElement.pas"/>
         <DCCReference Include="..\..\Src\plBindAPI.BindManagement.pas"/>
@@ -257,6 +339,7 @@
         <None Include="..\..\Doc\Requirements.md"/>
         <None Include="..\..\Doc\Version 0.9 changes.md"/>
         <None Include="..\..\README.md"/>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -278,11 +361,14 @@
                     <Source Name="MainSource">plBindAPI.dpk</Source>
                 </Source>
                 <Excluded_Packages>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+========
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
                 </Excluded_Packages>
-                <WelcomePageFile Path="..\..\README.md"/>
-                <WelcomePageFolder/>
             </Delphi.Personality>
             <Deployment Version="4">
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule"/>
@@ -308,19 +394,22 @@
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\plBindAPI.bpl" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\Win64\plBindAPI.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
-                        <RemoteName>plBindAPI.bpl</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\plBindAPI.bpl" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win64">
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+========
                         <RemoteName>plBindAPI.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\plBindAPI.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
                         <RemoteName>plBindAPI.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\Win64\plBindAPI.rsm" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win64">
+                        <RemoteName>plBindAPI.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -949,6 +1038,34 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceDebug">
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimARM64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSEntitlements"/>
+                <DeployClass Name="ProjectiOSInfoPList"/>
+                <DeployClass Name="ProjectiOSLaunchScreen"/>
+                <DeployClass Name="ProjectiOSResource">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimARM64">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="UWP_DelphiLogo150">
                     <Platform Name="Win32">
                         <RemoteDir>Assets</RemoteDir>
@@ -1181,7 +1298,10 @@
                 <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+<<<<<<<< HEAD:Packages/plBindAPI.dproj
+========
                 <ProjectRoot Platform="Win64x" Name="$(PROJECTNAME)"/>
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Packages/d12/plBindAPI.dproj
             </Deployment>
             <Platforms>
                 <Platform value="Android">True</Platform>

@@ -51,7 +51,6 @@ begin
 end;
 
 initialization
-
-TPlClassManager.RegisterClass(TSimpleDemoFormController, [Singleton])
+  TPlClassManager.RegisterClass(TSimpleDemoFormController, [Singleton]);
 
 end.

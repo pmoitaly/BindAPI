@@ -58,6 +58,23 @@ uses
 
 {$R *.dfm}
 
+// START resource string wizard section
+resourcestring
+  SEnabled = 'Enabled';
+  SSourceClassName = 'Source Class Name';
+  SSourcePath = 'Source Path';
+  SSourceValue = 'Source value';
+  STargetClassName = 'Target Class Name';
+  STargetPath = 'Target Path';
+  STargetValue = 'Target value';
+  SYes = 'Yes';
+  SNo = 'No';
+  SClassName = 'Class Name';
+  SIsSingleton = 'Is singleton';
+  SInstances = 'Instances';
+  SRegisteredClassesTotal = 'Registered classes - Total: ';
+// END resource string wizard section
+
 procedure TfrmBindApiMonitor.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
@@ -128,13 +145,13 @@ begin
   bindingInfo := TplBindManager.Binder.BindingInfo;
   try
     sgrBindingList.RowCount := 1;
-    sgrBindingList.Cells[0, 0] := 'Enabled';
-    sgrBindingList.Cells[1, 0] := 'Source Class Name';
-    sgrBindingList.Cells[2, 0] := 'Source Path';
-    sgrBindingList.Cells[3, 0] := 'Source value';
-    sgrBindingList.Cells[4, 0] := 'Target Class Name';
-    sgrBindingList.Cells[5, 0] := 'Target Path';
-    sgrBindingList.Cells[6, 0] := 'Target value';
+    sgrBindingList.Cells[0, 0] := SEnabled;
+    sgrBindingList.Cells[1, 0] := SSourceClassName;
+    sgrBindingList.Cells[2, 0] := SSourcePath;
+    sgrBindingList.Cells[3, 0] := SSourceValue;
+    sgrBindingList.Cells[4, 0] := STargetClassName;
+    sgrBindingList.Cells[5, 0] := STargetPath;
+    sgrBindingList.Cells[6, 0] := STargetValue;
 
     rowIndex := 0;
     for keyPropertyList in bindingInfo.Keys do
@@ -143,7 +160,7 @@ begin
         sgrBindingList.RowCount := sgrBindingList.RowCount + 1;
         valuePropertyList := bindingInfo[keyPropertyList];
         sgrBindingList.Cells[0, rowIndex] := IfThen(keyPropertyList.Enabled,
-          'Yes', 'No');
+          SYes, SNo);
         sgrBindingList.Cells[1, rowIndex] := keyPropertyList.Element.ClassName;
         sgrBindingList.Cells[2, rowIndex] := keyPropertyList.PropertyPath;
         sgrBindingList.Cells[3, rowIndex] := keyPropertyList.value.ToString;
@@ -183,23 +200,23 @@ begin
     registeredClasses := TplClassManager.registeredClasses;
     try
       sgrRegisteredClasses.RowCount := registeredClasses.Count + 1;
-      sgrRegisteredClasses.Cells[0, 0] := 'Class Name';
-      sgrRegisteredClasses.Cells[1, 0] := 'Is singleton';
-      sgrRegisteredClasses.Cells[2, 0] := 'Instances';
+      sgrRegisteredClasses.Cells[0, 0] := SClassName;
+      sgrRegisteredClasses.Cells[1, 0] := SIsSingleton;
+      sgrRegisteredClasses.Cells[2, 0] := SInstances;
 
       rowIndex := 1;
       for key in registeredClasses.Keys do
         begin
           sgrRegisteredClasses.Cells[0, rowIndex] := key;
           sgrRegisteredClasses.Cells[1, rowIndex] :=
-            IfThen(TplClassManager.IsSingleton(key), 'Yes', 'No');
+            IfThen(TplClassManager.IsSingleton(key), SYes, SNo);
           sgrRegisteredClasses.Cells[2, rowIndex] :=
             IfThen(instances.ContainsKey(key) and Assigned(instances.Items[key]
             ), '1', '0');
           Inc(rowIndex);
         end;
 
-      lblRegisteredClassesTitle.Caption := 'Registered classes - Total: ' +
+      lblRegisteredClassesTitle.Caption := SRegisteredClassesTotal +
         IntToStr(registeredClasses.Count);
     finally
       registeredClasses.Free;

@@ -27,6 +27,7 @@ unit fBindApiSimpleDemoInternal;
 interface
 
 uses
+<<<<<<<< HEAD:Demo/SimpleDemo/fBindApiSimpleDemoInternal.pas
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Samples.Spin,
   plBindAPI.Attributes, plBindAPI.CoreBinder, plBindAPI.AutoBinder,
@@ -38,11 +39,48 @@ type
   TfrmBindApiSimpleDemoInternal = class(TForm)
     lblCounter2: TLabel;
     [BindMemberTo(True, 'Text', 'CurrentText')]
+========
+  Winapi.Windows, Winapi.Messages,
+  System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.ExtCtrls, Vcl.Samples.Spin, Vcl.ComCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  plBindAPI.Attributes, plBindAPI.AutoBinder, Vcl.Menus;
+
+type
+  [BindDefaultClass(True, 'TTestController')]
+  [BindClass(True, 'TSimpleDemoFormController', 'GUIController')]
+  [BindClass(True, 'TTestSecond')]
+  [BindMemberTo(True, 'edtSource2.Text', 'CurrentText')]
+  [BindMemberFrom(True, 'edtTarget2.Text', 'LowerText')]
+  [BindMemberFrom(True, 'edtTarget2a.Text', 'UpperText')]
+  [BindMemberTo(True, 'memSource.Text', 'TestObject.Text')]
+  [BindMemberFrom(True, 'memTarget.Text', 'TestObject.Text')]
+  [BindMemberTo(True, 'speValue.Value', 'TestObject.IntProp')]
+  [BindMemberTo(True, 'speValue.Value', 'NewValue')]
+  [BindMemberFrom(True, 'edtSame.Text', 'TestObject.IntProp')]
+  [BindMemberTo(True, 'speValue.Value', 'DoubleValue', 'DoubleOf')]
+  [BindMemberFrom(True, 'lblInt.Caption', 'NewValue')]
+  [BindMemberFrom(True, 'edtDouble.Text', 'DoubleValue')]
+  [BindMemberTo(True, 'speValue.Value', 'TabStyle', '', 'TTestSecond')]
+  [BindMemberFrom(True, 'pctEnum.Style', 'TabStyle', '', 'TTestSecond')]
+  [BindMember(True, 'edtBidirectional.Text', 'StrBidirectional', '', 'TTestSecond')]
+  [BindMember(True, 'edtBidirectional2.Text', 'StrBidirectional', '', 'TTestSecond')]
+  [BindMethod(True, 'btnTest.OnClick', 'TestEventBind')]
+  TfrmBindApiSimpleDemo = class(TForm)
+    btnTest: TButton;
+    bvlInput: TBevel;
+    bvlOutput: TBevel;
+    edtBidirectional: TEdit;
+    edtBidirectional2: TEdit;
+    edtDouble: TEdit;
+    edtSame: TEdit;
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Demo/SimpleDemo/fBindApiSimpleDemo.pas
     edtSource2: TEdit;
     [BindMemberFrom(True, 'Text', 'LowerText')]
     edtTarget2: TEdit;
     [BindMemberFrom(True, 'Text', 'UpperText')]
     edtTarget2a: TEdit;
+<<<<<<<< HEAD:Demo/SimpleDemo/fBindApiSimpleDemoInternal.pas
     [MethodBind(True, 'OnClick', 'TestEventBind')]
     btnTest: TButton;
     [BindMemberFrom('Text', 'TestObject.IntProp')]
@@ -103,6 +141,43 @@ type
     [BindMemberTo('', 'NewValue')]
     [BindMemberTo('', 'DoubleValue', 'DoubleOf')]
     property Value: Integer read GetValue write SetValue;
+========
+    lblBidirectionalArrow: TLabel;
+    lblBidirectionalBindingInfo: TLabel;
+    lblBidirectionalInfo2: TLabel;
+    lblBinderInterval: TLabel;
+    lblDoubleValueArrow: TLabel;
+    lblIndirectBindingInfo: TLabel;
+    lblInt: TLabel;
+    lblLowercaseArrow: TLabel;
+    lblMemoTextInfo: TLabel;
+    lblMixedBindingInfo: TLabel;
+    lblSameTextArrow: TLabel;
+    lblSameValueArrow: TLabel;
+    lblUppercaseArrow: TLabel;
+    lblValueToEnumArrow: TLabel;
+    memSource: TMemo;
+    memTarget: TMemo;
+    [BindMethod(True, 'OnClick', 'ShowAbout', 'GUIController')]
+    mitAbout: TMenuItem;
+    [BindMethod(True, 'OnClick', 'ExitProgram', 'GUIController')]
+    mitExit: TMenuItem;
+    mitFile: TMenuItem;
+    mitHelp: TMenuItem;
+    mitMonitor: TMenuItem;
+    [BindMethod(True, 'OnClick', 'SwitchMonitor', 'GUIController')]
+    mitMonitorVisible: TMenuItem;
+    mmnMain: TMainMenu;
+    pctEnum: TPageControl;
+    speInterval: TSpinEdit;
+    speValue: TSpinEdit;
+    tbsTabA: TTabSheet;
+    tbsTabB: TTabSheet;
+    tbsTabC: TTabSheet;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure speIntervalChange(Sender: TObject);
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Demo/SimpleDemo/fBindApiSimpleDemo.pas
   end;
 
 var
@@ -120,9 +195,12 @@ begin
   {Remember: if the bound class is not a singleton, the binder is
    responsible of its destruction}
   TplBindManager.Bind(Self);
+<<<<<<<< HEAD:Demo/SimpleDemo/fBindApiSimpleDemoInternal.pas
   FStringArrayTo[0] := 'Uno';
   FStringArrayTo[1] := 'Due';
   FStringArrayTo[2] := 'Tre';
+========
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Demo/SimpleDemo/fBindApiSimpleDemo.pas
   speInterval.Value := TPlBindManager.Interval;
 end;
 
@@ -131,6 +209,7 @@ begin
   TplBindManager.Unbind(Self);
 end;
 
+<<<<<<<< HEAD:Demo/SimpleDemo/fBindApiSimpleDemoInternal.pas
 function TfrmBindApiSimpleDemoInternal.GetLowerText: string;
 begin
   Result := edtTarget2.Text;
@@ -201,6 +280,11 @@ end;
 procedure TfrmBindApiSimpleDemoInternal.SetValue(const Value: Integer);
 begin
   speValue.Value := Value;
+========
+procedure TfrmBindApiSimpleDemo.speIntervalChange(Sender: TObject);
+begin
+  TplBindManager.Interval := speInterval.Value;
+>>>>>>>> 51a03481c7e86e1933c02556f8daffb14f304c99:Demo/SimpleDemo/fBindApiSimpleDemo.pas
 end;
 
 procedure TfrmBindApiSimpleDemoInternal.speIntervalChange(Sender: TObject);
