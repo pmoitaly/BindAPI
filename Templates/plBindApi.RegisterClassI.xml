@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <codetemplate xmlns="http://schemas.borland.com/Delphi/2005/codetemplates" version="1.0.0">
-    <template name="BindMethod" invoke="none">
+    <template name="RegisterClassI" invoke="none">
         <description>
           A BindAPI template to register a class
         </description>
@@ -34,7 +34,7 @@
         <code language="Delphi" context="memberdecl" delimiter="|">
             <![CDATA[
 initialization
-  TPlClassManager.RegisterClass(|ClassName|, [|BindingOptions|], [|CreateParams]);|end|
+  TPlClassManager.RegisterClass(|ClassName|, [|BindingOptions|], [|CreateParams|]);|end|
             ]]>
         </code>
     </template>
