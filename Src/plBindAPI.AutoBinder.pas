@@ -162,6 +162,10 @@ type
     /// <summary>Gets the interval at which bindings are updated.</summary>
     function GetInterval: integer;
 
+    /// <summary>Gets the Mode of the binder.</summary>
+    /// <returns>The binder's current Mode.</returns>
+    function GetMode: TPlBinderMode;
+
     /// <summary>Determines if the binding is from a specified attribute.</summary>
     /// <returns>True if the binding is from the specified attribute; otherwise, false.</returns>
     function IsBindFrom(AnAttribute: CustomBindMemberAttribute): boolean;
@@ -175,6 +179,9 @@ type
 
     /// <summary>Sets the interval at which bindings are updated.</summary>
     procedure SetInterval(const Value: integer);
+
+    /// <summary>Sets the Mode of the binder.</summary>
+   procedure SetMode(const Value: TPlBinderMode);
 
 //    /// <summary>Stops binding a specific method based on the method attribute.</summary>
 //    procedure UnbindMethod(ASource: TObject; AMethodAttribute: BindMethodAttribute);
@@ -248,6 +255,9 @@ type
 
     /// <summary>Gets or sets the update interval for the binding process.</summary>
     property Interval: integer read GetInterval write SetInterval;
+
+    /// <summary>Gets or sets the mode of the binding process.</summary>
+    property Mode: TPlBinderMode read GetMode write SetMode;
   end;
 
 implementation
@@ -676,6 +686,11 @@ begin
   Result := FBinder.Interval;
 end;
 
+function TPlAutoBinder.GetMode: TPlBinderMode;
+begin
+  Result := FBinder.Mode;
+end;
+
 function TPlAutoBinder.IsBindFrom(AnAttribute
   : CustomBindMemberAttribute): boolean;
 begin
@@ -702,6 +717,11 @@ end;
 procedure TPlAutoBinder.SetInterval(const Value: integer);
 begin
   FBinder.Interval := Value;
+end;
+
+procedure TPlAutoBinder.SetMode(const Value: TPlBinderMode);
+begin
+  FBinder.Mode := Value;
 end;
 
 procedure TPlAutoBinder.Start(const AnInterval: integer);
