@@ -186,7 +186,7 @@ var
 begin
     path := 'Name';
     testString := TPlRTTIUtils.GetPathValue(FSampleComponent, path);
-    Assert.AreEqual(SCpmTest, testString);
+    Assert.AreEqual(SCpmTest, testString.AsString);
 end;
 
 procedure TTestTPlRTTIUtils.TestSetIndexedPropertyValue;

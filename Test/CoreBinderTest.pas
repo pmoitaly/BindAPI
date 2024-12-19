@@ -54,6 +54,9 @@ type
     procedure TestEnabledProperty;
 
     [Test(True)]
+    procedure TestModeProperty;
+
+    [Test(True)]
     procedure TestNormalizePath_ValidPath;
 
     [Test(True)]
@@ -125,7 +128,8 @@ type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils,
+  plBindAPI.Types;
 
 procedure TPlBindManagerTest.Setup;
 begin
@@ -153,6 +157,15 @@ begin
 
   FBinder.Enabled := False;
   Assert.IsFalse(FBinder.Enabled, 'Enabled should be False after setting');
+end;
+
+procedure TPlBindManagerTest.TestModeProperty;
+begin
+  FBinder.Mode := bmSingle;
+  Assert.AreEqual(bmSingle, FBinder.Mode, 'Mode should be bmSingle after setting');
+
+  FBinder.Mode := bmContinuous;
+  Assert.AreEqual(bmContinuous, FBinder.Mode, 'Mode should be bmContinuous after setting');
 end;
 
 procedure TPlBindManagerTest.TestNormalizePath_ValidPath;

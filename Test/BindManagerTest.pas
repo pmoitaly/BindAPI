@@ -90,6 +90,12 @@ type
     /// </summary>
     [Test]
     procedure TestIntervalProperty;
+
+    /// <summary>
+    /// Tests the Mode property for getting and setting the mode.
+    /// </summary>
+    [Test]
+    procedure TestModeProperty;
   end;
 
 implementation
@@ -177,6 +183,16 @@ const
 begin
   TPlBindManager.Interval := TestInterval;
   Assert.AreEqual(TestInterval, TPlBindManager.Interval, 'Interval property should reflect the set value.');
+end;
+
+procedure TTestPlBindManager.TestModeProperty;
+begin
+  TPlBindManager.Mode := bmSingle;
+  Assert.AreEqual(bmSingle, TPlBindManager.Mode, 'Mode should be bmSingle after setting');
+
+  TPlBindManager.Mode := bmContinuous;
+  Assert.AreEqual(bmContinuous, TPlBindManager.Mode, 'Mode should be bmContinuous after setting');
+
 end;
 
 initialization

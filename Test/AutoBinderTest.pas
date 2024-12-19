@@ -87,6 +87,9 @@ type
     [Test]
     procedure TestIntervalProperty;
 
+    [Test]
+    procedure TestModeProperty;
+
   end;
 
 implementation
@@ -323,6 +326,15 @@ begin
   FAutoBinder.Interval := 100;
   Assert.AreEqual(100, FAutoBinder.Interval,
     'Interval property should reflect the set value.');
+end;
+
+procedure TPlAutoBinderTests.TestModeProperty;
+begin
+  FAutoBinder.Mode := bmSingle;
+  Assert.AreEqual(bmSingle, FAutoBinder.Mode, 'Mode should be bmSingle after setting');
+
+  FAutoBinder.Mode := bmContinuous;
+  Assert.AreEqual(bmContinuous, FAutoBinder.Mode, 'Mode should be bmContinuous after setting');
 end;
 
 initialization
