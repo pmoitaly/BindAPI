@@ -91,6 +91,13 @@ type
 
     /// <summary>Specifies the interval (in milliseconds) for automatic updates.</summary>
     FInterval: integer;
+    /// <summary>Specifies the mode for automatic updates.</summary>
+    /// <remarks>
+    ///   When the Binder.Mode property is bmSingle, a single test is performed
+    ///   to update registered entities. When Binder.Mode property is bmContinuous,
+    ///   an endless loop is performed to update registered entities.
+    /// </remarks>
+    FMode: TPlBinderMode;
 
 {$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
     /// <summary>Specifies the thread priority for the internal thread on Windows.</summary>
@@ -156,7 +163,7 @@ type
       const Key: TPlBindingElementsList; Action: TCollectionNotification);
 
     /// <summary>Monitors values and updates bindings as necessary.</summary>
-    procedure MonitorValues(const ARepeat: Boolean = True); virtual;
+    procedure MonitorValues; virtual;
 
     /// <summary>Updates values in the provided binding list with the new value.</summary>
     procedure UpdateListValues(aList: TPlBindingElementsList; newValue: TValue);
@@ -177,6 +184,9 @@ type
 
     /// <summary>Gets or sets the interval for automatic updates.</summary>
     property Interval: integer read FInterval write FInterval;
+
+    /// <summary>Gets or sets the binder mode.</summary>
+    property Mode: TPlBinderMode read FMode write FMode;
 
 {$IFDEF MSWINDOWS}{$WARN SYMBOL_PLATFORM OFF}
     /// <summary>Gets or sets the priority of the internal thread.</summary>
@@ -263,7 +273,7 @@ type
 
     /// <summary>Starts the binder with a specified interval.</summary>
     /// <param name="ASleepInterval">The new interval of the binder, in milliseconds .</param>
-    procedure Start(const ASleepInterval: integer);
+    procedure Start(const ASleepInterval: integer = 0);
 
     /// <summary>Stops the binder.</summary>
     procedure Stop;
@@ -576,7 +586,7 @@ begin
     AddNewItem(Source, Target);
 end;
 
-procedure TPlBinder.MonitorValues(const ARepeat: Boolean = True);
+procedure TPlBinder.MonitorValues;
 begin
   FThreadTerminated := False;
   FInternalThread := TThread.CreateAnonymousThread(
@@ -600,7 +610,7 @@ begin
                     UpdateListValues(FBindPropertyList[Item], Item.Value);
                   end);
             end;
-          doRepeat := ARepeat;
+          doRepeat := FMode = bmContinuous;
         end;
       FThreadTerminated := True;
       Exit;
