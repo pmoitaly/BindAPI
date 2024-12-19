@@ -104,6 +104,8 @@ type
     /// </summary>
     /// <param name="Value">The interval in milliseconds.</param>
     class procedure SetInterval(const Value: Integer); static;
+    class function GetMode: TPlBinderMode; static;
+    class procedure SetMode(const Value: TPlBinderMode); static;
 
   protected
     /// <summary>
@@ -163,6 +165,12 @@ type
     class procedure Unbind(ASource: TObject);
 
     /// <summary>
+    /// Force the update of the bound elements.
+    /// </summary>
+    /// <param name="ASource">The source object to unbind.</param>
+    class procedure UpdateBinding;
+
+    /// <summary>
     /// Gets the instance of the auto-binder.
     ///  <note type="caution">Use this function for monitoring and debug purposes only!</note>
     /// </summary>
@@ -172,6 +180,11 @@ type
     /// Gets or sets the interval for automatic binding operations.
     /// </summary>
     class property Interval: Integer read GetInterval write SetInterval;
+
+    /// <summary>
+    /// Gets or sets the binding operations Mode.
+    /// </summary>
+    class property Mode: TPlBinderMode read GetMode write SetMode;
   end;
 
 implementation
@@ -183,8 +196,6 @@ uses
 resourcestring
   SInvalidArgumentInAddBind = 'Invalid argument in AddBind';
 
-const
-  DEFAULT_INTERVAL = 10;
 
 {$REGION 'TPlBindManager'}
 
@@ -285,9 +296,19 @@ begin
   Result := FBinder.Interval;
 end;
 
+class function TPlBindManager.GetMode: TPlBinderMode;
+begin
+  Result := FBinder.Mode;
+end;
+
 class procedure TPlBindManager.SetInterval(const Value: Integer);
 begin
   FBinder.Interval := Value;
+end;
+
+class procedure TPlBindManager.SetMode(const Value: TPlBinderMode);
+begin
+  FBinder.Mode := Value;
 end;
 
 class procedure TPlBindManager.Unbind(ASource: TObject);
@@ -298,6 +319,11 @@ begin
       FBinder.UnbindTarget(ASource);
       FBinder.UnbindSource(ASource);
     end;
+end;
+
+class procedure TPlBindManager.UpdateBinding;
+begin
+  FBinder.Start(FBinder.Interval);
 end;
 
 {$ENDREGION}
