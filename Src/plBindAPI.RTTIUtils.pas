@@ -1,4 +1,4 @@
-{*****************************************************************************}
+ï»¿{*****************************************************************************}
 {BindAPI                                                                      }
 {Copyright (C) 2020 Paolo Morandotti                                          }
 {Unit plBindAPI.RTTIUtils                                                     }
@@ -901,8 +901,7 @@ begin
         Result := ReadMemberValue(currentNode, myField, myProp,
           myIndexedProperty, ExtractLastIndex(myPath));
       except
-        //sul superamento degli indici restituire un valore vuoto:
-        //il bind potrebbe avvenire quando l'oggetto target non è ancora popolato
+        {Index out of bound}
         Result := TValue.Empty;
       end;
     end

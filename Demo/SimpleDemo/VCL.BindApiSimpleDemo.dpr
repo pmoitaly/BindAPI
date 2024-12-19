@@ -1,11 +1,6 @@
 program VCL.BindApiSimpleDemo;
 
 uses
-  madExcept,
-  madLinkDisAsm,
-  madListHardware,
-  madListProcesses,
-  madListModules,
   Vcl.Forms,
   Test.Controller in '..\Common\Test.Controller.pas',
   fBindApiSimpleDemo in 'fBindApiSimpleDemo.pas' {frmBindApiSimpleDemo},

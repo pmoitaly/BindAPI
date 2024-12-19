@@ -152,6 +152,14 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     Caption = '&Binder Interval:'
     FocusControl = speInterval
   end
+  object spbStartStop: TSpeedButton
+    Left = 720
+    Top = 120
+    Width = 81
+    Height = 22
+    GroupIndex = 1
+    Caption = 'Bind'
+  end
   object edtSource2: TEdit
     Left = 24
     Top = 24
@@ -271,6 +279,14 @@ object frmBindApiSimpleDemo: TfrmBindApiSimpleDemo
     TabOrder = 12
     Value = 0
     OnChange = speIntervalChange
+  end
+  object CheckBox1: TCheckBox
+    Left = 704
+    Top = 80
+    Width = 97
+    Height = 17
+    Caption = 'CheckBox1'
+    TabOrder = 13
   end
   object mmnMain: TMainMenu
     Left = 736

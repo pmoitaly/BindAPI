@@ -15,9 +15,6 @@
         <Projects Include="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\Demo\BindApiIdleDemo\VCL.BindApiIdleDemo.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -62,23 +59,14 @@
     <Target Name="fmx_BindApiSimpleDemo:Make">
         <MSBuild Projects="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj" Targets="Make"/>
     </Target>
-    <Target Name="VCL_BindApiIdleDemo">
-        <MSBuild Projects="..\..\Demo\BindApiIdleDemo\VCL.BindApiIdleDemo.dproj"/>
-    </Target>
-    <Target Name="VCL_BindApiIdleDemo:Clean">
-        <MSBuild Projects="..\..\Demo\BindApiIdleDemo\VCL.BindApiIdleDemo.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="VCL_BindApiIdleDemo:Make">
-        <MSBuild Projects="..\..\Demo\BindApiIdleDemo\VCL.BindApiIdleDemo.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="plBindAPI;BindAPITest;VCL_BindApiSimpleDemo;fmx_BindApiSimpleDemo;VCL_BindApiIdleDemo"/>
+        <CallTarget Targets="plBindAPI;BindAPITest;VCL_BindApiSimpleDemo;fmx_BindApiSimpleDemo"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;VCL_BindApiSimpleDemo:Clean;fmx_BindApiSimpleDemo:Clean;VCL_BindApiIdleDemo:Clean"/>
+        <CallTarget Targets="plBindAPI:Clean;BindAPITest:Clean;VCL_BindApiSimpleDemo:Clean;fmx_BindApiSimpleDemo:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;VCL_BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make;VCL_BindApiIdleDemo:Make"/>
+        <CallTarget Targets="plBindAPI:Make;BindAPITest:Make;VCL_BindApiSimpleDemo:Make;fmx_BindApiSimpleDemo:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
     <ItemGroup Condition="'$(BuildGroup)'=='plBindAPI Group'">
@@ -86,12 +74,6 @@
             <ProjectGuid>{D478E719-4667-47E5-A1BE-26F08BC7E4E8}</ProjectGuid>
             <Configurations>Debug</Configurations>
             <Platforms>Win32</Platforms>
-            <Enabled>False</Enabled>
-        </BuildGroupProject>
-        <BuildGroupProject Include="..\..\Demo\BindApiIdleDemo\VCL.BindApiIdleDemo.dproj">
-            <ProjectGuid>{CEC4B96D-3830-4A0A-B6D8-0CACA0B90E09}</ProjectGuid>
-            <Configurations/>
-            <Platforms/>
             <Enabled>False</Enabled>
         </BuildGroupProject>
         <BuildGroupProject Include="..\..\Demo\SimpleDemo\fmx.BindApiSimpleDemo.dproj">

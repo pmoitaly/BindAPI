@@ -586,7 +586,7 @@ begin
     AddNewItem(Source, Target);
 end;
 
-procedure TPlBinder.MonitorValues;
+procedure TPlBinder.MonitorValues ;
 begin
   FThreadTerminated := False;
   FInternalThread := TThread.CreateAnonymousThread(

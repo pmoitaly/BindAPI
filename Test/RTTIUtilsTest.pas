@@ -1,4 +1,4 @@
-{*****************************************************************************}
+ï»¿{*****************************************************************************}
 {BindAPI                                                                      }
 {Copyright (C) 2020 Paolo Morandotti                                          }
 {Unit RTTIUdilsTest                                                           }
@@ -134,7 +134,7 @@ var
 begin
   Context := TRttiContext.Create;
   try
-    TypeInfo := Context.GetType(System.TypeInfo(TTypeKind)); // Qui il parametro è PTypeInfo
+    TypeInfo := Context.GetType(System.TypeInfo(TTypeKind)); {Here the parameter is PTypeInfo}
     Assert.IsNotNull(TypeInfo, 'Failed to retrieve RTTI type for TTypeKind');
 
     Value := TValue.From<TTypeKind>(tkInteger);
