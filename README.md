@@ -130,9 +130,13 @@ You can also bind two elements manually. See [demo](.\Doc\Demo.md) and test apps
 
 ---
 
-## New in 0.9.0.0 Alpha version {#LastVersion}
-The 0.9.0.0 Alpha Release 1 version is the working branch from Nov. 23, 2024.
-It is a full rewrite of 0.8 version in order to simplify the interface of attributes and objects 
+## New in 0.9.0.0 Beta version {#LastVersion}
+- The 0.9.0.0 Beta version branch is the working branch from Dec. 19, 2024.
+- Full support for indexed properties.
+- New test cases.
+
+## New in 0.9.0.0 Alpha version
+It is a full rewrite of 0.8 version in order to simplify the interface of attributes and objects
 
 *New features:*
 - Full code documentation
@@ -148,7 +152,6 @@ See the [ChangeLog](.\Doc\Version 0.9 changes.md) for more information.
 ---
 
 ## Roadmap
-- 0.9.0.0 Beta: full support for indexed properties.
 - 0.9.0: complete test case for implemented methods.
 - 0.9.1: More demo covering the full potential of BindAPI. 
 - 0.9.2: A message-based system to manage registered objects destruction.
