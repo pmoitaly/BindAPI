@@ -59,7 +59,7 @@ type
   ///   to update registered entities. When Binder.Mode property is bmContinuous,
   ///   an endless loop is performed to update registered entities.
   /// </remarks>
-  TPlBinderMode = (bmSingle, bmContinuous);
+  TPlBinderMode = (bmContinuous, bmSingle);
 
   /// <summary>
   ///   Describes the Status of the binder.
