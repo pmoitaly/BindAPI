@@ -401,7 +401,7 @@ type
     /// <returns>The value at the specified path.</returns>
     class function GetPathValue(ARoot: TObject; var APath: string): TValue;
     /// <summary>
-    /// Determines the parent of a property specified by a path.
+    /// Determines the parent of a property or field specified by a path.
     /// </summary>
     /// <param name="ARoot">The root object.</param>
     /// <param name="APath">The property path.</param>
@@ -421,7 +421,9 @@ type
     class function GetRecordPathValue(ARoot: TObject;
       var APath: string): TValue;
     /// <summary>
-    /// Casts a value to a specific RTTI type.
+    /// Casts an enumerated value to a specific type kind. If AType nor
+    /// AValue kind is tkEnumerated, <c>InternalCastTo(AType.TypeKind, AValue)</c>
+    /// is called.
     /// </summary>
     /// <param name="AType">The RTTI type to cast to.</param>
     /// <param name="AValue">The value to cast.</param>
@@ -429,7 +431,7 @@ type
     class function InternalCastTo(const AType: TRttiType; AValue: TValue)
       : TValue; overload;
     /// <summary>
-    /// Casts a value to a specific type kind.
+    /// Casts a value to a specific RTTI type.
     /// </summary>
     /// <param name="AType">The type kind to cast to.</param>
     /// <param name="AValue">The value to cast.</param>
@@ -825,10 +827,7 @@ var
   myPropIndex: string;
   myPropName: string;
 begin
-  //  splitPoint := APropertyName.IndexOf('[');
-  //  myPropName := APropertyName.Substring(0, splitPoint);
-  //  myPropIndex := APropertyName.Substring(splitPoint + 1,
-  //    APropertyName.Length - 1);
+  myPropName := APropertyName.Substring(0, APropertyName.IndexOf('['));
   myPropIndex := ExtractLastIndex(APropertyName);
   myIndexedProp := FContext.GetType(ARoot.ClassType)
     .GetIndexedProperty(myPropName);
@@ -1043,7 +1042,7 @@ end;
 class function TPlRTTIUtils.InternalCastTo(const AType: TRttiType;
   AValue: TValue): TValue;
 begin
-  (*InternalBug#12: tkEnumeration type requires a specific cast*)
+  (* InternalBug#12 SOLVED: tkEnumeration type requires a specific cast *)
   if (AType.TypeKind = tkEnumeration) then
     begin
       if AValue.IsOrdinal then
@@ -1127,8 +1126,14 @@ begin
 end;
 
 class function TPlRTTIUtils.IsIndexedProperty(const AName: string): Boolean;
+var
+  lastNode: string;
 begin
-  Result := AName.IndexOf('[') > -1;
+  if Pos('.', AName) > 0 then
+    lastNode := AName.Substring(AName.LastIndexOf('.'))
+  else
+    lastNode := AName;
+  Result := lastNode.IndexOf('[') > -1;
 end;
 
 class function TPlRTTIUtils.IsIndexedProperty(ARoot: TObject;
@@ -1363,6 +1368,7 @@ begin
   {Extract type information for ASource's type}
   rType := FContext.GetType(ATarget.ClassType);
   rMethod := rType.GetMethod(ATargetMethodName);
+  Assert(Assigned(rMethod), ATargetMethodName + ' not found in ' + ATarget.ClassName + ' class.');
   if Assigned(rMethod) then
     begin
       recMethod.Code := rMethod.CodeAddress;
@@ -1542,7 +1548,6 @@ class procedure TPlRTTIUtils.WriteIndexedPropertyValue(ANode: TObject;
     AIndexedProp: TRttiIndexedProperty; AIndex: string; AValue: TValue);
 var
   indexedPropertyInfo: TPlIndexedPropertyInfo;
-  propertyInfo: PPropInfo;
   propTypeKind: TTypeKind;
 begin
   if not Assigned(AIndexedProp) then
