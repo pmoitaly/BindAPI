@@ -396,6 +396,7 @@ class procedure TPlClassManager.RegisterClass(AClass: TClass;
 var
   options: TPlBindOptionsSet;
 begin
+  options := [];
   if AsSingleton then
     options := [Singleton];
   if AsDeferred then
