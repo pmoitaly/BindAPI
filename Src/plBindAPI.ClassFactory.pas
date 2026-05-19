@@ -420,7 +420,7 @@ begin
   if FClassList.ContainsKey(key) then
     raise EplBindApiException.CreateFmt('%s is already registered.', [key]);
 
-  classData.Create(AClass, AParamsSet, (AutoBind in AnOptionsSet));
+  classData := TPlClassData.Create(AClass, AParamsSet, (AutoBind in AnOptionsSet));
   AddClassToBindingList(key, classData, AnOptionsSet);
   if Deferred in AnOptionsSet then
     AddClassToDeferredList(AClass, classData);
