@@ -449,7 +449,7 @@ begin
   if FInstanceList.ContainsKey(key) then
     begin
       // This step frees the instance
-      { TODO 5 -oPMo -cDebugging : Should we unbind the instance? }
+      TPlBindManager.Unbind(AnObject);
       FInstanceList.Remove(key);
     end;
 end;
