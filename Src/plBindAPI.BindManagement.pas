@@ -41,6 +41,16 @@ uses
   plBindAPI.Types;
 
 type
+
+  /// <summary>
+  /// Local adapter to implement the interface IPlBindNotifier.
+  /// </summary>
+  TPlBindManagerNotifier = class(TInterfacedObject, IPlBindNotifier)
+  public
+    procedure OnObjectCreated(AnObject: TObject);
+    procedure OnObjectUnregistering(AnObject: TObject);
+  end;
+
   /// <summary>
   /// Manages binding operations and provides utilities for deferred and immediate bindings.
   /// </summary>
@@ -75,6 +85,11 @@ type
     /// Holds the instance of the auto-binder (see <see cref="TPlAutoBinder" />).
     /// </summary>
     class var FBinder: TPlAutoBinder;
+
+    /// <summary>
+    /// Holds the instance of the notifier (see <see cref="TPlBindManagerNotifier" />).
+    /// </summary>
+    class var FBindNotifierAdapter: TPlBindManagerNotifier;
 
     /// <summary>
     /// Adds a deferred binding element for the specified source object.
@@ -204,10 +219,14 @@ begin
   inherited;
   FBinder := TPlAutoBinder.Create;
   FBinder.Start(DEFAULT_INTERVAL);
+  FBindNotifierAdapter := TPlBindManagerNotifier.Create;
+  TPlClassManager.RegisterBindNotifier(FBindNotifierAdapter);
 end;
 
 class destructor TPlBindManager.Destroy;
 begin
+  TPlClassManager.UnregisterBindNotifier;
+  FBindNotifierAdapter := nil;
   FBinder.Stop;
   FBinder.Free;
   inherited;
@@ -287,7 +306,12 @@ begin
   if (targetName = 'Self') or (targetName = ASource.ClassName) then
     target := ASource
   else
+  try
     target := TplClassManager.GetInstance(AClassAttribute.TargetClassName);
+  except
+    on E: EplBindApiException do
+      target := nil;
+  end;
   Result := target;
 end;
 
@@ -326,6 +350,19 @@ begin
   FBinder.Start(FBinder.Interval);
 end;
 
+{$ENDREGION}
+
+{$REGION 'TPlBindManagerNotifier'}
+
+procedure TPlBindManagerNotifier.OnObjectCreated(AnObject: TObject);
+begin
+  TPlBindManager.Bind(AnObject);
+end;
+
+procedure TPlBindManagerNotifier.OnObjectUnregistering(AnObject: TObject);
+begin
+  TPlBindManager.Unbind(AnObject);
+end;
 {$ENDREGION}
 
 end.

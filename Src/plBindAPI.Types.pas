@@ -80,6 +80,7 @@ type
     Count: integer;
   end;
 
+
   TarAttributes = TArray<TCustomAttribute>;
   TarFields = TArray<TRttiField>;
   TarMethods = TArray<TRttiMethod>;
@@ -142,6 +143,14 @@ type
     /// <returns>The total count of current binding sources.</returns>
     function Count: integer;
 
+    /// <summary>Provides debug information about current bindings.</summary>
+    /// <returns>A TplBindDebugInfo instance with debugging details.</returns>
+    function DebugInfo: TplBindDebugInfo;
+
+    /// <summary>Gets a list of any errors encountered during binding.</summary>
+    /// <returns>A TStrings object containing error messages.</returns>
+    function ErrorList: string;
+
     /// <summary>
     /// Starts the automatic binding process.
     /// </summary>
@@ -175,6 +184,7 @@ type
 
   IPlBindNotifier = interface
     ['{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}']
+    procedure OnObjectCreated(AnObject: TObject);
     procedure OnObjectUnregistering(AnObject: TObject);
   end;
 

@@ -411,7 +411,6 @@ begin
       recBindingInfo.MethodName := methodPath;
       FBoundMethodsList.Add(ATarget, recBindingInfo);
     end;
-
 end;
 
 procedure TPlBinder.BindObject(ASource: TObject; const APropertySource: string;

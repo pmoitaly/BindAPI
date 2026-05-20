@@ -25,6 +25,7 @@ class function TplBindAPIUtils.ShowFormModal<T>(const Args: array of TValue): in
 var
   modalForm: T;
 begin
+  Result := -1;
   modalForm := TplRTTIUtils.InvokeEx('Create', T, '', Args).AsType<T>;
   try
     if Assigned(modalForm) then

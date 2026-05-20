@@ -101,6 +101,7 @@ type
   /// </summary>
   TPlClassManager = class
   private
+    class var FBindNotifier: IPlBindNotifier;
     /// <summary>
     /// List of registered classes and their associated metadata.
     /// </summary>
@@ -208,7 +209,8 @@ type
     /// <param name="AsSingleton">Specifies if the class should be a singleton.</param>
     /// <param name="AsDeferred">Specifies if instantiation should be deferred. Default is <c>False</c>.</param>
     class procedure RegisterClass(AClass: TClass; AsSingleton: Boolean;
-      AsDeferred: Boolean = False); overload; deprecated 'Use the RegisterClass method with TPlBindOptionsSet instead.';
+      AsDeferred: Boolean = False); overload;
+      deprecated 'Use the RegisterClass method with TPlBindOptionsSet instead.';
 
     /// <summary>
     /// Registers a class with specified binding options.
@@ -235,23 +237,28 @@ type
     /// The caller is responsible for freeing it.</returns>
     class function RegisteredClasses: TPlClassList;
 
+    class procedure RegisterBindNotifier(ANotifier: IPlBindNotifier);
+
     /// <summary>
     /// Registers an instance for binding. This method is deprecated.
     /// </summary>
     /// <param name="AnObject">The instance to register.</param>
-    class procedure RegisterInstance(AnObject: TObject);  deprecated 'Instance registration is handled automatically in newer versions.';
+    class procedure RegisterInstance(AnObject: TObject);
+      deprecated
+      'Instance registration is handled automatically in newer versions.';
+
+    class procedure UnregisterBindNotifier;
 
     /// <summary>
     /// Unregisters an instance from binding.
     /// </summary>
     /// <param name="AnObject">The instance to unregister.</param>
-    class procedure UnregisterInstance(AnObject: TObject);
+    class procedure UnregisterInstance(var AnObject: TObject);
   end;
 
 implementation
 
 uses
-  plBindAPI.BindManagement,
   plBindAPI.DeferredBinding,
   plBindAPI.RTTIUtils;
 
@@ -296,7 +303,8 @@ var
 begin
   FClassList.Clear;
   for instance in FInstanceList.Values do
-    TPlBindManager.Unbind(instance);
+    if Assigned(instance) and Assigned(FBindNotifier) then
+      FBindNotifier.OnObjectUnregistering(instance);
   FInstanceList.Clear;
   TplDeferredBinding.Clear;
 end;
@@ -324,8 +332,8 @@ begin
           Result := rValue.AsObject;
           { GetMethods return methods from the class and its ancestors.
             The first one is from the class you passed as parameter.
-            If you do not exit here, the create method of
-            any ancestors could be called and the rValue class could be wrong }
+           If you do not exit here, the create method of
+           any ancestors could be called and the rValue class could be wrong }
           Exit;
         end;
     end;
@@ -354,8 +362,8 @@ begin
   Result := CreateInstance(classData);
   { DONE 3 -oPMo -cRefactoring : Should the new instance bound automatically?
     like: if classData.AutoBind then TplBindManager.Bind(Result); }
-  if classData.AutoBind then
-    TplBindManager.Bind(Result);
+  if classData.AutoBind and Assigned(FBindNotifier) then
+    FBindNotifier.OnObjectCreated(Result);
 end;
 
 class function TPlClassManager.GetSingletonInstance(const AClassName
@@ -410,6 +418,12 @@ begin
   RegisterClass(AClass, AnOptionsSet, []);
 end;
 
+class procedure TPlClassManager.RegisterBindNotifier
+  (ANotifier: IPlBindNotifier);
+begin
+  FBindNotifier := ANotifier;
+end;
+
 class procedure TPlClassManager.RegisterClass(AClass: TClass;
   const AnOptionsSet: TPlBindOptionsSet; const AParamsSet: TPlCreateParams);
 var
@@ -420,7 +434,8 @@ begin
   if FClassList.ContainsKey(key) then
     raise EplBindApiException.CreateFmt('%s is already registered.', [key]);
 
-  classData := TPlClassData.Create(AClass, AParamsSet, (AutoBind in AnOptionsSet));
+  classData := TPlClassData.Create(AClass, AParamsSet,
+    (AutoBind in AnOptionsSet));
   AddClassToBindingList(key, classData, AnOptionsSet);
   if Deferred in AnOptionsSet then
     AddClassToDeferredList(AClass, classData);
@@ -441,16 +456,23 @@ begin
     FInstanceList.Add(key, AnObject);
 end;
 
-class procedure TPlClassManager.UnregisterInstance(AnObject: TObject);
+class procedure TPlClassManager.UnregisterBindNotifier;
+begin
+  FBindNotifier := nil;
+end;
+
+class procedure TPlClassManager.UnregisterInstance(var AnObject: TObject);
 var
   key: string;
 begin
   key := AnObject.ClassName;
   if FInstanceList.ContainsKey(key) then
     begin
-      // This step frees the instance
-      TPlBindManager.Unbind(AnObject);
+      { This step unbind and frees the instance}
+      if Assigned(FBindNotifier) then
+        FBindNotifier.OnObjectUnregistering(AnObject);
       FInstanceList.Remove(key);
+      AnObject := nil;
     end;
 end;
 
