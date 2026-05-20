@@ -161,18 +161,22 @@ class procedure TPlDeferredBinding.ProcessDeferred;
 var
   className: string;
   deferredElement: TPlDeferredElement;
+  keysToProcess: TArray<string>;
+  i: Integer;
 begin
-  for className in DeferredList.Keys do
-    if TplClassManager.IsRegistered(className) then
-      begin
-        // Force binding, then remove the element from the list
-        deferredElement := DeferredList.Items[className];
-        TplBindManager.AddBinding(deferredElement.Source,
-          deferredElement.Attribute);
-        DeferredList.Remove(className);
-      end;
-end;
+  keysToProcess := DeferredList.Keys.ToArray;
 
+  for i := 0 to High(keysToProcess) do
+  begin
+    className := keysToProcess[i];
+    if TplClassManager.IsRegistered(className) then
+    begin
+      deferredElement := DeferredList.Items[className];
+      TplBindManager.AddBinding(deferredElement.Source, deferredElement.Attribute);
+      DeferredList.Remove(className);
+    end;
+  end;
+end;
 {$ENDREGION}
 
 end.
